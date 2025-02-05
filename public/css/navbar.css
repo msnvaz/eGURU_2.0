@@ -1,0 +1,40 @@
+/* public/css/navbar.css */
+
+nav{
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures the nav bar is above other content */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 15%;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    color: #320da3;
+    text-align: center;
+    padding: 16px 18px;
+    text-decoration: none;
+}
+
+/* Style for hovered link */
+nav ul li a:hover {
+    color: rgb(229, 34, 115);
+}
+
+/* Style for active link (can be manually set) */
+nav ul li a.active {
+    border-bottom: 8px solid rgb(229, 34, 115); /* Pink underline for active link */
+}
+

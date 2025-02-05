@@ -1,0 +1,154 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.tabs div {
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.tabs .active {
+    background-color: #d1ecf1;
+}
+
+.content {
+    display: none;
+    padding: 20px;
+    background-color: #d1ecf1;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.content.active {
+    display: block;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+
+
+.container {
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.calendars {
+    display: flex;
+    gap: 40px; /* Reduced gap to bring calendars closer together */
+    justify-content: center; /* Centering the calendars */
+}
+
+.calendar {
+    width: 200px;
+    background-color: #b2ebf2;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding: 10px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+    color: #00796b;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: #00796b;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.calendar-body {
+    text-align: center;
+}
+
+.day-names {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-size: 12px;
+    color: #00796b;
+    margin-bottom: 5px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    font-size: 12px;
+}
+
+.day, .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #00796b;
+}
+
+.day:hover {
+    background-color: #4dd0e1;
+}
+
+.selected {
+    background-color: #0288d1;
+    color: #fff;
+}
+
+.calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 12px;
+    color: #00796b;
+}

@@ -1,0 +1,64 @@
+.grade-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.grade-card {
+  gap: 0px;
+  width: 28%;
+  background-color: #ffffff;
+  border-radius: 25px;
+  padding: 0px;
+  text-align: left !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  align-items: center;
+  border-left: var(--powder-blue) 5px solid;
+  transition: box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.grade-card:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.grade-card-heading {
+  font-size: 65px;
+  font-weight: 600;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  color: var(--dark-blue);
+  margin:0;
+  margin-left: 20px;
+  text-align: left;
+  align-self: flex-start;
+  padding-bottom: 0px;
+}
+
+.grade-card p {
+  font-size: 12px;
+  color: var(--dark-blue);
+  margin:0;
+  margin-left: 20px;
+  font-weight: 500;
+  width: 80%;
+  text-align: left;
+  align-self: flex-start;
+  padding-left: 10px;
+}
+
+.grade-card h4 {
+  font-size: 16px;
+  color: black;
+  margin: 0;
+  margin-left: 20px;
+  font-weight: 600;
+  width: 80%;
+  text-align: left;
+  align-self: flex-start;
+  padding-left: 10px;
+}
+
+

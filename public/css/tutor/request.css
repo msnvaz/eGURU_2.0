@@ -1,0 +1,75 @@
+#body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 0;
+    height: 100vh;
+}
+
+.request_container {
+    width: 70%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    margin-left: 22%;
+    margin-top:10%;
+}
+
+.header {
+    display: flex;
+}
+
+.header div {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #e0f7fa;
+    cursor: pointer;
+}
+
+.header div.active {
+    background-color: #ffffff;
+}
+
+.requests {
+    padding: 20px;
+}
+
+.request {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #e0f7fa;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.request div {
+    flex: 1;
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.buttons button,
+.request button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.accept {
+    background-color: #4caf50;
+    color: white;
+}
+
+.decline {
+    background-color: #f44336;
+    color: white;
+}

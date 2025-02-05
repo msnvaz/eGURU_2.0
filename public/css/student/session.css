@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 20px;
+  }
+
+  .request_container {
+    width: 73%;
+    margin: auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 120px;
+    margin-left: 300px;
+  }
+
+  .header {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    background-color: #e6f7ff;
+  }
+
+  .header div {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .header .active {
+    background-color: #b3e5fc;
+    color: black;
+  }
+
+  .table-container {
+    padding: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .tutor-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tutor-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .btn-pending, .btn-approved, .btn-declined {
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .btn-pending {
+    background-color: #28a745;
+  }
+
+  .btn-approved {
+    background-color: #007bff;
+  }
+
+  .btn-declined {
+    background-color: #dc3545;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  /* Approved Popup Styles */
+  .approved_popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .approved_popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .approved_popup-content h2 {
+    margin-bottom: 20px;
+  }
+
+  .approved_popup-content a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    color: white;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+
+  .close-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }

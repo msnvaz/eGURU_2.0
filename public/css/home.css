@@ -1,0 +1,1005 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300,400,600&display=swap');
+html{
+    
+    scroll-behavior: smooth;
+  }
+
+body{
+    width:100%;
+    padding: 0;
+    margin:0;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+.main_title{
+    margin-top: 10px;
+    padding-left: 10%;
+    font-size: 60px;
+    color: white;
+}
+
+.sub_title_1{
+    padding-left: 10%;
+    padding-top: 1%;
+    padding-right: 15%;
+    font-size: 40px;
+    color: white;
+}
+
+.sub_title_2{
+    padding-left: 10%;
+    padding-top: 1%;
+    padding-right: 0%;
+    font-size: 25px;
+    color: white;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main_pg{
+    margin-top: 60px;
+    padding: 0 !important;
+    background-image: url('../images/main_bg5.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Makes the background fixed while scrolling */
+    font-family: Arial, sans-serif; /* Ensures text styling */
+}
+
+/* Container for the text and image */
+.content {
+    display: flex; /* Makes the container a flexbox */
+    justify-content: space-between; /* Places the text and image apart */
+    align-items: center; /* Vertically centers both the text and image */
+
+}
+
+/* Text section */
+.content .text {
+    flex: 1; /* Allows the text to take up available space */
+}
+
+/* Image section */
+.content .image img {
+    padding-top: 3%;
+    max-width: 650px; /* Adjust the width of the image */
+    height: auto; /* Keeps the image proportional */
+}
+
+/* public/css/navbar.css */
+
+/* Container for the buttons */
+.button-container {
+    display: flex; /* Align elements in a row */
+    align-items: center; /* Vertically align items */
+    margin-top: 10px; /* Add some margin to the top */
+    padding-left: 15%;
+}
+
+/* Style for the buttons */
+.btn_tutor {
+    background-color: #4b479a; /* Green background */
+    color: white; /* White text */
+    padding: 12px 30px; /* Button padding */
+    border: none; /* Remove borders */
+    box-shadow: #00000052 4px 4px  ;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    margin: 0 10px; /* Margin to space buttons */
+}
+
+.btn_student {
+    background-color: #ffffff; /* Green background */
+    color: #c72f6c; /* White text */
+    padding: 12px 20px; /* Button padding */
+    border: none; /* Remove borders */
+    box-shadow: #00000052 4px 4px  ;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    margin: 0 10px; /* Margin to space buttons */
+}
+
+/* Change background color on hover */
+.btn_tutor:hover {
+    transform: scale(1.05);
+}
+
+.btn_student:hover {
+    transform: scale(1.05);
+}
+
+/* Style for the OR text */
+.or-text {
+    margin: 0 40px; /* Space between the OR and buttons */
+    font-weight: bold; /* Bold text */
+    font-size: 16px; /* Adjust font size */
+    color: #ffffff; /* Text color */
+}
+
+/* How it works page General styles */
+.how_it_works_pg {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: center;
+}
+
+.eguru-works {
+    padding: 60px 20px;
+    background-color: white;
+}
+
+.eguru-works h2 {
+    font-size: 2em;
+    color: #004085;
+    margin-bottom: 40px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+.step {
+    max-width: 300px;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.29);
+    padding: 20px;
+    
+}
+
+.step h3 {
+    font-size: 1.3em;
+    color: #004085;
+}
+
+.step p {
+    font-size: 1em;
+    color: #666;
+    margin: 10px 0;
+    padding-bottom: 10px;
+}
+
+.step img {
+    max-width: 100%;
+    padding: 10px;
+    
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .steps-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .step {
+        max-width: 80%;
+    }
+}
+
+
+
+/*  why page General styles */
+.why_pg {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+    background-image: url('../images/main_bg5.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Makes the background fixed while scrolling */
+    font-family: Arial, sans-serif; /* Ensures text styling */
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.why-choose-us .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.why-choose-us h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.why-choose-us .subtitle {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+}
+
+.feature {
+    flex: 1;
+    padding: 10px;
+}
+
+.feature img {
+    max-width: 110px;
+    margin-bottom: 20px;
+}
+
+.feature h3 {
+    font-size: 25px;
+}
+
+/* Empowering Your Learning Journey Section */
+.empowering-journey {
+    background-color: white;
+    text-align: center;
+    padding: 40px 20px;
+    padding-bottom: 0;
+}
+
+.empowering-journey h1 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    color: #004085;
+}
+
+.empowering-journey p {
+    font-size: 1.1em;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Features Columns Section */
+.features-columns {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-around;
+    padding: 60px 20px;
+    background-color: #ffffff;
+    margin-left: 7%;
+    margin-right: 7%;
+}
+
+.column {
+    background-color: rgb(252, 252, 252);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    width: 20%;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.29);
+}
+
+.column h3 {
+    font-size: 1.6em;
+    margin-bottom: 20px;
+    color: #004085;
+}
+
+.column p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: #666;
+    padding-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .features-columns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .column {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}
+
+/* testimonial-section - We Value Our Students Let's Hear from them */
+
+.testimonial-section {
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    
+}
+
+.color-section {
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-image: url('../images/main_bg5.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Makes the background fixed while scrolling */
+}
+
+.testimonial-slider {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 40px;
+}
+
+.testimonial {
+    display: none;
+    text-align: left;
+    padding: 20px;
+    border-radius: 8px;
+    background: white;
+    color: black;
+    max-width: 500px;
+    position: relative;
+}
+
+.testimonial.active {
+    display: block;
+}
+
+.testimonial-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.testimonial-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.testimonial-text {
+    flex: 1;
+    text-align: left;
+}
+
+.testimonial-text h3 {
+    margin-top: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.testimonial-text p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+
+.testimonial-text span {
+    font-weight: bold;
+    color: black;
+}
+
+.slider-btn {
+    background-color: #00000000;
+    border: none;
+    padding: 40px;
+    font-weight: 500;
+    font-size: 60px;
+    cursor: pointer;   
+    color: white;
+}
+ .slider-btn:hover {
+    color: black;
+ }
+
+ .arrow-btn {
+    background-color: #00000000;
+    border: none;
+    padding: 40px;
+    font-weight: 500;
+    font-size: 40px;
+    cursor: pointer;   
+    color: #004085;
+}
+ .arrow-btn:hover {
+    transform: scale(1.1);
+ }
+
+ .section-title {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+
+.column span {
+    font-weight: bold;
+    color: #de48b5;
+}
+
+/*Advertisement-section - Meet Some of Our Best Tutors */
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 1050px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slider img {
+    width: 250px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 0 10px;
+}
+
+.category-title {
+    text-align: left;
+    font-size: 20px;
+    color: #004085;
+    margin: 20px 0;
+    text-align: center;
+    padding: 20px;
+}
+
+.tutor-gallery {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.tutors {
+    display: flex;
+    gap: 50px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.tutor {
+    text-align: center;
+    flex: 0 0 auto;
+}
+
+.tutor img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #004085;
+}
+
+.tutor span {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.gallery-btn {
+    background-color: #ffffff00;
+    border: none;
+    color: #004085;
+    font-size: 40px;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.3s;
+}
+
+.gallery-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Subjects and Search sections*/
+
+
+.search-container {
+    background-image: url('../images/main_bg5.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Makes the background fixed while scrolling */
+
+    padding: 40px;
+    color: #fff;
+    text-align: center;
+}
+
+.subject-container {
+    margin-left: 16.5%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    justify-items: center;
+}
+
+.subject-container a {
+    text-decoration: none;
+    color: #000;
+}
+
+.subject {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    width: 200px;
+}
+
+.subject:hover {
+    transform: scale(1.05);
+    background-color: #e7e5e5;
+}
+
+.subject img {
+    max-width: 50px;
+    margin-bottom: 10px;
+}
+
+.search-form {
+    margin-left: 20%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3
+    
+    0px;
+    padding: 20px;
+    justify-content: center;
+    gap: 15px;
+}
+
+.search-form select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 180px;
+    font-size: 1rem;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #c72f6c;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.search-button:hover {
+    background-color: #c51259;
+}
+
+.search-heading {
+    text-align: left;
+    font-size: 25px;
+    color: white;
+    margin: 20px 0;
+    text-align: center;
+    padding: 20px;
+}
+
+.subject-heading {
+    text-align: left;
+    font-size: 25px;
+    color: #004085;
+    margin: 20px 0;
+    text-align: center;
+    padding: 20px;
+}
+
+/*Search Result Section*/
+
+.result-container {
+    width: 300px;
+    text-align: center;
+    align-items: center;
+    margin-left: 24%;
+}
+
+.result-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.tutor-card {
+    width: 800px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.tutor-card:hover{
+    background-color: #dbdada;
+}
+
+.tutor-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-left: 40px;
+}
+
+.tutor-info {
+    text-align: left;
+    flex: 1;
+    margin-left: 40px;
+}
+
+.tutor-info h2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.tutor-info p {
+    font-size: 14px;
+    color: #666;
+}
+
+.rating span {
+    color: gold;
+}
+
+.status {
+    margin-right: 40px;
+    width: 100px;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    cursor: default;
+}
+
+.available {
+    background-color: green;
+}
+
+.tutoring {
+    background-color: orange;
+}
+
+.unavailable {
+    background-color: red;
+}
+
+.see-more {
+    margin-left: 300px;
+    margin-top: 15px;
+    margin-bottom: 50px;
+    padding: 10px;
+    width: 100%;
+    background-color: #c72f6c;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.see-more:hover{
+    background-color: #ab0d4c;
+
+}
+
+/*Your Path to Personalized Learning Section*/
+
+.banner {
+    width: 100%;
+    height: 350px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    background-image: url('../images/main_bg5.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Makes the background fixed while scrolling */
+    margin-top: 20px;
+}
+
+.banner h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.banner p {
+    font-size: 25px;
+    font-style: italic bold;
+}
+
+.content-box {
+    margin-left: 23%;
+    width: 90%;
+    max-width: 800px;
+    background-color: white;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: -200px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.364);
+    border-radius: 15px;
+    text-align: center;
+}
+
+.content-box h2 {
+    font-size: 24px;
+    color: #2e4a7d;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.content-box p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* FAQ Section*/
+
+.faq-container {
+    width: 100%;
+    margin-left: 32%;
+    max-width: 600px;
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.faq-container h1 {
+    font-size: 24px;
+    color: #2e4a7d;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.faq-container h2 {
+    font-size: 20px;
+    color: #2e4a7d;
+    margin: 20px 0 10px;
+}
+
+.faq {
+    text-align: left;
+}
+
+.faq-question {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    text-align: left;
+    background-color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    font-weight: 200;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.faq-question:hover {
+    background-color: #f9f9f9;
+}
+
+.faq-answer {
+    display: none;
+    padding: 15px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fafafa;
+    border-bottom: 1px solid #ccc;
+}
+
+.faq-answer.visible {
+    display: block;
+}
+
+
+/*trusted-companies-section*/
+
+.trusted-companies-section {
+    text-align: center;
+    padding: 50px;
+    background-image: url('../images/main_bg5.png'); /* Path to your image */
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Makes the background fixed while scrolling */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    
+}
+
+.trusted-companies-section h2 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+/* Logo container styling */
+.companylogo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+}
+
+.companylogo-container img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+
+
+
+/* forum -section  */
+
+.forum-container {
+    width: 800px;
+    margin-left: 25%;
+    margin-top: 4%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.forum-container h2 {
+    text-align: center;
+    font-size: 30px;
+    color:#2e4a7d;
+    margin-bottom: 20px;
+    font-family: Georgia, serif;
+    font-style: italic;
+}
+
+.comment-reply {
+    margin-left:15%;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.comment {
+    background-color: #e0f7fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.forum-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width:50px;
+    height: 50px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.name {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.forum-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.forum-footer span {
+    font-size: 12px;
+    color: #888;
+}
+
+.reply-btn {
+    background-color: #ff4081;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.reply-btn:hover {
+    background-color: #e03570;
+}
+
+.forum-see-more {
+    display: block;
+    width: 100px;
+    padding: 10px;
+    margin-left: 40%;
+    background-color: #ff4081;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.forum-see-more:hover {
+    background-color: #e03570;
+}
+
+

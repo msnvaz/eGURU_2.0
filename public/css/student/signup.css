@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../../images/student-uploads/bg.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 0 20px;  /* Add padding to avoid edge cut-off */
+    
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:100px; 
+   
+}
+
+.form-box {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);  /* Try increasing this if blur is weak */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    height: auto;  /* Set height to auto for dynamic adjustment */
+    min-height: 600px;  /* Set a minimum height */
+    text-align: center; 
+    margin-top:100px; 
+    margin-bottom:80px;
+    margin-right: 80px;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 20px;
+    font-family:Kalam;
+}
+
+form input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+input[type="checkbox"] {
+    width: auto;
+}
+
+.terms {
+    text-align: center;
+    margin: 10px 0;
+    color: white;
+    
+    
+}
+
+.terms label a {
+    color: #ffcccb;
+    align-items: center;
+    
+}
+
+button {
+    background-color: #ec5273;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 40%;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #c94141;
+}
+
+p {
+    color: white;
+    margin-top: 10px;
+}
+
+p a {
+    color: #ffcccb;
+}
+
+p a:hover {
+    text-decoration: underline;
+}

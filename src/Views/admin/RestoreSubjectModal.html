@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/admin/Admin.css">
+    <link rel="stylesheet" href="/css/admin/AdminHeader.css">
+</head>
+<body>
+    <!-- Modal for Restoring Subject -->
+    <div id="restoreSubjectModal" class="modal">
+        <div class="modal-content" sty>
+            <span class="close-restore-modal" style="color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;">&times;</span>
+            <h2>Restore Subject</h2>
+            <form id="restoreSubjectModalForm">
+                <input type="hidden" name="subject_id" id="restore-subject-id">
+                
+                <div class="modal-form-group">
+                    <label for="restore-subject-name">Subject Name</label>
+                    <input type="text" id="restore-subject-name" name="subject_name" readonly>
+                </div>
+
+                <div class="modal-form-group">
+                    <label>Current Grades</label>
+                    <div class="grades-checkbox-container" id="restore-grades-container">
+                        <!-- Grades checkboxes will be dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="modal-form-group">
+                    <label>Current Icon</label>
+                    <div id="restore-image-preview"></div>
+                </div>
+
+                <!-- Restore Subject Button -->
+                <button type="button" id="restoreSubjectBtn" class="submit-btn">Restore Subject</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('restoreSubjectModal');
+            const closeModalBtn = document.querySelector('.close-restore-modal');
+            const restoreButtons = document.querySelectorAll('.restore-subject-btn');
+            const modalForm = document.getElementById('restoreSubjectModalForm');
+            const modalSubjectId = document.getElementById('restore-subject-id');
+            const modalSubjectName = document.getElementById('restore-subject-name');
+            const modalGradesContainer = document.getElementById('restore-grades-container');
+            const modalImagePreview = document.getElementById('restore-image-preview');
+
+            // Close modal when clicking the close button
+            closeModalBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            // Close modal when clicking outside the modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Function to generate grade checkboxes
+            function generateGradeCheckboxes(selectedGrades) {
+                const grades = [6, 7, 8, 9, 10, 11];
+                modalGradesContainer.innerHTML = grades.map(grade => `
+                    <label class="${selectedGrades.includes(grade) ? 'grade-active' : ''}">
+                        Grade ${grade}
+                        ${selectedGrades.includes(grade) ? '✓' : '✗'}
+                    </label>
+                `).join('');
+            }
+
+            // Function to open the modal and populate data
+            function openRestoreModal(subjectId, subjectName, selectedGrades, currentImageSrc) {
+                // Set subject ID and name
+                modalSubjectId.value = subjectId;
+                modalSubjectName.value = subjectName;
+
+                // Show selected grades
+                generateGradeCheckboxes(selectedGrades);
+
+                // Handle image preview
+                modalImagePreview.innerHTML = currentImageSrc 
+                    ? `<img src="${currentImageSrc}" alt="Subject Icon" style="max-width: 100px;">`
+                    : '<p>No image available</p>';
+
+                // Show the modal
+                modal.style.display = 'block';
+            }
+
+            // Add click event to all restore buttons
+            restoreButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const subjectId = this.getAttribute('data-subject-id');
+                    const subjectName = this.getAttribute('data-subject-name');
+                    const selectedGrades = this.getAttribute('data-subject-grades')
+                        .split(',')
+                        .map(Number)
+                        .filter(grade => !isNaN(grade));
+                    const currentImageSrc = this.getAttribute('data-subject-image');
+
+                    openRestoreModal(subjectId, subjectName, selectedGrades, currentImageSrc);
+                });
+            });
+
+            // Handle restore button click
+            document.getElementById('restoreSubjectBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to restore this subject?')) {
+                    const subjectId = modalSubjectId.value;
+                    
+                    fetch('/admin-dashboard/restoresubject', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            subject_id: subjectId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Subject restored successfully');
+                            window.location.reload();
+                        } else {
+                            alert('Failed to restore subject: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while restoring the subject');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

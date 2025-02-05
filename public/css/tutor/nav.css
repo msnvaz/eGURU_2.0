@@ -1,0 +1,109 @@
+/* public/css/navbar.css */
+
+nav{
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensures the nav bar is above other content */
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 20%;
+    overflow: hidden;
+    background-color: #ffffff;
+    
+}
+
+nav ul li {
+    float: left;
+    margin:3px;
+}
+
+nav ul li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 16px 18px;
+    text-decoration: none;
+}
+
+/* Style for hovered link */
+nav ul li a:hover {
+    color: rgb(229, 34, 115);
+}
+
+/* Style for active link (can be manually set) */
+nav ul li a.active {
+    border-bottom: 8px solid rgb(229, 34, 115); /* Pink underline for active link */
+}
+
+h1{
+    color:black;
+}
+
+
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color:  #CBF1F9;
+    color: black;
+    padding: 40px 30px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height:100vh;
+    font-family: 'Kalam', cursive;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index: 2000;
+    
+}
+
+.sidebar h2 {
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.sidebar a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    padding: 7px;
+    width: 100%;
+    border-radius: 5px;
+    display:flex ; 
+    gap:10px;
+    align-items: center;
+}
+
+.sidebar a:hover {
+    color:#E14177;
+    background-color: white;
+    padding:7px;
+    
+}
+
+.sidebar a.active{
+    color:#E14177;
+    background-color: white;
+}
+
+/* css styling for icons */
+.sidebar ul li i {
+    font-size: 14px;           /* Adjust icon size as needed */
+    color: black;               /* Optional: match icon color with text */
+}

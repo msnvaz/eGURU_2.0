@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/admin/Admin.css">
+    <link rel="stylesheet" href="/css/admin/AdminHeader.css">
+</head>
+<body>
+    <!-- Modal for Editing Subject -->
+    <div id="editSubjectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Edit Subject</h2>
+            <form id="editSubjectModalForm" method="POST" action="/admin-dashboard/updatesubject" enctype="multipart/form-data">
+                <input type="hidden" name="subject_id" id="modal-subject-id">
+                
+                <div class="modal-form-group">
+                    <label for="modal-subject-name">Subject Name</label>
+                    <input type="text" id="modal-subject-name" name="subject_name" required>
+                </div>
+
+                <div class="modal-form-group">
+                    <label>Select Grades</label>
+                    <div class="grades-checkbox-container" id="modal-grades-container">
+                        <!-- Grades checkboxes will be dynamically populated -->
+                    </div>
+                </div>
+
+                <div class="modal-form-group">
+                    <label for="modal-subject-icon">Subject Icon</label>
+                    <input type="file" id="modal-subject-icon" name="subjectIcon" accept="image/*">
+                    <div id="modal-image-preview"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">Update Subject</button>
+                <!-- Delete Subject Button -->
+                <button type="button" id="deleteSubjectBtn" class="delete-btn">Delete Subject</button>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('editSubjectModal');
+            const closeModalBtn = document.querySelector('.close-modal');
+            const editButtons = document.querySelectorAll('.edit-subject-btn');
+            const modalForm = document.getElementById('editSubjectModalForm');
+            const modalSubjectId = document.getElementById('modal-subject-id');
+            const modalSubjectName = document.getElementById('modal-subject-name');
+            const modalGradesContainer = document.getElementById('modal-grades-container');
+            const modalSubjectIcon = document.getElementById('modal-subject-icon');
+            const modalImagePreview = document.getElementById('modal-image-preview');
+
+            // Close modal when clicking the close button
+            closeModalBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            // Close modal when clicking outside the modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+
+            // Function to generate grade checkboxes
+            function generateGradeCheckboxes() {
+                const grades = [6, 7, 8, 9, 10, 11];
+                modalGradesContainer.innerHTML = grades.map(grade => `
+                    <label>
+                        <input type="checkbox" name="grades[]" value="${grade}"> 
+                        Grade ${grade}
+                    </label>
+                `).join('');
+            }
+
+            // Function to open the modal and populate data
+            function openEditModal(subjectId, subjectName, selectedGrades, currentImageSrc) {
+                // Set subject ID and name
+                modalSubjectId.value = subjectId;
+                modalSubjectName.value = subjectName;
+
+                // Reset and generate grade checkboxes
+                generateGradeCheckboxes();
+
+                // Check the selected grades
+                const checkboxes = document.querySelectorAll('input[name="grades[]"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = selectedGrades.includes(parseInt(checkbox.value));
+                });
+
+                // Handle image preview
+                modalImagePreview.innerHTML = currentImageSrc 
+                    ? `<img src="${currentImageSrc}" alt="Subject Icon">`
+                    : '<p>No image selected</p>';
+
+                // Show the modal
+                modal.style.display = 'block';
+            }
+
+            // Add click event to all edit buttons
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const subjectId = this.getAttribute('data-subject-id');
+                    const subjectName = this.getAttribute('data-subject-name');
+                    const selectedGrades = this.getAttribute('data-subject-grades')
+                        .split(',')
+                        .map(Number)
+                        .filter(grade => !isNaN(grade));
+                    const currentImageSrc = this.getAttribute('data-subject-image');
+
+                    openEditModal(subjectId, subjectName, selectedGrades, currentImageSrc);
+                });
+            });
+
+            const deleteButton = document.getElementById('deleteSubjectBtn');
+            deleteButton.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete this subject?')) {
+                    const subjectId = document.getElementById('modal-subject-id').value;
+                    
+                    fetch('/admin-dashboard/deletesubject', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            subject_id: subjectId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Subject deleted successfully');
+                            window.location.reload();
+                        } else {
+                            alert('Failed to delete subject: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while deleting the subject');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

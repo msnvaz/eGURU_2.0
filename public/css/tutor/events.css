@@ -1,0 +1,58 @@
+.calendars-events {
+    display: flex;
+    gap: 40px; /* Space between calendars */
+    justify-content: center; /* Centering the calendars */
+    margin-bottom: 20px; /* Space below calendars */
+    
+}
+
+.calendar-events {
+    width: 200px;
+    background-color: #b2ebf2;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding: 10px;
+}
+
+.calendar-events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+    color: #00796b;
+
+}.day-names {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day, .empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+
+.day {
+    background-color: #b2ebf2;
+    cursor: pointer;
+}
+
+.day:hover {
+    background-color: #ececec;
+}
+
+#entire{
+    margin-left: 28%;
+    margin-top: 100px;
+}
+
