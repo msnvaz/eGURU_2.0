@@ -6,6 +6,8 @@
     <title>Events</title>
     <link rel="stylesheet" href="css/student/newevent.css">
     <link rel="stylesheet" href="css/student/new.css">
+    <link rel="stylesheet" href="css/student/nav.css">
+    <link rel="stylesheet" href="css/student/sidebar.css">
 
 </head>
 <?php $page="event"; ?>

@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Downloads</title>
+    <link rel="stylesheet" href="css/student/downloads.css">
     <link rel="stylesheet" href="css/student/new.css">
+    <link rel="stylesheet" href="css/student/nav.css">
+    <link rel="stylesheet" href="css/student/sidebar.css">
 </head>
+
 <?php $page="download"; ?>
 <body>
     
@@ -16,6 +20,15 @@
 <!-- Content area -->
 <div id="download-content">
         <h1>Download Study Materials</h1><br>
+
+        <?php
+// Assume you fetched the data from the database
+$row = [
+    'file_path' => 'uploads/study_materials/Number system.pdf',
+    'title' => 'Number system'
+];
+
+?>
 
         <!-- Dropdown for grade and subject -->
         <div class="selection">
@@ -45,6 +58,7 @@
         <!-- List of study materials -->
         <ul id="materialList" class="materials">
             <!-- Dynamically filled by JS -->
+             
         </ul>
     </div>
 </div>

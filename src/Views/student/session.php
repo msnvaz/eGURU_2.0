@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Requests</title>
     <link rel="stylesheet" href="css/student/session.css">
-    <link rel="stylesheet" href="css/student/new.css">
+    <link rel="stylesheet" href="css/student/nav.css">
+    <link rel="stylesheet" href="css/student/sidebar.css">
     
 </head>
 <?php $page="session"; ?>
