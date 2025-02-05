@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ratings and Reviews</title>
-    <link rel="stylesheet" href="css/student/new.css">
+    <link rel="stylesheet" href="css/student/rating.css">
+    <link rel="stylesheet" href="css/student/nav.css">
+    <link rel="stylesheet" href="css/student/sidebar.css">
 </head>
 <?php $page="rating"; ?>
 <body>
