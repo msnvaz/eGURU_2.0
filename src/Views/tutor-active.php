@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\TutorModel;
+use App\Models\TutorDisplayModel;
 
 // Instantiate the TutorModel class
-$tutorModel = new TutorModel();
+$tutorModel = new TutorDisplayModel();
 
 // Fetch the list of successful tutors
 $successfulTutors = $tutorModel->getSuccessfulTutors();

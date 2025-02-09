@@ -192,7 +192,7 @@
 
         <h3 class="category-title">Most Active</h3>
         
-        <?php include 'tutor-gallery.php'; ?>
+        <?php include 'tutor-active.php'; ?>
 
         <!-- <div class="tutor-gallery">
             <button class="gallery-btn prev">&lt;</button>
@@ -209,7 +209,7 @@
 
         <h3 class="category-title">Most Popular</h3>
 
-        <?php include 'tutor-gallery.php'; ?>
+        <?php include 'tutor-popular.php'; ?>
 
         <!-- <div class="tutor-gallery">
             <button class="gallery-btn prev">&lt;</button>

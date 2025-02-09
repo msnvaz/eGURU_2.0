@@ -2,7 +2,7 @@
 
 // Include necessary files
 require_once 'vendor/autoload.php';
-use App\Models\TutorModel;
+use App\Models\TutorDisplayModel;
 
 class TutorPopular {
 

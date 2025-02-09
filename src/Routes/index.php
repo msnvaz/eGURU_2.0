@@ -1,8 +1,10 @@
 <?php
 
 use App\Controllers\HomeController;
-use App\Controllers\SubjectController;
+use App\Controllers\SubjectPageController;
 use App\Controllers\AdvertisementController;
+use App\Controllers\TutorActiveController; //for most active tutors
+use App\Controllers\TutorPopularController; //for most popular tutors
 
 use App\Controllers\admin\AdminLoginController;
 use App\Controllers\admin\AdminDashboardController;
@@ -46,7 +48,7 @@ use App\Controllers\tutor\TutorLogoutController;
 $router = new Router();
 
 $router->get('/', HomeController::class, 'index');
-$router->get('/subject', SubjectController::class, 'showSubjectPage');
+$router->get('/subject', SubjectPageController::class, 'showSubjectPage');
 $router->get('/advertisement', AdvertisementController::class, 'showAdvertisementGalleryPage');
 $router->post('/upload-ad', AdvertisementController::class, 'uploadAdvertisement');
 $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement');
