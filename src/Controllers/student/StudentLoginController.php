@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\student;
 
 use App\Models\StudentDetailsModel;
-use App\Models\Student_profile;
+use App\Models\student\Student_profile;
 
 class StudentLoginController {
     private $model;
@@ -20,7 +20,8 @@ class StudentLoginController {
         //$ads = $this->model->getALLStudents();
 
         // Pass data to the view
-        require_once __DIR__ . '/../views/student/login.php';
+        
+        require_once __DIR__ . '/../../views/student/login.php';
     }
 
     public function login(){
@@ -30,7 +31,9 @@ class StudentLoginController {
              $success = $this->model->student_login($email,$password);
              if($success){
                  $_SESSION['student_id'] = $success['id'];
+                 $_SESSION['student_email'] = $success['email'];
                  $_SESSION['student_name'] =$success['firstname'] . ' ' . $success['lastname'];
+
                  header("Location: /student-dashboard");
              }
              else{
