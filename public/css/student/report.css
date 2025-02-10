@@ -1,0 +1,108 @@
+/*report tutor*/
+.report-container {
+    background: rgba(255, 255, 255, 0.2);
+    max-width: 600px;
+    margin: 50px auto;
+    
+    padding: 30px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);  /* Try increasing this if blur is weak */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin-right: 260px;
+    margin-top: 100px;
+}
+
+h2 {
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+}
+
+select, textarea {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+}
+
+report-button {
+    padding: 12px;
+    background-color: #E14177  ;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width:40%;
+    margin-left:155px;   /*submit button to the center*/
+}
+
+report-button:hover {
+    background-color: #e02362;
+}
+
+.reports-table {
+    width: 75%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-left: 350px;
+    margin-bottom: 50px;
+}
+
+.reports-table th,
+.reports-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.reports-table th {
+    background-color: #f5f5f5;
+}
+
+.reports-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+.status-badge.pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.status-badge.resolved {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.status-badge.processing {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}

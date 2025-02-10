@@ -1,0 +1,97 @@
+/* Content area styles */
+#download-content {
+    margin-left: 50px;
+    padding: 40px 20px;
+    margin-right: 50px;
+
+}
+
+/* Dropdown and button styles */
+.download-bodyform {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    height: 180%;
+    margin-top: 100px;
+    margin-left: 400px;
+
+}
+
+.selection {
+    margin-bottom: 20px;
+}
+
+label,
+select {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #333;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+select,
+        textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+.btn {
+    background-color: #E14177;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e02362;
+}
+
+/* Study material list styles */
+.materials {
+    list-style-type: none;
+    padding: 0;
+}
+
+.materials li {
+    background-color: #ffffff;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.materials li a {
+    background-color: #1E90FF;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.materials li a:hover {
+    background-color: #005f8a;
+}
+
+.materials li a:active {
+    background-color: #00466d;
+}

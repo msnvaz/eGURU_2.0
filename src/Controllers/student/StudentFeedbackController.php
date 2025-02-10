@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\student;
 
-use App\Models\Comment;
+use App\Models\student\Comment;
 
 class StudentFeedbackController{
     private $model1;

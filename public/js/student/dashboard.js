@@ -1,74 +1,82 @@
-// Variables for Calendar
-const monthYear = document.getElementById("monthYear");
-const daysContainer = document.getElementById("days");
-const prevButton = document.getElementById("prev");
-const nextButton = document.getElementById("next");
+class Calendar {
+    constructor() {
+        this.currentDate = new Date();
+        this.selectedDate = null;
 
-let currentDate = new Date();
+        this.monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
 
-function renderCalendar() {
-    const month = currentDate.getMonth();
-    const year = currentDate.getFullYear();
-
-    // Set month and year in header
-    monthYear.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
-
-    // Get the first day of the month
-    const firstDay = new Date(year, month, 1).getDay();
-    const lastDate = new Date(year, month + 1, 0).getDate();
-
-    // Clear previous dates
-    daysContainer.innerHTML = "";
-
-    // Add empty slots for days of previous month
-    for (let i = 0; i < firstDay; i++) {
-        const emptyCell = document.createElement("div");
-        emptyCell.classList.add("day");
-        daysContainer.appendChild(emptyCell);
+        this.init();
     }
 
-    // Add day cells for current month
-    for (let day = 1; day <= lastDate; day++) {
-        const dayCell = document.createElement("div");
-        dayCell.classList.add("day");
-        dayCell.textContent = day;
-        dayCell.addEventListener("click", () => selectDate(dayCell));
-        
-        // Highlight today's date
-        if (
-            day === currentDate.getDate() &&
-            month === new Date().getMonth() &&
-            year === new Date().getFullYear()
-        ) {
-            dayCell.classList.add("selected");
+    init() {
+        this.updateMonthDisplay();
+        this.renderCalendar();
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+            this.updateMonthDisplay();
+            this.renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+            this.updateMonthDisplay();
+            this.renderCalendar();
+        });
+    }
+
+    updateMonthDisplay() {
+        const monthYear = `${this.monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
+        document.getElementById('currentMonth').textContent = monthYear;
+    }
+
+    renderCalendar() {
+        const calendarDays = document.getElementById('calendarDays');
+        const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+        const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+
+        // Clear existing calendar days except day names
+        while (calendarDays.children.length > 7) {
+            calendarDays.removeChild(calendarDays.lastChild);
         }
-        
-        daysContainer.appendChild(dayCell);
+
+        // Add empty cells for days before the first day of the month
+        for (let i = 0; i < firstDay.getDay(); i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day';
+            calendarDays.appendChild(emptyDay);
+        }
+
+        // Add days of the month
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            dayElement.textContent = day;
+
+            // Check if this is today's date
+            const today = new Date();
+            if (day === today.getDate() &&
+                this.currentDate.getMonth() === today.getMonth() &&
+                this.currentDate.getFullYear() === today.getFullYear()) {
+                dayElement.classList.add('selected');
+            }
+
+            dayElement.addEventListener('click', () => {
+                document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                dayElement.classList.add('selected');
+                this.selectedDate = new Date(this.currentDate.getFullYear(), this.currentDate
+                .getMonth(), day);
+            });
+
+            calendarDays.appendChild(dayElement);
+        }
     }
 }
 
-function selectDate(dayCell) {
-    // Remove 'selected' class from previously selected date
-    document.querySelectorAll(".day").forEach(day => day.classList.remove("selected"));
-    // Add 'selected' class to clicked date
-    dayCell.classList.add("selected");
-}
-
-prevButton.addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    renderCalendar();
+// Initialize calendar when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    new Calendar();
 });
-
-nextButton.addEventListener("click", () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar();
-});
-
-// Initial render
-renderCalendar();
-
-
-
-
-
-

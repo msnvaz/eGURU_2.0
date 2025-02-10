@@ -1,0 +1,169 @@
+/*styling rating*/
+
+.rating-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 350px;
+    margin-top: 100px;
+    
+  }
+
+  
+
+
+/* Scrollable tutor cards container */
+.tutor-cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: scroll;
+    gap: 15px;
+    padding: 10px 0;
+    
+}
+
+.tutor-cards-container::-webkit-scrollbar {
+    display: none;  /* Hide scrollbar */
+}
+
+.tutor-card {
+    width: 30%;
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.tutor-card:hover {
+    transform: scale(1.05);
+}
+
+.tutor-card.selected {
+    border: 2px solid #007bff;
+    color:black;
+}
+
+.tutor-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.tutor-card h4 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.0);
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.arrow-left {
+    left: 5px;
+}
+
+.arrow-right {
+    right: 5px;
+}
+
+.average-rating {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+select,
+textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+button {
+    padding: 10px;
+    background-color: #E14177;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color:  #e02362;
+}
+
+.review-list {
+    margin-top: 30px;
+}
+
+.review {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reviewer {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.rating {
+    color: #ffcc00;
+}
+
+.comment {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.reviewer, .rating {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.clear-history-btn {
+    padding: 10px;
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.clear-history-btn:hover {
+    background-color: #cc0000;
+}

@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+.main-content {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -18,7 +26,6 @@ body {
     padding: 2rem;
 }
 
-/* Header Styles */
 .header {
     text-align: center;
     margin-bottom: 3rem;
