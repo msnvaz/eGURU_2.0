@@ -86,6 +86,8 @@ body {
     display: none;
   }
 
+  
+
   /* Approved Popup Styles */
   .approved_popup-overlay {
     position: fixed;
@@ -132,3 +134,34 @@ body {
     cursor: pointer;
     margin-top: 20px;
   }
+
+  .pending-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pending-btn:hover {
+    background-color: darkgreen;
+}
+
+.cancel-btn:hover {
+    background-color: darkred;
+}
+
+.approved-status {
+    color: blue;
+    font-weight: bold;
+}

@@ -1,0 +1,61 @@
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color:  #CBF1F9;
+    color: black;
+    padding: 40px 30px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height:100vh;
+    font-family: 'Kalam', cursive;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index: 500;
+    
+}
+
+.sidebar h2 {
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.sidebar a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    padding: 7px;
+    width: 100%;
+    border-radius: 5px;
+    display:flex ; 
+    gap:10px;
+    align-items: center;
+}
+
+.sidebar a:hover {
+    color:#E14177;
+    background-color: white;
+    padding:7px;
+    
+}
+
+.sidebar a.active{
+    color:#E14177;
+    background-color: white;
+}
+
+/* css styling for icons */
+.sidebar ul li i {
+    font-size: 14px;           /* Adjust icon size as needed */
+    color: black;               /* Optional: match icon color with text */
+}

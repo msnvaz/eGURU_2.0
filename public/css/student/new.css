@@ -12,8 +12,6 @@ h1{
     color:black;
 }
 
-
-
 /* Sidebar Styles */
 .sidebar {
     width: 250px;
@@ -22,6 +20,7 @@ h1{
     padding: 40px 30px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     height:100vh;
+    font-family: 'Kalam', cursive;
     position:fixed;
     top:0;
     left:0;

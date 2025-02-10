@@ -19,8 +19,7 @@ function loadMaterials() {
                 { name: "Basic Algebra and Equations", file: "grade6_math_addition.pdf" },
                 { name: "Quadratic Equations and Functions", file: "grade6_equation.pdf" },
                 { name: "Number Systems and Operations", file: "grade6_math_numbersystem.pdf" },
-                { name: "Fractions, Decimals, and Percentages", file: "grade6_math_fractions.pdf" }
- 
+                { name: "Fractions, Decimals, and Percentages", file: "grade6_math_fractions.pdf" } 
             ],
             "science": [
                 { name: "Cell Biology and Microscopy", file: "grade6_science_chemistry.pdf" },
@@ -36,7 +35,7 @@ function loadMaterials() {
         
             ],
             "ict": [
-                { name: "Introduction to Computers", file: "grade6_math_addition.pdf" },
+                { name: "Number system", file: "Number system.pdf" },
                 { name: "Basics of Internet and Email", file: "grade6_equation.pdf" },
                 { name: "Understanding Coding Basics", file: "grade6_math_numbersystem.pdf" },
                 { name: "Introduction to Databases", file: "grade6_math_fractions.pdf" }
@@ -52,8 +51,7 @@ function loadMaterials() {
                 { name: "Narrative Writing", file: "grade6_history_civilizations.pdf" },
                 { name: "Vocabulary Building", file: "grade6_history_intro.pdf" },
                 { name: "Creative Writing: Essays and Short Stories", file: "grade6_history_civilizations.pdf" },
-                { name: "Advanced Grammar", file: "grade6_history_intro.pdf" }
-        
+                { name: "Advanced Grammar", file: "grade6_history_intro.pdf" }       
             ]
         },
         "grade7": {
@@ -278,7 +276,7 @@ function loadMaterials() {
     // Display the materials in the list with download buttons
     materials.forEach(material => {
         const li = document.createElement("li");
-        li.innerHTML = `${material.name} <a href="downloads/${material.file}" class="download-btn" download>Download</a>`;
+        li.innerHTML = `${material.name} <a href="downloads/${material.file} <?php echo $row['file_path']; ?>" target="_blank" class="download-btn" download>Download<?php echo $row['title']; ?></a>`;
         materialList.appendChild(li);
     });
 }

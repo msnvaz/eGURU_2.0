@@ -1,0 +1,151 @@
+/*payment*/
+.payment-container {
+    width: 880px;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
+    margin-left: 350px;
+    margin-top: 100px;
+    height: 140vh;
+}
+/* Style for each payment image */
+.payment-container img {
+    width: 350px; /* Set image width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Optional rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.2s; /* Smooth hover effect */
+    margin-left:1px;
+}
+
+
+/* Hover effect on images */
+.payment-container img:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+.step-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.step-header div {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    cursor: pointer;
+}
+
+.step-header div.active {
+    color: #007BFF;
+    border-bottom: 2px solid #007BFF;
+}
+
+.form-section {
+    margin-top: 20px;
+}
+
+.form-section.hidden {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.submit-button {
+    width: 30%;
+    background-color: #E14177 ;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background-color:  #e02362;
+}
+/* Overlay for dimming the background */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999; /* Ensures it's behind the modal */
+    display: none; /* Initially hidden */
+}
+
+#confirmation-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1000; /* Higher than the overlay */
+}
+#confirmation-modal {
+    border-radius: 10px; /* Add rounded corners */
+    animation: fadeIn 0.3s ease-in-out; /* Smooth fade-in effect */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#confirmation-modal .modal-content {
+    text-align: center;
+}
+
+#confirmation-modal img {
+    margin-top: 10px;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+

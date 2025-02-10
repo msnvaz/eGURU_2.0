@@ -1,61 +1,53 @@
-const tutors = [
-    { name: "John Doe", grade: "Grade 10", subject: "Math", experience: "2 Years", qualification: "MSc in Mathematics", rating: "⭐⭐⭐⭐", availability: "Available" },
-    { name: "Jane Smith", grade: "Grade 11", subject: "Science", experience: "1 Year", qualification: "BSc in Physics", rating: "⭐⭐⭐", availability: "Unavailable" },
-    { name: "Mark Taylor", grade: "Grade 10", subject: "Math", experience: "1 Year", qualification: "BEd in Math Education", rating: "⭐⭐⭐⭐⭐", availability: "Available" }
-    
-];
+document.querySelector("button").addEventListener("click", () => {
+    let grade = document.getElementById("grade").value;
+    let subject = document.getElementById("subject").value;
+    let experience = document.getElementById("experience").value;
 
-function searchTutors() {
-    const grade = document.querySelector('select:nth-of-type(1)').value;
-    const subject = document.querySelector('select:nth-of-type(2)').value;
-    const experience = document.querySelector('select:nth-of-type(3)').value;
+    // Debug log
+    console.log("Sending search request with:", { grade, subject, experience });
 
-    const filteredTutors = tutors.filter((tutor) => {
-        return (
-            (grade === "" || tutor.grade === grade) &&
-            (subject === "" || tutor.subject === subject) &&
-            (experience === "" || tutor.experience === experience)
-        );
-    });
+    let formData = new FormData();
+    formData.append("grade", grade);
+    formData.append("subject", subject);
+    formData.append("experience", experience);
 
-    const resultsContainer = document.getElementById("results");
-    resultsContainer.innerHTML = "";
+    fetch("/student-search-tutor", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log("Received response:", data);
+        
+        let results = document.getElementById("results");
+        results.innerHTML = "";
+        
+        if (!Array.isArray(data)) {
+            results.innerHTML = "<p>Error: Unexpected response format</p>";
+            return;
+        }
 
-    if (filteredTutors.length === 0) {
-        resultsContainer.innerHTML = "<p>No tutors found matching your criteria.</p>";
-    } else {
-        filteredTutors.forEach((tutor, index) => {
-            const tutorCard = `
-                <div class="findtutor-card" onclick="showPopup(${index})">
-                    <img src="https://via.placeholder.com/80" alt="Tutor">
-                    <div class="findtutor-details">
-                        <h3>${tutor.name}</h3>
-                        <p>${tutor.qualification}</p>
-                        <div class="rating">${tutor.rating}</div>
-                    </div>
-                    <div class="availability ${tutor.availability.toLowerCase().replace(" ", "-")}">
-                        ${tutor.availability}
-                    </div>
-                </div>
-            `;
-            resultsContainer.innerHTML += tutorCard;
+        if (data.length === 0) {
+            results.innerHTML = "<p>No tutors found matching your criteria</p>";
+            return;
+        }
+
+        data.forEach(tutor => {
+            let card = `<div class="tutor-card" onclick="showPopup(${tutor.tutor_id})">
+                            <h3>${tutor.name}</h3>
+                            <p>${tutor.subject} | ${tutor.grade} | ${tutor.tutor_level}</p>
+                        </div>`;
+            results.innerHTML += card;
         });
-    }
-}
-
-function showPopup(index) {
-    const tutor = tutors[index];
-    document.getElementById("findtutorpopup-name").textContent = tutor.name;
-    document.getElementById("findtutorpopup-qualification").textContent = `Qualification: ${tutor.qualification}`;
-    document.getElementById("findtutorpopup-experience").textContent = `Experience: ${tutor.experience}`;
-    document.getElementById("findtutorpopup").style.display = "flex";
-}
-
-function closePopup() {
-    document.getElementById("findtutorpopup").style.display = "none";
-}
-
-function requestTutor() {
-    alert("Tutor request sent successfully!");
-    closePopup();
-}
+    })
+    .catch(err => {
+        console.error("Search error:", err);
+        document.getElementById("results").innerHTML = 
+            `<p>Error searching for tutors: ${err.message}</p>`;
+    });
+});
