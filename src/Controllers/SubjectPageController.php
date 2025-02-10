@@ -16,12 +16,23 @@ class SubjectPageController extends Controller {
 
     public function showSubjectPage() {
         try {
-            // Get subject from URL parameter
-            $subject = $_GET['subject'] ?? 'Science';
+            // Get subject dynamically from URL
+            $subject = $_GET['subject'] ?? '';
+            
+            // If subject is empty, redirect to a default page or error page
+            if (empty($subject)) {
+                $this->loadView('error', ['message' => 'Subject not specified.']);
+                return;
+            }
+
+            // Sanitize subject to avoid invalid values
+            $subject = htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
+
+            // Filters
             $gradeFilter = $_GET['tutor_level'] ?? '';
             $availableOnly = isset($_GET['available']) ? true : false;
 
-            // Get data from model
+            // Fetch data from model
             $tutors = $this->model->getTutorsBySubject($subject, $gradeFilter, $availableOnly);
             $tutorLevels = $this->model->getTutorLevelsBySubject($subject);
 
@@ -39,7 +50,7 @@ class SubjectPageController extends Controller {
                 'availableOnly' => $availableOnly
             ];
 
-            // Load the view
+            // Load the subject page view
             $this->loadView('subjectpage', $viewData);
         } catch (\Exception $e) {
             error_log("Controller Error: " . $e->getMessage());
