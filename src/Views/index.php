@@ -192,7 +192,7 @@
 
         <h3 class="category-title">Most Active</h3>
         
-        <?php include 'tutor-gallery.php'; ?>
+        <?php include 'tutor-active.php'; ?>
 
         <!-- <div class="tutor-gallery">
             <button class="gallery-btn prev">&lt;</button>
@@ -209,7 +209,7 @@
 
         <h3 class="category-title">Most Popular</h3>
 
-        <?php include 'tutor-gallery.php'; ?>
+        <?php include 'tutor-popular.php'; ?>
 
         <!-- <div class="tutor-gallery">
             <button class="gallery-btn prev">&lt;</button>
@@ -232,16 +232,17 @@
             <h2 class="subject-heading" >CHOOSE YOUR SUBJECT</h2>
 
             <div class="subject-container">
-                <a href="/subject"><div class="subject"><img src="images/Science.png" alt="Science"><br>Science</div></a>
-                <a href="/advertisement"><div class="subject"><img src="images/English.png" alt="English"><br>English</div></a>
-                <div class="subject"><img src="images/History.png" alt="History"><br>History</div>
-                <div class="subject"><img src="images/Geography.png" alt="Geography"><br>Geography</div>
-                <div class="subject"><img src="images/Commerce.png" alt="Commerce"><br>Commerce</div>
-                <div class="subject"><img src="images/Language.png" alt="Language"><br>Language</div>
-                <div class="subject"><img src="images/Agri.png" alt="Agriculture"><br>Agriculture</div>
-                <div class="subject"><img src="images/Health.png" alt="Health Science"><br>Health Science</div>
-                <div class="subject"><img src="images/Maths.png" alt="Mathematics"><br>Mathematics</div>
-            </div>
+    <a href="/subject?subject=Science"><div class="subject"><img src="images/Science.png" alt="Science"><br>Science</div></a>
+    <a href="/subject?subject=English"><div class="subject"><img src="images/English.png" alt="English"><br>English</div></a>
+    <a href="/subject?subject=History"><div class="subject"><img src="images/History.png" alt="History"><br>History</div></a>
+    <a href="/subject?subject=Geography"><div class="subject"><img src="images/Geography.png" alt="Geography"><br>Geography</div></a>
+    <a href="/subject?subject=Commerce"><div class="subject"><img src="images/Commerce.png" alt="Commerce"><br>Commerce</div></a>
+    <a href="/subject?subject=Language"><div class="subject"><img src="images/Language.png" alt="Language"><br>Language</div></a>
+    <a href="/subject?subject=Agriculture"><div class="subject"><img src="images/Agri.png" alt="Agriculture"><br>Agriculture</div></a>
+    <a href="/subject?subject=Health Science"><div class="subject"><img src="images/Health.png" alt="Health Science"><br>Health Science</div></a>
+    <a href="/subject?subject=Mathematics"><div class="subject"><img src="images/Maths.png" alt="Mathematics"><br>Mathematics</div></a>
+</div>
+
     </section>
 
     <br><br><br>

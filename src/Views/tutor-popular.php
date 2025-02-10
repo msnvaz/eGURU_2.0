@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\TutorPopular;
+use App\Models\TutorDisplayModel;
 
 // Instantiate the TutorModel class
-$tutorPopular = new TutorPopular();
+$tutorPopular = new TutorDisplayModel();
 
 // Fetch the list of tutors with the highest scheduled sessions
 $popularTutors = $tutorPopular->getScheduledTutors(); // Assumes this method fetches data in descending order
@@ -65,7 +65,7 @@ $popularTutors = $tutorPopular->getScheduledTutors(); // Assumes this method fet
 </style>
 
 <div class="most-popular-section">
-    <h2>Most Popular Tutors</h2>
+    <!-- <h2>Most Popular Tutors</h2> -->
     <div class="tutor-gallery">
         <button class="gallery-btn prev">&lt;</button>
         <div class="tutors">
@@ -78,7 +78,7 @@ $popularTutors = $tutorPopular->getScheduledTutors(); // Assumes this method fet
                 if ($rank <= 4) {
                     echo '<div class="rank-badge">' . $rank . '</div>';
                 }
-                echo '<img src="images/tutor_' . htmlspecialchars($tutor['tutor_id']) . '.jpeg" alt="' . htmlspecialchars($tutor['name']) . '">';
+                // echo '<img src="images/tutor_' . htmlspecialchars($tutor['tutor_id']) . '.jpeg" alt="' . htmlspecialchars($tutor['name']) . '">';
                 echo '<span>' . htmlspecialchars($tutor['name']) . ' (' . htmlspecialchars($tutor['session_count']) . ' Scheduled)</span>';
                 echo '</div>';
             }

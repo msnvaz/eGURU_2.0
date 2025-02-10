@@ -10,6 +10,6 @@ class SubjectController extends Controller{
         $subjectModel = new PublicSubjectsModel();
         $tutors = $subjectModel->getSubjects();  // Get all subjects from the model
         // Load the view
-        require_once __DIR__ . '/../Views/subjectpage.php';
+        // require_once __DIR__ . '/../Views/subjectpage.php';
     }
 }
