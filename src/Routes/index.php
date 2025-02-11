@@ -15,6 +15,7 @@ use App\Controllers\admin\adminStudentController;
 use App\Controllers\admin\AdminTutorGradingController;
 use App\Controllers\admin\AdminSettingsController;
 use App\Controllers\admin\AdminInboxController;
+use App\Controllers\admin\AdminTransactionController;
 
 use App\Router;
 
