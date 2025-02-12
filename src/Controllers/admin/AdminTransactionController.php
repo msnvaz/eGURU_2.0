@@ -11,15 +11,17 @@ class AdminTransactionController extends Controller
 
     public function __construct()
     {
+        if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+            header('Location: /admin-login'); // Redirect to login page if not logged in
+            exit();
+        } 
         $this->transactionModel = new AdminTransactionModel();
     }
 
     public function showTransactions()
     {
         $payments = $this->transactionModel->getAllPayments(); // Fetch all payments
-        //$cashingOuts = $this->transactionModel->getAllCashingOuts(); // Fetch all cashing outs
-        //return ['payments' => $payments, 'cashing_outs' => $cashingOuts]; // Return data for the view
-        return ['payments'->$payments]; // Return data for the view
+        
         require_once __DIR__ . '/../../Views/admin/AdminTransactions.php';
     }
 
