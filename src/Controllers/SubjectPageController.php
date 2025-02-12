@@ -73,14 +73,17 @@ class SubjectPageController extends Controller {
         if (empty($profileImage)) {
             return '/' . $this->defaultImage;
         }
-
-        $fullPath = $this->uploadPath . basename($profileImage);
-        
-        // Check if file exists in the filesystem
+    
+        $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/eGURU_2.0/' . $this->uploadPath . basename($profileImage);
+    
+        // Debugging
+        error_log("Checking file existence: " . $fullPath);
+    
         if (file_exists($fullPath)) {
-            return '/' . $fullPath;
+            return '/eGURU_2.0/' . $this->uploadPath . basename($profileImage);
         }
-        
-        return '/' . $this->defaultImage;
+    
+        return '/eGURU_2.0/' . $this->defaultImage;
     }
+    
 }

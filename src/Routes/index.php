@@ -5,6 +5,7 @@ use App\Controllers\SubjectPageController;
 use App\Controllers\AdvertisementController;
 use App\Controllers\TutorActiveController; //for most active tutors
 use App\Controllers\TutorPopularController; //for most popular tutors
+use App\Controllers\TutorPreviewController; //for tutor short preview
 
 use App\Controllers\admin\AdminLoginController;
 use App\Controllers\admin\AdminDashboardController;
@@ -49,6 +50,7 @@ $router = new Router();
 
 $router->get('/', HomeController::class, 'index');
 $router->get('/subject', SubjectPageController::class, 'showSubjectPage');
+$router->get('/tutorpreview', TutorPreviewController::class, 'showTutorProfile'); // newly added by shayan
 $router->get('/advertisement', AdvertisementController::class, 'showAdvertisementGalleryPage');
 $router->post('/upload-ad', AdvertisementController::class, 'uploadAdvertisement');
 $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement');

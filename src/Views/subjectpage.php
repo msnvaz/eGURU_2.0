@@ -142,31 +142,32 @@
     </header>
 
     <div class="tutor-list">
-        <?php foreach ($tutors as $tutor): ?>
-            <a href="tutorprofilepreview.php?id=<?= urlencode($tutor['tutor_id']) ?>" class="tutor-card">
-                <img src="<?= htmlspecialchars($tutor['profile_image']) ?>" 
-                     alt="<?= htmlspecialchars($tutor['name']) ?>'s Profile"
-                     class="profile-img">
+    <?php foreach ($tutors as $tutor): ?>
+        <a href="/tutorpreview?tutor_id=<?= urlencode($tutor['tutor_id']) ?>" class="tutor-card">
+            <img src="<?= htmlspecialchars($tutor['profile_image']) ?>"
+                 alt="<?= htmlspecialchars($tutor['name']) ?>'s Profile"
+                 class="profile-img">
+            
+            <div class="info">
+                <h3><?= htmlspecialchars($tutor['name']) ?></h3>
+                <p><?= htmlspecialchars($tutor['tutor_level']) ?></p>
+                <p>Investment per hour: LKR.<?= number_format($tutor['hour_fees']) ?></p>
+                <div class="rating">
+                    <?php
+                    $rating = (int)$tutor['rating'];
+                    for ($i = 1; $i <= 5; $i++) {
+                        echo $i <= $rating ? '⭐' : '☆';
+                    }
+                    ?>
+                </div>
+            </div>
 
-                <div class="info">
-                    <h3><?= htmlspecialchars($tutor['name']) ?></h3>
-                    <p><?= htmlspecialchars($tutor['tutor_level']) ?></p>
-                    <p>Investment per hour: LKR.<?= number_format($tutor['hour_fees']) ?></p>
-                    <div class="rating">
-                        <?php
-                        $rating = (int)$tutor['rating'];
-                        for ($i = 1; $i <= 5; $i++) {
-                            echo $i <= $rating ? '⭐' : '☆';
-                        }
-                        ?>
-                    </div>
-                </div>
-                <div class="status <?= strtolower($tutor['availability']) ?>-status">
-                    <?= htmlspecialchars($tutor['availability']) ?>
-                </div>
-            </a>
-        <?php endforeach; ?>
-    </div>
+            <div class="status <?= strtolower($tutor['availability']) ?>-status">
+                <?= htmlspecialchars($tutor['availability']) ?>
+            </div>
+        </a>
+    <?php endforeach; ?>
+</div>
 </div>
 
 
