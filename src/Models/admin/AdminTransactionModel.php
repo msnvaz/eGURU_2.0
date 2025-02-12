@@ -37,8 +37,10 @@ class AdminTransactionModel {
     }
     
     //refunding a transaction
-    public function updateTransactionStatus($id, $status) {
-        $query = "UPDATE session_payments SET status = :status WHERE payment_id = :id";
+    //get id from url
+    
+    public function refund($id) {
+        $query = "UPDATE session_payments SET status = 'refunded' WHERE payment_id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':id', $id);
