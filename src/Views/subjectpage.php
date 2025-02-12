@@ -117,34 +117,34 @@
     <?php include 'navbar.php'; ?>
     
     <div class="container">
-        <header class="header">
-            <img src="images/Science.png" alt="Science Logo" class="logo">
-            <h1>Science</h1>
-            
-            <!-- Filter Form -->
-            <form method="get" action="" class="filter-container">
-                <div class="filter">
-                    <span>Filter by</span>
-                    <select name="tutor_level" id="grade-filter">
-                        <option value="">All Grades</option>
-                        <option value="Undergraduate" <?= $gradeFilter == 'Undergraduate' ? 'selected' : '' ?>>Undergraduate</option>
-                        <option value="Graduate" <?= $gradeFilter == 'Graduate' ? 'selected' : '' ?>>Graduate</option>
-                        <option value="Full-time" <?= $gradeFilter == 'Full-time' ? 'selected' : '' ?>>Full-time</option>
-                        <option value="Retired" <?= $gradeFilter == 'Retired' ? 'selected' : '' ?>>Retired</option>
-                    </select>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" id="available" name="available" <?= $availableOnly ? 'checked' : '' ?>>
-                    <label for="available">✓ Available</label>
-                </div>
-                <button type="submit">Apply</button>
-            </form>
-        </header>
-        
-        <div class="tutor-list">
+    <header class="header">
+        <img src="images/Science.png" alt="Science Logo" class="logo">
+        <h1><?= htmlspecialchars($subject) ?></h1>  <!-- Dynamic subject name -->
+
+        <!-- Filter Form -->
+        <form method="get" action="" class="filter-container">
+            <div class="filter">
+                <span>Filter by</span>
+                <select name="tutor_level" id="grade-filter">
+                    <option value="">All Grades</option>
+                    <option value="Undergraduate" <?= $gradeFilter == 'Undergraduate' ? 'selected' : '' ?>>Undergraduate</option>
+                    <option value="Graduate" <?= $gradeFilter == 'Graduate' ? 'selected' : '' ?>>Graduate</option>
+                    <option value="Full-time" <?= $gradeFilter == 'Full-time' ? 'selected' : '' ?>>Full-time</option>
+                    <option value="Retired" <?= $gradeFilter == 'Retired' ? 'selected' : '' ?>>Retired</option>
+                </select>
+            </div>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="available" name="available" <?= $availableOnly ? 'checked' : '' ?>>
+                <label for="available">✓ Available</label>
+            </div>
+            <button type="submit">Apply</button>
+        </form>
+    </header>
+
+    <div class="tutor-list">
     <?php foreach ($tutors as $tutor): ?>
-        <a href="tutorprofilepreview.php?id=<?= urlencode($tutor['tutor_id']) ?>" class="tutor-card">
-            <img src="<?= htmlspecialchars($tutor['profile_image']) ?>" 
+        <a href="/tutorpreview?tutor_id=<?= urlencode($tutor['tutor_id']) ?>" class="tutor-card">
+            <img src="<?= htmlspecialchars($tutor['profile_image']) ?>"
                  alt="<?= htmlspecialchars($tutor['name']) ?>'s Profile"
                  class="profile-img">
             
@@ -161,11 +161,13 @@
                     ?>
                 </div>
             </div>
+
             <div class="status <?= strtolower($tutor['availability']) ?>-status">
                 <?= htmlspecialchars($tutor['availability']) ?>
             </div>
         </a>
     <?php endforeach; ?>
+</div>
 </div>
 
 
