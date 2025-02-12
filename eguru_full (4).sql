@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2025 at 08:20 PM
+-- Generation Time: Feb 12, 2025 at 06:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -256,6 +256,43 @@ INSERT INTO `sessions` (`session_id`, `student_id`, `tutor_id`, `scheduled_date`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `session_payments`
+--
+
+CREATE TABLE `session_payments` (
+  `payment_id` int(11) NOT NULL,
+  `session_id` int(11) DEFAULT NULL,
+  `tutor_id` int(11) DEFAULT NULL,
+  `student_id` int(11) DEFAULT NULL,
+  `points_paid` int(11) NOT NULL,
+  `time_paid` datetime DEFAULT current_timestamp(),
+  `status` enum('okay','refunded') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `session_payments`
+--
+
+INSERT INTO `session_payments` (`payment_id`, `session_id`, `tutor_id`, `student_id`, `points_paid`, `time_paid`, `status`) VALUES
+(1, 1, 1, 1, 50, '2024-02-01 10:15:00', 'okay'),
+(2, 2, 2, 5, 60, '2024-02-01 11:30:00', 'okay'),
+(3, 3, 3, 3, 40, '2024-02-01 12:00:00', 'refunded'),
+(4, 4, 4, 4, 70, '2024-02-02 09:45:00', 'okay'),
+(5, 5, 5, 5, 80, '2024-02-02 14:20:00', 'okay'),
+(6, 6, 1, 6, 55, '2024-02-03 16:10:00', 'okay'),
+(7, 7, 3, 7, 45, '2024-02-03 17:30:00', 'refunded'),
+(8, 8, 2, 8, 65, '2024-02-04 08:50:00', 'okay'),
+(9, 9, 4, 9, 75, '2024-02-04 12:40:00', 'okay'),
+(10, 10, 5, 10, 85, '2024-02-05 15:00:00', 'refunded'),
+(11, 11, 1, 11, 50, '2024-02-06 10:10:00', 'okay'),
+(12, 12, 2, 12, 60, '2024-02-06 11:45:00', 'okay'),
+(13, 13, 3, 13, 40, '2024-02-07 13:15:00', 'refunded'),
+(14, 14, 4, 14, 70, '2024-02-07 09:30:00', 'okay'),
+(15, 15, 5, 15, 80, '2024-02-08 16:50:00', 'okay');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `session_requests`
 --
 
@@ -404,7 +441,7 @@ INSERT INTO `subjects` (`subject_id`, `subject_name`, `grade_6`, `grade_7`, `gra
 (30, 'Test', 0, 0, 0, 0, 1, 1, 'download (1).jpeg', 'set', NULL),
 (31, 'Sandeep', 0, 0, 0, 0, 0, 1, 'gpic.jpg', 'unset', NULL),
 (32, 'hhh', 0, 0, 0, 0, 1, 1, 'istockphoto-494466008-612x612.jpg', 'unset', NULL),
-(33, 'yyy', 0, 0, 0, 1, 1, 1, '_MG_9192.jpg', 'set', NULL);
+(33, 'yyy', 1, 1, 1, 1, 1, 1, '_MG_9192.jpg', 'unset', NULL);
 
 -- --------------------------------------------------------
 
@@ -681,6 +718,15 @@ ALTER TABLE `sessions`
   ADD PRIMARY KEY (`session_id`);
 
 --
+-- Indexes for table `session_payments`
+--
+ALTER TABLE `session_payments`
+  ADD PRIMARY KEY (`payment_id`),
+  ADD KEY `session_id` (`session_id`),
+  ADD KEY `tutor_id` (`tutor_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
 -- Indexes for table `session_requests`
 --
 ALTER TABLE `session_requests`
@@ -809,6 +855,12 @@ ALTER TABLE `sessions`
   MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `session_payments`
+--
+ALTER TABLE `session_payments`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `session_requests`
 --
 ALTER TABLE `session_requests`
@@ -887,6 +939,14 @@ ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`),
   ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`tutor_id`) REFERENCES `tutors` (`tutor_id`),
   ADD CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`);
+
+--
+-- Constraints for table `session_payments`
+--
+ALTER TABLE `session_payments`
+  ADD CONSTRAINT `session_payments_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`session_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `session_payments_ibfk_2` FOREIGN KEY (`tutor_id`) REFERENCES `tutors` (`tutor_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `session_payments_ibfk_3` FOREIGN KEY (`student_id`) REFERENCES `students` (`student_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `session_requests`
