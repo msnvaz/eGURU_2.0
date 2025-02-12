@@ -738,7 +738,8 @@ tbody tr.expandable-row:nth-child(4n + 2) {
   background-color: #f8f9fa;
 }
 .details-content {
-  padding: 10px;
+  padding-top:0;
+  padding-left: 30px;
 }
 
 /* Row expand icon */

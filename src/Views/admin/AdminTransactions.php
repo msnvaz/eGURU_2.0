@@ -51,7 +51,7 @@
                             <td><?php echo htmlspecialchars($payment["student_name"]); ?></td>
                             <td><?php echo htmlspecialchars($payment["tutor_name"]); ?></td>
                             <td>
-                                <?php if ($payment["status"] !== 'refunded'): ?>
+                                <?php if ($payment["status"] !== 'okay'): ?>
                                     <button class="btn btn-warning refund-button" 
                                             data-payment-id="<?php echo htmlspecialchars($payment["payment_id"]); ?>">
                                         Refund
