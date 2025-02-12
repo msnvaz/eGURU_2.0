@@ -146,5 +146,7 @@ $router->post('/admin-inbox/send', AdminInboxController::class, 'sendMessage'); 
 
 //transactions
 $router->get('/admin-transactions', AdminTransactionController::class, 'showTransactions');
+//refund with id
+$router->post('/admin-refund/{id}', AdminTransactionController::class, 'refund');
 
 $router->dispatch();
