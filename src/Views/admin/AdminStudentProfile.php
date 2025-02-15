@@ -8,10 +8,18 @@
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
     <link rel="stylesheet" href="/css/admin/Admin.css">
     <link rel="stylesheet" href="/css/admin/AdminStudentProfile.css">
-
     <style>
-        /* Global Styles */
-        
+        .success-message {
+            color: green;
+            margin-bottom: 15px;
+            font-weight: bold;
+            padding-left: 20px;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -36,9 +44,14 @@
                              htmlspecialchars($student['lastname'] ?? 'Last Name'); 
                         ?>
                     </h1>
+                    <?php if (isset($_GET['success'])): ?>
+                        <div class="success-message">Profile updated successfully!</div>
+                    <?php elseif (isset($_GET['error'])): ?>
+                        <div class="error-message">Failed to update profile. Please try again.</div>
+                    <?php endif; ?>
+                    
                     <div class="button-group">
-                        <a href="/student-edit-profile" class="edit-button">Edit Profile</a>
-                        <a href="/student-delete-profile" class="delete-button">Delete Profile</a>
+                    <a href="/admin-edit-student-profile/<?= htmlspecialchars($student['id'] ?? '') ?>" class="edit-button">Edit Profile</a>                        <a href="/student-delete-profile" class="delete-button">Delete Profile</a>
                     </div>
                 </div>
             </div>

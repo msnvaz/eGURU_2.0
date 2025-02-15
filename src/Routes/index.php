@@ -98,7 +98,9 @@ $router->post('/tutor-update-ad', TutorAdvertisementController::class, 'updateAd
 
 
 //student profile for admin
-$router->get('/admin/student-profile', AdminDashboardController::class, 'studentprofile');
+$router->get('/admin-student-profile/{id}', AdminStudentController::class, 'showStudentProfile');
+
+
 //admin routes
 $router->get('/admin-login', AdminLoginController::class, 'showLoginPage');
 $router->post('/admin-login', AdminLoginController::class, 'checkAdminLogin');
@@ -114,6 +116,12 @@ $router->get('/admin-students', AdminStudentController::class, 'showAllStudents'
 $router->post('/admin-students', AdminStudentController::class, 'searchStudents');
 //student profile
 $router->get('/admin-student-profile/{id}', AdminStudentController::class, 'showStudentProfile');
+
+//student profile edit routes
+$router->get('/admin-edit-student-profile/{id}', AdminStudentController::class, 'editStudentProfile');
+$router->post('/admin-update-student-profile/{id}', AdminStudentController::class, 'updateStudentProfile');
+
+
 
 //tutor grading
 $router->get('/admin-tutor-grading', AdminTutorGradingController::class, 'showAllGrades');
