@@ -58,9 +58,42 @@
             $data['lastname'] = htmlspecialchars($_POST['lastname']);
         }
         if (!empty($_POST['email'])) {
-            $data['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+            // Check if email already exists for another student
+            if ($studentModel->emailExists($email, $studentId)) {
+                error_log("Duplicate email detected: " . $email);
+                header("Location: /admin-student-profile/$studentId?error=duplicate_email");
+                exit();
+            }
+            $data['email'] = $email;
         }
+        if (!empty($_POST['dateofbirth'])) {
+            try {
+                // Ensure `DateTime` uses the global namespace
+                $dob = new \DateTime(htmlspecialchars($_POST['dateofbirth']));
+                $today = new \DateTime();
+                
+                // Calculate age
+                $age = $today->diff($dob)->y;
+        
+                // Validate minimum age of 6 years
+                if ($age < 6) {
+                    error_log("Invalid date of birth - student too young: " . $_POST['dateofbirth']);
+                    header("Location: /admin-student-profile/" . urlencode($studentId) . "?error=invalid_age");
+                    exit();
+                }
+        
+                // If valid, store the sanitized date
+                $data['dateofbirth'] = $dob->format('Y-m-d'); // Standard format for DB storage
+            } catch (Exception $e) {
+                error_log("Date of birth validation error: " . $e->getMessage());
+                header("Location: /admin-student-profile/" . urlencode($studentId) . "?error=invalid_dob");
+                exit();
+            }
+        }
+        
         if (!empty($_POST['phonenumber'])) {
+
             $data['phonenumber'] = htmlspecialchars($_POST['phonenumber']);
         }
         if (!empty($_POST['dateofbirth'])) {
@@ -107,5 +140,56 @@
         }
     }
 
+    //delete student profile
+    //set the status to unset
+    public function deleteStudentProfile($studentId){
+        $studentModel = new adminStudentModel();
+        
+        // Check if the student exists
+        $student = $studentModel->getStudentProfile($studentId);
+        if (!$student) {
+            header("Location: /admin-students?error=Student not found");
+            exit();
+        }
+    
+        // Attempt deletion
+        $deleted = $studentModel->deleteStudentProfile($studentId);
+        if ($deleted) {
+            header("Location: /admin-students?success=Student profile deleted");
+        } else {
+            header("Location: /admin-students?error=Failed to delete student");
+        }
+        exit();
     }
+
+    // Show deleted students
+    public function showDeletedStudents() {
+        $studentModel = new adminStudentModel();
+        $deletedStudents = $studentModel->getDeletedStudents();
+        require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
+    }
+
+    // Restore student profile
+    public function restoreStudentProfile($studentId) {
+        $studentModel = new adminStudentModel();
+        
+        // Check if the student exists
+        $student = $studentModel->getStudentProfile($studentId);
+        if (!$student) {
+            header("Location: /admin-students?error=Student not found");
+            exit();
+        }
+    
+        // Attempt restoration
+        $restored = $studentModel->restoreStudentProfile($studentId);
+        if ($restored) {
+            header("Location: /admin-students?success=Student profile restored");
+        } else {
+            header("Location: /admin-students?error=Failed to restore student");
+        }
+        exit();
+    }
+
+    
+}
 ?>

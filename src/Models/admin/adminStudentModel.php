@@ -21,7 +21,7 @@ class adminStudentModel {
     // Fetch all students
     public function getAllStudents() {
         // Default query to fetch all students
-        $query = "SELECT * FROM student";
+        $query = "SELECT * FROM student WHERE status = 'set'"; ;
 
         // Check if search is performed
         if (isset($_POST['search'])) {
@@ -55,8 +55,19 @@ class adminStudentModel {
     }
 
     // Update student profile
+    // Check if email already exists (excluding current student)
+    public function emailExists($email, $studentId) {
+        $query = "SELECT COUNT(*) FROM student WHERE email = :email AND id != :studentId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
+    }
+
     public function updateStudentProfile($studentId, $data) {
         // Initialize the query
+
         $query = "UPDATE student SET ";
         $params = [];
         
@@ -87,4 +98,39 @@ class adminStudentModel {
             return false;
         }
     }
+
+    //delete student profile
+    //update the status to unset
+    public function deleteStudentProfile($studentId) {
+        $query = "UPDATE student SET status = 'unset' WHERE id = :studentId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
+        
+        if ($stmt->execute()) {
+            return $stmt->rowCount() > 0; // Ensure at least one row was updated
+        }
+        return false;
+    }
+
+    // Get all deleted students
+    public function getDeletedStudents() {
+        $query = "SELECT * FROM student WHERE status = 'unset'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Restore student profile
+    public function restoreStudentProfile($studentId) {
+        $query = "UPDATE student SET status = 'set' WHERE id = :studentId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
+        
+        if ($stmt->execute()) {
+            return $stmt->rowCount() > 0; // Ensure at least one row was updated
+        }
+        return false;
+    }
+
+    
 }

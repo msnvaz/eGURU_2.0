@@ -114,6 +114,8 @@ $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions
 $router->get('/admin-students', AdminStudentController::class, 'showAllStudents');
 //student search
 $router->post('/admin-students', AdminStudentController::class, 'searchStudents');
+//deleted students
+$router->get('/admin-deleted-students', AdminStudentController::class, 'showDeletedStudents');
 //student profile
 $router->get('/admin-student-profile/{id}', AdminStudentController::class, 'showStudentProfile');
 
@@ -121,8 +123,10 @@ $router->get('/admin-student-profile/{id}', AdminStudentController::class, 'show
 $router->get('/admin-edit-student-profile/{id}', AdminStudentController::class, 'editStudentProfile');
 $router->post('/admin-update-student-profile/{id}', AdminStudentController::class, 'updateStudentProfile');
 
-
-
+//student delete profile/set to unset
+$router->post('/student-delete-profile/{id}', AdminStudentController::class, 'deleteStudentProfile');
+//student restore profile/set to set
+$router->post('/admin-restore-student/{id}', AdminStudentController::class, 'restoreStudentProfile');
 //tutor grading
 $router->get('/admin-tutor-grading', AdminTutorGradingController::class, 'showAllGrades');
 //update tutor grade
