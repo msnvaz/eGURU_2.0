@@ -253,21 +253,32 @@
                 <div class="search-form">
                     <select>
                         <option value="" disabled selected>Grade</option>
-                        <option value="grade1">Grade 1</option>
-                        <option value="grade2">Grade 2</option>
+                        <option value="grade6">Grade 6</option>
+                        <option value="grade7">Grade 7</option>
+                        <option value="grade8">Grade 8</option>
+                        <option value="grade9">Grade 9</option>
+                        <option value="grade10">Grade 10</option>
+                        <option value="grade11">Grade 11</option>
                         <!-- Add more options as needed -->
                     </select>
                     <select>
                         <option value="" disabled selected>Subject</option>
                         <option value="science">Science</option>
                         <option value="english">English</option>
+                        <option value="history">History</option>
+                        <option value="geography">Geography</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="language">Language</option>
+                        <option value="agriculture">Agriculture</option>
+                
                         <!-- Add more options as needed -->
                     </select>
                     <select>
                         <option value="" disabled selected>Experience Level</option>
-                        <option value="beginner">Beginner</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
+                        <option value="undergraduate">Undergraduate</option>
+                        <option value="graduate">Graduate</option>
+                        <option value="full-time">Full-time</option>
+                        <option value="retired">Retired</option>
                     </select>
                     <select>
                         <option value="" disabled selected>Rating</option>
@@ -281,6 +292,7 @@
                         <option value="" disabled selected>Session Count</option>
                         <option value="5">Up to 5 sessions</option>
                         <option value="10">Up to 10 sessions</option>
+                        <option value="15">More than 10 sessions</option>
                         <!-- Add more options as needed -->
                     </select>
                     <select>
@@ -347,7 +359,6 @@
                     </div>
                     <button class="status unavailable">Unavailable</button>
                 </div>
-
                 <button class="see-more">See More</button>
             </div>
     </section>

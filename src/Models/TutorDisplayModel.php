@@ -18,22 +18,19 @@ class TutorDisplayModel {
     public function getSuccessfulTutors() {
         $query = $this->conn->prepare("
             SELECT 
-                DISTINCT t.name, 
-                COUNT(s.tutor_id) AS tutor_count
+                first_name, 
+                last_name, 
+                sessions_done
             FROM 
-                tutors t
-            JOIN 
-                sessions s ON t.tutor_id = s.tutor_id
-            WHERE 
-                s.progress = :progress
-            GROUP BY 
-                s.tutor_id
+                tutors
             ORDER BY 
-                tutor_count DESC
+                sessions_done DESC
         ");
-        $query->execute(['progress' => 'completed']);
+        $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
 
     // Fetch the names of tutors with the maximum count of sessions with status 'scheduled'
     public function getScheduledTutors() {

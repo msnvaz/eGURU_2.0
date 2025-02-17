@@ -19,22 +19,24 @@ class SubjectPageController extends Controller {
             // Get subject dynamically from URL
             $subject = $_GET['subject'] ?? '';
             
-            // If subject is empty, redirect to a default page or error page
+            // If subject is empty, redirect to a default page or display a message
             if (empty($subject)) {
-                $this->loadView('error', ['message' => 'Subject not specified.']);
-                return;
+                return $this->handleMissingView("Subject not specified.");
             }
 
             // Sanitize subject to avoid invalid values
             $subject = htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
 
             // Filters
-            $gradeFilter = $_GET['tutor_level'] ?? '';
-            $availableOnly = isset($_GET['available']) ? true : false;
+            $gradeFilter = $_GET['tutor_level'] ?? ''; 
+            $availableOnly = isset($_GET['available']) && $_GET['available'] === '1'; // Ensure correct boolean check
 
             // Fetch data from model
             $tutors = $this->model->getTutorsBySubject($subject, $gradeFilter, $availableOnly);
             $tutorLevels = $this->model->getTutorLevelsBySubject($subject);
+
+            // Debugging Logs
+            error_log("Filtering tutors for subject: $subject, grade: $gradeFilter, available: " . ($availableOnly ? 'true' : 'false'));
 
             // Process profile images
             foreach ($tutors as &$tutor) {
@@ -51,10 +53,10 @@ class SubjectPageController extends Controller {
             ];
 
             // Load the subject page view
-            $this->loadView('subjectpage', $viewData);
+            return $this->loadView('subjectpage', $viewData);
         } catch (\Exception $e) {
             error_log("Controller Error: " . $e->getMessage());
-            $this->loadView('error', ['message' => 'An error occurred while loading the page.']);
+            return $this->handleMissingView("An error occurred while loading the page.");
         }
     }
 
@@ -65,7 +67,20 @@ class SubjectPageController extends Controller {
         if (file_exists($viewPath)) {
             require $viewPath;
         } else {
-            throw new \Exception("View not found: " . $viewPath);
+            error_log("View not found: " . $viewPath);
+            return $this->handleMissingView("Requested view is missing.");
+        }
+    }
+
+    private function handleMissingView($message) {
+        // Check if 'error.php' view exists before loading it
+        $errorViewPath = __DIR__ . "/../Views/error.php";
+        
+        if (file_exists($errorViewPath)) {
+            return $this->loadView('error', ['message' => $message]);
+        } else {
+            // Fallback if error view doesn't exist
+            die("<h2>Error</h2><p>$message</p>");
         }
     }
 
@@ -85,5 +100,4 @@ class SubjectPageController extends Controller {
     
         return '/eGURU_2.0/' . $this->defaultImage;
     }
-    
 }
