@@ -67,20 +67,20 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
 <div class="tutor-gallery">
     <button class="gallery-btn prev">&lt;</button>
     <div class="tutors">
-        <?php 
-        foreach ($successfulTutors as $index => $tutor) {
-            $rank = $index + 1;
-            $rankClass = ($rank <= 4) ? "rank-$rank" : "";
-            
-            echo '<div class="tutor ' . $rankClass . '">';
-            if ($rank <= 4) {
-                echo '<div class="rank-badge">' . $rank . '</div>';
-            }
-            echo '<img src="images/tutor_1.jpeg" alt="' . htmlspecialchars($tutor['name']) . '">';
-            echo '<span>' . htmlspecialchars($tutor['name']) . '</span>';
-            echo '</div>';
+    <?php 
+    foreach ($successfulTutors as $index => $tutor) {
+        $rank = $index + 1;
+        $rankClass = ($rank <= 4) ? "rank-$rank" : "";
+        
+        echo '<div class="tutor ' . $rankClass . '">';
+        if ($rank <= 4) {
+            echo '<div class="rank-badge">' . $rank . '</div>';
         }
-        ?>
-    </div>
+        echo '<img src="images/tutor_1.jpeg" alt="' . htmlspecialchars($tutor['first_name'] . ' ' . $tutor['last_name']) . '">';
+        echo '<span>' . htmlspecialchars($tutor['first_name'] . ' ' . $tutor['last_name']) . '</span>';
+        echo '</div>';
+    }
+    ?>
+</div>
     <button class="gallery-btn next">&gt;</button>
 </div>
