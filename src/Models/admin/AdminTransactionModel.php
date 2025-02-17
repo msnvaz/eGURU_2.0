@@ -23,7 +23,8 @@ class AdminTransactionModel {
                     s.scheduled_date, 
                     s.status, 
                     st.name AS student_name, 
-                    t.name AS tutor_name 
+                    t.first_name AS tutor_name 
+
                   FROM session_payments sp 
                   JOIN sessions s ON sp.session_id = s.session_id
                   JOIN students st ON s.student_id = st.student_id

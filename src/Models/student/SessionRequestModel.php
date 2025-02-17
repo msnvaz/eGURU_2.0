@@ -17,7 +17,8 @@ class SessionRequestModel {
             $stmt = $this->conn->prepare("
                 SELECT 
                     sr.student_id as requested_id,
-                    tn.name AS tutor_name,
+                    tn.first_name AS tutor_name,
+
                     tn.subject,
                     tn.grade,
                     sr.requested_date,
