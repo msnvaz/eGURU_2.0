@@ -63,7 +63,7 @@
                         <a href="/admin-edit-student-profile/<?= htmlspecialchars($student['id'] ?? '') ?>" class="edit-button">Edit Profile</a>             
                         <?php if ($student['status'] === 'unset'): ?>
                             <form action="/admin-restore-student/<?= htmlspecialchars($student['id'])?>" method="POST" onsubmit="return confirmRestore()">
-                                <button type="submit" class="restore-button">Restore Profile</button>
+                                <button type="submit" class="edit-button">Restore Profile</button>
                             </form>
                         <?php else: ?>
                             <form action="/student-delete-profile/<?= htmlspecialchars($student['id'])?>" method="POST" onsubmit="return confirmDelete()">
