@@ -18,17 +18,33 @@ class TutorDisplayModel {
     public function getSuccessfulTutors() {
         $query = $this->conn->prepare("
             SELECT 
-                first_name, 
-                last_name, 
-                sessions_done
+                tutors.tutor_id,
+                tutors.first_name, 
+                tutors.last_name, 
+                tutors.sessions_done
             FROM 
                 tutors
             ORDER BY 
                 sessions_done DESC
         ");
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $tutors = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+        foreach ($tutors as &$tutor) {
+            $subjectQuery = $this->conn->prepare("
+                SELECT DISTINCT subjects.subject_name 
+                FROM tutor_subject_grade
+                JOIN subjects ON tutor_subject_grade.subject_id = subjects.subject_id
+                WHERE tutor_subject_grade.tutor_id = :tutor_id
+            ");
+            $subjectQuery->bindParam(':tutor_id', $tutor['id']);
+            $subjectQuery->execute();
+            $tutor['subjects'] = $subjectQuery->fetchAll(PDO::FETCH_COLUMN);
+        }
+    
+        return $tutors;
     }
+    
     
     
 
@@ -36,7 +52,8 @@ class TutorDisplayModel {
     public function getScheduledTutors() {
         $query = $this->conn->prepare("
             SELECT 
-                t.name, 
+                t.tutor_id,
+                CONCAT(t.first_name, ' ', t.last_name) AS name,  -- Concatenating first_name & last_name
                 COUNT(s.tutor_id) AS session_count
             FROM 
                 tutors t
@@ -50,6 +67,23 @@ class TutorDisplayModel {
                 session_count DESC
         ");
         $query->execute(['status' => 'scheduled']);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $tutors = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Fetch subjects for each tutor
+        foreach ($tutors as &$tutor) {
+            $subjectQuery = $this->conn->prepare("
+                SELECT DISTINCT subjects.subject_name 
+                FROM tutor_subject_grade
+                JOIN subjects ON tutor_subject_grade.subject_id = subjects.subject_id
+                WHERE tutor_subject_grade.tutor_id = :tutor_id
+            ");
+            $subjectQuery->bindParam(':tutor_id', $tutor['tutor_id']);
+            $subjectQuery->execute();
+            $tutor['subjects'] = $subjectQuery->fetchAll(PDO::FETCH_COLUMN);
+        }
+    
+        return $tutors;
     }
+    
+    
 }
