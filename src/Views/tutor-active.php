@@ -65,22 +65,27 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
 </style>
 
 <div class="tutor-gallery">
-    <button class="gallery-btn prev">&lt;</button>
-    <div class="tutors">
-    <?php 
-    foreach ($successfulTutors as $index => $tutor) {
-        $rank = $index + 1;
-        $rankClass = ($rank <= 4) ? "rank-$rank" : "";
-        
-        echo '<div class="tutor ' . $rankClass . '">';
-        if ($rank <= 4) {
-            echo '<div class="rank-badge">' . $rank . '</div>';
-        }
-        echo '<img src="images/tutor_1.jpeg" alt="' . htmlspecialchars($tutor['first_name'] . ' ' . $tutor['last_name']) . '">';
-        echo '<span>' . htmlspecialchars($tutor['first_name'] . ' ' . $tutor['last_name']) . '</span>';
-        echo '</div>';
+<button class="gallery-btn prev">&lt;</button>
+<div class="tutors">
+<?php 
+$maxTutors = 4; // Show only the first four tutors
+foreach (array_slice($successfulTutors, 0, $maxTutors) as $index => $tutor) {
+    $rank = $index + 1;
+    $rankClass = "rank-$rank";
+    
+    echo '<div class="tutor ' . $rankClass . '">';
+    echo '<div class="rank-badge">' . $rank . '</div>';
+    echo '<img src="images/tutor_' . $rank . '.jpeg" alt="' . htmlspecialchars($tutor['first_name'] . ' ' . $tutor['last_name']) . '">' ;
+    echo '<span>' . htmlspecialchars($tutor['first_name'] . ' ' . $tutor['last_name']) . '</span>';
+    
+    // Display subjects
+    if (!empty($tutor['subjects'])) {
+        echo '<div class="subjects">' . implode(', ', $tutor['subjects']) . '</div>';
     }
-    ?>
+    
+    echo '</div>';
+}
+?>
 </div>
-    <button class="gallery-btn next">&gt;</button>
+<button class="gallery-btn next">&gt;</button>
 </div>
