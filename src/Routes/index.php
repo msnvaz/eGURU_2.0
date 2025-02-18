@@ -98,7 +98,9 @@ $router->post('/tutor-update-ad', TutorAdvertisementController::class, 'updateAd
 
 
 //student profile for admin
-$router->get('/admin/student-profile', AdminDashboardController::class, 'studentprofile');
+$router->get('/admin-student-profile/{id}', AdminStudentController::class, 'showStudentProfile');
+
+
 //admin routes
 $router->get('/admin-login', AdminLoginController::class, 'showLoginPage');
 $router->post('/admin-login', AdminLoginController::class, 'checkAdminLogin');
@@ -112,9 +114,19 @@ $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions
 $router->get('/admin-students', AdminStudentController::class, 'showAllStudents');
 //student search
 $router->post('/admin-students', AdminStudentController::class, 'searchStudents');
+//deleted students
+$router->get('/admin-deleted-students', AdminStudentController::class, 'showDeletedStudents');
 //student profile
 $router->get('/admin-student-profile/{id}', AdminStudentController::class, 'showStudentProfile');
 
+//student profile edit routes
+$router->get('/admin-edit-student-profile/{id}', AdminStudentController::class, 'editStudentProfile');
+$router->post('/admin-update-student-profile/{id}', AdminStudentController::class, 'updateStudentProfile');
+
+//student delete profile/set to unset
+$router->post('/student-delete-profile/{id}', AdminStudentController::class, 'deleteStudentProfile');
+//student restore profile/set to set
+$router->post('/admin-restore-student/{id}', AdminStudentController::class, 'restoreStudentProfile');
 //tutor grading
 $router->get('/admin-tutor-grading', AdminTutorGradingController::class, 'showAllGrades');
 //update tutor grade

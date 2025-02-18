@@ -30,7 +30,7 @@ class adminSessionModel {
                 st.firstname AS student_firstname,
                 st.lastname AS student_lastname,
                 st.email AS student_email,
-                t.name AS tutor_name,
+                t.first_name AS tutor_name,
                 t.email AS tutor_email,
                 sub.subject_name,
                 sub.grade_6,
@@ -68,7 +68,7 @@ class adminSessionModel {
                 st.firstname AS student_firstname,
                 st.lastname AS student_lastname,
                 st.email AS student_email,
-                t.name AS tutor_name,
+                t.first_name AS tutor_name,
                 t.email AS tutor_email,
                 sub.subject_name,
                 sub.grade_6,
@@ -81,11 +81,14 @@ class adminSessionModel {
             LEFT JOIN student st ON s.student_id = st.id
             LEFT JOIN tutors t ON s.tutor_id = t.tutor_id
             LEFT JOIN subjects sub ON s.subject_id = sub.subject_id
-            WHERE st.firstname LIKE :search 
-            OR st.lastname LIKE :search
-            OR t.name LIKE :search
-            OR st.email LIKE :search
-            OR t.email LIKE :search
+            WHERE LOWER(st.firstname) LIKE LOWER(:search)
+            OR LOWER(st.lastname) LIKE LOWER(:search)
+            OR LOWER(t.first_name) LIKE LOWER(:search)
+            OR LOWER(st.email) LIKE LOWER(:search)
+            OR LOWER(t.email) LIKE LOWER(:search)
+            OR LOWER(sub.subject_name) LIKE LOWER(:search)
+            OR CAST(s.session_id AS CHAR) LIKE :search
+
             ORDER BY s.session_id DESC";
             
             $stmt = $this->conn->prepare($sql);
