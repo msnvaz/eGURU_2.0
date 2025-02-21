@@ -353,7 +353,40 @@ td button:hover {
   background-color: rgba(181, 67, 67, 0.403) !important;
 }
 
-/* Admin Dashboard Styles */
+/* Admin Student Dashboard Styles */
+.profile-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.tab-link {
+  justify-items: center;
+  padding: 8px 20px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 12px;
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+.tab-link.active {
+  color: #fff;
+  background-color: var(--dark-blue);
+  border-radius: 12px;
+  padding: 8px 20px;
+  font-weight: bold;
+}
+
+.tab-link:hover {
+  color: #fff;
+  background-color: var(--dark-blue);
+  border-radius: 12px;
+  font-weight: bold;
+}
+
 .admin-dashboard {
   text-align: center;
   width:100%;
@@ -416,7 +449,7 @@ td button:hover {
 
 .searchbar i {
   color:#29324187;
-  margin-top: 10px;
+  margin-top: 0px;
   padding-top: 10px;
 }
 

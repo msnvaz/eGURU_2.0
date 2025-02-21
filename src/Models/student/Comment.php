@@ -15,8 +15,10 @@ class Comment{
 
     public function save_comment($id,$tutor_id,$name,$comment,$tutorname){
         print_r($id);
-        $query = $this->conn->prepare("INSERT INTO feedback (student_id,tutor_id,student_name,comments,tutor_name) VALUES  (:student_id,:tutor_id,:student_name,:comments,:tutor_name)");
-        $query->execute(['student_id' => $id, 'tutor_id' => $tutor_id, 'student_name' => $name, 'comments' => $comment,'tutor_name'=>$tutorname]);
+        $query = $this->conn->prepare("INSERT INTO feedback (student_id,tutor_id,student_name,comments,first_name) VALUES  (:student_id,:tutor_id,:student_name,:comments,:first_name)");
+
+        $query->execute(['student_id' => $id, 'tutor_id' => $tutor_id, 'student_name' => $name, 'comments' => $comment,'first_name'=>$tutorname]);
+
         return true;
     }
 
