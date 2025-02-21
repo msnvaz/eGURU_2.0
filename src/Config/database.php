@@ -8,7 +8,7 @@ use PDOException;
 
 class Database {
     private $host = "localhost";
-    private $dbname = "eguru";
+    private $dbname = "eguru_full";
     private $username = "root";
     private $password = "";
     public $conn;
