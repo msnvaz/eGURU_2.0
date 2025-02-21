@@ -358,6 +358,7 @@ td button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0;
 }
 
 .tab-link {
@@ -368,6 +369,7 @@ td button:hover {
   color: #333;
   border-radius: 12px;
   font-weight: bold;
+  margin: 0 10px;
 }
 
 .tab-link.active {

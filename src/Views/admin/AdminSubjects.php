@@ -14,161 +14,165 @@
     <?php include 'AdminNav.php'; ?>
     
     <div class="main">
-    <table>
-        <thead>
-            <tr>
-                <th colspan="10" style="text-align: center; border-radius: 20px 20px 0 0;">Subject Overview</th>
-            </tr>
-        </thead>
-        <thead>
-            <tr>
-                <th>Subject ID</th>
-                <th>Subject Name</th>
-                <th>Display Picture</th>
-                <th>Grade 6</th>
-                <th>Grade 7</th>
-                <th>Grade 8</th>
-                <th>Grade 9</th>
-                <th>Grade 10</th>
-                <th>Grade 11</th>
-                <th>Edit</th>
-            </tr>
-        </thead>
-        
-        <tbody>
-        <?php
-        if (!empty($subjects)) {
-            foreach ($subjects as $row) {
-                if ($row['status'] !== 'set') {
-                    continue;
-                }
-                $subjectId = htmlspecialchars($row["subject_id"]);
-                $subjectName = htmlspecialchars($row["subject_name"]);
-                $grades = [];
-                for ($i = 6; $i <= 11; $i++) {
-                    if (!empty($row["grade_$i"])) {
-                        $grades[] = $i;
-                    }
-                }
-                $gradesStr = implode(',', $grades);
-                $imageSrc = !empty($row["display_pic"]) ? '../uploads/' . htmlspecialchars($row["display_pic"]) : '';
-        ?>
-                <tr>
-                    <td><?= $subjectId ?></td>
-                    <td><?= $subjectName ?></td>
-                    <td><?= $imageSrc ? "<img src='$imageSrc' alt='Subject Image' style='width:50px;'>" : "No Image" ?></td>
-                    <td class="<?= !empty($row["grade_6"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_6"]) ? '✓' : '✗' ?></td>
-                    <td class="<?= !empty($row["grade_7"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_7"]) ? '✓' : '✗' ?></td>
-                    <td class="<?= !empty($row["grade_8"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_8"]) ? '✓' : '✗' ?></td>
-                    <td class="<?= !empty($row["grade_9"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_9"]) ? '✓' : '✗' ?></td>
-                    <td class="<?= !empty($row["grade_10"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_10"]) ? '✓' : '✗' ?></td>
-                    <td class="<?= !empty($row["grade_11"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_11"]) ? '✓' : '✗' ?></td>
-                    <td>
-                        <a href="#" 
-                        class="btn btn-primary btn-sm edit-subject-btn " 
-                        data-subject-id="<?= $subjectId ?>"
-                        data-subject-name="<?= $subjectName ?>"
-                        data-subject-grades="<?= $gradesStr ?>"
-                        data-subject-image="<?= $imageSrc ?>">
-                            Edit
-                        </a>
-                    </td>
-                </tr>
-        <?php
-            }
-        } else {
-            echo "<tr><td colspan='10'>No records found</td></tr>";
-        }
-        ?>
-        </tbody>
+        <div class="admin-dashboard">
+            <br>
+            <div class="profile-tabs">
+                <a href="#active-subjects" class="tab-link active">Active Subjects</a>
+                <a href="#deleted-subjects" class="tab-link">Deleted Subjects</a>
+            </div>
+            <br>
 
-    </table>
-    <!--button to view deleted subjects-->
-    <center>
-        <button class="dropdown-btn">View Deleted Subjects</button>
-        <div class="dropdown-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="10" style="text-align: center;border-radius: 20px 20px 0 0;">Deleted Subjects</th>
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <th>Subject ID</th>
-                        <th>Subject Name</th>
-                        <th>Display Picture</th>
-                        <th>Grade 6</th>
-                        <th>Grade 7</th>
-                        <th>Grade 8</th>
-                        <th>Grade 9</th>
-                        <th>Grade 10</th>
-                        <th>Grade 11</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                <?php
-                // Fetch deleted subjects
-                if (!empty($subjects)) {
-                    foreach ($subjects as $row) {
-                        if ($row['status'] !== 'unset') {
-                            continue;
-                        }
-                        $subjectId = htmlspecialchars($row["subject_id"]);
-                        $subjectName = htmlspecialchars($row["subject_name"]);
-                        $grades = [];
-                        for ($i = 6; $i <= 11; $i++) {
-                            if (!empty($row["grade_$i"])) {
-                                $grades[] = $i;
-                            }
-                        }
-                        $gradesStr = implode(',', $grades);
-                        $imageSrc = !empty($row["display_pic"]) ? '../uploads/' . htmlspecialchars($row["display_pic"]) : '';
-                ?>
+            <div id="active-subjects" class="tab-content">
+                <table style="margin-top:0;">
+                    <thead>
                         <tr>
-                            <td><?= $subjectId ?></td>
-                            <td><?= $subjectName ?></td>
-                            <td><?= $imageSrc ? "<img src='$imageSrc' alt='Subject Image' style='width:50px;'>" : "No Image" ?></td>
-                            <td class="<?= !empty($row["grade_6"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_6"]) ? '✓' : '✗' ?></td>
-                            <td class="<?= !empty($row["grade_7"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_7"]) ? '✓' : '✗' ?></td>
-                            <td class="<?= !empty($row["grade_8"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_8"]) ? '✓' : '✗' ?></td>
-                            <td class="<?= !empty($row["grade_9"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_9"]) ? '✓' : '✗' ?></td>
-                            <td class="<?= !empty($row["grade_10"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_10"]) ? '✓' : '✗' ?></td>
-                            <td class="<?= !empty($row["grade_11"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_11"]) ? '✓' : '✗' ?></td>
-                            <td>
-                                <a href="#" 
-                                class="btn btn-primary btn-sm restore-subject-btn " 
-                                data-subject-id="<?= $subjectId ?>"
-                                data-subject-name="<?= $subjectName ?>"
-                                data-subject-grades="<?= $gradesStr ?>"
-                                data-subject-image="<?= $imageSrc ?>">
-                                    Edit
-                                </a>
-                            </td>
+                            <th colspan="4" style="text-align: center; border-radius: 20px 20px 0 0;">Subject Overview</th>
                         </tr>
-                <?php
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th>Subject ID</th>
+                            <th>Subject Name</th>
+                            <th>Display Picture</th>
+                            <!--<th>Grade 6</th>
+                            <th>Grade 7</th>
+                            <th>Grade 8</th>
+                            <th>Grade 9</th>
+                            <th>Grade 10</th>
+                            <th>Grade 11</th>-->
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <?php
+                    if (!empty($subjects)) {
+                        foreach ($subjects as $row) {
+                            if ($row['status'] !== 'set') {
+                                continue;
+                            }
+                            $subjectId = htmlspecialchars($row["subject_id"]);
+                            $subjectName = htmlspecialchars($row["subject_name"]);
+                            $grades = [];
+                            for ($i = 6; $i <= 11; $i++) {
+                                if (!empty($row["grade_$i"])) {
+                                    $grades[] = $i;
+                                }
+                            }
+                            $gradesStr = implode(',', $grades);
+                            $imageSrc = !empty($row["display_pic"]) ? '../uploads/' . htmlspecialchars($row["display_pic"]) : '';
+                    ?>
+                            <tr>
+                                <td><?= $subjectId ?></td>
+                                <td><?= $subjectName ?></td>
+                                <td><?= $imageSrc ? "<img src='$imageSrc' alt='Subject Image' style='width:50px;'>" : "No Image" ?></td>
+                                <!--<td class="<?= !empty($row["grade_6"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_6"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_7"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_7"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_8"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_8"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_9"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_9"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_10"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_10"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_11"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_11"]) ? '✓' : '✗' ?></td>-->
+                                <td>
+                                    <a href="#" 
+                                    class="btn btn-primary btn-sm edit-subject-btn" 
+                                    data-subject-id="<?= $subjectId ?>"
+                                    data-subject-name="<?= $subjectName ?>"
+                                    data-subject-grades="<?= $gradesStr ?>"
+                                    data-subject-image="<?= $imageSrc ?>">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                    <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='10'>No records found</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='10'>No deleted subjects found</td></tr>";
-                }
-                ?>
-                </tbody>
-            </table>
+                    ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="deleted-subjects" class="tab-content" style="display:none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="4" style="text-align: center; border-radius: 20px 20px 0 0;">Deleted Subjects</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
+                            <th>Subject ID</th>
+                            <th>Subject Name</th>
+                            <th>Display Picture</th>
+                            <!--<th>Grade 6</th>
+                            <th>Grade 7</th>
+                            <th>Grade 8</th>
+                            <th>Grade 9</th>
+                            <th>Grade 10</th>
+                            <th>Grade 11</th>-->
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <?php
+                    if (!empty($subjects)) {
+                        foreach ($subjects as $row) {
+                            if ($row['status'] !== 'unset') {
+                                continue;
+                            }
+                            $subjectId = htmlspecialchars($row["subject_id"]);
+                            $subjectName = htmlspecialchars($row["subject_name"]);
+                            $grades = [];
+                            for ($i = 6; $i <= 11; $i++) {
+                                if (!empty($row["grade_$i"])) {
+                                    $grades[] = $i;
+                                }
+                            }
+                            $gradesStr = implode(',', $grades);
+                            $imageSrc = !empty($row["display_pic"]) ? '../uploads/' . htmlspecialchars($row["display_pic"]) : '';
+                    ?>
+                            <tr>
+                                <td><?= $subjectId ?></td>
+                                <td><?= $subjectName ?></td>
+                                <td><?= $imageSrc ? "<img src='$imageSrc' alt='Subject Image' style='width:50px;'>" : "No Image" ?></td>
+                                <!--<td class="<?= !empty($row["grade_6"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_6"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_7"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_7"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_8"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_8"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_9"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_9"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_10"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_10"]) ? '✓' : '✗' ?></td>
+                                <td class="<?= !empty($row["grade_11"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_11"]) ? '✓' : '✗' ?></td>-->
+                                <td>
+                                    <a href="#" 
+                                    class="btn btn-primary btn-sm restore-subject-btn" 
+                                    data-subject-id="<?= $subjectId ?>"
+                                    data-subject-name="<?= $subjectName ?>"
+                                    data-subject-grades="<?= $gradesStr ?>"
+                                    data-subject-image="<?= $imageSrc ?>">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                    <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='10'>No deleted subjects found</td></tr>";
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </center>
-    
     </div>
-    <!-- Add this just before the closing body tag -->
+    
     <?php include_once 'EditSubjectModal.html'; ?>
     <?php include_once 'RestoreSubjectModal.html'; ?>
     <?php include_once 'AddSubjectModal.html'; ?>
 
-    <!--add the floating button for add subject-->
     <a href="#" class="floating-btn" id="add-subject-btn">
-    <i class="fas fa-plus" style="padding-right:0;margin-right:0;"></i>
-</a>
+        <i class="fas fa-plus" style="padding-right:0;margin-right:0;"></i>
+    </a>
 </body>
 <script src="/js/admin/Admin.js"></script>
 <script>
@@ -183,13 +187,20 @@
         button.innerHTML = '<i class="fas fa-plus" style="padding-right:0;margin-right:0;border-radius:50%"></i>';
     });
 
-    const dropdownBtn = document.querySelector('.dropdown-btn');
-    const dropdownContainer = document.querySelector('.dropdown-container');
+    const tabs = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-    dropdownBtn.addEventListener('click', () => {
-        dropdownContainer.classList.toggle('active-dropdown');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(content => content.style.display = 'none');
+
+            tab.classList.add('active');
+            const target = tab.getAttribute('href');
+            document.querySelector(target).style.display = 'block';
+        });
     });
 });
 </script>
-
 </html>
