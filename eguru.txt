@@ -1,0 +1,156 @@
+admin table
+username string,
+password string.
+
+tutor table
+
+tutor_id (primary key integer auto increment starting from 20001),
+tutor_first_name (string 255),
+tutor_last_name (string 255),
+tutor_email (email unique),
+tutor_password (password),
+tutor_NIC (integer),
+tutor_DOB (integer),
+tutor_points (integer),
+tutor_profile_photo (string),
+tutor_status (string(set,unset)default set),
+tutor_registration_date (date),
+tutor_time_slots (Boolean 1,0) ,
+tutor_last_login (date and time),
+tutor_log (string(online,offline)default offline),
+tutor_level (string foreign key reference tutor level table(tutor_level_id)),
+tutor_qualification_proof (string),
+tutor_ad_id (integer).
+
+
+subject
+
+subject_id (primary key integer auto increment starting from 30001),
+subject_name (string unique),
+subject_display_pic (string).
+
+
+tutor_level table
+
+tutor_level_id (primary key string),
+tutor_level (unique string),
+tutor_level_qualification (string),
+tutor_pay_per_hour (integer),
+tutor_level_color (string).
+
+student table
+
+student_id (primary key integer auto increment starting from 10001),
+student_first_name  (string 255),
+student_last_name (string 255),
+student_DOB (date),
+student_grade (integer),
+student_email (email unique),
+student_password (password),
+student_phonenumber (string),
+student_points (int),
+student_profile_photo (string),
+student_status (string (set, unset) default set),
+student_registration_date (date),
+student_last_login  (date and time),
+student_log (string (online, offline) default offline),
+student_free_slots (Boolean 1, 0 default 0).
+
+tutor_subject table
+
+tutor_id (foreign key reference tutor table integer),
+subject_id (foreign key reference subject table integer),
+tutor_id + subject_id composite primary key.
+
+session table
+
+session_id (primary key integer auto increment starting from 40001),
+student_id (foreign key reference student table integer),
+tutor_id (foreign key reference tutor table integer),
+scheduled_date (date),
+schedule_time (time),
+session_status (string (scheduled, completed, cancelled, requested, rejected) default requested).
+
+session_payment table
+
+payment_id (int not null auto increment),
+session_id(foreign key reference session table),
+student_id (foriegn key reference student table),
+tutor_id (foreign key reference tutor table),
+payment_point_amount (decimal),
+payment_status string (okay,refunded) default okay,
+payment_time (date and time).
+
+forum table
+
+message_id (int auto increment),
+student_id (foreign key reference student table),
+message (string),
+time (date and time).
+
+forum_reply table
+
+reply_id(int),
+message_id (foreign key reference forum table),
+time(date and time),
+reply(string).
+
+tutor_advertisement table
+
+tutor_id (foreign key reference tutor table),
+ad_id (int) auto increment,
+ad_display_pic (string),
+ad_description (string),
+ad_created_at(time stamp).
+
+tutor_study_materials table
+
+material_id (int auto increment),
+subject_id (foreign key),
+material_description (string),
+grade_id (int),
+tutor_id(foreign key reference tutor table).
+
+tutor_report table
+
+report_id (primary key int auto increment),
+tutor_id(foreign key reference tutor table),
+student_id(foreign key reference student table),
+description(string),
+issue_type(string),
+report_time(time stamp).
+
+student_profile table
+
+student_id (int foreign key reference student table),
+bio (string),
+education (string),
+interests(string),
+country(string),
+city_town (string).
+
+session_feedback table
+
+session_id (foreign key reference session table),
+feedback_id(int primary key auto increment),
+student_feedback (string),
+tutor_reply (string),
+last_updated(date and time),
+time_created(date and time),
+session_rating(int).
+
+tutor_availability table
+
+tutor_id(foreign key reference tutor table),
+time_slot_id(foreign key reference time_slot table),
+day(string values)
+
+student_availability table
+student_id(foreign key reference student table),
+time_slot_id(foreign key reference time_slot table),
+day(string values)
+
+time_slot table
+starting_time (int)(2,3,4,5,6,7,8),
+ending_time(int)(4,5,6,7,8,9,10),
+time_slot_id(int primary key auto increment).
