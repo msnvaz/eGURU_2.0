@@ -21,13 +21,13 @@ class adminStudentModel {
     // Fetch all students
     public function getAllStudents() {
         // Default query to fetch all students
-        $query = "SELECT * FROM student WHERE status = 'set'"; ;
+        $query = "SELECT * FROM student WHERE student_status = 'set'"; ;
 
         // Check if search is performed
         if (isset($_POST['search'])) {
             $searchTerm = $_POST['search_term'];
             //added id search too
-            $query = "SELECT * FROM student WHERE firstname LIKE :searchTerm OR lastname LIKE :searchTerm OR email LIKE :searchTerm OR id LIKE :searchTerm";
+            $query = "SELECT * FROM student WHERE student_first_name LIKE :searchTerm OR student_last_name LIKE :searchTerm OR student_email LIKE :searchTerm OR student_id LIKE :searchTerm";
         }
 
         // Prepare the query
@@ -46,7 +46,7 @@ class adminStudentModel {
 
     //get student profile on click
     public function getStudentProfile($studentId) {
-        $query = "SELECT * FROM student WHERE id = :studentId";
+        $query = "SELECT * FROM student WHERE student_id = :studentId";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
         $stmt->execute();
@@ -55,23 +55,30 @@ class adminStudentModel {
     }
 
     // Update student profile
-    // Check if email already exists (excluding current student)
-    public function emailExists($email, $studentId) {
-        $query = "SELECT COUNT(*) FROM student WHERE email = :email AND id != :studentId";
+    // Check if student_email already exists (excluding current student)
+    public function emailExists($student_email, $studentId) {
+        $query = "SELECT COUNT(*) FROM student WHERE student_email = :student_email AND student_id != :studentId";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':student_email', $student_email, PDO::PARAM_STR);
         $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchColumn() > 0;
     }
 
     public function updateStudentProfile($studentId, $data) {
+        // Ensure that the data array is not empty
+
         // Initialize the query
 
         $query = "UPDATE student SET ";
         $params = [];
         
         // Build the SET clause dynamically
+        if (empty($data)) {
+            error_log("No data provided for update");
+            return false;
+        }
+
         foreach ($data as $field => $value) {
             $query .= "$field = :$field, ";
             $params[":$field"] = $value;
@@ -81,8 +88,8 @@ class adminStudentModel {
         $query = rtrim($query, ', ');
         
         // Add WHERE clause
-        $query .= " WHERE id = :id";
-        $params[':id'] = $studentId;
+        $query .= " WHERE student_id = :student_id";
+        $params[':student_id'] = $studentId;
         
         try {
             error_log("Executing query: " . $query);
@@ -102,7 +109,7 @@ class adminStudentModel {
     //delete student profile
     //update the status to unset
     public function deleteStudentProfile($studentId) {
-        $query = "UPDATE student SET status = 'unset' WHERE id = :studentId";
+        $query = "UPDATE student SET student_status = 'unset' WHERE student_id = :studentId";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
         
@@ -114,7 +121,7 @@ class adminStudentModel {
 
     // Get all deleted students
     public function getDeletedStudents() {
-        $query = "SELECT * FROM student WHERE status = 'unset'";
+        $query = "SELECT * FROM student WHERE student_status = 'unset'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -122,7 +129,7 @@ class adminStudentModel {
 
     // Restore student profile
     public function restoreStudentProfile($studentId) {
-        $query = "UPDATE student SET status = 'set' WHERE id = :studentId";
+        $query = "UPDATE student SET student_status = 'set' WHERE student_id = :studentId";
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
         

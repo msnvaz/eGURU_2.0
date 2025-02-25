@@ -20,18 +20,19 @@ class adminSubjectModel {
 
     //get subject name
     public function getSubjectName($subject_id) {
-        $query = "SELECT subject_name FROM subjects WHERE subject_id = :subject_id";
+        $query = "SELECT subject_name FROM subject WHERE subject_id = :subject_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':subject_id', $subject_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchColumn();
     }
 
-    // Fetch recent subjects
+    // Fetch recent subject
     public function getRecentSubjects() {
         try {
-            $sql = "SELECT subject_id, subject_name, display_pic, grade_6, grade_7, grade_8, grade_9, grade_10, grade_11 
-                    FROM subjects 
+            $sql = "SELECT subject_id, subject_name, display_pic 
+                    FROM subject 
+                    WHERE subject_status = 'set'
                     ORDER BY subject_id DESC 
                     LIMIT 5";
             
@@ -41,23 +42,23 @@ class adminSubjectModel {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             // Log the error
-            error_log('Error fetching recent subjects: ' . $e->getMessage());
+            error_log('Error fetching recent subject: ' . $e->getMessage());
             return []; // Return an empty array instead of throwing an exception
         }
     }
 
-    //get all subjects
+    //get all subject
     public function getAllSubjects() {
-        $sql = "SELECT * FROM subjects ORDER BY subject_id DESC";
+        $sql = "SELECT * FROM subject ORDER BY subject_id DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Returns an array of subjects
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Returns an array of subject
     }
     
 
     //get subject by subject id
     public function getSubjectById($subject_id) {
-        $sql = "SELECT * FROM subjects WHERE subject_id = ?";
+        $sql = "SELECT * FROM subject WHERE subject_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $subject_id, PDO::PARAM_INT);
         $stmt->execute();
@@ -73,15 +74,9 @@ class adminSubjectModel {
                 throw new Exception("Missing required subject information");
             }
 
-            // Prepare the base query with all possible grade columns
-            $query = "UPDATE subjects 
-                    SET subject_name = :subject_name,
-                        grade_6 = :grade_6,
-                        grade_7 = :grade_7,
-                        grade_8 = :grade_8,
-                        grade_9 = :grade_9,
-                        grade_10 = :grade_10,
-                        grade_11 = :grade_11";
+            // Prepare the base query
+            $query = "UPDATE subject 
+                    SET subject_name = :subject_name";
 
             // Add display_pic to the update if provided
             if (isset($data['display_pic'])) {
@@ -97,14 +92,6 @@ class adminSubjectModel {
             // Bind subject name and ID
             $stmt->bindParam(':subject_name', $data['subject_name']);
             $stmt->bindParam(':subject_id', $data['subject_id']);
-
-            // Explicitly set grade values (boolean)
-            $stmt->bindValue(':grade_6', in_array(6, $data['grades']) ? true : false, PDO::PARAM_BOOL);
-            $stmt->bindValue(':grade_7', in_array(7, $data['grades']) ? true : false, PDO::PARAM_BOOL);
-            $stmt->bindValue(':grade_8', in_array(8, $data['grades']) ? true : false, PDO::PARAM_BOOL);
-            $stmt->bindValue(':grade_9', in_array(9, $data['grades']) ? true : false, PDO::PARAM_BOOL);
-            $stmt->bindValue(':grade_10', in_array(10, $data['grades']) ? true : false, PDO::PARAM_BOOL);
-            $stmt->bindValue(':grade_11', in_array(11, $data['grades']) ? true : false, PDO::PARAM_BOOL);
 
             // Bind display_pic if provided
             if (isset($data['display_pic'])) {
@@ -129,7 +116,7 @@ class adminSubjectModel {
     }
     
     public function subjectExists($subject_name) {
-        $sql = "SELECT COUNT(*) FROM subjects WHERE subject_name = ?";
+        $sql = "SELECT COUNT(*) FROM subject WHERE subject_name = ?";
         $stmt = $this->conn->prepare($sql);
     
         if ($stmt) {
@@ -146,37 +133,20 @@ class adminSubjectModel {
     {
         $subjectName = $data['subject_name'];
         $displayPic = $data['display_pic'];
-        $grades = $data['grades'];
 
         try {
             // Start transaction
             $this->conn->beginTransaction();
 
             // Insert subject data
-            $query = "INSERT INTO subjects (subject_name, display_pic, grade_6, grade_7, grade_8, grade_9, grade_10, grade_11) 
-                      VALUES (:subject_name, :display_pic, :grade_6, :grade_7, :grade_8, :grade_9, :grade_10, :grade_11)";
+            $query = "INSERT INTO subject (subject_name, display_pic) 
+                      VALUES (:subject_name, :display_pic)";
             $stmt = $this->conn->prepare($query);
-
-            // Prepare grade flags
-            $gradeFlags = [
-                'grade_6' => in_array(6, $grades) ? 1 : 0,
-                'grade_7' => in_array(7, $grades) ? 1 : 0,
-                'grade_8' => in_array(8, $grades) ? 1 : 0,
-                'grade_9' => in_array(9, $grades) ? 1 : 0,
-                'grade_10' => in_array(10, $grades) ? 1 : 0,
-                'grade_11' => in_array(11, $grades) ? 1 : 0,
-            ];
 
             // Execute query
             $stmt->execute([
                 ':subject_name' => $subjectName,
                 ':display_pic' => $displayPic,
-                ':grade_6' => $gradeFlags['grade_6'],
-                ':grade_7' => $gradeFlags['grade_7'],
-                ':grade_8' => $gradeFlags['grade_8'],
-                ':grade_9' => $gradeFlags['grade_9'],
-                ':grade_10' => $gradeFlags['grade_10'],
-                ':grade_11' => $gradeFlags['grade_11'],
             ]);
 
             // Commit transaction
@@ -189,14 +159,14 @@ class adminSubjectModel {
     }
 
     public function unsetSubject($subjectId) {
-        $query = "UPDATE subjects SET status = 'unset' WHERE subject_id = :subject_id";
+        $query = "UPDATE subject SET subject_status = 'unset' WHERE subject_id = :subject_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':subject_id', $subjectId, PDO::PARAM_INT);
         return $stmt->execute();
     }
 
     public function setSubject($subjectId) {
-        $query = "UPDATE subjects SET status = 'set' WHERE subject_id = :subject_id";
+        $query = "UPDATE subject SET subject_status = 'set' WHERE subject_id = :subject_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':subject_id', $subjectId, PDO::PARAM_INT);
         return $stmt->execute();

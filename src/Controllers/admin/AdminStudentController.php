@@ -46,31 +46,33 @@
         error_log("Updating student profile for ID: " . $studentId);
         error_log("POST data: " . print_r($_POST, true));
         error_log("FILES data: " . print_r($_FILES, true));
+        error_log("Data being updated: " . json_encode($data));
+
         
         // Initialize empty data array
         $data = [];
         
         // Add only fields that are provided and not empty
-        if (!empty($_POST['firstname'])) {
-            $data['firstname'] = htmlspecialchars($_POST['firstname']);
+        if (!empty($_POST['student_first_name'])) {
+            $data['student_first_name'] = htmlspecialchars($_POST['student_first_name']);
         }
-        if (!empty($_POST['lastname'])) {
-            $data['lastname'] = htmlspecialchars($_POST['lastname']);
+        if (!empty($_POST['student_last_name'])) {
+            $data['student_last_name'] = htmlspecialchars($_POST['student_last_name']);
         }
-        if (!empty($_POST['email'])) {
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            // Check if email already exists for another student
-            if ($studentModel->emailExists($email, $studentId)) {
-                error_log("Duplicate email detected: " . $email);
+        if (!empty($_POST['student_email'])) {
+            $student_email = filter_var($_POST['student_email'], FILTER_SANITIZE_EMAIL);
+            // Check if student_email already exists for another student
+            if ($studentModel->emailExists($student_email, $studentId)) {
+                error_log("Duplicate student_email detected: " . $student_email);
                 header("Location: /admin-student-profile/$studentId?error=duplicate_email");
                 exit();
             }
-            $data['email'] = $email;
+            $data['student_email'] = $student_email;
         }
-        if (!empty($_POST['dateofbirth'])) {
+        if (!empty($_POST['student_DOB'])) {
             try {
                 // Ensure `DateTime` uses the global namespace
-                $dob = new \DateTime(htmlspecialchars($_POST['dateofbirth']));
+                $dob = new \DateTime(htmlspecialchars($_POST['student_DOB']));
                 $today = new \DateTime();
                 
                 // Calculate age
@@ -78,13 +80,13 @@
         
                 // Validate minimum age of 6 years
                 if ($age < 6) {
-                    error_log("Invalid date of birth - student too young: " . $_POST['dateofbirth']);
+                    error_log("Invalid date of birth - student too young: " . $_POST['student_DOB']);
                     header("Location: /admin-student-profile/" . urlencode($studentId) . "?error=invalid_age");
                     exit();
                 }
         
                 // If valid, store the sanitized date
-                $data['dateofbirth'] = $dob->format('Y-m-d'); // Standard format for DB storage
+                $data['student_DOB'] = $dob->format('Y-m-d'); // Standard format for DB storage
             } catch (Exception $e) {
                 error_log("Date of birth validation error: " . $e->getMessage());
                 header("Location: /admin-student-profile/" . urlencode($studentId) . "?error=invalid_dob");
@@ -92,19 +94,19 @@
             }
         }
         
-        if (!empty($_POST['phonenumber'])) {
+        if (!empty($_POST['student_phonenumber'])) {
 
-            $data['phonenumber'] = htmlspecialchars($_POST['phonenumber']);
+            $data['student_phonenumber'] = htmlspecialchars($_POST['student_phonenumber']);
         }
-        if (!empty($_POST['dateofbirth'])) {
-            $data['dateofbirth'] = htmlspecialchars($_POST['dateofbirth']);
+        if (!empty($_POST['student_DOB'])) {
+            $data['student_DOB'] = htmlspecialchars($_POST['student_DOB']);
         }
-        if (!empty($_POST['grade'])) {
-            $data['grade'] = htmlspecialchars($_POST['grade']);
+        if (!empty($_POST['student_phonenumber'])) {
+            $data['student_phonenumber'] = htmlspecialchars($_POST['student_phonenumber']);
         }
     
         // Handle profile photo upload if provided
-        if (!empty($_FILES['profile_photo']['name'])) {
+        if (!empty($_FILES['student_profile_photo']['name'])) {
             $uploadDir = __DIR__ . '/../../../public/uploads/Student_Profiles/';
             
             // Ensure upload directory exists
@@ -112,17 +114,19 @@
                 mkdir($uploadDir, 0777, true);
             }
             
-            $fileName = time() . '_' . basename($_FILES['profile_photo']['name']);
+            $fileName = time() . '_' . basename($_FILES['student_profile_photo']['name']);
             $uploadFile = $uploadDir . $fileName;
             
-            if (move_uploaded_file($_FILES['profile_photo']['tmp_name'], $uploadFile)) {
-                $data['profile_photo'] = $fileName;
+            if (move_uploaded_file($_FILES['student_profile_photo']['tmp_name'], $uploadFile)) {
+                $data['student_profile_photo'] = $fileName;
             } else {
                 error_log("Failed to upload file to: " . $uploadFile);
             }
         }
         
         // If no fields were provided, return error
+        error_log("No data provided for update");
+
         if (empty($data)) {
             error_log("No data provided for update");
             header("Location: /admin-student-profile/$studentId?error=1");  // Changed from /admin/student-profile/
