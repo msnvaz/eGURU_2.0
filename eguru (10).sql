@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2025 at 06:10 PM
+-- Generation Time: Feb 26, 2025 at 09:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -193,69 +193,70 @@ CREATE TABLE `session` (
   `tutor_id` int(11) DEFAULT NULL,
   `scheduled_date` date DEFAULT NULL,
   `schedule_time` time DEFAULT NULL,
-  `session_status` enum('scheduled','completed','cancelled','requested','rejected') DEFAULT 'requested'
+  `session_status` enum('scheduled','completed','cancelled','requested','rejected') DEFAULT 'requested',
+  `subject_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `session`
 --
 
-INSERT INTO `session` (`session_id`, `student_id`, `tutor_id`, `scheduled_date`, `schedule_time`, `session_status`) VALUES
-(40006, 10001, 20021, '2024-02-01', '10:00:00', 'scheduled'),
-(40007, 10002, 20022, '2024-02-02', '11:00:00', 'requested'),
-(40008, 10003, 20023, '2024-02-03', '12:00:00', 'scheduled'),
-(40009, 10004, 20024, '2024-02-04', '14:00:00', 'completed'),
-(40010, 10005, 20025, '2024-02-05', '15:00:00', 'cancelled'),
-(40011, 10001, 20021, '2024-02-06', '02:00:00', 'scheduled'),
-(40012, 10002, 20022, '2024-02-07', '03:00:00', 'completed'),
-(40013, 10003, 20023, '2024-02-08', '04:00:00', 'requested'),
-(40014, 10004, 20024, '2024-02-09', '05:00:00', 'scheduled'),
-(40015, 10005, 20025, '2024-02-10', '06:00:00', 'cancelled'),
-(40016, 10011, 20031, '2024-02-11', '07:00:00', 'scheduled'),
-(40017, 10012, 20032, '2024-02-12', '08:00:00', 'requested'),
-(40018, 10013, 20033, '2024-02-13', '02:00:00', 'completed'),
-(40019, 10014, 20034, '2024-02-14', '03:00:00', 'scheduled'),
-(40020, 10015, 20035, '2024-02-15', '04:00:00', 'cancelled'),
-(40021, 10016, 20036, '2024-02-16', '05:00:00', 'scheduled'),
-(40022, 10017, 20037, '2024-02-17', '06:00:00', 'completed'),
-(40023, 10018, 20038, '2024-02-18', '07:00:00', 'requested'),
-(40024, 10019, 20039, '2024-02-19', '08:00:00', 'scheduled'),
-(40025, 10020, 20040, '2024-02-20', '02:00:00', 'cancelled'),
-(40026, 10001, 20021, '2024-02-21', '03:00:00', 'scheduled'),
-(40027, 10002, 20022, '2024-02-22', '04:00:00', 'completed'),
-(40028, 10003, 20023, '2024-02-23', '05:00:00', 'requested'),
-(40029, 10004, 20024, '2024-02-24', '06:00:00', 'scheduled'),
-(40030, 10005, 20025, '2024-02-25', '07:00:00', 'cancelled'),
-(40031, 10011, 20031, '2024-02-26', '08:00:00', 'scheduled'),
-(40032, 10012, 20032, '2024-02-27', '02:00:00', 'completed'),
-(40033, 10013, 20033, '2024-02-28', '03:00:00', 'requested'),
-(40034, 10014, 20034, '2024-02-29', '04:00:00', 'scheduled'),
-(40035, 10015, 20035, '2024-03-01', '05:00:00', 'cancelled'),
-(40036, 10016, 20036, '2024-03-02', '06:00:00', 'scheduled'),
-(40037, 10017, 20037, '2024-03-03', '07:00:00', 'completed'),
-(40038, 10018, 20038, '2024-03-04', '08:00:00', 'requested'),
-(40039, 10019, 20039, '2024-03-05', '02:00:00', 'scheduled'),
-(40040, 10020, 20040, '2024-03-06', '03:00:00', 'cancelled'),
-(40041, 10001, 20021, '2024-03-07', '04:00:00', 'scheduled'),
-(40042, 10002, 20022, '2024-03-08', '05:00:00', 'completed'),
-(40043, 10003, 20023, '2024-03-09', '06:00:00', 'requested'),
-(40044, 10004, 20024, '2024-03-10', '07:00:00', 'scheduled'),
-(40045, 10005, 20025, '2024-03-11', '08:00:00', 'cancelled'),
-(40046, 10011, 20031, '2024-03-12', '02:00:00', 'scheduled'),
-(40047, 10012, 20032, '2024-03-13', '03:00:00', 'completed'),
-(40048, 10013, 20033, '2024-03-14', '04:00:00', 'requested'),
-(40049, 10014, 20034, '2024-03-15', '05:00:00', 'scheduled'),
-(40050, 10015, 20035, '2024-03-16', '06:00:00', 'cancelled'),
-(40051, 10016, 20036, '2024-03-17', '07:00:00', 'scheduled'),
-(40052, 10017, 20037, '2024-03-18', '08:00:00', 'completed'),
-(40053, 10018, 20038, '2024-03-19', '02:00:00', 'requested'),
-(40054, 10019, 20039, '2024-03-20', '03:00:00', 'scheduled'),
-(40055, 10020, 20040, '2024-03-21', '04:00:00', 'cancelled'),
-(40056, 10001, 20021, '2024-03-22', '05:00:00', 'scheduled'),
-(40057, 10002, 20022, '2024-03-23', '06:00:00', 'completed'),
-(40058, 10003, 20023, '2024-03-24', '07:00:00', 'requested'),
-(40059, 10004, 20024, '2024-03-25', '08:00:00', 'scheduled'),
-(40060, 10005, 20025, '2024-03-26', '02:00:00', 'cancelled');
+INSERT INTO `session` (`session_id`, `student_id`, `tutor_id`, `scheduled_date`, `schedule_time`, `session_status`, `subject_id`) VALUES
+(40006, 10001, 20021, '2024-02-01', '10:00:00', 'scheduled', 1),
+(40007, 10002, 20022, '2024-02-02', '11:00:00', 'requested', 10),
+(40008, 10003, 20023, '2024-02-03', '12:00:00', 'scheduled', 2),
+(40009, 10004, 20024, '2024-02-04', '14:00:00', 'completed', 3),
+(40010, 10005, 20025, '2024-02-05', '15:00:00', 'cancelled', 4),
+(40011, 10001, 20021, '2024-02-06', '02:00:00', 'scheduled', 5),
+(40012, 10002, 20022, '2024-02-07', '03:00:00', 'completed', 10),
+(40013, 10003, 20023, '2024-02-08', '04:00:00', 'requested', 6),
+(40014, 10004, 20024, '2024-02-09', '05:00:00', 'scheduled', 7),
+(40015, 10005, 20025, '2024-02-10', '06:00:00', 'cancelled', 8),
+(40016, 10011, 20031, '2024-02-11', '07:00:00', 'scheduled', 9),
+(40017, 10012, 20032, '2024-02-12', '08:00:00', 'requested', 10),
+(40018, 10013, 20033, '2024-02-13', '02:00:00', 'completed', 11),
+(40019, 10014, 20034, '2024-02-14', '03:00:00', 'scheduled', 12),
+(40020, 10015, 20035, '2024-02-15', '04:00:00', 'cancelled', 1),
+(40021, 10016, 20036, '2024-02-16', '05:00:00', 'scheduled', 2),
+(40022, 10017, 20037, '2024-02-17', '06:00:00', 'completed', 3),
+(40023, 10018, 20038, '2024-02-18', '07:00:00', 'requested', 4),
+(40024, 10019, 20039, '2024-02-19', '08:00:00', 'scheduled', 5),
+(40025, 10020, 20040, '2024-02-20', '02:00:00', 'cancelled', 6),
+(40026, 10001, 20021, '2024-02-21', '03:00:00', 'scheduled', 7),
+(40027, 10002, 20022, '2024-02-22', '04:00:00', 'completed', 8),
+(40028, 10003, 20023, '2024-02-23', '05:00:00', 'requested', 9),
+(40029, 10004, 20024, '2024-02-24', '06:00:00', 'scheduled', 10),
+(40030, 10005, 20025, '2024-02-25', '07:00:00', 'cancelled', 11),
+(40031, 10011, 20031, '2024-02-26', '08:00:00', 'scheduled', 5),
+(40032, 10012, 20032, '2024-02-27', '02:00:00', 'completed', 1),
+(40033, 10013, 20033, '2024-02-28', '03:00:00', 'requested', 1),
+(40034, 10014, 20034, '2024-02-29', '04:00:00', 'scheduled', 1),
+(40035, 10015, 20035, '2024-03-01', '05:00:00', 'cancelled', 1),
+(40036, 10016, 20036, '2024-03-02', '06:00:00', 'scheduled', 1),
+(40037, 10017, 20037, '2024-03-03', '07:00:00', 'completed', 1),
+(40038, 10018, 20038, '2024-03-04', '08:00:00', 'requested', 1),
+(40039, 10019, 20039, '2024-03-05', '02:00:00', 'scheduled', 1),
+(40040, 10020, 20040, '2024-03-06', '03:00:00', 'cancelled', 1),
+(40041, 10001, 20021, '2024-03-07', '04:00:00', 'scheduled', 1),
+(40042, 10002, 20022, '2024-03-08', '05:00:00', 'completed', 1),
+(40043, 10003, 20023, '2024-03-09', '06:00:00', 'requested', 1),
+(40044, 10004, 20024, '2024-03-10', '07:00:00', 'scheduled', 1),
+(40045, 10005, 20025, '2024-03-11', '08:00:00', 'cancelled', 1),
+(40046, 10011, 20031, '2024-03-12', '02:00:00', 'scheduled', 1),
+(40047, 10012, 20032, '2024-03-13', '03:00:00', 'completed', 1),
+(40048, 10013, 20033, '2024-03-14', '04:00:00', 'requested', 1),
+(40049, 10014, 20034, '2024-03-15', '05:00:00', 'scheduled', 1),
+(40050, 10015, 20035, '2024-03-16', '06:00:00', 'cancelled', 1),
+(40051, 10016, 20036, '2024-03-17', '07:00:00', 'scheduled', 1),
+(40052, 10017, 20037, '2024-03-18', '08:00:00', 'completed', 1),
+(40053, 10018, 20038, '2024-03-19', '02:00:00', 'requested', 1),
+(40054, 10019, 20039, '2024-03-20', '03:00:00', 'scheduled', 1),
+(40055, 10020, 20040, '2024-03-21', '04:00:00', 'cancelled', 1),
+(40056, 10001, 20021, '2024-03-22', '05:00:00', 'scheduled', 1),
+(40057, 10002, 20022, '2024-03-23', '06:00:00', 'completed', 1),
+(40058, 10003, 20023, '2024-03-24', '07:00:00', 'requested', 1),
+(40059, 10004, 20024, '2024-03-25', '08:00:00', 'scheduled', 1),
+(40060, 10005, 20025, '2024-03-26', '02:00:00', 'cancelled', 1);
 
 -- --------------------------------------------------------
 
@@ -380,21 +381,21 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`student_id`, `student_first_name`, `student_last_name`, `student_DOB`, `student_grade`, `student_email`, `student_password`, `student_phonenumber`, `student_points`, `student_profile_photo`, `student_status`, `student_registration_date`, `student_last_login`, `student_log`, `student_free_slots`) VALUES
-(10001, 'Tharindu', 'Silva', '2008-03-14', 10, 'tharindus@gmail.com', 'pass123', '0771234567', 20, 'tharindu.jpg', 'set', '2024-01-05', NULL, 'offline', 1),
-(10002, 'Pasan', 'Wijesinghe', '2009-05-20', 9, 'pasanw@gmail.com', 'pass123', '0772345678', 15, 'pasan.jpg', 'set', '2024-01-08', NULL, 'offline', 1),
-(10003, 'Isuru', 'Herath', '2010-08-30', 8, 'isuruh@gmail.com', 'pass123', '0773456789', 10, 'isuru.jpg', 'set', '2024-01-10', NULL, 'offline', 1),
-(10004, 'Sajith', 'Fernando', '2007-12-12', 11, 'sajithf@gmail.com', 'pass123', '0774567890', 25, 'sajith.jpg', 'set', '2024-01-12', NULL, 'offline', 1),
-(10005, 'Dinuka', 'Rajapaksa', '2006-06-22', 11, 'dinukar@gmail.com', 'pass123', '0775678901', 30, 'dinuka.jpg', 'set', '2024-01-15', NULL, 'offline', 0),
-(10011, 'Kavindu', 'Perera', '2010-05-14', 8, 'kavindu.perera@example.lk', 'pass123', '0776543210', 50, 'kavindu.jpg', 'set', '2025-02-10', '2025-02-24 23:42:20', 'online', 1),
-(10012, 'Sanduni', 'Fernando', '2011-07-22', 7, 'sanduni.fernando@example.lk', 'pass123', '0766543211', 40, 'sanduni.jpg', 'set', '2025-02-11', '2025-02-24 23:42:20', 'offline', 1),
-(10013, 'Hasitha', 'Bandara', '2009-03-18', 9, 'hasitha.bandara@example.lk', 'pass123', '0716543212', 60, 'hasitha.jpg', 'set', '2025-02-12', '2025-02-24 23:42:20', 'online', 0),
-(10014, 'Tharushi', 'Wijesinghe', '2012-01-10', 6, 'tharushi.wijesinghe@example.lk', 'pass123', '0726543213', 30, 'tharushi.jpg', 'set', '2025-02-13', '2025-02-24 23:42:20', 'offline', 1),
-(10015, 'Ravindu', 'Jayasinghe', '2008-09-05', 10, 'ravindu.jayasinghe@example.lk', 'pass123', '0746543214', 55, 'ravindu.jpg', 'set', '2025-02-14', '2025-02-24 23:42:20', 'online', 1),
-(10016, 'Nethmi', 'Gunawardena', '2009-11-21', 9, 'nethmi.gunawardena@example.lk', 'pass123', '0756543215', 45, 'nethmi.jpg', 'set', '2025-02-15', '2025-02-24 23:42:20', 'offline', 0),
-(10017, 'Pasindu', 'Ratnayake', '2011-04-30', 7, 'pasindu.ratnayake@example.lk', 'pass123', '0786543216', 35, 'pasindu.jpg', 'set', '2025-02-16', '2025-02-24 23:42:20', 'online', 1),
-(10018, 'Dilini', 'Ekanayake', '2010-06-12', 8, 'dilini.ekanayake@example.lk', 'pass123', '0706543217', 50, 'dilini.jpg', 'set', '2025-02-17', '2025-02-24 23:42:20', 'offline', 1),
-(10019, 'Kasun', 'Dias', '2008-02-18', 11, 'kasun.dias@example.lk', 'pass123', '0776543218', 65, 'kasun.jpg', 'set', '2025-02-18', '2025-02-24 23:42:20', 'online', 0),
-(10020, 'Sajini', 'Senanayake', '2007-12-05', 11, 'sajini.senanayake@example.lk', 'pass123', '0766543219', 70, 'sajini.jpg', 'set', '2025-02-19', '2025-02-24 23:42:20', 'offline', 1);
+(10001, 'Tharindu', 'Silva', '2008-03-14', 10, 'tharindus@gmail.com', 'pass123', '0771234567', 20, 'default.jpg', 'set', '2024-01-05', NULL, 'offline', 1),
+(10002, 'Pasan', 'Wijesinghe', '2009-05-20', 9, 'pasanw@gmail.com', 'pass123', '0772345678', 15, 'default.jpg', 'set', '2024-01-08', NULL, 'offline', 1),
+(10003, 'Isuru', 'Herath', '2010-08-30', 8, 'isuruh@gmail.com', 'pass123', '0773456789', 10, 'default.jpg', 'set', '2024-01-10', NULL, 'offline', 1),
+(10004, 'Sajith', 'Fernando', '2007-12-12', 11, 'sajithf@gmail.com', 'pass123', '0774567890', 25, 'default.jpg', 'set', '2024-01-12', NULL, 'offline', 1),
+(10005, 'Dinuka', 'Rajapaksa', '2006-06-22', 11, 'dinukar@gmail.com', 'pass123', '0775678901', 30, 'default.jpg', 'set', '2024-01-15', NULL, 'offline', 0),
+(10011, 'Kavindu', 'Perera', '2010-05-14', 8, 'kavindu.perera@example.lk', 'pass123', '0776543210', 50, 'default.jpg', 'set', '2025-02-10', '2025-02-24 23:42:20', 'online', 1),
+(10012, 'Sanduni', 'Fernando', '2011-07-22', 7, 'sanduni.fernando@example.lk', 'pass123', '0766543211', 40, 'default.jpg', 'set', '2025-02-11', '2025-02-24 23:42:20', 'offline', 1),
+(10013, 'Hasitha', 'Bandara', '2009-03-18', 9, 'hasitha.bandara@example.lk', 'pass123', '0716543212', 60, 'default.jpg', 'set', '2025-02-12', '2025-02-24 23:42:20', 'online', 0),
+(10014, 'Tharushi', 'Wijesinghe', '2012-01-10', 6, 'tharushi.wijesinghe@example.lk', 'pass123', '0726543213', 30, 'default.jpg', 'set', '2025-02-13', '2025-02-24 23:42:20', 'offline', 1),
+(10015, 'Ravindu', 'Jayasinghe', '2008-09-05', 10, 'ravindu.jayasinghe@example.lk', 'pass123', '0746543214', 55, 'default.jpg', 'set', '2025-02-14', '2025-02-24 23:42:20', 'online', 1),
+(10016, 'Nethmi', 'Gunawardena', '2009-11-21', 9, 'nethmi.gunawardena@example.lk', 'pass123', '0756543215', 45, 'default.jpg', 'set', '2025-02-15', '2025-02-24 23:42:20', 'offline', 0),
+(10017, 'Pasindu', 'Ratnayake', '2011-04-30', 7, 'pasindu.ratnayake@example.lk', 'pass123', '0786543216', 35, 'default.jpg', 'set', '2025-02-16', '2025-02-24 23:42:20', 'online', 1),
+(10018, 'Dilini', 'Ekanayake', '2010-06-12', 8, 'dilini.ekanayake@example.lk', 'pass123', '0706543217', 50, 'default.jpg', 'set', '2025-02-17', '2025-02-24 23:42:20', 'offline', 1),
+(10019, 'Kasun', 'Dias', '2008-02-18', 11, 'kasun.dias@example.lk', 'pass123', '0776543218', 65, 'default.jpg', 'set', '2025-02-18', '2025-02-24 23:42:20', 'online', 0),
+(10020, 'Sajini', 'Senanayake', '2007-12-05', 11, 'sajini.senanayake@example.lk', 'pass123', '0766543219', 70, 'default.jpg', 'set', '2025-02-19', '2025-02-24 23:42:20', 'offline', 1);
 
 -- --------------------------------------------------------
 
@@ -956,7 +957,8 @@ ALTER TABLE `forum_reply`
 ALTER TABLE `session`
   ADD PRIMARY KEY (`session_id`),
   ADD KEY `student_id` (`student_id`),
-  ADD KEY `tutor_id` (`tutor_id`);
+  ADD KEY `tutor_id` (`tutor_id`),
+  ADD KEY `fk_session_subject_id` (`subject_id`);
 
 --
 -- Indexes for table `session_feedback`
@@ -1194,6 +1196,7 @@ ALTER TABLE `forum_reply`
 -- Constraints for table `session`
 --
 ALTER TABLE `session`
+  ADD CONSTRAINT `fk_session_subject_id` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`subject_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `session_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`),
   ADD CONSTRAINT `session_ibfk_2` FOREIGN KEY (`tutor_id`) REFERENCES `tutor` (`tutor_id`);
 
