@@ -21,7 +21,7 @@ class adminStudentModel {
     // Fetch all students
     public function getAllStudents() {
         // Default query to fetch all students
-        $query = "SELECT * FROM student WHERE student_status = 'set'"; ;
+        $query = "SELECT * FROM student WHERE student_status = 'set'";
 
         // Check if search is performed
         if (isset($_POST['search'])) {
@@ -54,7 +54,6 @@ class adminStudentModel {
         return $result;
     }
 
-    // Update student profile
     // Check if student_email already exists (excluding current student)
     public function emailExists($student_email, $studentId) {
         $query = "SELECT COUNT(*) FROM student WHERE student_email = :student_email AND student_id != :studentId";
@@ -65,20 +64,45 @@ class adminStudentModel {
         return $stmt->fetchColumn() > 0;
     }
 
-    public function updateStudentProfile($studentId, $data) {
+    public function updateStudentProfile($studentId, $data, $file = null) {
         // Ensure that the data array is not empty
-
-        // Initialize the query
-
-        $query = "UPDATE student SET ";
-        $params = [];
-        
-        // Build the SET clause dynamically
         if (empty($data)) {
             error_log("No data provided for update");
             return false;
         }
 
+        // Initialize the query
+        $query = "UPDATE student SET ";
+        $params = [];
+        
+        // Handle file upload for profile photo
+        if ($file && isset($file['name']) && !empty($file['name']) && $file['error'] == 0) {
+            // Use the correct path to match where AdminStudentProfileEdit.php is looking
+            $targetDir = "uploads/Student_Profiles/";
+            
+            // Ensure directory exists
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+            
+            // Generate a unique filename to avoid overwriting existing files
+            $fileExtension = pathinfo($file["name"], PATHINFO_EXTENSION);
+            $newFileName = uniqid() . '_' . time() . '.' . $fileExtension;
+            $targetFilePath = $targetDir . $newFileName;
+            
+            // Debug the file upload
+            error_log("Attempting to move uploaded file from: " . $file["tmp_name"] . " to: " . $targetFilePath);
+            
+            if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
+                // Only store the filename in the database, not the full path
+                $data['student_profile_photo'] = $newFileName;
+                error_log("File uploaded successfully to: " . $targetFilePath);
+            } else {
+                error_log("Failed to upload file: " . error_get_last()['message']);
+            }
+        }
+
+        // Build the SET clause dynamically
         foreach ($data as $field => $value) {
             $query .= "$field = :$field, ";
             $params[":$field"] = $value;
@@ -138,6 +162,4 @@ class adminStudentModel {
         }
         return false;
     }
-
-    
 }

@@ -52,37 +52,39 @@
                                 <span class="expand-icon">►</span>
                                 <?= htmlspecialchars($session['session_id']) ?>
                             </td>
-                            <td><?= htmlspecialchars($session['student_id']) ?></td>
-                            <td><?= htmlspecialchars($session['tutor_id']) ?></td>
+                            <td>(<?= htmlspecialchars($session['student_id']) ?>)
+                                <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?></td>
+                            <td>(<?= htmlspecialchars($session['tutor_id']) ?>)
+                                <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?></td>
                             <td><?= htmlspecialchars($session['scheduled_date']) ?></td>
                             <td><?= htmlspecialchars($session['schedule_time']) ?></td>
                             <td><?= htmlspecialchars($session['session_status']) ?></td>
-                            <td><?= htmlspecialchars($session['subject_name']) ?></td>
-                            <td><?= htmlspecialchars($session['payment_status']) ?></td>
                         </tr>
                         <tr class="details-row">
                             <td colspan="6">
                                 <div class="details-content">
                                     <div class="details-grid">
-                                        <div class="details-grid-item">
-                                            <div class="details-section">
-                                                <h4>Session Information</h4>
-                                                <p><strong>Session ID:</strong> <?= htmlspecialchars($session['session_id']) ?></p>
-                                                <p><strong>Scheduled Date:</strong> <?= htmlspecialchars($session['scheduled_date']) ?></p>
-                                                <p><strong>Schedule Time:</strong> <?= htmlspecialchars($session['schedule_time']) ?></p>
-                                                <p><strong>Session Status:</strong> <?= htmlspecialchars($session['session_status']) ?></p>
-                                                <p><strong>Tutor ID:</strong> <?= htmlspecialchars($session['tutor_id']) ?></p>
-                                                <p><strong>Tutor:</strong> <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?> (<?= htmlspecialchars($session['tutor_email']) ?>)</p>
-                                                <p><strong>Student ID:</strong> <?= htmlspecialchars($session['student_id']) ?></p>
-                                                <p><strong>Student:</strong> <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?> (<?= htmlspecialchars($session['student_email']) ?>)</p>
-                                                <p><strong>Subject:</strong> <?= htmlspecialchars($session['subject_name']) ?></p>
-                                                <p><strong>Payment Status:</strong> <?= htmlspecialchars($session['payment_status']) ?></p>
-                                                <p><strong>Feedback:</strong> <?= htmlspecialchars($session['student_feedback']) ?></p>
-                                            </div>
+                                        <div class="details-grid-item" style="width: 80%; float: left;">
+                                            <h4>Session Information</h4>
+                                            <p><strong>Session ID:</strong> <?= htmlspecialchars($session['session_id']) ?></p>
+                                            <p><strong>Scheduled Date:</strong> <?= htmlspecialchars($session['scheduled_date']) ?></p>
+                                            <p><strong>Schedule Time:</strong> <?= htmlspecialchars($session['schedule_time']) ?></p>
+                                            <p><strong>Session Status:</strong> <?= htmlspecialchars($session['session_status']) ?></p>
+                                            <p><strong>Subject:</strong> <?= htmlspecialchars($session['subject_name']) ?></p>
+                                            <p><strong>Payment Status:</strong> <?= htmlspecialchars($session['payment_status']) ?></p>
+                                            <p><strong>Feedback:</strong> <?= htmlspecialchars($session['student_feedback']) ?></p>
+                                        </div>
+                                        <div class="details-grid-item" style="width: 80%; float: right; margin-top:0px;">
+                                            <h4>Tutor/Student Information</h4>
+                                            <p><strong>Tutor ID:</strong> <?= htmlspecialchars($session['tutor_id']) ?></p>
+                                            <p><strong>Tutor:</strong> <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?> (<?= htmlspecialchars($session['tutor_email']) ?>)</p>
+                                            <p><strong>Student ID:</strong> <?= htmlspecialchars($session['student_id']) ?></p>
+                                            <p><strong>Student:</strong> <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?> (<?= htmlspecialchars($session['student_email']) ?>)</p>
                                         </div>
                                     </div>
                                 </div>
                             </td>
+
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
