@@ -48,7 +48,7 @@
                     <?php
                     if (!empty($subjects)) {
                         foreach ($subjects as $row) {
-                            if ($row['status'] !== 'set') {
+                            if ($row['subject_status'] !== 'set') {
                                 continue;
                             }
                             $subjectId = htmlspecialchars($row["subject_id"]);
@@ -119,7 +119,7 @@
                     <?php
                     if (!empty($subjects)) {
                         foreach ($subjects as $row) {
-                            if ($row['status'] !== 'unset') {
+                            if ($row['subject_status'] !== 'unset') {
                                 continue;
                             }
                             $subjectId = htmlspecialchars($row["subject_id"]);
@@ -157,7 +157,7 @@
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='10'>No deleted subjects found</td></tr>";
+                        echo "<tr><td colspan='4'>No deleted subjects found</td></tr>";
                     }
                     ?>
                     </tbody>
