@@ -16,8 +16,12 @@ class adminSessionController {
         }
 
         $sessions = [];
+        error_log('Fetching sessions: ' . print_r($sessions, true)); // Debugging statement
+
         
         if (isset($_POST['search']) && !empty($_POST['search_term'])) {
+            error_log('Search term provided: ' . $_POST['search_term']); // Debugging statement
+
             $sessions = $this->model->searchSessions($_POST['search_term']);
         } else {
             $sessions = $this->model->getAllSessions();
