@@ -18,6 +18,14 @@
     <?php include 'AdminNav.php'; ?>
     
     <div class="main">
+        <br>
+        <form method="POST" class="search-form">
+            <div class="searchbar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="search_term" placeholder='Search by Transaction ID, Student Name, or Tutor Name' required>
+                <button type="submit" name="search">Search</button>
+            </div>
+        </form>
         <table>
             <thead>
                 <tr>
@@ -43,15 +51,15 @@
                                 <span class="expand-icon">►</span>
                                 <?php echo htmlspecialchars($payment["payment_id"]); ?>
                             </td>
-                            <td style="font-weight:650;"><?php echo htmlspecialchars($payment["points_paid"]); ?></td>
-                            <td><?php echo htmlspecialchars($payment["time_paid"]); ?></td>
+                            <td style="font-weight:650;"><?php echo htmlspecialchars($payment["payment_point_amount"]); ?></td>
+                            <td><?php echo htmlspecialchars($payment["payment_time"]); ?></td>
                             <td><?php echo htmlspecialchars($payment["session_id"]); ?></td>
                             <td><?php echo htmlspecialchars($payment["scheduled_date"]); ?></td>
-                            <td><?php echo htmlspecialchars($payment["status"]); ?></td>
-                            <td><?php echo htmlspecialchars($payment["student_name"]); ?></td>
-                            <td><?php echo htmlspecialchars($payment["tutor_name"]); ?></td>
+                            <td><?php echo htmlspecialchars($payment["session_status"]); ?></td>
+                            <td><?php echo htmlspecialchars($payment["student_first_name"]); ?></td>
+                            <td><?php echo htmlspecialchars($payment["tutor_first_name"]); ?></td>
                             <td>
-                                <?php if ($payment["status"] !== 'okay'): ?>
+                                <?php if ($payment["session_status"] !== 'okay'): ?>
                                     <button class="btn btn-warning refund-button" 
                                             data-payment-id="<?php echo htmlspecialchars($payment["payment_id"]); ?>">
                                         Refund
@@ -66,11 +74,19 @@
                                 <div class="details-content">
                                     <h4>Transaction Details</h4>
                                     <p><strong>Transaction ID : </strong> <?php echo htmlspecialchars($payment["payment_id"]); ?></p>
-                                    <p><strong>Student Details : </strong> <?php echo htmlspecialchars($payment["student_name"]); ?></p>
-                                    <p><strong>Tutor Details : </strong> <?php echo htmlspecialchars($payment["tutor_name"]); ?></p>
+                                    <p><strong>Student Details : </strong> <?php echo htmlspecialchars($payment["student_first_name"]); ?>
+                                                                            <?php echo htmlspecialchars($payment["student_last_name"]); ?>
+                                                                            (<?php echo htmlspecialchars($payment["student_email"]); ?>)
+                                                                            (<?php echo htmlspecialchars($payment["student_id"]); ?>)
+                                                                        </p>
+                                    <p><strong>Tutor Details : </strong> <?php echo htmlspecialchars($payment["tutor_first_name"]); ?>
+                                                                         <?php echo htmlspecialchars($payment["tutor_last_name"]); ?>
+                                                                         (<?php echo htmlspecialchars($payment["tutor_email"]); ?>)
+                                                                         (<?php echo htmlspecialchars($payment["tutor_id"]); ?>)  
+                                </p>
                                     <p><strong>Session Date : </strong> <?php echo htmlspecialchars($payment["scheduled_date"]); ?></p>
-                                    <p><strong>Payment Amount : </strong> <?php echo htmlspecialchars($payment["points_paid"]); ?> points</p>
-                                    <p><strong>Payment Status : </strong> <?php echo htmlspecialchars($payment["status"]); ?></p>
+                                    <p><strong>Payment Amount : </strong> <?php echo htmlspecialchars($payment["payment_point_amount"]); ?> points</p>
+                                    <p><strong>Payment Status : </strong> <?php echo htmlspecialchars($payment["session_status"]); ?></p>
                                 </div>
                             </td>
                         </tr>
