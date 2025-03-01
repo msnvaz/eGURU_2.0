@@ -9,7 +9,16 @@
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        
+        .details-row {
+            display: none;
+        }
+        .expandable-row.expanded .expand-icon {
+            transform: rotate(90deg);
+        }
+        .expand-icon {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
     </style>
 </head>
 <body>
@@ -19,19 +28,20 @@
     <div class="main">
         <br>
         <form method="POST" class="search-form">
-            <div class="searchbar">
+            <div class="searchbar"> 
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" name="search_term" placeholder="Search by Student/Tutor Name or Email" required>
-                <button type="submit" name="search">Search</button>
+                <input type="text" name="search_term" placeholder="Search by Student/Tutor Name or Email" 
+                       value="<?= isset($_POST['search_term']) ? htmlspecialchars($_POST['search_term']) : '' ?>" required>
+                <button type="submit" name="search" value="1">Search</button>
             </div>
         </form>
 
         <table>
             <thead>
                 <tr>
-                    <th colspan="6" style="text-align: center;border-radius: 20px 20px 0 0;font-size:16px;">Sessions</th>
+                    <th colspan="6" style="text-align: center;border-radius: 20px 20px 0 0;font-size:14px;margin:0;">Sessions</th>
                 </tr>
-            </thead>        
+            </thead>   
             <thead>
                 <tr>
                     <th>Session ID</th>
@@ -43,9 +53,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php error_log('Sessions data: ' . print_r($sessions, true)); // Debugging statement ?>
                 <?php if (!empty($sessions)) : ?>
-
                     <?php foreach ($sessions as $session) : ?>
                         <tr class="expandable-row">
                             <td>
@@ -53,7 +61,7 @@
                                 <?= htmlspecialchars($session['session_id']) ?>
                             </td>
                             <td>(<?= htmlspecialchars($session['student_id']) ?>)
-                                <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?></td>
+                                <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?></td>
                             <td>(<?= htmlspecialchars($session['tutor_id']) ?>)
                                 <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?></td>
                             <td><?= htmlspecialchars($session['scheduled_date']) ?></td>
@@ -84,7 +92,6 @@
                                     </div>
                                 </div>
                             </td>
-
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
@@ -102,8 +109,10 @@
                 const detailsRow = this.nextElementSibling;
                 if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
                     detailsRow.style.display = 'table-row';
+                    this.querySelector('.expand-icon').style.transform = 'rotate(90deg)';
                 } else {
                     detailsRow.style.display = 'none';
+                    this.querySelector('.expand-icon').style.transform = 'rotate(0deg)';
                 }
             });
         });

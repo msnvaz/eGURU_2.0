@@ -49,10 +49,11 @@ h2{
 }
 
 table {
-    width: 98%;
+    width: 90%;
     border-collapse: collapse;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin: 10px;
+    margin-left: 7%;
     font-size: 12px;
     border-radius:20px;
     overflow-x: scroll;

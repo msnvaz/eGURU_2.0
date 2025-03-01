@@ -16,14 +16,13 @@ class adminSessionController {
         }
 
         $sessions = [];
-        error_log('Fetching sessions: ' . print_r($sessions, true)); // Debugging statement
-
+        error_log('Controller: showAllSessions method called');
         
-        if (isset($_POST['search']) && !empty($_POST['search_term'])) {
-            error_log('Search term provided: ' . $_POST['search_term']); // Debugging statement
-
+        if (isset($_POST['search']) && isset($_POST['search_term']) && !empty($_POST['search_term'])) {
+            error_log('Search initiated with term: ' . $_POST['search_term']);
             $sessions = $this->model->searchSessions($_POST['search_term']);
         } else {
+            error_log('Showing all sessions (no search term)');
             $sessions = $this->model->getAllSessions();
         }
 
