@@ -18,6 +18,12 @@ use App\Controllers\admin\AdminSettingsController;
 use App\Controllers\admin\AdminInboxController;
 use App\Controllers\admin\AdminTransactionController;
 
+//Cretaed for manager
+use App\Controllers\manager\ManagerLoginController;
+use App\Controllers\manager\ManagerDashboardController;
+use App\Controllers\manager\ManagerAnnouncementController;
+
+
 use App\Router;
 
 use App\Controllers\StudentLoginController;
@@ -165,4 +171,17 @@ $router->post('/admin-transactions', AdminTransactionController::class, 'showTra
 //refund with id
 $router->post('/admin-refund/{id}', AdminTransactionController::class, 'refund');
 
+
+//manager routes
+$router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');
+$router->post('/manager-login', ManagerLoginController::class, 'checkManagerLogin');
+$router->get('/manager-dashboard', ManagerDashboardController::class, 'showDashboard');
+$router->get('/manager-logout', ManagerDashboardController::class, 'logout');
+$router->get('/manager-announcement', ManagerAnnouncementController::class, 'getAnnouncements');
+
+
+
+
 $router->dispatch();
+
+
