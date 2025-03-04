@@ -33,7 +33,7 @@
             <div class="viewprofile-header">
                 <div class="profile-photo-container">
                     <img 
-                        src="../uploads/Student_Profiles/<?php echo htmlspecialchars($student['profile_photo']); ?>" 
+                        src="../uploads/Student_Profiles/<?php echo htmlspecialchars($student['student_profile_photo']); ?>" 
                         class="viewprofile-img"
                         alt="Profile Photo"
                     >
@@ -41,8 +41,8 @@
                 <div class="profile-info">
                     <h1>
                         <?php 
-                        echo htmlspecialchars($student['firstname'] ?? 'First Name') . ' ' . 
-                             htmlspecialchars($student['lastname'] ?? 'Last Name'); 
+                        echo htmlspecialchars($student['student_first_name'] ?? 'First Name') . ' ' . 
+                             htmlspecialchars($student['student_last_name'] ?? 'Last Name'); 
                         ?>
                     </h1>
                     <?php if (isset($_GET['success'])): ?>
@@ -60,13 +60,13 @@
                     <?php endif; ?>
                     
                     <div class="button-group">
-                        <a href="/admin-edit-student-profile/<?= htmlspecialchars($student['id'] ?? '') ?>" class="edit-button">Edit Profile</a>             
-                        <?php if ($student['status'] === 'unset'): ?>
-                            <form action="/admin-restore-student/<?= htmlspecialchars($student['id'])?>" method="POST" onsubmit="return confirmRestore()">
+                        <a href="/admin-edit-student-profile/<?= htmlspecialchars($student['student_id'] ?? '') ?>" class="edit-button">Edit Profile</a>             
+                        <?php if ($student['student_status'] === 'unset'): ?>
+                            <form action="/admin-restore-student/<?= htmlspecialchars($student['student_id'])?>" method="POST" onsubmit="return confirmRestore()">
                                 <button type="submit" class="edit-button">Restore Profile</button>
                             </form>
                         <?php else: ?>
-                            <form action="/student-delete-profile/<?= htmlspecialchars($student['id'])?>" method="POST" onsubmit="return confirmDelete()">
+                            <form action="/student-delete-profile/<?= htmlspecialchars($student['student_id'])?>" method="POST" onsubmit="return confirmDelete()">
                                 <button type="submit" class="edit-button">Delete Profile</button>
                             </form>
                         <?php endif; ?>
@@ -87,46 +87,46 @@
                 <div class="detail-item">
                     <strong>Email:</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['email'] ?? 'Email not available'); ?>
+                        <?php echo htmlspecialchars($student['student_email'] ?? 'Email not available'); ?>
                     </span>
                 </div>
                 <div class="detail-item">
                     <strong>Phone</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['phonenumber'] ?? 'Phone not available'); ?>
+                        <?php echo htmlspecialchars($student['student_phonenumber'] ?? 'Phone not available'); ?>
                     </span>
                 </div>
                 <div class="detail-item">
                     <strong>Date of Birth</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['dateofbirth'] ?? 'DOB not available'); ?>
+                        <?php echo htmlspecialchars($student['student_DOB'] ?? 'DOB not available'); ?>
                     </span>
                 </div>
                 <div class="detail-item">
                     <strong>Registration Date</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['registration_date'] ?? ' not available'); ?>
+                        <?php echo htmlspecialchars($student['student_registration_date'] ?? ' not available'); ?>
                     </span>
                 </div>
 
                 <div class="detail-item">
                     <strong>Grade</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['grade'] ?? ' not available'); ?>
+                        <?php echo htmlspecialchars($student['student_grade'] ?? ' not available'); ?>
                     </span>
                 </div>
 
                 <div class="detail-item">
                     <strong>Student ID</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['id'] ?? 'not available'); ?>
+                        <?php echo htmlspecialchars($student['student_id'] ?? 'not available'); ?>
                     </span>
                 </div>
 
                 <div class="detail-item">
                 <strong>Wallet Points</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['points'] ?? ' not available'); ?>
+                        <?php echo htmlspecialchars($student['student_points'] ?? ' not available'); ?>
                     </span>
                 </div>
 
@@ -134,7 +134,7 @@
                 <div class="detail-item">
                     <strong>Last Login</strong>
                     <span class="detail-value">
-                        <?php echo htmlspecialchars($student['last_login'] ?? ' not available'); ?>
+                        <?php echo htmlspecialchars($student['student_last_login'] ?? ' not available'); ?>
                     </span>
                 </div>
             </div>

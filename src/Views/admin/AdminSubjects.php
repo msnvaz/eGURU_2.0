@@ -34,12 +34,6 @@
                             <th>Subject ID</th>
                             <th>Subject Name</th>
                             <th>Display Picture</th>
-                            <!--<th>Grade 6</th>
-                            <th>Grade 7</th>
-                            <th>Grade 8</th>
-                            <th>Grade 9</th>
-                            <th>Grade 10</th>
-                            <th>Grade 11</th>-->
                             <th>Edit</th>
                         </tr>
                     </thead>
@@ -48,36 +42,22 @@
                     <?php
                     if (!empty($subjects)) {
                         foreach ($subjects as $row) {
-                            if ($row['status'] !== 'set') {
+                            if ($row['subject_status'] !== 'set') {
                                 continue;
                             }
                             $subjectId = htmlspecialchars($row["subject_id"]);
                             $subjectName = htmlspecialchars($row["subject_name"]);
-                            $grades = [];
-                            for ($i = 6; $i <= 11; $i++) {
-                                if (!empty($row["grade_$i"])) {
-                                    $grades[] = $i;
-                                }
-                            }
-                            $gradesStr = implode(',', $grades);
-                            $imageSrc = !empty($row["display_pic"]) ? '../uploads/' . htmlspecialchars($row["display_pic"]) : '';
+                            $imageSrc = !empty($row["subject_display_pic"]) ? '../uploads/' . htmlspecialchars($row["subject_display_pic"]) : '';
                     ?>
                             <tr>
                                 <td><?= $subjectId ?></td>
                                 <td><?= $subjectName ?></td>
                                 <td><?= $imageSrc ? "<img src='$imageSrc' alt='Subject Image' style='width:50px;'>" : "No Image" ?></td>
-                                <!--<td class="<?= !empty($row["grade_6"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_6"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_7"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_7"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_8"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_8"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_9"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_9"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_10"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_10"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_11"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_11"]) ? '✓' : '✗' ?></td>-->
                                 <td>
                                     <a href="#" 
                                     class="btn btn-primary btn-sm edit-subject-btn" 
                                     data-subject-id="<?= $subjectId ?>"
                                     data-subject-name="<?= $subjectName ?>"
-                                    data-subject-grades="<?= $gradesStr ?>"
                                     data-subject-image="<?= $imageSrc ?>">
                                         Edit
                                     </a>
@@ -86,7 +66,7 @@
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='10'>No records found</td></tr>";
+                        echo "<tr><td colspan='4'>No records found</td></tr>";
                     }
                     ?>
                     </tbody>
@@ -105,12 +85,6 @@
                             <th>Subject ID</th>
                             <th>Subject Name</th>
                             <th>Display Picture</th>
-                            <!--<th>Grade 6</th>
-                            <th>Grade 7</th>
-                            <th>Grade 8</th>
-                            <th>Grade 9</th>
-                            <th>Grade 10</th>
-                            <th>Grade 11</th>-->
                             <th>Edit</th>
                         </tr>
                     </thead>
@@ -119,45 +93,31 @@
                     <?php
                     if (!empty($subjects)) {
                         foreach ($subjects as $row) {
-                            if ($row['status'] !== 'unset') {
+                            if ($row['subject_status'] !== 'unset') {
                                 continue;
                             }
                             $subjectId = htmlspecialchars($row["subject_id"]);
                             $subjectName = htmlspecialchars($row["subject_name"]);
-                            $grades = [];
-                            for ($i = 6; $i <= 11; $i++) {
-                                if (!empty($row["grade_$i"])) {
-                                    $grades[] = $i;
-                                }
-                            }
-                            $gradesStr = implode(',', $grades);
-                            $imageSrc = !empty($row["display_pic"]) ? '../uploads/' . htmlspecialchars($row["display_pic"]) : '';
+                            $imageSrc = !empty($row["subject_display_pic"]) ? '../uploads/' . htmlspecialchars($row["subject_display_pic"]) : '';
                     ?>
                             <tr>
                                 <td><?= $subjectId ?></td>
                                 <td><?= $subjectName ?></td>
                                 <td><?= $imageSrc ? "<img src='$imageSrc' alt='Subject Image' style='width:50px;'>" : "No Image" ?></td>
-                                <!--<td class="<?= !empty($row["grade_6"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_6"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_7"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_7"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_8"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_8"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_9"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_9"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_10"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_10"]) ? '✓' : '✗' ?></td>
-                                <td class="<?= !empty($row["grade_11"]) ? 'grade-cell-success' : 'grade-cell-failure' ?>"><?= !empty($row["grade_11"]) ? '✓' : '✗' ?></td>-->
                                 <td>
                                     <a href="#" 
                                     class="btn btn-primary btn-sm restore-subject-btn" 
                                     data-subject-id="<?= $subjectId ?>"
                                     data-subject-name="<?= $subjectName ?>"
-                                    data-subject-grades="<?= $gradesStr ?>"
                                     data-subject-image="<?= $imageSrc ?>">
-                                        Edit
+                                        Restore
                                     </a>
                                 </td>
                             </tr>
                     <?php
                         }
                     } else {
-                        echo "<tr><td colspan='10'>No deleted subjects found</td></tr>";
+                        echo "<tr><td colspan='4'>No deleted subjects found</td></tr>";
                     }
                     ?>
                     </tbody>

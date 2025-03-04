@@ -20,20 +20,20 @@ class adminTutorGradingModel {
 
     // Fetch    
     public function getAllGrades(){
-        $query = "SELECT * FROM tutor_grading";
+        $query = "SELECT * FROM tutor_level";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    // Update a grade with duplicate check 
-    public function updateGrade($grade_id, $grade, $qualification, $pay_per_hour) {
-        // Check if the grade name already exists
-        $query = "SELECT COUNT(*) FROM tutor_grading WHERE grade = :grade AND grade_id != :grade_id"; 
+    // Update a tutor_level with duplicate check 
+    public function updateGrade($tutor_level_id, $tutor_level, $tutor_level_qualification, $tutor_pay_per_hour) {
+        // Check if the tutor_level name already exists
+        $query = "SELECT COUNT(*) FROM tutor_level WHERE tutor_level = :tutor_level AND tutor_level_id != :tutor_level_id"; 
         $stmt = $this->conn->prepare($query); 
-        $stmt->bindParam(':grade', $grade); 
-        $stmt->bindParam(':grade_id', $grade_id); 
+        $stmt->bindParam(':tutor_level', $tutor_level); 
+        $stmt->bindParam(':tutor_level_id', $tutor_level_id); 
         $stmt->execute(); 
         $isDuplicate = $stmt->fetchColumn() > 0; 
         if ($isDuplicate) { echo "
@@ -41,12 +41,12 @@ class adminTutorGradingModel {
                 alert('Grade name already exists');
                 window.location.href='/admin-tutor-grading';"; 
             return false; } // Proceed with the update if no duplicates found
-        $query = "UPDATE tutor_grading SET grade = :grade, qualification = :qualification, pay_per_hour = :pay_per_hour WHERE grade_id = :grade_id"; 
+        $query = "UPDATE tutor_level SET tutor_level = :tutor_level, tutor_level_qualification = :tutor_level_qualification, tutor_pay_per_hour = :tutor_pay_per_hour WHERE tutor_level_id = :tutor_level_id"; 
         $stmt = $this->conn->prepare($query); 
-        $stmt->bindParam(':grade_id', $grade_id); 
-        $stmt->bindParam(':grade', $grade); 
-        $stmt->bindParam(':qualification', $qualification); 
-        $stmt->bindParam(':pay_per_hour', $pay_per_hour); 
+        $stmt->bindParam(':tutor_level_id', $tutor_level_id); 
+        $stmt->bindParam(':tutor_level', $tutor_level); 
+        $stmt->bindParam(':tutor_level_qualification', $tutor_level_qualification); 
+        $stmt->bindParam(':tutor_pay_per_hour', $tutor_pay_per_hour); 
         $stmt->execute(); 
         return true;
     }

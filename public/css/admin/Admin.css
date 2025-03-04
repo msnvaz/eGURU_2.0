@@ -49,10 +49,11 @@ h2{
 }
 
 table {
-    width: 98%;
+    width: 90%;
     border-collapse: collapse;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin: 10px;
+    margin-left: 7%;
     font-size: 12px;
     border-radius:20px;
     overflow-x: scroll;
@@ -395,8 +396,21 @@ td button:hover {
 .search-form {
   font-family: 'Poppins', sans-serif !important;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  gap:10px;
+}
+
+/*container for date range selection and tutor student selection */
+.date-range-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  gap: 20px;
+  font-weight: 600;
 }
 
 .searchbar{
@@ -451,6 +465,31 @@ td button:hover {
   color:#29324187;
   margin-top: 0px;
   padding-top: 10px;
+}
+
+.date-range{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.date-range input {
+  padding: 10px;
+  width: 100%;
+  border: 2px solid #29324100;
+  background-color: #f5f5f500;
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif !important;
+  caret-color: #293241a7;
+}
+
+.tutor-student-selection{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  gap:20px;
 }
 
 .student-cards {

@@ -15,15 +15,8 @@
                 </div>
 
                 <div class="modal-form-group">
-                    <label>Select Grades</label>
-                    <div class="grades-checkbox-container" id="add-modal-grades-container">
-                        <!-- Grades checkboxes will be dynamically populated -->
-                    </div>
-                </div>
-
-                <div class="modal-form-group">
                     <label for="add-modal-subject-icon">Subject Icon</label>
-                    <input type="file" id="add-modal-subject-icon" name="subjectIcon" accept="image/*">
+                    <input type="file" id="add-modal-subject-icon" name="subjectIcon" accept="image/*" required>
                     <div id="add-modal-image-preview"></div>
                 </div>
 
@@ -35,11 +28,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('addSubjectModal');
-            const closeModalBtn = document.getElementById('add-modal-close-btn'); // Changed selector
-            const addSubjectBtn = document.getElementById('add-subject-btn'); // Assume this button exists in your page
+            const closeModalBtn = document.getElementById('add-modal-close-btn');
+            const addSubjectBtn = document.getElementById('add-subject-btn');
             const modalForm = document.getElementById('addSubjectModalForm');
             const modalSubjectName = document.getElementById('add-modal-subject-name');
-            const modalGradesContainer = document.getElementById('add-modal-grades-container');
             const modalSubjectIcon = document.getElementById('add-modal-subject-icon');
             const modalImagePreview = document.getElementById('add-modal-image-preview');
 
@@ -54,20 +46,6 @@
                     modal.style.display = 'none';
                 }
             }
-
-            // Function to generate grade checkboxes
-            function generateGradeCheckboxes() {
-                const grades = [6, 7, 8, 9, 10, 11];
-                modalGradesContainer.innerHTML = grades.map(grade => `
-                    <label>
-                        <input type="checkbox" name="grades[]" value="${grade}"> 
-                        Grade ${grade}
-                    </label>
-                `).join('');
-            }
-
-            // Generate checkboxes when modal loads
-            generateGradeCheckboxes();
 
             // Image preview functionality
             modalSubjectIcon.addEventListener('change', function(event) {
@@ -90,9 +68,6 @@
                     modalForm.reset();
                     modalImagePreview.innerHTML = '<p>No image selected</p>';
                     
-                    // Regenerate checkboxes to ensure they're unchecked
-                    generateGradeCheckboxes();
-
                     // Show the modal
                     modal.style.display = 'block';
                 });

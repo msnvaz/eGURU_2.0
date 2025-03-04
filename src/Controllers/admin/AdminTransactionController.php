@@ -18,10 +18,14 @@ class AdminTransactionController extends Controller
         $this->transactionModel = new AdminTransactionModel();
     }
 
-    public function showTransactions()
-    {
-        $payments = $this->transactionModel->getAllPayments(); // Fetch all payments
-        
+    public function showTransactions() {
+        if (isset($_POST['search'])) {
+            $searchTerm = $_POST['search_term'];
+            $payments = $this->transactionModel->searchPayments($searchTerm); // Fetch filtered payments
+        } else {
+            $payments = $this->transactionModel->getAllPayments(); // Fetch all payments
+        }
+
         require_once __DIR__ . '/../../Views/admin/AdminTransactions.php';
     }
 

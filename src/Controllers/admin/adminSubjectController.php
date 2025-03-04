@@ -15,17 +15,14 @@ class adminSubjectController {
         $this->model = new adminSubjectModel();
     }
 
-     
     // Show all subjects
     public function showAllSubjects() {
-        
         // Fetch all subjects
         $subjects = $this->model->getAllSubjects();
 
         // Include the view and pass the data
         require_once __DIR__ . '/../../Views/admin/AdminSubjects.php';
     }
-    // Handle updating a subject
 
     private function redirectWithSuccess() {
         header("Location: /admin-subjects");
@@ -46,7 +43,6 @@ class adminSubjectController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validate form inputs
             $subjectName = $_POST['subject_name'] ?? '';
-            $grades = $_POST['grades'] ?? [];
             $file = $_FILES['subjectIcon'] ?? null;
 
             // Check if the subject already exists
@@ -62,11 +58,6 @@ class adminSubjectController {
                 return;
             }
 
-            if (empty($grades)) {
-                echo "<script>alert('Select at least one grade.')</script>";
-                return;
-            }
-
             if ($file && $file['error'] === 0) {
                 $uploadDir = 'uploads/';
                 $fileName = basename($file['name']);
@@ -77,8 +68,7 @@ class adminSubjectController {
                     // Prepare data for the database
                     $subjectData = [
                         'subject_name' => $subjectName,
-                        'grades' => $grades,
-                        'display_pic' => $fileName,
+                        'subject_display_pic' => $fileName,
                     ];
 
                     // Save data via the model
@@ -103,7 +93,6 @@ class adminSubjectController {
             // Retrieve form inputs
             $subjectId = $_POST['subject_id'] ?? null;
             $subjectName = $_POST['subject_name'] ?? '';
-            $grades = $_POST['grades'] ?? []; // This will be an array of selected grades
             $file = $_FILES['subjectIcon'] ?? null;
 
             // Validate inputs
@@ -120,8 +109,7 @@ class adminSubjectController {
             // Prepare data for update
             $updateData = [
                 'subject_id' => $subjectId,
-                'subject_name' => $subjectName,
-                'grades' => $grades // Pass the selected grades
+                'subject_name' => $subjectName
             ];
 
             // Handle file upload if present
@@ -132,7 +120,7 @@ class adminSubjectController {
 
                 // Move the uploaded file
                 if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
-                    $updateData['display_pic'] = $fileName;
+                    $updateData['subject_display_pic'] = $fileName;
                 } else {
                     echo "<script>alert('Failed to upload file.')</script>";
                     return;

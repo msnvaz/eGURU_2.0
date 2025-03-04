@@ -25,7 +25,7 @@
 
                 <div class="modal-form-group">
                     <label for="modal-pay-per-hour">Pay per Hour (LKR)</label>
-                    <input type="number" id="modal-pay-per-hour" name="pay_per_hour" required>
+                    <input type="text" id="modal-pay-per-hour" name="pay_per_hour" required>
                 </div>
 
                 <div class="modal-form-group">
@@ -41,9 +41,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('editGradeModal');
-            const closeModalBtn = modal.querySelector('.close-modal');
+            const closeModalBtn = document.getElementById('close-grade-modal');
             const editButtons = document.querySelectorAll('.edit-button');
-            const modalForm = document.getElementById('editGradeModalForm');
+
             const modalGradeId = document.getElementById('modal-grade-id');
             const modalGradeName = document.getElementById('modal-grade-name');
             const modalQualification = document.getElementById('modal-qualification');
@@ -53,22 +53,22 @@
             // Close modal when clicking the close button
             closeModalBtn.onclick = function() {
                 modal.style.display = 'none';
-            }
+            };
 
             // Close modal when clicking outside the modal
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = 'none';
                 }
-            }
+            };
 
-            // Function to open the modal and populate data
+            // Function to open the modal with existing data
             function openEditModal(gradeId, gradeName, qualification, payPerHour, color) {
-                modalGradeId.value = gradeId;
-                modalGradeName.value = gradeName;
-                modalQualification.value = qualification;
-                modalPayPerHour.value = payPerHour;
-                modalColor.value = color;
+                modalGradeId.value = gradeId || '';
+                modalGradeName.value = gradeName || '';
+                modalQualification.value = qualification || '';
+                modalPayPerHour.value = payPerHour || '';
+                modalColor.value = color || '';
 
                 // Show the modal
                 modal.style.display = 'block';
@@ -77,14 +77,25 @@
             // Add click event to all edit buttons
             editButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const gradeCard = this.parentElement;
-                    const gradeId = gradeCard.getAttribute('data-grade-id');
-                    const gradeName = gradeCard.querySelector('.grade-card-heading').textContent;
-                    const qualification = gradeCard.querySelector('p').textContent.replace('Qualification : ', '');
-                    const payPerHour = gradeCard.querySelector('h4').textContent
-                        .replace('Pay per hour : ', '')
-                        .replace(' LKR', '');
-                    const color = gradeCard.style.backgroundColor;
+                    const gradeCard = this.closest('.grade-card'); // Get the closest grade card container
+
+                    if (!gradeCard) {
+                        console.error("Grade card not found!");
+                        return;
+                    }
+
+                    const gradeId = gradeCard.getAttribute('data-grade-id') || '';
+
+                    const gradeNameElement = gradeCard.querySelector('.grade-card-heading');
+                    const gradeName = gradeNameElement ? gradeNameElement.textContent.trim() : '';
+
+                    const qualificationElement = gradeCard.querySelector('.qualification-text');
+                    const qualification = qualificationElement ? qualificationElement.textContent.replace('Qualification: ', '').trim() : '';
+
+                    const payPerHourElement = gradeCard.querySelector('.pay-per-hour');
+                    const payPerHour = payPerHourElement ? payPerHourElement.textContent.replace(/[^\d]/g, '') : '';
+
+                    const color = gradeCard.style.backgroundColor || '';
 
                     openEditModal(gradeId, gradeName, qualification, payPerHour, color);
                 });
