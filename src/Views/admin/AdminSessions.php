@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eGURU Admin</title>
+    <title>eGURU Admin - Sessions</title>
     <link rel="icon" type="image/png" href="/images/eGURU_6.png">
     <link rel="stylesheet" href="/css/admin/Admin.css">
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
@@ -28,11 +28,47 @@
     <div class="main">
         <br>
         <form method="POST" class="search-form">
+            <div class="date-range-container">
+                <div class="date-range">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" name="start_date" id="start_date" 
+                        value="<?= isset($_POST['start_date']) ? htmlspecialchars($_POST['start_date']) : '' ?>">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" name="end_date" id="end_date" 
+                        value="<?= isset($_POST['end_date']) ? htmlspecialchars($_POST['end_date']) : '' ?>">
+                </div>
+                
+                <div class="tutor-student-selection">
+                    <label for="tutor_id">Select Tutor:</label>
+                    <select name="tutor_id" id="tutor_id">
+                        <option value="">All Tutors</option>
+                        <?php foreach ($tutors as $tutor) : ?>
+                            <option value="<?= htmlspecialchars($tutor['tutor_id']) ?>"
+                                <?= (isset($_POST['tutor_id']) && $_POST['tutor_id'] == $tutor['tutor_id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($tutor['tutor_full_name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    
+                    <label for="student_id">Select Student:</label>
+                    <select name="student_id" id="student_id">
+                        <option value="">All Students</option>
+                        <?php foreach ($students as $student) : ?>
+                            <option value="<?= htmlspecialchars($student['student_id']) ?>"
+                                <?= (isset($_POST['student_id']) && $_POST['student_id'] == $student['student_id']) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($student['student_full_name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            
             <div class="searchbar"> 
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" name="search_term" placeholder="Search by Student/Tutor Name or Email" 
-                       value="<?= isset($_POST['search_term']) ? htmlspecialchars($_POST['search_term']) : '' ?>" required>
+                       value="<?= isset($_POST['search_term']) ? htmlspecialchars($_POST['search_term']) : '' ?>" >
                 <button type="submit" name="search" value="1">Search</button>
+                <button type="submit" name="download_pdf" value="1">PDF</button>
             </div>
         </form>
 
@@ -41,12 +77,10 @@
                 <tr>
                     <th colspan="6" style="text-align: center;border-radius: 20px 20px 0 0;font-size:14px;margin:0;">Sessions</th>
                 </tr>
-            </thead>   
-            <thead>
                 <tr>
                     <th>Session ID</th>
-                    <th>Student ID</th>
-                    <th>Tutor ID</th>
+                    <th>Student</th>
+                    <th>Tutor</th>
                     <th>Scheduled Date</th>
                     <th>Schedule Time</th>
                     <th>Session Status</th>
@@ -80,7 +114,7 @@
                                             <p><strong>Session Status:</strong> <?= htmlspecialchars($session['session_status']) ?></p>
                                             <p><strong>Subject:</strong> <?= htmlspecialchars($session['subject_name']) ?></p>
                                             <p><strong>Payment Status:</strong> <?= htmlspecialchars($session['payment_status']) ?></p>
-                                            <p><strong>Feedback:</strong> <?= htmlspecialchars($session['student_feedback']) ?></p>
+                                            <p><strong>Feedback:</strong> <?= htmlspecialchars($session['student_feedback'] ?? 'No feedback') ?></p>
                                         </div>
                                         <div class="details-grid-item" style="width: 80%; float: right; margin-top:0px;">
                                             <h4>Tutor/Student Information</h4>
@@ -115,6 +149,17 @@
                     this.querySelector('.expand-icon').style.transform = 'rotate(0deg)';
                 }
             });
+        });
+
+        // Optional: Add form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const startDate = document.getElementById('start_date').value;
+            const endDate = document.getElementById('end_date').value;
+
+            if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+                alert('Start date must be before or equal to end date');
+                e.preventDefault();
+            }
         });
     </script>
 </body>

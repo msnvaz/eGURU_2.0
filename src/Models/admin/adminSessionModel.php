@@ -56,7 +56,56 @@ class adminSessionModel {
         }
     }
 
-    // Search sessions
+    // Filter sessions based on date range and tutor/student selection
+    public function filterSessions($startDate, $endDate, $tutorId, $studentId) {
+        try {
+            $sql = "SELECT 
+                s.session_id,
+                s.student_id,
+                s.tutor_id,
+                s.scheduled_date,
+                s.schedule_time,
+                s.session_status,
+                st.student_first_name,
+                st.student_last_name,
+                st.student_email,
+                t.tutor_first_name,
+                t.tutor_last_name,
+                t.tutor_email,
+                sf.student_feedback,
+                sp.payment_status,
+                sub.subject_name
+            FROM session s
+            LEFT JOIN student st ON s.student_id = st.student_id
+            LEFT JOIN tutor t ON s.tutor_id = t.tutor_id
+            LEFT JOIN session_feedback sf ON s.session_id = sf.session_id
+            LEFT JOIN session_payment sp ON s.session_id = sp.session_id
+            LEFT JOIN subject sub ON s.subject_id = sub.subject_id
+            WHERE 1=1
+            " . ($startDate ? "AND s.scheduled_date >= :start_date " : "") . "
+            " . ($endDate ? "AND s.scheduled_date <= :end_date " : "") . "
+            " . ($tutorId ? "AND s.tutor_id = :tutor_id " : "") . "
+            " . ($studentId ? "AND s.student_id = :student_id " : "") . "
+            ORDER BY s.session_id DESC";
+            
+            $stmt = $this->conn->prepare($sql);
+            
+            if ($startDate) $stmt->bindParam(':start_date', $startDate);
+            if ($endDate) $stmt->bindParam(':end_date', $endDate);
+            if ($tutorId) $stmt->bindParam(':tutor_id', $tutorId);
+            if ($studentId) $stmt->bindParam(':student_id', $studentId);
+            
+            $stmt->execute();
+            
+            $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            error_log('Model: filterSessions fetched ' . count($sessions) . ' records');
+            return $sessions;
+        } catch (PDOException $e) {
+            error_log('Error filtering sessions: ' . $e->getMessage());
+            return [];
+        }
+    }
+
     public function searchSessions($searchTerm) {
         try {
             $sql = "SELECT 
@@ -92,7 +141,6 @@ class adminSessionModel {
             
             $stmt = $this->conn->prepare($sql);
             $searchParam = "%$searchTerm%"; // Wrapping search term for LIKE query
-            error_log('Model: searchSessions with parameter: ' . $searchParam);
             
             $stmt->bindParam(':search', $searchParam);
             $stmt->execute();
@@ -102,6 +150,42 @@ class adminSessionModel {
             return $sessions;
         } catch (PDOException $e) {
             error_log('Error searching sessions: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // Get all tutors for dropdown
+    public function getAllTutors() {
+        try {
+            $sql = "SELECT tutor_id, 
+                    CONCAT(tutor_first_name, ' ', tutor_last_name) AS tutor_full_name 
+                    FROM tutor 
+                    ORDER BY tutor_first_name, tutor_last_name";
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutors: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // Get all students for dropdown
+    public function getAllStudents() {
+        try {
+            $sql = "SELECT student_id, 
+                    CONCAT(student_first_name, ' ', student_last_name) AS student_full_name 
+                    FROM student 
+                    ORDER BY student_first_name, student_last_name";
+            
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching students: ' . $e->getMessage());
             return [];
         }
     }
