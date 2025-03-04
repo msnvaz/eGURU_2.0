@@ -165,7 +165,9 @@ $router->get('/admin-inbox', AdminInboxController::class, 'index'); // Show inbo
 $router->post('/admin-inbox/send', AdminInboxController::class, 'sendMessage'); // Handle sending a message
 
 //transactions
-$router->get('/admin-transactions', AdminTransactionController::class, 'showTransactions');
+$router->get('/admin-transactions', AdminTransactionController::class, 'showTransactions'); // Show all transactions and handle search
+$router->post('/admin-transactions', AdminTransactionController::class, 'showTransactions'); // Allow search functionality
+
 //refund with id
 $router->post('/admin-refund/{id}', AdminTransactionController::class, 'refund');
 
