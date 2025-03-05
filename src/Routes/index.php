@@ -20,20 +20,20 @@ use App\Controllers\admin\AdminTransactionController;
 
 use App\Router;
 
-use App\Controllers\StudentLoginController;
-use App\Controllers\StudentSignupController;
-use App\Controllers\StudentDashboardController;
-use App\Controllers\StudentFindtutorController;
-use App\Controllers\StudentEventsController;
-use App\Controllers\StudentFeedbackController;
-use App\Controllers\StudentPublicProfileController;
-use App\Controllers\StudentSessionController;
-use App\Controllers\StudentPaymentController;
-use App\Controllers\StudentRatingController;
-use App\Controllers\StudentDownloadsController;
-use App\Controllers\StudentReportController;
-use App\Controllers\StudentLogoutController;
-use App\Controllers\StudentEditProfileController;
+use App\Controllers\student\StudentLoginController;
+use App\Controllers\student\StudentSignupController;
+use App\Controllers\student\StudentDashboardController;
+use App\Controllers\student\StudentFindtutorController;
+use App\Controllers\student\StudentEventsController;
+use App\Controllers\student\StudentFeedbackController;
+use App\Controllers\student\StudentPublicProfileController;
+use App\Controllers\student\StudentSessionController;
+use App\Controllers\student\StudentPaymentController;
+use App\Controllers\student\StudentRatingController;
+use App\Controllers\student\StudentDownloadsController;
+use App\Controllers\student\StudentReportController;
+use App\Controllers\student\StudentLogoutController;
+use App\Controllers\student\StudentEditProfileController;
 
 use App\Controllers\tutor\TutorSignupController;
 use App\Controllers\tutor\TutorLoginController;
@@ -61,7 +61,9 @@ $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement
 
 //student routes
 $router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
-$router->get('/student-signup', StudentSignupController::class, 'ShowStudentSignupPage');  //get the page from backend
+$router->get('/student-signup', StudentSignupController::class, 'ShowStudentSignupPage');
+$router->post('/student_signup', StudentSignupController::class, 'student_signup');
+$router->post('/student-login', StudentLoginController::class, 'login');
 $router->get('/student-dashboard',StudentDashboardController::class, 'showStudentDashboardPage');
 $router->get('/student-findtutor',StudentFindtutorController::class, 'ShowFindtutor');
 $router->get('/student-events',StudentEventsController::class, 'ShowEvents');

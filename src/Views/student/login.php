@@ -45,7 +45,7 @@
     </form>
 </div>
     </main> 
-    <?php include '../src/Views/footer.php'; ?> <!-- Include the footer -->    
+    <?php include '../src/Views/footer.php'; ?>    
 
 </body>
 </html>
