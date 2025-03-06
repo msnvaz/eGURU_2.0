@@ -12,7 +12,7 @@ class AdminAnnouncementController {
         $this->checkLogin();
     }
 
-    // Ensure manager is logged in
+    // Ensure admin is logged in
     private function checkLogin() {
         if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
             header('Location: /admin-login.php');
@@ -20,22 +20,22 @@ class AdminAnnouncementController {
         }
     }
 
-    // Show all announcements
+    // Show all active announcements
     public function showAnnouncements() {
-        $announcements = $this->model->getAllAnnouncements() ?: [];
+        $announcementsData = $this->model->getAllAnnouncements();
+        $announcements = $announcementsData['announcements'] ?? [];
         include __DIR__ . '/../../Views/admin/AdminAnnouncement.php';
     }
 
-    // Show create announcement form
+    // Show form to create a new announcement
     public function showCreateForm() {
         include __DIR__ . '/../../Views/admin/AdminAnnouncement.php';
     }
 
-    // Show update announcement form
+    // Show form to update an existing announcement
     public function showUpdateForm($id) {
         $announcement = $this->model->getAnnouncementById($id);
         if (!$announcement) {
-            // Handle not found scenario
             header("Location: /admin-announcements?error=Announcement not found");
             exit();
         }
@@ -50,9 +50,9 @@ class AdminAnnouncementController {
             
             if (!empty($announcement)) {
                 $result = $this->model->createAnnouncement($announcement, $status);
-                header("Location: /admin-announcements?success=" . ($result ? "Announcement added successfully" : "Failed to add announcement"));
+                header("Location: /admin-announcement");
             } else {
-                header("Location: /admin-announcements/create?error=Announcement cannot be empty");
+                header("Location: /admin-announcements/");
             }
             exit();
         }
@@ -67,18 +67,18 @@ class AdminAnnouncementController {
             
             if (!empty($announcement)) {
                 $result = $this->model->updateAnnouncement($id, $announcement, $status);
-                header("Location: /admin-announcements?success=" . ($result ? "Announcement updated successfully" : "Failed to update announcement"));
+                header("Location: /admin-announcement");
             } else {
-                header("Location: /admin-announcements/update/{$id}?error=Announcement cannot be empty");
+                header("Location: /admin-announcement");
             }
             exit();
         }
     }
 
-    // Delete an announcement
-    public function deleteAnnouncement($id) {
-        $result = $this->model->deleteAnnouncement($id);
-        header("Location: /admin-announcements?success=" . ($result ? "Announcement deleted successfully" : "Failed to delete announcement"));
+    // Soft delete an announcement
+    public function softDeleteAnnouncement($id) {
+        $result = $this->model->softDeleteAnnouncement($id);
+        header("Location: /admin-announcement?success=" . ($result ? "Announcement archived successfully" : "Failed to archive announcement"));
         exit();
     }
 }
