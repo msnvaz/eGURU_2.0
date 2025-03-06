@@ -20,7 +20,20 @@ class AdminDashboardController {
             exit();
         }        
         // Include the views and pass the data
-        require_once __DIR__ . '/../../Views/admin/AdminDashboard.php';    
+$totalStudents = $this->model->getTotalStudents();
+$totalTeachers = $this->model->getTotalTeachers();
+$activeSessions = $this->model->getActiveSessions();
+$revenue = $this->model->getRevenue();
+
+$totalTutors = $this->model->getTotalTutors();
+$totalRevenue = $this->model->getTotalRevenue();
+$totalSessions = $this->model->getTotalSessions();
+$completedSessions = $this->model->getCompletedSessions();
+require_once __DIR__ . '/../../Views/admin/AdminDashboard.php';    
+
+
+
+
     }
 
     public function logout() {
