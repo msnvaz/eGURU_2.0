@@ -409,7 +409,7 @@ td button:hover {
   justify-content: center;
   align-items: center;
   margin: 0;
-  gap: 20px;
+  gap: 15px;
   font-weight: 600;
 }
 
@@ -472,24 +472,69 @@ td button:hover {
   justify-content: center;
   align-items: center;
   margin: 0;
+  padding-left: 10px;
+  gap: 15px;
 }
 
 .date-range input {
   padding: 10px;
   width: 100%;
-  border: 2px solid #29324100;
+  border: 2px solid #29324164;
   background-color: #f5f5f500;
   border-radius: 20px;
   font-family: 'Poppins', sans-serif !important;
   caret-color: #293241a7;
 }
 
+select{
+  padding: 8px;
+  width: 100%;
+  border: 2px solid #29324164;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif !important;
+  caret-color: #293241a7;
+}
+
+select:focus {
+  background-color: #a23b4500;
+}
+
+.date-range-container input[type="date"] {
+  padding: 8px;
+  width: 100%;
+  border: 2px solid #29324164;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif !important;
+  caret-color: #293241a7;
+  cursor: pointer;
+}
+
+.date-range-container input[type="date"]:focus {
+  background-color: #a23b4500;
+}
+
+/* Style the calendar icon on browsers that support it */
+.date-range-container input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
+
+/* Remove default arrow in some browsers */
+.date-range-container input[type="date"]::-webkit-inner-spin-button,
+.date-range-container input[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
 .tutor-student-selection{
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
   gap:20px;
+  margin-bottom: 10px;
 }
 
 .student-cards {
@@ -576,7 +621,7 @@ td button:hover {
 
 .stats-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(15%, 1fr));
   gap: 20px;
   margin-bottom: 30px;
   align-content: center;

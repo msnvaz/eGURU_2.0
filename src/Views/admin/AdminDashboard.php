@@ -22,22 +22,27 @@
         <div class="stats-section">
                 <div class="stat-card">
                     <h3>Total Students</h3>
-                    <p class="stat-number">2,547</p>
+                    <p class="stat-number"><?= $totalStudents ?></p>
                     <span class="stat-trend positive">+12% ↑</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Total Teachers</h3>
-                    <p class="stat-number">157</p>
+                    <h3>Total Tutors</h3>
+                    <p class="stat-number"><?= $totalTutors ?></p>
                     <span class="stat-trend positive">+5% ↑</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Active Sessions</h3>
-                    <p class="stat-number">48</p>
-                    <span class="stat-trend">Today</span>
+                    <h3>Total Sessions</h3>
+                    <p class="stat-number"><?= $totalSessions ?></p>
+                    <span class="stat-trend positive">+10% ↑</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Sessions</h3>
+                    <p class="stat-number"><?= $completedSessions ?></p>
+                    <span class="stat-trend positive">+8% ↑</span>
                 </div>
                 <div class="stat-card">
                     <h3>Revenue</h3>
-                    <p class="stat-number">Rs.105,280</p>
+                    <p class="stat-number"><?= $totalRevenue ?></p>
                     <span class="stat-trend positive">+8% ↑</span>
                 </div>
         </div>
@@ -141,7 +146,6 @@
                         'rgba(255, 183, 3, 0.7)',   // Yellow
                         'rgba(253, 133, 0, 0.7)'    // Orange
                         ]
-                        // Blue and Pink shades
                 }]
             }
         });

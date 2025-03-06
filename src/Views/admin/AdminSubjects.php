@@ -47,7 +47,7 @@
                             }
                             $subjectId = htmlspecialchars($row["subject_id"]);
                             $subjectName = htmlspecialchars($row["subject_name"]);
-                            $imageSrc = !empty($row["subject_display_pic"]) ? '../uploads/' . htmlspecialchars($row["subject_display_pic"]) : '';
+                            $imageSrc = !empty($row["subject_display_pic"]) ? '../uploads/Subjects/' . htmlspecialchars($row["subject_display_pic"]) : '';
                     ?>
                             <tr>
                                 <td><?= $subjectId ?></td>
@@ -98,7 +98,7 @@
                             }
                             $subjectId = htmlspecialchars($row["subject_id"]);
                             $subjectName = htmlspecialchars($row["subject_name"]);
-                            $imageSrc = !empty($row["subject_display_pic"]) ? '../uploads/' . htmlspecialchars($row["subject_display_pic"]) : '';
+                            $imageSrc = !empty($row["subject_display_pic"]) ? '../uploads/Subjects/' . htmlspecialchars($row["subject_display_pic"]) : '';
                     ?>
                             <tr>
                                 <td><?= $subjectId ?></td>
