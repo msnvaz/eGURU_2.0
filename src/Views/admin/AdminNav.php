@@ -113,6 +113,9 @@
    <a href="/admin-subjects" class="<?= $current_path == '/admin-subjects' ? 'current-page' : '' ?>">
        <i class="fa-solid fa-book"></i>Subjects
    </a>
+   <a href="/admin-announcement" class="<?= $current_path == '/admin-subjects' ? 'current-page' : '' ?>">
+       <i class="fa-solid fa-bullhorn"></i>Announcement
+   </a>
    <a href="/admin-sessions" class="<?= $current_path == '/admin-sessions' ? 'current-page' : '' ?>">
        <i class="fa-solid fa-calendar-days"></i>Sessions
    </a>

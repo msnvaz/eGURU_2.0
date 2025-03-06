@@ -12,6 +12,7 @@ use App\Controllers\admin\AdminDashboardController;
 use App\Controllers\admin\FeeRequestController;
 use App\Controllers\admin\adminSubjectController;
 use App\Controllers\admin\adminSessionController;
+use App\Controllers\admin\adminAnnouncementController; //for announcement
 use App\Controllers\admin\adminStudentController;
 use App\Controllers\admin\AdminTutorGradingController;
 use App\Controllers\admin\AdminSettingsController;
@@ -118,6 +119,15 @@ $router->get('/admin-logout', AdminDashboardController::class, 'logout');
 $router->get('/admin-sessions', adminSessionController::class, 'showAllSessions');
 //search sessions
 $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions');
+//admin announcements
+$router->get('/admin-announcement', AdminAnnouncementController::class, 'showAnnouncements'); // View all announcements
+$router->get('/admin-announcement/create', AdminAnnouncementController::class, 'showCreateForm'); // Show create announcement form
+$router->post('/admin-announcement/create', AdminAnnouncementController::class, 'createAnnouncement'); // Create a new announcement
+$router->get('/admin-announcement/update/{id}', AdminAnnouncementController::class, 'showUpdateForm'); // Show update announcement form
+$router->post('/admin-announcement/update/', AdminAnnouncementController::class, 'updateAnnouncement'); // Update an existing announcement
+$router->get('/admin-announcement/delete/{id}', AdminAnnouncementController::class, 'deleteAnnouncement'); // Delete an announcement
+
+
 //admin students
 $router->get('/admin-students', AdminStudentController::class, 'showAllStudents');
 //student search
