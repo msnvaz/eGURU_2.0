@@ -78,10 +78,10 @@
         new Chart(studentRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
                     label: 'Student Registrations',
-                    data: [50, 70, 80, 120, 150, 180],
+                    data: <?= json_encode(array_column($studentRegistrations, 'total')) ?>,
                     borderColor: '#293241', // Blue
                     backgroundColor: 'rgba(74, 144, 226, 0.2)', // Light Blue (semi-transparent)
                     borderWidth: 2,
@@ -94,15 +94,16 @@
         new Chart(teacherRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
                     label: 'Teacher Registrations',
-                    data: [10, 20, 15, 25, 30, 40],
+                    data: <?= json_encode(array_column($tutorRegistrations, 'total')) ?>,
                     borderColor: '#ee6c4d', // Light Pink
                     backgroundColor: 'rgba(255, 182, 193, 0.2)', // Light Pink (semi-transparent)
                     borderWidth: 2,
                 }]
             }
+
         });
     
         // Sessions Per Subject
