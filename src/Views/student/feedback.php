@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<?php include '../src/Views/navbar.php'; ?>
+<?php include '../src/Views/student/header.php'; ?>
         <div class="container">
         <?php include 'sidebar.php'; ?>
         <header class="header">

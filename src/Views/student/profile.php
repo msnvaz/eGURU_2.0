@@ -61,7 +61,7 @@
 <?php $page="profile"; ?>
 
 <body>
-    <?php include '../src/Views/navbar.php'; ?>
+<?php include '../src/Views/student/header.php'; ?>
     <!-- header part here -->
     <div class="container">
         <!-- Sidebar -->
