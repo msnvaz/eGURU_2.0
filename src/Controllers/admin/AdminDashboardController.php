@@ -29,7 +29,11 @@ $totalTutors = $this->model->getTotalTutors();
 $totalRevenue = $this->model->getTotalRevenue();
 $totalSessions = $this->model->getTotalSessions();
 $completedSessions = $this->model->getCompletedSessions();
+$studentRegistrations = $this->model->getStudentRegistrationsByMonth();
+$tutorRegistrations = $this->model->getTutorRegistrationsByMonth();
 require_once __DIR__ . '/../../Views/admin/AdminDashboard.php';    
+
+
 
 
 
