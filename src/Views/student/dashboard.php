@@ -1,3 +1,18 @@
+<?php
+use App\Controllers\student\StudentDashboardController;
+// Ensure student is logged in
+if (!isset($_SESSION['student_id'])) {
+    header("Location: /student-login");
+    exit();
+}
+
+// Fetch student details from session
+$student_name = isset($_SESSION['student_name']) ? $_SESSION['student_name'] : 'Student';
+$student_email = isset($_SESSION['student_email']) ? $_SESSION['student_email'] : 'Email';
+$student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points'] : 0;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,23 +24,33 @@
     <link rel="stylesheet" href="css/student/sidebar.css">
     
 </head>
+<?php $page="dashboard"; ?>
 <body>
-<?php include '../src/Views/navbar.php'; ?>
+<?php include '../src/Views/student/header.php'; ?>
     <div class="container">
     <?php include 'sidebar.php'; ?>
         <div class="header-container">
             <div class="profile-section">
                 <div class="welcome-text">
-                    <h1>Welcome back, Sachini</h1>
-                    <p>Keep up the good work!</p>
+                <h1>Welcome <?= htmlspecialchars(explode(' ', $student_name)[0]) ?>👋</h1>
+                <p>Keep up the good work!</p>
                 </div>
                 <div class="user-info">
-                    <img src="images/student-uploads/stu2.jpg" alt="Profile" class="user-avatar">
+                <img src="images/student-uploads/profilePhotos/<?php echo isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'profile1.jpg'; ?>"
+                        alt="Profile" class="user-avatar">
                     <div class="user-details">
-                        <h2>Sachini Wimalasiri</h2>
-                        <p>Sachini10@gmail.com</p>
-                        <p class="points">Points: 10,000</p>
-                        <button class="find-tutor-btn"><a style="text-decoration:none; color:white;" href="student-findtutor">Find Tutor</a></button>
+
+                        <h2><?= isset($_SESSION['student_name']) ? htmlspecialchars($_SESSION['student_name']) : 'Student Name' ?>
+                        </h2>
+                        <p><?= isset($_SESSION['student_email']) ? htmlspecialchars($_SESSION['student_email']) : 'test@example.com' ?>
+                        </p>
+                        <p class="points">Points:
+                            <?= isset($_SESSION['student_points']) ? htmlspecialchars($_SESSION['student_points']) : '0' ?>
+                        </p>
+
+                        <button class="find-tutor-btn"><a style="text-decoration:none; color:white;"
+                                href="student-findtutor">Find Tutor</a></button>
+                                <img src="images/student-uploads/welcome.png" alt="welcome" class="welcome_img">
                     </div>
                 </div>
             </div>
@@ -51,7 +76,7 @@
             <div class="events-section">
             <div class="section-header">
                     <h2>Upcoming Events</h2>
-                    <a href="#" class="view-all">View All</a>
+                    <a href="student-events" class="view-all">View All</a>
                 </div>
                 <div class="event-list">
                     <div class="event-card">
@@ -70,7 +95,7 @@
                 </div><br>
                 <div class="section-header">
                     <h2>Previous Events</h2>
-                    <a href="#" class="view-all">View All</a>
+                    <a href="student-events" class="view-all">View All</a>
                 </div>
                 <div class="event-list">
                     <div class="event-card">
@@ -92,7 +117,7 @@
             <div class="feedback-section">
                 <div class="section-header">
                     <h2>Tutors' Feedback</h2>
-                    <a href="#" class="view-all">View All</a>
+                    <a href="student-feedback" class="view-all">View All</a>
                 </div>
                 <div class="feedback-list">
                     <div class="feedback-item">

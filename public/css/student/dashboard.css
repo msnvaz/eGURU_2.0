@@ -33,6 +33,15 @@
     margin-bottom: 2rem;
 }
 
+.welcome_img{
+    width: 400px;
+    height: 400px;
+    margin-left: 70px;
+    margin-top: -400px;
+    margin-right: -120px;
+    margin-bottom: -150px;
+    
+}
 .user-info {
     display: flex;
     gap: 2rem;

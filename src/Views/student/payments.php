@@ -10,7 +10,7 @@
 </head>
 <?php $page="payment"; ?>
 <body>
-<?php include '../src/Views/navbar.php'; ?>
+<?php include '../src/Views/student/header.php'; ?>
 <div class="container">
         <!-- Sidebar -->
         <?php include 'sidebar.php'; ?>

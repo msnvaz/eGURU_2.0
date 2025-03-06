@@ -12,7 +12,7 @@
 </head>
 <?php $page="event"; ?>
 <body>
-<?php include '../src/Views/navbar.php'; ?>
+<?php include '../src/Views/student/header.php'; ?>
 <div class="event-bodyform-container">
         <!-- Sidebar -->
         <?php include 'sidebar.php'; ?>

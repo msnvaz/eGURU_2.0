@@ -11,7 +11,7 @@
 </head>
 <?php $page="session"; ?>
 <body>
-<?php include '../src/Views/navbar.php'; ?>
+<?php include '../src/Views/student/header.php'; ?>
 
         <?php include 'sidebar.php'; ?>
         <div class="request_container">
