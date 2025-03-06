@@ -11,22 +11,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 }
 
 // Correct path for including Model
-$rootPath = dirname(__DIR__, 2); // Moves up 2 levels to reach 'src'
-$modelPath = $rootPath . "/Models/admin/AdminAnnouncementModel.php";
-
-// Verify model file exists
-if (!file_exists($modelPath)) {
-    die("Error: Model file not found at $modelPath");
-}
-
-require_once $modelPath;
+// require_once __DIR__ . '/../../../Models/admin/AdminAnnouncementModel.php';
 
 // Create model instance
 $model = new \App\Models\admin\AdminAnnouncementModel();
 
 // Get announcements with pagination (default to first page)
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 10; // Announcements per page
+$limit = 10;    
 $result = $model->getAllAnnouncements($page, $limit);
 $announcements = $result['announcements'];
 $totalAnnouncements = $result['total'];
@@ -36,25 +28,20 @@ $totalPages = ceil($totalAnnouncements / $limit);
 $successMessage = $_GET['success'] ?? "";
 $errorMessage = $_GET['error'] ?? "";
 
-// Define Controller Path Dynamically
-$controllerPath = "src/Controllers/admin/AdminAnnouncementController.php";
-
-// Ensure Controller Exists
-$absoluteControllerPath = $_SERVER['DOCUMENT_ROOT'] . "/" . $controllerPath;
-$controllerExists = file_exists($absoluteControllerPath);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin - Announcements</title>
-    <link rel="icon" type="image/png" href="/images/eGURU_6.png">
     <link rel="stylesheet" href="/css/admin/Admin.css">
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        body{
+            margin-left:200px;
+            margin-top:100px;
+        }
         .pagination {
             display: flex;
             justify-content: center;
@@ -71,10 +58,6 @@ $controllerExists = file_exists($absoluteControllerPath);
             background-color: #007bff;
             color: white;
         }
-        body{
-            margin-left:200px;
-            margin-top:100px;
-        }
         .add-btn {
             background-color: #28a745;
             color: white;
@@ -82,7 +65,7 @@ $controllerExists = file_exists($absoluteControllerPath);
     </style>
 </head>
 <body>
-    <?php include 'AdminHeader.php'; ?>
+    <?php require 'AdminHeader.php'; ?>
     <?php require 'AdminNav.php'; ?> 
 
     <div class="container">
@@ -102,31 +85,26 @@ $controllerExists = file_exists($absoluteControllerPath);
                 <tr>
                     <th>Announcement</th>
                     <th>Created At</th>
+                    <th>Updated At</th> <!-- Added Updated At Column -->
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($announcements)): ?>
                     <tr>
-                        <td colspan="3" style="text-align: center;">No announcements found.</td>
+                        <td colspan="5" style="text-align: center;">No announcements found.</td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($announcements as $row): ?>
                         <tr>
                             <td><?= htmlspecialchars($row['announcement'] ?? 'N/A') ?></td>
                             <td><?= htmlspecialchars($row['created_at'] ?? 'N/A') ?></td>
+                            <td><?= htmlspecialchars($row['updated_at'] ?? 'N/A') ?></td> <!-- Displaying Updated At -->
+                            <td><?= htmlspecialchars($row['status'] ?? 'inactive') ?></td>
                             <td>
-                                <button class="btn edit-btn" onclick="editAnnouncement('<?= $row['announce_id'] ?>', '<?= htmlspecialchars($row['announcement'], ENT_QUOTES) ?>')">Edit</button>
-                                
-                                <?php if ($controllerExists): ?>
-                                    <a href="AdminAnnouncementController.php?action=delete&delete_id=<?= $row['announce_id'] ?>"
-                                       class="btn delete-btn"
-                                       onclick="return confirm('Are you sure you want to delete this?');">
-                                        Delete
-                                    </a>
-                                <?php else: ?>
-                                    <span class="btn delete-btn disabled">Delete (Controller Not Found)</span>
-                                <?php endif; ?>
+                                <button class="btn edit-btn" onclick="editAnnouncement('<?= $row['announce_id'] ?>', '<?= htmlspecialchars($row['announcement'], ENT_QUOTES) ?>', '<?= $row['status'] ?>')">Edit</button>
+                                <a href="/admin-announcement/delete" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -139,15 +117,9 @@ $controllerExists = file_exists($absoluteControllerPath);
                 <?php if ($page > 1): ?>
                     <a href="?page=<?= $page - 1 ?>">Previous</a>
                 <?php endif; ?>
-
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <?php if ($i == $page): ?>
-                        <span class="current"><?= $i ?></span>
-                    <?php else: ?>
-                        <a href="?page=<?= $i ?>"><?= $i ?></a>
-                    <?php endif; ?>
+                    <a href="?page=<?= $i ?>" class="<?= $i == $page ? 'current' : '' ?>"><?= $i ?></a>
                 <?php endfor; ?>
-
                 <?php if ($page < $totalPages): ?>
                     <a href="?page=<?= $page + 1 ?>">Next</a>
                 <?php endif; ?>
@@ -159,9 +131,14 @@ $controllerExists = file_exists($absoluteControllerPath);
         <div class="modal-content">
             <span class="close" onclick="closeModal('addModal')">&times;</span>
             <h3>Add Announcement</h3>
-            <form action="<?= $controllerPath ?>?action=create" method="post">
+            <form action="/admin-announcement/create" method="post">
                 <label>Announcement:</label>
                 <textarea name="announcement" required></textarea>
+                <label>Status:</label>
+                <select name="status">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
                 <button type="submit" class="btn add-btn">Save</button>
             </form>
         </div>
@@ -171,10 +148,15 @@ $controllerExists = file_exists($absoluteControllerPath);
         <div class="modal-content">
             <span class="close" onclick="closeModal('editModal')">&times;</span>
             <h3>Edit Announcement</h3>
-            <form action="/admin-announcement/update/" method="post">
+            <form action="/admin-announcement" method="post">
                 <input type="hidden" name="announce_id" id="edit-id">
                 <label>Announcement:</label>
                 <textarea name="announcement" id="edit-announcement" required></textarea>
+                <label>Status:</label>
+                <select name="status" id="edit-status">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
                 <button type="submit" class="btn edit-btn">Update</button>
             </form>
         </div>
@@ -187,9 +169,10 @@ $controllerExists = file_exists($absoluteControllerPath);
         function closeModal(id) {
             document.getElementById(id).style.display = "none";
         }
-        function editAnnouncement(id, announcement) {
+        function editAnnouncement(id, announcement, status) {
             document.getElementById("edit-id").value = id;
             document.getElementById("edit-announcement").value = decodeURIComponent(announcement);
+            document.getElementById("edit-status").value = status;
             openModal("editModal");
         }
     </script>
