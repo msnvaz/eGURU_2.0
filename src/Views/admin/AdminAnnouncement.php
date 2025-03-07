@@ -104,7 +104,7 @@ $errorMessage = $_GET['error'] ?? "";
                             <td><?= htmlspecialchars($row['status'] ?? 'inactive') ?></td>
                             <td>
                                 <button class="btn edit-btn" onclick="editAnnouncement('<?= $row['announce_id'] ?>', '<?= htmlspecialchars($row['announcement'], ENT_QUOTES) ?>', '<?= $row['status'] ?>')">Edit</button>
-                                <a href="/admin-announcement/delete" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+                                <a href="/admin-announcement" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -134,11 +134,6 @@ $errorMessage = $_GET['error'] ?? "";
             <form action="/admin-announcement/create" method="post">
                 <label>Announcement:</label>
                 <textarea name="announcement" required></textarea>
-                <label>Status:</label>
-                <select name="status">
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
                 <button type="submit" class="btn add-btn">Save</button>
             </form>
         </div>
@@ -152,11 +147,6 @@ $errorMessage = $_GET['error'] ?? "";
                 <input type="hidden" name="announce_id" id="edit-id">
                 <label>Announcement:</label>
                 <textarea name="announcement" id="edit-announcement" required></textarea>
-                <label>Status:</label>
-                <select name="status" id="edit-status">
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
                 <button type="submit" class="btn edit-btn">Update</button>
             </form>
         </div>
@@ -164,17 +154,19 @@ $errorMessage = $_GET['error'] ?? "";
 
     <script>
         function openModal(id) {
-            document.getElementById(id).style.display = "block";
-        }
+        document.getElementById(id).style.display = "block";
+}
+
         function closeModal(id) {
-            document.getElementById(id).style.display = "none";
-        }
-        function editAnnouncement(id, announcement, status) {
-            document.getElementById("edit-id").value = id;
-            document.getElementById("edit-announcement").value = decodeURIComponent(announcement);
-            document.getElementById("edit-status").value = status;
-            openModal("editModal");
-        }
+        document.getElementById(id).style.display = "none";
+}
+
+        function editAnnouncement(id, announcement) {
+        document.getElementById("edit-id").value = id;
+        document.getElementById("edit-announcement").value = decodeURIComponent(announcement);
+        openModal("editModal");
+}
+
     </script>
 </body>
 </html>
