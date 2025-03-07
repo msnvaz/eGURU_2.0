@@ -106,46 +106,108 @@ td button:hover {
     cursor: pointer;
 }
 
- 
 .container {
   max-width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: 30px;
-  margin-left: 20px;
+  padding: 0 15px;
+  margin: 0 30px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-.mt-4 {
-  margin-top: 1.5rem !important;
+.chart-container {
+  background-color: #ffffff00;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.0);
+  padding: 20px;
+  margin-bottom: 20px;
+  height: 300px;
+  gap: 10px;
 }
-
+.chart-container h3 {
+  margin: 0 0 15px;
+  font-size: 18px;
+  color: #293241;
+}
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  width: 100%;
+  justify-content: space-between;
+  margin: 0 -15px;
 }
-
 .col-md-4 {
-  flex: 0 0 33.333333%;
-  max-width: 28%;
-  padding-right: 15px;
-  padding-left: 15px;
-  background-color: #ffffffb5;
+  flex: 0 0 calc(32% - 30px);
+  max-width: calc(32% - 30px);
+  padding: 0 15px;
+  background-color: white;
   border-radius: 10px;
-  margin: 12px;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-right: 10px;
+  padding-bottom: 10px;
 }
-
-.col-md-4:hover{
-  background-color: #ffffffb5;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+.col-md-4:hover {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
 }
-
+.mt-4 {
+  margin-top: 1.5rem;
+}
 .mb-4 {
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 8px;
 }
-
+.stats-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.stat-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 8px;
+  flex: 1;
+  max-width: 250px;
+  text-align: center;
+}
+.stat-card h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #6c757d;
+}
+.stat-number {
+  font-size: 28px;
+  font-weight: bold;
+  color: #293241;
+  margin: 10px 0;
+}
+.stat-trend {
+  font-size: 14px;
+  display: block;
+}
+.stat-trend.positive {
+  color: #28a745;
+}
+.stat-trend.negative {
+  color: #dc3545;
+}
+@media (max-width: 992px) {
+  .col-md-4 {
+    flex: 0 0 calc(50% - 30px);
+    max-width: calc(50% - 30px);
+  }
+}
+@media (max-width: 768px) {
+  .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .stat-card {
+    min-width: 150px;
+  }
+}
 .d-none {
   display: none !important;
 }
