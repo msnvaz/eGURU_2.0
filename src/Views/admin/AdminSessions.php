@@ -62,7 +62,6 @@
                     </select>
                 </div>
             </div>
-            
             <div class="searchbar"> 
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" name="search_term" placeholder="Search by Student/Tutor Name or Email" 

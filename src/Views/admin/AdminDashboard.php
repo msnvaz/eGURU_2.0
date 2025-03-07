@@ -22,47 +22,72 @@
         <div class="stats-section">
                 <div class="stat-card">
                     <h3>Total Students</h3>
-                    <p class="stat-number">2,547</p>
+                    <p class="stat-number"><?= $totalStudents ?></p>
                     <span class="stat-trend positive">+12% ↑</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Total Teachers</h3>
-                    <p class="stat-number">157</p>
+                    <h3>Total Tutors</h3>
+                    <p class="stat-number"><?= $totalTutors ?></p>
                     <span class="stat-trend positive">+5% ↑</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Active Sessions</h3>
-                    <p class="stat-number">48</p>
-                    <span class="stat-trend">Today</span>
+                    <h3>Total Sessions</h3>
+                    <p class="stat-number"><?= $totalSessions ?></p>
+                    <span class="stat-trend positive">+10% ↑</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Sessions</h3>
+                    <p class="stat-number"><?= $completedSessions ?></p>
+                    <span class="stat-trend positive">+8% ↑</span>
                 </div>
                 <div class="stat-card">
                     <h3>Revenue</h3>
-                    <p class="stat-number">Rs.105,280</p>
+                    <p class="stat-number"><?= number_format($totalRevenue, 2) ?></p>
                     <span class="stat-trend positive">+8% ↑</span>
                 </div>
         </div>
         <div class="container mt-4">
+            <!-- First row of charts -->
             <div class="row">
-            <div class="col-md-4 mb-4">
-                <canvas id="studentRegistrationsChart"></canvas>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h3>Student Registrations</h3>
+                        <canvas id="studentRegistrationsChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h3>Tutor Registrations</h3>
+                        <canvas id="teacherRegistrationsChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h3>Sessions Per Subject</h3>
+                        <canvas id="sessionsPerSubjectChart"></canvas>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <canvas id="teacherRegistrationsChart"></canvas>
-            </div>
-            <div class="col-md-4 mb-4">
-                <canvas id="sessionsPerSubjectChart"></canvas>
-            </div>
-            </div>
+            <!-- Second row of charts -->
             <div class="row">
-            <div class="col-md-4 mb-4">
-                <canvas id="sessionsStatusChart"></canvas>
-            </div>
-            <div class="col-md-4 mb-4">
-                <canvas id="teacherPerformanceChart"></canvas>
-            </div>
-            <div class="col-md-4 mb-4">
-                <canvas id="studentFeedbackChart"></canvas>
-            </div>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h3>Session Status</h3>
+                        <canvas id="sessionsStatusChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h3>Teacher Performance</h3>
+                        <canvas id="teacherPerformanceChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h3>Student Feedback</h3>
+                        <canvas id="studentFeedbackChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -73,14 +98,19 @@
         new Chart(studentRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
                     label: 'Student Registrations',
-                    data: [50, 70, 80, 120, 150, 180],
-                    borderColor: '#293241', // Blue
-                    backgroundColor: 'rgba(74, 144, 226, 0.2)', // Light Blue (semi-transparent)
+                    data: <?= json_encode($studentRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
+                    borderColor: '#293241',
+                    backgroundColor: 'rgba(74, 144, 226, 0.2)',
                     borderWidth: 2,
+                    tension: 0.3
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     
@@ -89,14 +119,19 @@
         new Chart(teacherRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
-                    label: 'Teacher Registrations',
-                    data: [10, 20, 15, 25, 30, 40],
-                    borderColor: '#ee6c4d', // Light Pink
-                    backgroundColor: 'rgba(255, 182, 193, 0.2)', // Light Pink (semi-transparent)
+                    label: 'Tutor Registrations',
+                    data: <?= json_encode($tutorRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
+                    borderColor: '#ee6c4d',
+                    backgroundColor: 'rgba(255, 182, 193, 0.2)',
                     borderWidth: 2,
+                    tension: 0.3
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     
@@ -105,12 +140,20 @@
         new Chart(sessionsPerSubjectCtx, {
             type: 'bar',
             data: {
-                labels: ['Math', 'Science', 'English', 'History', 'Art'], 
+                labels: <?= json_encode(array_column($sessionsPerSubject ?? [], 'subject_name')) ? : '[]' ?>,
                 datasets: [{
                     label: 'Sessions',
-                    data: [100, 80, 120, 60, 40],
-                    backgroundColor: ['#3d5a80', '#98c1d9', '#e0fdfc', '#ee6c4d', '#293241'], // Various shades of blue and pink
+                    data: <?= json_encode(array_column($sessionsPerSubject ?? [], 'total')) ? : '[]' ?>,
+                    backgroundColor: [
+                        '#3d5a80', '#98c1d9', '#e0fdfc', '#ee6c4d', '#293241',
+                        '#3d5a80', '#98c1d9', '#e0fdfc', '#ee6c4d', '#293241',
+                        '#3d5a80', '#98c1d9'
+                    ]
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     
@@ -119,49 +162,90 @@
         new Chart(sessionsStatusCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Completed', 'Pending', 'Cancelled'], 
+                labels: ['Scheduled', 'Completed', 'Cancelled', 'Requested', 'Rejected'],
                 datasets: [{
-                    data: [60, 30, 10],
-                    backgroundColor: ['#8ecae6', '#023047', '#ffb703'], // Blue, Light Pink, Light Blue
+                    data: [
+                        <?= $sessionData['scheduled'] ?? 0 ?>, 
+                        <?= $sessionData['completed'] ?? 0 ?>, 
+                        <?= $sessionData['cancelled'] ?? 0 ?>,
+                        <?= $sessionData['requested'] ?? 0 ?>,
+                        <?= $sessionData['rejected'] ?? 0 ?>
+                    ],
+                    backgroundColor: ['#8ecae6', '#023047', '#ffb703', '#219ebc', '#fb8500']
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     
-        // Teacher Performance
+        // Teacher Performance (Using sample data for now)
         const teacherPerformanceCtx = document.getElementById('teacherPerformanceChart').getContext('2d');
         new Chart(teacherPerformanceCtx, {
             type: 'polarArea',
             data: {
-                labels: ['Teacher A', 'Teacher B', 'Teacher C', 'Teacher D'], 
+                labels: ['Teacher A', 'Teacher B', 'Teacher C', 'Teacher D'],
                 datasets: [{
-                    data: [80, 90, 70, 85],
+                    data: [80, 90, 70, 85], // Replace with real data when available
                     backgroundColor: [
-                        'rgba(142, 202, 230, 0.7)', // Light Blue
-                        'rgba(2, 48, 71, 0.7)',     // Dark Blue
-                        'rgba(255, 183, 3, 0.7)',   // Yellow
-                        'rgba(253, 133, 0, 0.7)'    // Orange
-                        ]
-                        // Blue and Pink shades
+                        'rgba(142, 202, 230, 0.7)',
+                        'rgba(2, 48, 71, 0.7)',
+                        'rgba(255, 183, 3, 0.7)',
+                        'rgba(253, 133, 0, 0.7)'
+                    ]
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
     
         // Student Feedback
         const studentFeedbackCtx = document.getElementById('studentFeedbackChart').getContext('2d');
+        // Get feedback data or use defaults
+        const feedbackData = {
+            punctuality: <?= isset($feedbackData['punctuality']) ? $feedbackData['punctuality'] : 4.2 ?>,
+            knowledge: <?= isset($feedbackData['knowledge']) ? $feedbackData['knowledge'] : 5.0 ?>,
+            clarity: <?= isset($feedbackData['clarity']) ? $feedbackData['clarity'] : 4.5 ?>,
+            engagement: <?= isset($feedbackData['engagement']) ? $feedbackData['engagement'] : 3.8 ?>,
+            helpfulness: <?= isset($feedbackData['helpfulness']) ? $feedbackData['helpfulness'] : 4.8 ?>
+        };
+        
         new Chart(studentFeedbackCtx, {
             type: 'radar',
             data: {
-                labels: ['Punctuality', 'Knowledge', 'Clarity', 'Engagement', 'Helpfulness'], 
+                labels: ['Punctuality', 'Knowledge', 'Clarity', 'Engagement', 'Helpfulness'],
                 datasets: [{
                     label: 'Feedback Score',
-                    data: [4.2, 5, 4.5, 3.8, 4.8],
-                    backgroundColor: 'rgba(74, 144, 226, 0.4)', // Light Blue (semi-transparent)
-                    borderColor: '#4A90E2', // Blue
+                    data: [
+                        feedbackData.punctuality,
+                        feedbackData.knowledge,
+                        feedbackData.clarity,
+                        feedbackData.engagement,
+                        feedbackData.helpfulness
+                    ],
+                    backgroundColor: 'rgba(74, 144, 226, 0.4)',
+                    borderColor: '#4A90E2',
                     borderWidth: 1.5
                 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 5
+                    }
+                }
             }
         });
     </script>
     
+    <style>
+        /* Copy and paste the CSS provided in the artifact above */
+    </style>
 </body>
 </html>

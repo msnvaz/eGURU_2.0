@@ -13,46 +13,46 @@ class Student_profile {
         $this->conn = $db->connect();
     }
 
-    public function student_signup($firstname, $lastname, $email, $password, $dateofbirth, $phonenumber) {
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $initial_points = 0; // Initial points for new signup
+    public function student_signup($student_first_name, $student_last_name, $student_email, $student_password, $student_DOB, $student_phonenumber) {
+        $hashedPassword = password_hash($student_password, PASSWORD_BCRYPT);
+        $student_points = 0; // Initial points for new signup
 
         $query = $this->conn->prepare("
-            INSERT INTO student (firstname, lastname, email, password, phonenumber, dateofbirth, points) 
-            VALUES (:firstname, :lastname, :email, :password, :phonenumber, :dateofbirth, :points)
+            INSERT INTO student (student_first_name, student_last_name, student_email, student_password, student_phonenumber, student_DOB, student_points) 
+            VALUES (:student_first_name, :student_last_name, :student_email, :student_password, :student_phonenumber, :student_DOB, :student_points)
         ");
         $query->execute([
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'email' => $email,
-            'password' => $hashedPassword,
-            'phonenumber' => $phonenumber,
-            'dateofbirth' => $dateofbirth,
-            'points' => $initial_points
+            'student_first_name' => $student_first_name,
+            'student_last_name' => $student_last_name,
+            'student_email' => $student_email,
+            'student_password' => $hashedPassword,
+            'student_phonenumber' => $student_phonenumber,
+            'student_DOB' => $student_DOB,
+            'student_points' => $student_points
         ]);
 
         return [
-            'id' => $this->conn->lastInsertId(),
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'points' => $initial_points
+            'student_id' => $this->conn->lastInsertId(),
+            'student_first_name' => $student_first_name,
+            'student_last_name' => $student_last_name,
+            'student_points' => $student_points
         ];
     }
 
     // Existing methods remain the same
-    public function check_email($email) {
-        $query = $this->conn->prepare("SELECT * FROM student WHERE email = :email");
-        $query->execute(['email' => $email]);
+    public function check_email($student_email) {
+        $query = $this->conn->prepare("SELECT * FROM student WHERE student_email = :student_email");
+        $query->execute(['student_email' => $student_email]);
         return $query->rowCount() > 0;
     }
 
-    public function student_login($email, $password) {
-        $query = $this->conn->prepare("SELECT * FROM student WHERE email = :email");
-        $query->execute(['email' => $email]);
+    public function student_login($student_email, $student_password) {
+        $query = $this->conn->prepare("SELECT * FROM student WHERE student_email = :student_email");
+        $query->execute(['student_email' => $student_email]);
         $data = $query->fetch(PDO::FETCH_ASSOC);
 
         if ($data) {
-            if (password_verify($password, $data['password'])) {
+            if (password_verify($student_password, $data['student_password'])) {
                 return $data;
             } else {
                 $_SESSION['login_error'] = "Invalid password";

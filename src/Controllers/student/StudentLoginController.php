@@ -2,7 +2,6 @@
 
 namespace App\Controllers\student;
 
-use App\Models\StudentDetailsModel;
 use App\Models\student\Student_profile;
 
 class StudentLoginController {
@@ -12,38 +11,35 @@ class StudentLoginController {
         $this->model = new Student_profile();
     }
 
-    /**
-     * Displays the student login page with a list of students.
-     */
     public function showStudentLoginPage() {
-        // Fetch all studentss from the database
-        //$ads = $this->model->getALLStudents();
-
-        // Pass data to the view
         
         require_once __DIR__ . '/../../views/student/login.php';
     }
 
-    public function login(){
+    public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-             $email = $_POST['email'];
-             $password = $_POST['password'];
-             $success = $this->model->student_login($email,$password);
-             if($success){
-                 $_SESSION['student_id'] = $success['id'];
-                 $_SESSION['student_email'] = $success['email'];
-                 $_SESSION['student_name'] =$success['firstname'] . ' ' . $success['lastname'];
-
-                 header("Location: /student-dashboard");
-             }
-             else{
-                 header("Location: /student-login");
-                 exit();
-             }
-     }
-     else{
-         exit();
-     }
- }
+            // Use the correct names as per the HTML form field names
+            $student_email = $_POST['email']; // 'email' from the view form
+            $student_password = $_POST['password']; // 'password' from the view form
+    
+            // Attempt login
+            $success = $this->model->student_login($student_email, $student_password);
+            
+            if($success){
+                $_SESSION['student_id'] = $success['student_id'];
+                $_SESSION['student_email'] = $success['student_email'];
+                $_SESSION['student_name'] = $success['student_first_name'] . ' ' . $success['student_last_name'];
+    
+                header("Location: /student-dashboard");
+                exit();
+            } else {
+                $_SESSION['login_error'] = "Invalid credentials, please try again.";
+                header("Location: /student-login");
+                exit();
+            }
+        } else {
+            exit();
+        }
+    }
     
 }
