@@ -22,22 +22,27 @@
         <div class="stats-section">
                 <div class="stat-card">
                     <h3>Total Students</h3>
-                    <p class="stat-number">2,547</p>
+                    <p class="stat-number"><?= $totalStudents ?></p>
                     <span class="stat-trend positive">+12% ↑</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Total Teachers</h3>
-                    <p class="stat-number">157</p>
+                    <h3>Total Tutors</h3>
+                    <p class="stat-number"><?= $totalTutors ?></p>
                     <span class="stat-trend positive">+5% ↑</span>
                 </div>
                 <div class="stat-card">
-                    <h3>Active Sessions</h3>
-                    <p class="stat-number">48</p>
-                    <span class="stat-trend">Today</span>
+                    <h3>Total Sessions</h3>
+                    <p class="stat-number"><?= $totalSessions ?></p>
+                    <span class="stat-trend positive">+10% ↑</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Sessions</h3>
+                    <p class="stat-number"><?= $completedSessions ?></p>
+                    <span class="stat-trend positive">+8% ↑</span>
                 </div>
                 <div class="stat-card">
                     <h3>Revenue</h3>
-                    <p class="stat-number">Rs.105,280</p>
+                    <p class="stat-number"><?= $totalRevenue ?></p>
                     <span class="stat-trend positive">+8% ↑</span>
                 </div>
         </div>
@@ -73,10 +78,10 @@
         new Chart(studentRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
                     label: 'Student Registrations',
-                    data: [50, 70, 80, 120, 150, 180],
+                    data: <?= json_encode(array_column($studentRegistrations, 'total')) ?>,
                     borderColor: '#293241', // Blue
                     backgroundColor: 'rgba(74, 144, 226, 0.2)', // Light Blue (semi-transparent)
                     borderWidth: 2,
@@ -89,15 +94,16 @@
         new Chart(teacherRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
                     label: 'Teacher Registrations',
-                    data: [10, 20, 15, 25, 30, 40],
+                    data: <?= json_encode(array_column($tutorRegistrations, 'total')) ?>,
                     borderColor: '#ee6c4d', // Light Pink
                     backgroundColor: 'rgba(255, 182, 193, 0.2)', // Light Pink (semi-transparent)
                     borderWidth: 2,
                 }]
             }
+
         });
     
         // Sessions Per Subject
@@ -141,7 +147,6 @@
                         'rgba(255, 183, 3, 0.7)',   // Yellow
                         'rgba(253, 133, 0, 0.7)'    // Orange
                         ]
-                        // Blue and Pink shades
                 }]
             }
         });
