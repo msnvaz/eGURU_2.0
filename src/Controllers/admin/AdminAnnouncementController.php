@@ -44,12 +44,11 @@ class AdminAnnouncementController {
 
     // Create a new announcement
     public function createAnnouncement() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['announcement'], $_POST['status'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['announcement'])) {
             $announcement = trim($_POST['announcement']);
-            $status = in_array($_POST['status'], ['active', 'inactive']) ? $_POST['status'] : 'inactive';
             
             if (!empty($announcement)) {
-                $result = $this->model->createAnnouncement($announcement, $status);
+                $result = $this->model->createAnnouncement($announcement);
                 header("Location: /admin-announcement");
             } else {
                 header("Location: /admin-announcements/");
@@ -57,16 +56,15 @@ class AdminAnnouncementController {
             exit();
         }
     }
-
+    
     // Update an existing announcement
     public function updateAnnouncement() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['announce_id'], $_POST['announcement'], $_POST['status'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['announce_id'], $_POST['announcement'])) {
             $id = intval($_POST['announce_id']);
             $announcement = trim($_POST['announcement']);
-            $status = in_array($_POST['status'], ['active', 'inactive']) ? $_POST['status'] : 'inactive';
             
             if (!empty($announcement)) {
-                $result = $this->model->updateAnnouncement($id, $announcement, $status);
+                $result = $this->model->updateAnnouncement($id, $announcement);
                 header("Location: /admin-announcement");
             } else {
                 header("Location: /admin-announcement");

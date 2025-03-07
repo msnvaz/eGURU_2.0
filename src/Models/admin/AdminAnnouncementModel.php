@@ -97,7 +97,7 @@ class AdminAnnouncementModel {
     }
 
     // Update an announcement
-    public function updateAnnouncement($announce_id, $announcement, $status) {
+    public function updateAnnouncement($announce_id, $announcement) {
         try {
             if (empty(trim($announcement))) {
                 throw new \InvalidArgumentException("Announcement cannot be empty");
@@ -110,11 +110,10 @@ class AdminAnnouncementModel {
             }
     
             $sql = "UPDATE announcement 
-                    SET announcement = :announcement, status = :status, updated_at = NOW() 
+                    SET announcement = :announcement, updated_at = NOW() 
                     WHERE announce_id = :announce_id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':announcement', $announcement);
-            $stmt->bindParam(':status', $status);
             $stmt->bindParam(':announce_id', $announce_id, PDO::PARAM_INT);
     
             return $stmt->execute();
