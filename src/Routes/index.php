@@ -60,9 +60,11 @@ $router->get('/', HomeController::class, 'index');
 $router->get('/subject', SubjectPageController::class, 'showSubjectPage');
 $router->get('/tutorpreview', TutorPreviewController::class, 'showTutorProfile'); // newly added by shayan
 $router->get('/advertisement', AdvertisementController::class, 'showAdvertisementGalleryPage');
+$router->get('/announcement', DisplayAnnouncementController::class,'displayAnnouncements');
 $router->post('/upload-ad', AdvertisementController::class, 'uploadAdvertisement');
 $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement');
 $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement');
+
 //$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
 //$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
 
@@ -124,7 +126,7 @@ $router->get('/admin-announcement', AdminAnnouncementController::class, 'showAnn
 $router->get('/admin-announcement/create{id}', AdminAnnouncementController::class, 'showCreateForm'); // Show create announcement form
 $router->post('/admin-announcement/create', AdminAnnouncementController::class, 'createAnnouncement'); // Create a new announcement
 $router->get('/admin-announcement/update/{id}', AdminAnnouncementController::class, 'showUpdateForm'); // Show update announcement form
-$router->post('/admin-announcement', AdminAnnouncementController::class, 'updateAnnouncement'); // Update an existing announcement
+$router->post('/admin-announcement/update', AdminAnnouncementController::class, 'updateAnnouncement'); // Update an existing announcement
 $router->get('/admin-announcement/delete{id}', AdminAnnouncementController::class, 'softDeleteAnnouncement'); // Delete an announcement
 
 
