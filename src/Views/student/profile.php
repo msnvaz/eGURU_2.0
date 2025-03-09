@@ -74,7 +74,7 @@
                 <form action="/student-profile-updated" method="POST" enctype="multipart/form-data">
                     <div class="profile-picture edit-profile-picture">
                         <img id="profile-image"
-                            src="images/student-uploads/profilePhotos/<?= $profileData['profile_picture']?>"
+                            src="images/student-uploads/profilePhotos/<?php echo isset($profileData['student_profile_photo']) ? $profileData['student_profile_photo'] : 'profile1.jpg'; ?>"
                             alt="Profile Picture">
                         <label class="edit-change-photo-btn" for="file-input">Change Profile Photo</label>
                         <input type="file" id="file-input" name="profile-image" accept="image/*">
@@ -87,26 +87,26 @@
                             <div class="section-box">
                                 <h3>Bio</h3>
                                 <textarea name="bio"
-                                    placeholder="Enter your bio"><?php echo $profileData['bio']; ?></textarea>
+                                    placeholder="Enter your bio"><?php echo $profileData['bio'] ?? ''; ?></textarea>
                             </div>
                             <div class="section-box">
                                 <h3>Education</h3>
                                 <textarea name="education"
-                                    placeholder="Enter your education details"><?php echo $profileData['education']; ?></textarea>
+                                    placeholder="Enter your education details"><?php echo $profileData['education'] ?? ''; ?></textarea>
                             </div>
                         </div>
                         <div class="section-row">
                             <div class="section-box">
                                 <h3>Contact Information</h3>
                                 <input type="text" name="phone" placeholder="Enter phone number"
-                                    value="<?php echo $profileData['phone']; ?>">
-                                <input type="email" name="email" placeholder="Enter email"
-                                    value="<?php echo $profileData['email']; ?>">
-                            </div>
+    value="<?php echo $profileData['student_phonenumber'] ?? ''; ?>">
+<input type="email" name="email" placeholder="Enter email"
+    value="<?php echo $profileData['student_email'] ?? ''; ?>">
+</div>
                             <div class="section-box">
                                 <h3>Interests</h3>
                                 <textarea name="interests"
-                                    placeholder="Enter your interests"><?php echo $profileData['interests']; ?></textarea>
+                                    placeholder="Enter your interests"><?php echo $profileData['interests'] ?? ''; ?></textarea>
                             </div>
                         </div>
 
@@ -114,13 +114,13 @@
                             <div class="section-box">
                                 <h3>Country</h3>
                                 <input type="text" name="country" placeholder="Country"
-                                    value="<?php echo $profileData['country']; ?>" required>
+                                    value="<?php echo $profileData['country'] ?? ''; ?>" required>
                             </div>
 
                             <div class="section-box">
                                 <h3>City/Town</h3>
                                 <input type="text" name="city_town" placeholder="City/Town"
-                                    value="<?php echo $profileData['city_town']; ?>" required>
+                                    value="<?php echo $profileData['city_town'] ?? ''; ?>" required>
                             </div>
                         </div>
 
@@ -130,7 +130,7 @@
                             <div class="section-box">
                                 <h3>Grade</h3>
                                 <input type="number" name="grade" placeholder="Enter your Grade"
-                                    value="<?php echo $profileData['grade']; ?>" required>
+                                    value="<?php echo $profileData['student_grade'] ?? ''; ?>" required>
                             </div>
                         </div>
 

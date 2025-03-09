@@ -1,10 +1,20 @@
 /* Layout */
+.welcome_img{
+    width: 400px;
+    height: 400px;
+    margin-left: 70px;
+    margin-top: -400px;
+    margin-right: -120px;
+    margin-bottom: -150px;
+    
+}
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
     margin-left: 250px;
     margin-top: 60px;
+    overflow-y: auto;
 }
 
 /* Header Section */
@@ -33,15 +43,6 @@
     margin-bottom: 2rem;
 }
 
-.welcome_img{
-    width: 400px;
-    height: 400px;
-    margin-left: 70px;
-    margin-top: -400px;
-    margin-right: -120px;
-    margin-bottom: -150px;
-    
-}
 .user-info {
     display: flex;
     gap: 2rem;
@@ -86,6 +87,7 @@
 .find-tutor-btn:hover {
     background: #e02362;
 }
+
 
 /* Calendar Section */
 .calendar-section {
@@ -321,4 +323,77 @@
     margin-top: 50px;
     margin-left: 350px;
     margin-top: 100px;
+}
+
+
+
+.tutor-replies-section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tutor-reply-card {
+    display: flex;
+    align-items: start;
+    padding: 2px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+    width: 120%;
+}
+
+.tutor-reply-card:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.tutor-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.tutor-reply-content {
+    flex: 1;
+}
+
+.tutor-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.tutor-level {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+
+.tutor-subject {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+}
+
+.reply-text {
+    color: #444;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.reply-date {
+    color: #888;
+    font-size: 0.8em;
+}
+
+.no-replies {
+    text-align: center;
+    padding: 20px;
+    color: #666;
 }

@@ -5,81 +5,54 @@ use App\config\database;
 
 use PDO;
 
-class ProfileModel {  // Make sure the class name is 'ProfileModel'
+class ProfileModel {
     private $db;
 
     public function __construct() {
-        // Initialize PDO or database connection
-        $this->db = new PDO('mysql:host=localhost;dbname=eguru_full', 'root', '');
+        $this->db = new PDO('mysql:host=localhost;dbname=eguru', 'root', '');
     }
 
-    // Method to update the profile data
-    // In ProfileModel.php
-
-public function updateProfile($data) {
-    $sql = "UPDATE student_profile 
-            SET name = :name,
-                bio = :bio, 
-                education = :education, 
-                phone = :phone, 
-                email = :email, 
-                interests = :interests, 
-                country = :country, 
-                city_town = :city_town, 
-                grade = :grade";
+    public function updateProfile($data) {
+        $sql = "UPDATE student_profile 
+                SET bio = :bio, 
+                    education = :education, 
+                    interests = :interests, 
+                    country = :country, 
+                    city_town = :city_town,
+                    student_grade = :student_grade,
+                    student_profile_photo = :student_profile_photo
+                WHERE student_id = :student_id";
     
-    // Add profile picture to update if it exists
-    if (isset($data['profile_picture'])) {
-        $sql .= ", profile_picture = :profile_picture";
+        $stmt = $this->db->prepare($sql);
+        
+        $params = [
+            ':bio' => $data['bio'],
+            ':education' => $data['education'],
+            ':interests' => $data['interests'],
+            ':country' => $data['country'],
+            ':city_town' => $data['city_town'],
+            ':student_grade' => $data['student_grade'],
+            ':student_profile_photo' => $data['student_profile_photo'],
+            ':student_id' => $data['student_id']
+        ];
+    
+        return $stmt->execute($params);
     }
     
-    $sql .= " WHERE student_id = :student_id";
-
-    $stmt = $this->db->prepare($sql);
+    public function createProfile($data) {
+        $fields = [
+            'student_id', 'bio', 'education', 'interests', 'country', 'city_town', 'student_grade', 'student_profile_photo'
+        ];
+        
+        $sql = "INSERT INTO student_profile (" . implode(', ', $fields) . ") 
+                VALUES (:" . implode(', :', $fields) . ")";
     
-    $params = [
-        ':name' => $data['name'],
-        ':bio' => $data['bio'],
-        ':education' => $data['education'],
-        ':phone' => $data['phone'],
-        ':email' => $data['email'],
-        ':interests' => $data['interests'],
-        ':country' => $data['country'],
-        ':city_town' => $data['city_town'],
-        ':grade' => $data['grade'],
-        ':student_id' => $data['student_id']
-    ];
-    
-    if (isset($data['profile_picture'])) {
-        $params[':profile_picture'] = $data['profile_picture'];
+        $stmt = $this->db->prepare($sql);
+        
+        $params = array_intersect_key($data, array_flip($fields));
+        
+        return $stmt->execute($params);
     }
-
-    return $stmt->execute($params);
-}
-
-public function createProfile($data) {
-    $fields = [
-        'student_id', 'name', 'bio', 'education', 'phone', 
-        'email', 'interests', 'country', 'city_town', 'grade'
-    ];
-    
-    if (isset($data['profile_picture'])) {
-        $fields[] = 'profile_picture';
-    }
-    
-    $sql = "INSERT INTO student_profile (" . implode(', ', $fields) . ") 
-            VALUES (:" . implode(', :', $fields) . ")";
-
-    $stmt = $this->db->prepare($sql);
-    
-    $params = array_intersect_key($data, array_flip($fields));
-    if (isset($data['profile_picture'])) {
-        $params['profile_picture'] = $data['profile_picture'];
-    }
-    
-    return $stmt->execute($params);
-}
-
 
     public function checkid($student_id) {
         $sql = "SELECT * FROM student_profile WHERE student_id = :student_id";
@@ -92,14 +65,41 @@ public function createProfile($data) {
             return false;
         }
      }
-    
 
-    // Method to fetch profile data by student ID
     public function getProfileByStudentId($studentId) {
         $sql = "SELECT * FROM student_profile WHERE student_id = :student_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':student_id' => $studentId]);
 
-        return $stmt->fetch();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result : [];
+    }
+
+    public function getStudentContactInfo($studentId) {
+        $sql = "SELECT student_phonenumber, student_email FROM student WHERE student_id = :student_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':student_id' => $studentId]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result : [];
+    }
+
+    public function deleteProfile($studentId) {
+        $this->db->beginTransaction();
+        try {
+            $sql = "UPDATE student_profile SET profile_status = 'unset' WHERE student_id = :student_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':student_id' => $studentId]);
+
+            $sql = "UPDATE student SET student_status = 'unset' WHERE student_id = :student_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([':student_id' => $studentId]);
+
+            $this->db->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 }

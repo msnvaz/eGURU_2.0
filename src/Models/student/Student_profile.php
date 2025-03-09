@@ -52,6 +52,11 @@ class Student_profile {
         $data = $query->fetch(PDO::FETCH_ASSOC);
 
         if ($data) {
+            if ($data['student_status'] === 'unset') {
+                $_SESSION['login_error'] = "Your account has been deleted. Please sign up again.";
+                return false;
+            }
+
             if (password_verify($student_password, $data['student_password'])) {
                 return $data;
             } else {
