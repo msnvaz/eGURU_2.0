@@ -74,23 +74,31 @@ $router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginP
 $router->get('/student-signup', StudentSignupController::class, 'ShowStudentSignupPage');
 $router->post('/student_signup', StudentSignupController::class, 'student_signup');
 $router->post('/student-login', StudentLoginController::class, 'login');
-$router->get('/student-dashboard',StudentDashboardController::class, 'showStudentDashboardPage');
+$router->get('/student-dashboard', StudentDashboardController::class, 'showStudentDashboardPage');
+
 $router->get('/student-findtutor',StudentFindtutorController::class, 'ShowFindtutor');
 $router->get('/student-events',StudentEventsController::class, 'ShowEvents');
-$router->get('/student-feedback',StudentFeedbackController::class, 'ShowFeedback');
+$router->get('/student-feedback',StudentFeedbackController::class, 'showFeedback');
+$router->post('/student-feedback/submit',StudentFeedbackController::class, 'submitFeedback');   //submitFeedback in the controller
+$router->post('/student-feedback/update',StudentFeedbackController::class, 'updateFeedback');
+$router->post('/student-feedback/delete',StudentFeedbackController::class, 'deleteFeedback');
+
 $router->get('/student-publicprofile', StudentPublicProfileController::class, 'ShowPublicprofile');
 $router->get('/student-session',StudentSessionController::class, 'ShowSession');
 $router->get('/student-payment',StudentPaymentController::class, 'ShowPayment');
 $router->get('/student-rating',StudentRatingController::class, 'ShowRating');
 $router->get('/student-downloads',StudentDownloadsController::class, 'ShowDownloads');
 $router->get('/student-report',StudentReportController::class, 'ShowReport');
+$router->post('/student/save-report', StudentReportController::class, 'saveReport');
+$router->post('/student/get-tutor-details', StudentReportController::class, 'getTutorDetails');
+
 $router->get('/student-logout',StudentLogoutController::class, 'ShowLogout');
-$router->get('/student-profile',StudentEditProfileController::class, 'ShowEditProfile');
 $router->post('/student_signup',StudentSignupController::class, 'student_signup');  //used to send the data to the backend
 $router->post('/student-login',StudentLoginController::class, 'login');
-$router->post('/feedback/submit',StudentFeedbackController::class, 'save_comments');
-$router->post('/feedback/edit',StudentFeedbackController::class, 'update_comments');
-$router->post('/feedback/delete',StudentFeedbackController::class, 'delete_comments'); //used to send the data to the backend
+$router->get('/student-publicprofile', StudentPublicProfileController::class, 'ShowPublicprofile');
+$router->post('/student-profile-updated', StudentPublicProfileController::class, 'ShowUpdatedprofile');
+$router->get('/student-profile-edit', StudentPublicProfileController::class, 'ShowEditprofile');
+$router->post('/student-profile-delete', StudentPublicProfileController::class,'DeleteProfile');
 
 // Tutor routes
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
