@@ -1,3 +1,11 @@
+<?php
+require_once __DIR__ . '/../Controllers/DisplayAnnouncementController.php';
+
+use App\Controllers\DisplayAnnouncementController;
+
+$controller = new DisplayAnnouncementController();
+$announcements = $controller->displayAnnouncements();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

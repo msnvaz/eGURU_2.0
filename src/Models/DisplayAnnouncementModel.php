@@ -17,7 +17,7 @@ class DisplayAnnouncementModel {
     // Retrieve all announcements
     public function getAllAnnouncements() {
         try {
-            $query = "SELECT title, announcement FROM announcement ORDER BY id DESC"; 
+            $query = "SELECT title, announcement FROM announcement ORDER BY announce_id DESC"; 
             $stmt = $this->db->prepare($query);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
