@@ -74,16 +74,20 @@
                                 <div class="details-content">
                                     <h4>Transaction Details</h4>
                                     <p><strong>Transaction ID : </strong> <?php echo htmlspecialchars($payment["payment_id"]); ?></p>
-                                    <p><strong>Student Details : </strong> <?php echo htmlspecialchars($payment["student_first_name"]); ?>
+                                    <p><strong>Student Details : </strong> <a href="/admin-student-profile/<?= isset($payment['student_id']) ? htmlspecialchars($payment['student_id']) : ''; ?>">
+                                                                            <?php echo htmlspecialchars($payment["student_first_name"]); ?>
                                                                             <?php echo htmlspecialchars($payment["student_last_name"]); ?>
                                                                             (<?php echo htmlspecialchars($payment["student_email"]); ?>)
                                                                             (<?php echo htmlspecialchars($payment["student_id"]); ?>)
+                                    </a>
                                                                         </p>
-                                    <p><strong>Tutor Details : </strong> <?php echo htmlspecialchars($payment["tutor_first_name"]); ?>
-                                                                         <?php echo htmlspecialchars($payment["tutor_last_name"]); ?>
-                                                                         (<?php echo htmlspecialchars($payment["tutor_email"]); ?>)
-                                                                         (<?php echo htmlspecialchars($payment["tutor_id"]); ?>)  
-                                </p>
+                                    <p><strong>Tutor Details : </strong> <a href="/admin-tutor-profile/<?= isset($payment['tutor_id']) ? htmlspecialchars($payment['tutor_id']) : ''; ?>">
+                                                                            <?php echo htmlspecialchars($payment["tutor_first_name"]); ?>
+                                                                            <?php echo htmlspecialchars($payment["tutor_last_name"]); ?>
+                                                                            (<?php echo htmlspecialchars($payment["tutor_email"]); ?>)
+                                                                            (<?php echo htmlspecialchars($payment["tutor_id"]); ?>)
+                                    </a>  
+                                    </p>
                                     <p><strong>Session Date : </strong> <?php echo htmlspecialchars($payment["scheduled_date"]); ?></p>
                                     <p><strong>Payment Amount : </strong> <?php echo htmlspecialchars($payment["payment_point_amount"]); ?> points</p>
                                     <p><strong>Payment Status : </strong> <?php echo htmlspecialchars($payment["session_status"]); ?></p>
