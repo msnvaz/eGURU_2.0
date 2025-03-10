@@ -44,22 +44,7 @@ class AdminTransactionModel {
     }
     
 
-    public function refund($id) {
-        //check if tutor has enough points to refund
-        $query = "SELECT points_paid,tutor_id FROM session_payments WHERE payment_id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        $points = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $query = "SELECT points FROM tutors WHERE tutor_id = :id";
-        $stmt = $this->conn->prepare($query);
-        $query = "UPDATE session_payments SET status = 'refunded' WHERE payment_id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-    }
+    
     public function searchPayments($searchTerm) {
         $query = "SELECT 
                     sp.payment_id, 

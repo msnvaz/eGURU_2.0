@@ -19,6 +19,10 @@
             display: inline-block;
             transition: transform 0.2s;
         }
+        a{
+            font-weight: bold;
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -93,10 +97,20 @@
                                 <span class="expand-icon">►</span>
                                 <?= htmlspecialchars($session['session_id']) ?>
                             </td>
-                            <td>(<?= htmlspecialchars($session['student_id']) ?>)
-                                <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?></td>
-                            <td>(<?= htmlspecialchars($session['tutor_id']) ?>)
-                                <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?></td>
+                            <td>
+                                <!--add a hyperlink to every tutor and student id-->
+                                <a href="/admin-student-profile/<?= isset($session['student_id']) ? htmlspecialchars($session['student_id']) : ''; ?>">
+                                (<?= htmlspecialchars($session['student_id']) ?>)
+                                <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?>
+                                </a>
+                                </td>
+                            <td>   
+                            <!--add a hyperlink to every tutor and student id-->
+                                <a href="/admin-tutor-profile/<?= isset($session['tutor_id']) ? htmlspecialchars($session['tutor_id']) : ''; ?>">
+                                (<?= htmlspecialchars($session['tutor_id']) ?>)
+                                <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?>
+                                </a>
+                            </td>
                             <td><?= htmlspecialchars($session['scheduled_date']) ?></td>
                             <td><?= htmlspecialchars($session['schedule_time']) ?></td>
                             <td><?= htmlspecialchars($session['session_status']) ?></td>
