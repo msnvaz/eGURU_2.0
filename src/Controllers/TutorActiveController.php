@@ -7,8 +7,8 @@ use App\Models\TutorDisplayModel;
 class TutorActiveController {
 
     public function getSuccessfulTutors() {
-        // Instantiate the TutorModel class
-        $tutorModel = new TutorModel();
+        // Instantiate the TutorDisplayModel class
+        $tutorModel = new TutorDisplayModel();
 
         // Fetch the list of successful tutors
         $successfulTutors = $tutorModel->getSuccessfulTutors();
@@ -19,5 +19,5 @@ class TutorActiveController {
 }
 
 // Instantiate and call the controller
-$tutorController = new TutorController();
+$tutorController = new TutorActiveController();
 $tutorController->getSuccessfulTutors();
