@@ -2,11 +2,11 @@
 
 use App\Models\TutorDisplayModel;
 
-// Instantiate the TutorModel class
-$tutorPopular = new TutorDisplayModel();
+// Instantiate the TutorDisplayModel class
+$tutorModel = new TutorDisplayModel();
 
 // Fetch the list of tutors with the highest scheduled sessions
-$popularTutors = $tutorPopular->getScheduledTutors(); // Assumes this method fetches data in descending order
+$popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetches data in descending order
 ?>
 <style>
 .tutor {
@@ -77,9 +77,12 @@ $popularTutors = $tutorPopular->getScheduledTutors(); // Assumes this method fet
                 if ($rank <= 4) {
                     echo '<div class="rank-badge">' . $rank . '</div>';
                 }
-                echo '<span>' . htmlspecialchars($tutor['name']) . ' (' . htmlspecialchars($tutor['session_count']) . ' Scheduled)</span>';
 
-                // Display subjects
+                // Display Tutor Name and Scheduled Sessions
+                $fullName = htmlspecialchars($tutor['tutor_first_name']) . ' ' . htmlspecialchars($tutor['tutor_last_name']);
+                echo '<span>' . $fullName . ' (' . htmlspecialchars($tutor['scheduled_sessions']) . ' Scheduled)</span>';
+
+                // Display Subjects
                 if (!empty($tutor['subjects'])) {
                     echo '<div class="tutor-subjects">' . implode(', ', array_map('htmlspecialchars', $tutor['subjects'])) . '</div>';
                 } else {
