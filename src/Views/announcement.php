@@ -68,6 +68,7 @@ $announcements = $controller->displayAnnouncements();
                 <div class="announcement-card">
                     <h3><?= htmlspecialchars($announcement['title']) ?></h3>
                     <p><?= nl2br(htmlspecialchars($announcement['announcement'])) ?></p>
+                    <p class="updated-at" style="text-align:right">🕒 Updated on: <?= htmlspecialchars($announcement['updated_at']) ?></p>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
