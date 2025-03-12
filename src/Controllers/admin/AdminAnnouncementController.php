@@ -20,9 +20,9 @@ class AdminAnnouncementController {
         }
     }
 
-    // Show all announcements
+    // Show all active announcements
     public function showAnnouncements() {
-        $announcementsData = $this->model->getAllAnnouncements();
+        $announcementsData = $this->model->getActiveAnnouncements();
         $announcements = $announcementsData['announcements'] ?? [];
         include __DIR__ . '/../../Views/admin/AdminAnnouncement.php';
     }
@@ -49,7 +49,7 @@ class AdminAnnouncementController {
             $announcement = trim($_POST['announcement']);
             
             if (!empty($title) && !empty($announcement)) {
-                $result = $this->model->createAnnouncement($title, $announcement);
+                $this->model->createAnnouncement($title, $announcement);
                 header("Location: /admin-announcement");
             } else {
                 header("Location: /admin-announcements?error=Fields cannot be empty");
@@ -66,7 +66,7 @@ class AdminAnnouncementController {
             $announcement = trim($_POST['announcement']);
             
             if (!empty($title) && !empty($announcement)) {
-                $result = $this->model->updateAnnouncement($id, $title, $announcement);
+                $this->model->updateAnnouncement($id, $title, $announcement);
                 header("Location: /admin-announcement");
             } else {
                 header("Location: /admin-announcement");
@@ -75,10 +75,10 @@ class AdminAnnouncementController {
         }
     }
 
-    // Delete an announcement
+    // Soft delete an announcement by setting status to "inactive"
     public function deleteAnnouncement($id) {
-        $result = $this->model->deleteAnnouncement($id);
-        header("Location: /admin-announcement?success=" . ($result ? "Announcement deleted successfully" : "Failed to delete announcement"));
+        $result = $this->model->softDeleteAnnouncement($id);
+        header("Location: /admin-announcement");
         exit();
     }
 }

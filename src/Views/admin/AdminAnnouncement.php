@@ -16,7 +16,7 @@ $model = new \App\Models\admin\AdminAnnouncementModel();
 // Get announcements with pagination (default to first page)
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;    
-$result = $model->getAllAnnouncements($page, $limit);
+$result = $model->getActiveAnnouncements($page, $limit);
 $announcements = $result['announcements'];
 $totalAnnouncements = $result['total'];
 $totalPages = ceil($totalAnnouncements / $limit);
@@ -34,9 +34,9 @@ $errorMessage = $_GET['error'] ?? "";
     <link rel="stylesheet" href="/css/admin/Admin.css">
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
     <style>
-        body{
-            margin-left:200px;
-            margin-top:100px;
+        body {
+            margin-left: 200px;
+            margin-top: 100px;
         }
     </style>
 </head>
@@ -48,6 +48,14 @@ $errorMessage = $_GET['error'] ?? "";
         <h2>Manage Announcements</h2>
         
         <button class="btn add-btn" onclick="openModal('addModal')">+ Add Announcement</button>
+
+        <?php if (!empty($successMessage)) : ?>
+            <p class="success"><?= htmlspecialchars($successMessage) ?></p>
+        <?php endif; ?>
+        
+        <?php if (!empty($errorMessage)) : ?>
+            <p class="error"><?= htmlspecialchars($errorMessage) ?></p>
+        <?php endif; ?>
 
         <table>
             <thead>
@@ -70,18 +78,25 @@ $errorMessage = $_GET['error'] ?? "";
                         <td><?= htmlspecialchars($row['status'] ?? 'inactive') ?></td>
                         <td>
                             <button class="btn edit-btn" onclick="editAnnouncement('<?= $row['announce_id'] ?>', '<?= htmlspecialchars($row['title'], ENT_QUOTES) ?>', '<?= htmlspecialchars($row['announcement'], ENT_QUOTES) ?>')">Edit</button>
-                            <a href="/admin-announcement" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+                            <a href="/admin-announcement/delete/<?= $row['announce_id'] ?>" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <div class="pagination">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="?page=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+        </div>
     </div>
 
+    <!-- Add Announcement Modal -->
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('addModal')">&times;</span>
-            <h3 >Add Announcement</h3>
+            <h3>Add Announcement</h3>
             <form action="/admin-announcement/create" method="post">
                 <label>Title:</label>
                 <input type="text" name="title" required>
@@ -92,6 +107,7 @@ $errorMessage = $_GET['error'] ?? "";
         </div>
     </div>
 
+    <!-- Edit Announcement Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('editModal')">&times;</span>

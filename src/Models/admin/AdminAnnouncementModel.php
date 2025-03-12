@@ -26,8 +26,8 @@ class AdminAnnouncementModel {
                 throw new \InvalidArgumentException("Title and announcement cannot be empty");
             }
 
-            $sql = "INSERT INTO announcement (title, announcement, created_at, updated_at) 
-                    VALUES (:title, :announcement, NOW(), NOW())";
+            $sql = "INSERT INTO announcement (title, announcement, status, created_at, updated_at) 
+                    VALUES (:title, :announcement, 'active', NOW(), NOW())";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':title', $title);
             $stmt->bindParam(':announcement', $announcement);
@@ -39,17 +39,18 @@ class AdminAnnouncementModel {
         }
     }
 
-    // Get all announcements
-    public function getAllAnnouncements($page = 1, $limit = 10) {
+    // Get all active announcements
+    public function getActiveAnnouncements($page = 1, $limit = 10) {
         try {
             $offset = ($page - 1) * $limit;
 
-            $countSql = "SELECT COUNT(*) FROM announcement";
+            $countSql = "SELECT COUNT(*) FROM announcement WHERE status = 'active'";
             $countStmt = $this->conn->prepare($countSql);
             $countStmt->execute();
             $totalAnnouncements = $countStmt->fetchColumn();
 
             $sql = "SELECT * FROM announcement 
+                    WHERE status = 'active' 
                     ORDER BY created_at DESC 
                     LIMIT :limit OFFSET :offset";
             $stmt = $this->conn->prepare($sql);
@@ -120,21 +121,21 @@ class AdminAnnouncementModel {
         }
     }
     
-    // Delete an announcement
-    public function deleteAnnouncement($announce_id) {
+    // Soft delete an announcement (set status to inactive)
+    public function softDeleteAnnouncement($announce_id) {
         try {
             $existing = $this->getAnnouncementById($announce_id);
             if (!$existing) {
                 return false;
             }
 
-            $sql = "DELETE FROM announcement WHERE announce_id = :announce_id";
+            $sql = "UPDATE announcement SET status = 'inactive' WHERE announce_id = :announce_id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':announce_id', $announce_id, PDO::PARAM_INT);
             
             return $stmt->execute();
         } catch (PDOException $e) {
-            error_log("Delete announcement error: " . $e->getMessage());
+            error_log("Soft delete announcement error: " . $e->getMessage());
             return false;
         }
     }
