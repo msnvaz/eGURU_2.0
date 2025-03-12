@@ -136,7 +136,8 @@ $router->get('/admin-announcement/create{id}', AdminAnnouncementController::clas
 $router->post('/admin-announcement/create', AdminAnnouncementController::class, 'createAnnouncement'); // Create a new announcement
 $router->get('/admin-announcement/update/{id}', AdminAnnouncementController::class, 'showUpdateForm'); // Show update announcement form
 $router->post('/admin-announcement/update', AdminAnnouncementController::class, 'updateAnnouncement'); // Update an existing announcement
-$router->get('/admin-announcement/delete{id}', AdminAnnouncementController::class, 'softDeleteAnnouncement'); // Delete an announcement
+$router->get('/admin-announcement/delete/{id}', AdminAnnouncementController::class, 'deleteAnnouncement'); // Delete an announcement
+
 
 
 //admin students
