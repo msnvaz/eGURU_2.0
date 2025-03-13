@@ -395,8 +395,7 @@
             </p>
         </div>
     </section>
-
-
+    <!-- php code line for visitor-query should be here -->
     <!-- FAQ Section-->
 
     <section id="faq">
