@@ -10,7 +10,21 @@
     <link rel="stylesheet" href="/css/admin/AdminTransaction.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        
+        .alert {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 <body>
@@ -19,6 +33,21 @@
     
     <div class="main">
         <br>
+        
+        <?php if (isset($_SESSION['refund_success'])): ?>
+            <div class="alert alert-success">
+                <?php echo $_SESSION['refund_success']; ?>
+                <?php unset($_SESSION['refund_success']); ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['refund_error'])): ?>
+            <div class="alert alert-danger">
+                <?php echo $_SESSION['refund_error']; ?>
+                <?php unset($_SESSION['refund_error']); ?>
+            </div>
+        <?php endif; ?>
+        
         <form method="POST" class="search-form">
             <div class="searchbar">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -29,7 +58,7 @@
         <table>
             <thead>
                 <tr>
-                    <th colspan="9" style="text-align: center; border-radius: 20px 20px 0 0;">Subject Overview</th>
+                    <th colspan="9" style="text-align: center; border-radius: 20px 20px 0 0;">Transaction Overview</th>
                 </tr>
                 <tr>
                     <th>Transaction ID</th>
@@ -37,7 +66,7 @@
                     <th>Time Paid</th>
                     <th>Session ID</th>
                     <th>Scheduled Date</th>
-                    <th>Status</th>
+                    <th>Session Status</th>
                     <th>Student Name</th>
                     <th>Tutor Name</th>
                     <th>Actions</th>
@@ -59,13 +88,13 @@
                             <td><?php echo htmlspecialchars($payment["student_first_name"]); ?></td>
                             <td><?php echo htmlspecialchars($payment["tutor_first_name"]); ?></td>
                             <td>
-                                <?php if ($payment["session_status"] !== 'okay'): ?>
+                                <?php if (isset($payment["payment_status"]) && $payment["payment_status"] === 'refunded'): ?>
+                                    <span class="badge bg-success">Refunded</span>
+                                <?php else: ?>
                                     <button class="btn btn-warning refund-button" 
                                             data-payment-id="<?php echo htmlspecialchars($payment["payment_id"]); ?>">
                                         Refund
                                     </button>
-                                <?php else: ?>
-                                    <span class="badge bg-success">Refunded</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -90,7 +119,7 @@
                                     </p>
                                     <p><strong>Session Date : </strong> <?php echo htmlspecialchars($payment["scheduled_date"]); ?></p>
                                     <p><strong>Payment Amount : </strong> <?php echo htmlspecialchars($payment["payment_point_amount"]); ?> points</p>
-                                    <p><strong>Payment Status : </strong> <?php echo htmlspecialchars($payment["session_status"]); ?></p>
+                                    <p><strong>Payment Status : </strong> <?php echo isset($payment["payment_status"]) ? htmlspecialchars($payment["payment_status"]) : 'okay'; ?></p>
                                 </div>
                             </td>
                         </tr>
