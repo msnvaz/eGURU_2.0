@@ -19,7 +19,9 @@ class AdminLoginController {
 
     // Check admin login credentials (POST request)
     public function checkAdminLogin() {
-        session_start(); // Start the session at the beginning
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     
         // Get username and password from POST request
         $username = $_POST['username'];
@@ -31,11 +33,11 @@ class AdminLoginController {
         // Check if login was successful
         if ($admin) {
             $_SESSION['admin'] = $username; // Set session variable
+            $_SESSION['admin_logged_in'] = true;
             Router::redirect('/admin-dashboard'); // Redirect to the dashboard
         } else {
             // Log the failed attempt for debugging
             error_log("Login failed for username: $username");
-            //pass the message to error_message
             $_SESSION['error_message'] = 'Login failed';
             Router::redirect('/admin-login'); // Redirect back to the login page
         }

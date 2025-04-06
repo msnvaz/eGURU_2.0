@@ -31,7 +31,16 @@
             <div class="student-cards">
                 <?php if (isset($deletedStudents)): ?>
                     <?php if (!empty($deletedStudents) && is_array($deletedStudents)): ?>
-                        <?php foreach ($deletedStudents as $row): ?>
+                        <?php 
+                        // Pagination for deleted students
+                        $perPage = 12;
+                        $total = count($deletedStudents);
+                        $pages = ceil($total / $perPage);
+                        $page = $_GET['page'] ?? 1;
+                        $offset = ($page - 1) * $perPage;
+                        $paginatedStudents = array_slice($deletedStudents, $offset, $perPage);
+                        ?>
+                        <?php foreach ($paginatedStudents as $row): ?>
                             <div class="student-card deleted">
                                 <a href="/admin-student-profile/<?= isset($row['student_id']) ? htmlspecialchars($row['student_id']) : ''; ?>" class="student-card-link">
                                     <img src="uploads/Student_Profiles/<?= !empty($row['student_profile_photo']) ? htmlspecialchars($row['student_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="student-photo">
@@ -46,7 +55,16 @@
                         <p>No deleted students found.</p>
                     <?php endif; ?>
                 <?php elseif (!empty($students) && is_array($students)): ?>
-                    <?php foreach ($students as $row): ?>
+                    <?php 
+                    // Pagination for active students
+                    $perPage = 12;
+                    $total = count($students);
+                    $pages = ceil($total / $perPage);
+                    $page = $_GET['page'] ?? 1;
+                    $offset = ($page - 1) * $perPage;
+                    $paginatedStudents = array_slice($students, $offset, $perPage);
+                    ?>
+                    <?php foreach ($paginatedStudents as $row): ?>
                         <div class="student-card">
                             <a href="/admin-student-profile/<?= htmlspecialchars($row['student_id'] ?? ''); ?>" class="student-card-link">
                                 <img src="uploads/Student_Profiles/<?= htmlspecialchars($row['student_profile_photo'] ?? 'default.jpg'); ?>" alt="Profile Photo" class="student-photo">
@@ -61,7 +79,19 @@
                     <p>No students found.</p>
                 <?php endif; ?>
             </div>
+
+            <?php if (($pages ?? 0) > 1): ?>
+            <div class="pagination">
+                <?php for ($i = 1; $i <= $pages; $i++): ?>
+                    <a href="?page=<?= $i ?>" class="<?= $page == $i ? 'active' : '' ?>"><?= $i ?></a>
+                <?php endfor; ?>
+            </div>
+            <?php endif; ?>
         </div>  
     </div>
+
+    <style>
+    
+    </style>
 </body>
 </html>
