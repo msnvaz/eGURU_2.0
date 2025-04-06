@@ -17,29 +17,31 @@
     <!-- header part here -->
     <div class="container">
         <!-- Sidebar -->
-        <?php include 'sidebar.php'; ?>
+        <?php include 'sidebar.php'; 
+        $_SESSION['profile_picture'] = $profileData['student_profile_photo'] ?? 'profile1.jpg'; ?>
 
         <div class="profile-bodyform">
             <div class="viewprofile-content">
                 <div class="viewprofile-header">
-                    <img src="images/student-uploads/profilePhotos/<?= $profileData['profile_picture']?>"
+                    <img src="images/student-uploads/profilePhotos/<?php echo isset($profileData['student_profile_photo']) ? $profileData['student_profile_photo'] : 'profile1.jpg'; ?>"
                         alt="Profile Image" class="viewprofile-img">
-                    <h1>Sachini Wimalasiri</h1>
+                    <h1><?= isset($_SESSION['student_name']) ? htmlspecialchars($_SESSION['student_name']) : 'Student Name' ?></h1>
                     <button class="edit-button"><a style="text-decoration:none; color:white;"
                             href="/student-profile-edit"><?php echo $profileData ? "Edit profile" : "Create profile"; ?></a></button>
+                    <form action="/student-profile-delete" method="POST" style="display:inline;">
+                        <button type="submit" class="delete-button" >Delete Profile</button>
+                    </form>
                 </div>
 
-
-
                 <div class="viewprofile-details">
-                    <div class="detail-item"><strong>Bio:</strong> <?= $profileData['bio'] ?></div><br>
-                    <div class="detail-item"><strong>Education:</strong> <?= $profileData['education'] ?></div><br>
+                    <div class="detail-item"><strong>Bio:</strong> <?= $profileData['bio'] ?? 'N/A' ?></div><br>
+                    <div class="detail-item"><strong>Education:</strong> <?= $profileData['education'] ?? 'N/A' ?></div><br>
                     <div class="detail-item"><strong>Contact Information:</strong> Phone:
-                        <?= $profileData['phone'] ?><br>Email: <?= $profileData['email'] ?></div><br>
-                    <div class="detail-item"><strong>Country:</strong> <?= $profileData['country'] ?></div><br>
-                    <div class="detail-item"><strong>City/Town:</strong> <?= $profileData['city_town'] ?></div><br>
-                    <div class="detail-item"><strong>Interests:</strong> <?= $profileData['interests'] ?></div><br>
-                    <div class="detail-item"><strong>Grade:</strong> <?= $profileData['grade'] ?></div><br>
+                        <?= $profileData['student_phonenumber'] ?? 'N/A' ?><br>Email: <?= $profileData['student_email'] ?? 'N/A' ?></div><br>
+                    <div class="detail-item"><strong>Country:</strong> <?= $profileData['country'] ?? 'N/A' ?></div><br>
+                    <div class="detail-item"><strong>City/Town:</strong> <?= $profileData['city_town'] ?? 'N/A' ?></div><br>
+                    <div class="detail-item"><strong>Interests:</strong> <?= $profileData['interests'] ?? 'N/A' ?></div><br>
+                    <div class="detail-item"><strong>Grade:</strong> <?= $profileData['student_grade'] ?? 'N/A' ?></div><br>
                 </div>
 
             </div>

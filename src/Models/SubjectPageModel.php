@@ -9,7 +9,7 @@ class SubjectPageModel {
 
     public function __construct() {
         $host = 'localhost';
-        $dbname = 'eguru_full';
+        $dbname = 'eguru';
         $username = 'root';
         $password = '';
 

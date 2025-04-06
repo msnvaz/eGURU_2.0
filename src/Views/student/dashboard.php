@@ -6,6 +6,12 @@ if (!isset($_SESSION['student_id'])) {
     exit();
 }
 
+// Initialize controller
+$dashboardController = new StudentDashboardController();
+
+// Fetch tutor replies
+$tutorReplies = $dashboardController->getTutorReplies();
+
 // Fetch student details from session
 $student_name = isset($_SESSION['student_name']) ? $_SESSION['student_name'] : 'Student';
 $student_email = isset($_SESSION['student_email']) ? $_SESSION['student_email'] : 'Email';
@@ -15,6 +21,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,21 +29,22 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
     <link rel="stylesheet" href="css/student/dashboard.css">
     <link rel="stylesheet" href="css/student/nav.css">
     <link rel="stylesheet" href="css/student/sidebar.css">
-    
+
 </head>
 <?php $page="dashboard"; ?>
+
 <body>
-<?php include '../src/Views/student/header.php'; ?>
+    <?php include '../src/Views/student/header.php'; ?>
     <div class="container">
-    <?php include 'sidebar.php'; ?>
+        <?php include 'sidebar.php'; ?>
         <div class="header-container">
             <div class="profile-section">
                 <div class="welcome-text">
-                <h1>Welcome <?= htmlspecialchars(explode(' ', $student_name)[0]) ?>👋</h1>
-                <p>Keep up the good work!</p>
+                    <h1>Welcome <?= htmlspecialchars(explode(' ', $student_name)[0]) ?>👋</h1>
+                    <p>Keep up the good work!</p>
                 </div>
                 <div class="user-info">
-                <img src="images/student-uploads/profilePhotos/<?php echo isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'profile1.jpg'; ?>"
+                    <img src="images/student-uploads/profilePhotos/<?php echo isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'profile1.jpg'; ?>"
                         alt="Profile" class="user-avatar">
                     <div class="user-details">
 
@@ -74,7 +82,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
 
         <div class="content-container">
             <div class="events-section">
-            <div class="section-header">
+                <div class="section-header">
                     <h2>Upcoming Events</h2>
                     <a href="student-events" class="view-all">View All</a>
                 </div>
@@ -91,7 +99,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                         <div>21 Dec 2024</div>
                         <div>10:00 AM</div>
                     </div>
-                    
+
                 </div><br>
                 <div class="section-header">
                     <h2>Previous Events</h2>
@@ -110,7 +118,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                         <div>29 Nov 2024</div>
                         <div>9:00 AM</div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -119,115 +127,39 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                     <h2>Tutors' Feedback</h2>
                     <a href="student-feedback" class="view-all">View All</a>
                 </div>
-                <div class="feedback-list">
-                    <div class="feedback-item">
-                        <img src="images/student-uploads/tutor1.jpg" alt="Tutor" class="feedback-avatar">
-                        <div class="feedback-content">
-                            <p class="feedback-text">"Good effort! Pay more attention to details."</p>
-                            <p class="feedback-date">15 Aug 2024 - 4:50 PM</p>
-                        </div>
-                    </div>
-                    <div class="feedback-item">
-                        <img src="images/student-uploads/tutor7.jpg" alt="Tutor" class="feedback-avatar">
-                        <div class="feedback-content">
-                            <p class="feedback-text">"Good progress, focus on improving presentation."</p>
-                            <p class="feedback-date">15 Aug 2024 - 3:20 PM</p>
-                        </div>
-                    </div>
-                    <div class="feedback-item">
-                        <img src="images/student-uploads/tutor2.jpg" alt="Tutor" class="feedback-avatar">
-                        <div class="feedback-content">
-                            <p class="feedback-text">"Excellent participation, keep it up!"</p>
-                            <p class="feedback-date">15 Aug 2024 - 3:10 PM</p>
-                        </div>
-                    </div>
+                <?php if (empty($tutorReplies)): ?>
+                <div class="no-replies">
+                    <p>No tutor replies yet.</p>
                 </div>
-            </div>
+            <?php else: ?>
+                <?php foreach ($tutorReplies as $reply): ?>
+                    <div class="tutor-reply-card">
+                        <img src="images/student-uploads/<?php echo htmlspecialchars($reply['tutor_profile_photo']); ?>" 
+                             alt="Tutor" class="tutor-avatar">
+                        <div class="tutor-reply-content">
+                            <div class="tutor-name">
+                                <?php echo htmlspecialchars($reply['tutor_first_name'] . ' ' . $reply['tutor_last_name']); ?>
+                                <span class="tutor-level" style="background-color: <?php echo htmlspecialchars($reply['tutor_level_color']); ?>">
+                                    <?php echo htmlspecialchars($reply['tutor_level']); ?>
+                                </span>
+                            </div>
+                            <div class="tutor-subject">
+                                <?php echo htmlspecialchars($reply['subject_name']); ?>
+                            </div>
+                            <p class="reply-text">
+                                "<?php echo htmlspecialchars($reply['tutor_reply']); ?>"
+                            </p>
+                            <div class="reply-date">
+                                <?php echo $dashboardController->formatDateTime($reply['last_updated']); ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 
-    <script>
-        class Calendar {
-            constructor() {
-                this.currentDate = new Date();
-                this.selectedDate = null;
-                
-                this.monthNames = [
-                    'January', 'February', 'March', 'April', 'May', 'June',
-                    'July', 'August', 'September', 'October', 'November', 'December'
-                ];
-
-                this.init();
-            }
-
-            init() {
-                this.updateMonthDisplay();
-                this.renderCalendar();
-
-                document.getElementById('prevMonth').addEventListener('click', () => {
-                    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-                    this.updateMonthDisplay();
-                    this.renderCalendar();
-                });
-
-                document.getElementById('nextMonth').addEventListener('click', () => {
-                    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-                    this.updateMonthDisplay();
-                    this.renderCalendar();
-                });
-            }
-
-            updateMonthDisplay() {
-                const monthYear = `${this.monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
-                document.getElementById('currentMonth').textContent = monthYear;
-            }
-
-            renderCalendar() {
-                const calendarDays = document.getElementById('calendarDays');
-                const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
-                const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
-                
-                // Clear existing calendar days except day names
-                while (calendarDays.children.length > 7) {
-                    calendarDays.removeChild(calendarDays.lastChild);
-                }
-
-                // Add empty cells for days before the first day of the month
-                for (let i = 0; i < firstDay.getDay(); i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.className = 'calendar-day';
-                    calendarDays.appendChild(emptyDay);
-                }
-
-                // Add days of the month
-                for (let day = 1; day <= lastDay.getDate(); day++) {
-                    const dayElement = document.createElement('div');
-                    dayElement.className = 'calendar-day';
-                    dayElement.textContent = day;
-
-                    // Check if this is today's date
-                    const today = new Date();
-                    if (day === today.getDate() &&
-                        this.currentDate.getMonth() === today.getMonth() &&
-                        this.currentDate.getFullYear() === today.getFullYear()) {
-                        dayElement.classList.add('selected');
-                    }
-
-                    dayElement.addEventListener('click', () => {
-                        document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
-                        dayElement.classList.add('selected');
-                        this.selectedDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
-                    });
-
-                    calendarDays.appendChild(dayElement);
-                }
-            }
-        }
-
-        // Initialize calendar when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new Calendar();
-        });
-    </script>
+    <script src="js/student/dashboard.js"></script>
 </body>
+
 </html>

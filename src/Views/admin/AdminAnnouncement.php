@@ -10,16 +10,13 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-// Correct path for including Model
-// require_once __DIR__ . '/../../../Models/admin/AdminAnnouncementModel.php';
-
 // Create model instance
 $model = new \App\Models\admin\AdminAnnouncementModel();
 
 // Get announcements with pagination (default to first page)
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;    
-$result = $model->getAllAnnouncements($page, $limit);
+$result = $model->getActiveAnnouncements($page, $limit);
 $announcements = $result['announcements'];
 $totalAnnouncements = $result['total'];
 $totalPages = ceil($totalAnnouncements / $limit);
@@ -27,7 +24,6 @@ $totalPages = ceil($totalAnnouncements / $limit);
 // Handle success and error messages
 $successMessage = $_GET['success'] ?? "";
 $errorMessage = $_GET['error'] ?? "";
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,29 +34,9 @@ $errorMessage = $_GET['error'] ?? "";
     <link rel="stylesheet" href="/css/admin/Admin.css">
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
     <style>
-        body{
-            margin-left:200px;
-            margin-top:100px;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .pagination a, .pagination span {
-            margin: 0 5px;
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            text-decoration: none;
-            color: #007bff;
-        }
-        .pagination .current {
-            background-color: #007bff;
-            color: white;
-        }
-        .add-btn {
-            background-color: #28a745;
-            color: white;
+        body {
+            margin-left: 200px;
+            margin-top: 100px;
         }
     </style>
 </head>
@@ -70,68 +46,60 @@ $errorMessage = $_GET['error'] ?? "";
 
     <div class="container">
         <h2>Manage Announcements</h2>
-
-        <?php if ($successMessage): ?>
-            <div class="alert success"><?= htmlspecialchars($successMessage) ?></div>
-        <?php endif; ?>
-        <?php if ($errorMessage): ?>
-            <div class="alert error"><?= htmlspecialchars($errorMessage) ?></div>
-        <?php endif; ?>
-
+        
         <button class="btn add-btn" onclick="openModal('addModal')">+ Add Announcement</button>
+
+        <?php if (!empty($successMessage)) : ?>
+            <p class="success"><?= htmlspecialchars($successMessage) ?></p>
+        <?php endif; ?>
+        
+        <?php if (!empty($errorMessage)) : ?>
+            <p class="error"><?= htmlspecialchars($errorMessage) ?></p>
+        <?php endif; ?>
 
         <table>
             <thead>
                 <tr>
+                    <th>Title</th>
                     <th>Announcement</th>
                     <th>Created At</th>
-                    <th>Updated At</th> <!-- Added Updated At Column -->
+                    <th>Updated At</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($announcements)): ?>
+                <?php foreach ($announcements as $row): ?>
                     <tr>
-                        <td colspan="5" style="text-align: center;">No announcements found.</td>
+                        <td><?= htmlspecialchars($row['title'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($row['announcement'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($row['created_at'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($row['updated_at'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars($row['status'] ?? 'inactive') ?></td>
+                        <td>
+                            <button class="btn edit-btn" onclick="editAnnouncement('<?= $row['announce_id'] ?>', '<?= htmlspecialchars($row['title'], ENT_QUOTES) ?>', '<?= htmlspecialchars($row['announcement'], ENT_QUOTES) ?>')">Edit</button>
+                            <a href="/admin-announcement/delete/<?= $row['announce_id'] ?>" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+                        </td>
                     </tr>
-                <?php else: ?>
-                    <?php foreach ($announcements as $row): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($row['announcement'] ?? 'N/A') ?></td>
-                            <td><?= htmlspecialchars($row['created_at'] ?? 'N/A') ?></td>
-                            <td><?= htmlspecialchars($row['updated_at'] ?? 'N/A') ?></td> <!-- Displaying Updated At -->
-                            <td><?= htmlspecialchars($row['status'] ?? 'inactive') ?></td>
-                            <td>
-                                <button class="btn edit-btn" onclick="editAnnouncement('<?= $row['announce_id'] ?>', '<?= htmlspecialchars($row['announcement'], ENT_QUOTES) ?>', '<?= $row['status'] ?>')">Edit</button>
-                                <a href="/admin-announcement" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
 
-        <?php if ($totalPages > 1): ?>
-            <div class="pagination">
-                <?php if ($page > 1): ?>
-                    <a href="?page=<?= $page - 1 ?>">Previous</a>
-                <?php endif; ?>
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <a href="?page=<?= $i ?>" class="<?= $i == $page ? 'current' : '' ?>"><?= $i ?></a>
-                <?php endfor; ?>
-                <?php if ($page < $totalPages): ?>
-                    <a href="?page=<?= $page + 1 ?>">Next</a>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
+        <div class="pagination">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="?page=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+        </div>
     </div>
 
+    <!-- Add Announcement Modal -->
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('addModal')">&times;</span>
             <h3>Add Announcement</h3>
             <form action="/admin-announcement/create" method="post">
+                <label>Title:</label>
+                <input type="text" name="title" required>
                 <label>Announcement:</label>
                 <textarea name="announcement" required></textarea>
                 <button type="submit" class="btn add-btn">Save</button>
@@ -139,12 +107,15 @@ $errorMessage = $_GET['error'] ?? "";
         </div>
     </div>
 
+    <!-- Edit Announcement Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('editModal')">&times;</span>
             <h3>Edit Announcement</h3>
-            <form action="/admin-announcement" method="post">
+            <form action="/admin-announcement/update" method="post">
                 <input type="hidden" name="announce_id" id="edit-id">
+                <label>Title:</label>
+                <input type="text" name="title" id="edit-title" required>
                 <label>Announcement:</label>
                 <textarea name="announcement" id="edit-announcement" required></textarea>
                 <button type="submit" class="btn edit-btn">Update</button>
@@ -154,19 +125,19 @@ $errorMessage = $_GET['error'] ?? "";
 
     <script>
         function openModal(id) {
-        document.getElementById(id).style.display = "block";
-}
+            document.getElementById(id).style.display = "block";
+        }
 
         function closeModal(id) {
-        document.getElementById(id).style.display = "none";
-}
+            document.getElementById(id).style.display = "none";
+        }
 
-        function editAnnouncement(id, announcement) {
-        document.getElementById("edit-id").value = id;
-        document.getElementById("edit-announcement").value = decodeURIComponent(announcement);
-        openModal("editModal");
-}
-
+        function editAnnouncement(id, title, announcement) {
+            document.getElementById("edit-id").value = id;
+            document.getElementById("edit-title").value = decodeURIComponent(title);
+            document.getElementById("edit-announcement").value = decodeURIComponent(announcement);
+            openModal("editModal");
+        }
     </script>
 </body>
 </html>

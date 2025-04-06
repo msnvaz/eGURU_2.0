@@ -185,8 +185,12 @@
                 <button class="slider-btn next">&gt;</button>
             </div>
         </div>
+        
+        <br>
+        <?php include 'announcement.php'; ?>
 
         <br>
+
 
         <!-- Most-Populat-tutor-section - Meet Some of Our Best Tutors -->
 
@@ -391,8 +395,7 @@
             </p>
         </div>
     </section>
-
-
+    <!-- php code line for visitor-query should be here -->
     <!-- FAQ Section-->
 
     <section id="faq">
