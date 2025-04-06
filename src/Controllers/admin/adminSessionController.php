@@ -24,13 +24,17 @@ class adminSessionController {
         $endDate = '';
         $tutorId = '';
         $studentId = '';
+        $status = '';  // Added status variable
 
         // Handle search and filter logic
         if (isset($_POST['search'])) {
+            // Get status filter value if present
+            $status = isset($_POST['status']) ? $_POST['status'] : '';
+            
             // Search by text term
             if (isset($_POST['search_term']) && !empty($_POST['search_term'])) {
                 $searchTerm = $_POST['search_term'];
-                $sessions = $this->model->searchSessions($searchTerm);
+                $sessions = $this->model->searchSessions($searchTerm, $status);  // Pass status parameter
             } 
             // Filter by date range and/or tutor/student
             else {
@@ -40,14 +44,16 @@ class adminSessionController {
                 $studentId = $_POST['student_id'] ?? '';
 
                 // If any filter is applied
-                if (!empty($startDate) || !empty($endDate) || !empty($tutorId) || !empty($studentId)) {
-                    $sessions = $this->model->filterSessions($startDate, $endDate, $tutorId, $studentId);
+                if (!empty($startDate) || !empty($endDate) || !empty($tutorId) || !empty($studentId) || !empty($status)) {
+                    $sessions = $this->model->filterSessions($startDate, $endDate, $tutorId, $studentId, $status);  // Pass status parameter
                 }
             }
         } 
         // If no search, show all sessions
         else {
-            $sessions = $this->model->getAllSessions();
+            // Check if status filter is in GET parameters (for pagination)
+            $status = isset($_GET['status']) ? $_GET['status'] : '';
+            $sessions = $this->model->getAllSessions($status);  // Pass status parameter
         }
 
         // Populate tutor and student dropdowns
