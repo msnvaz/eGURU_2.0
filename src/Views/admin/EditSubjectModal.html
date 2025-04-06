@@ -13,6 +13,10 @@
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h2>Edit Subject</h2>
+            <?php 
+            //PRINT CURRENT DIRECTORY
+            echo "Current Directory: " . getcwd() . "\n";
+        ?>
             <form id="editSubjectModalForm" method="POST" action="/admin-dashboard/updatesubject" enctype="multipart/form-data">
                 <input type="hidden" name="subject_id" id="modal-subject-id">
                 
