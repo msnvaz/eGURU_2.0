@@ -23,6 +23,13 @@
             font-weight: bold;
             color: #000;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
     </style>
 </head>
 <body>
@@ -91,21 +98,30 @@
             </thead>
             <tbody>
                 <?php if (!empty($sessions)) : ?>
-                    <?php foreach ($sessions as $session) : ?>
+                    <?php
+                    // Pagination setup
+                    $perPage = 20; // 20 records per page
+                    $total = count($sessions);
+                    $pages = ceil($total / $perPage);
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $page = max(1, min($page, $pages)); // Ensure page is within valid range
+                    $offset = ($page - 1) * $perPage;
+                    $paginatedSessions = array_slice($sessions, $offset, $perPage);
+                    ?>
+                    
+                    <?php foreach ($paginatedSessions as $session) : ?>
                         <tr class="expandable-row">
                             <td>
                                 <span class="expand-icon">►</span>
                                 <?= htmlspecialchars($session['session_id']) ?>
                             </td>
                             <td>
-                                <!--add a hyperlink to every tutor and student id-->
                                 <a href="/admin-student-profile/<?= isset($session['student_id']) ? htmlspecialchars($session['student_id']) : ''; ?>">
                                 (<?= htmlspecialchars($session['student_id']) ?>)
                                 <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?>
                                 </a>
-                                </td>
+                            </td>
                             <td>   
-                            <!--add a hyperlink to every tutor and student id-->
                                 <a href="/admin-tutor-profile/<?= isset($session['tutor_id']) ? htmlspecialchars($session['tutor_id']) : ''; ?>">
                                 (<?= htmlspecialchars($session['tutor_id']) ?>)
                                 <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?>
@@ -146,6 +162,31 @@
                 <?php endif; ?>
             </tbody>
         </table>
+        
+        <?php if (!empty($sessions) && $pages > 1): ?>
+        <div class="pagination">
+            <?php
+            // Previous button
+            if ($page > 1): ?>
+                <a href="?page=<?= $page - 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?>">«</a>
+            <?php endif; ?>
+            
+            <?php
+            // Page numbers
+            $startPage = max(1, $page - 2);
+            $endPage = min($pages, $page + 2);
+            
+            for ($i = $startPage; $i <= $endPage; $i++): ?>
+                <a href="?page=<?= $i ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?>" class="<?= $page == $i ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+            
+            <?php
+            // Next button
+            if ($page < $pages): ?>
+                <a href="?page=<?= $page + 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?>">»</a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
     </div>
 
     <script>
@@ -173,6 +214,19 @@
                 alert('Start date must be before or equal to end date');
                 e.preventDefault();
             }
+        });
+        
+        // Preserve search parameters when changing pages
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.search-form');
+            form.addEventListener('submit', function() {
+                // Reset page to 1 when submitting a new search
+                const pageInput = document.createElement('input');
+                pageInput.type = 'hidden';
+                pageInput.name = 'page';
+                pageInput.value = '1';
+                form.appendChild(pageInput);
+            });
         });
     </script>
 </body>

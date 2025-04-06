@@ -957,3 +957,24 @@ tbody tr.expandable-row:nth-child(4n + 2) {
   padding-bottom: 5px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+.pagination a {
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 2px solid #ddd;
+  border-radius: 4px%;
+  margin: 0 4px;
+}
+.pagination a.active {
+  background-color: #dc3545;
+  color: white;
+  border: 2px solid #293241;
+}
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
