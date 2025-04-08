@@ -19,7 +19,7 @@ $student = $studentData ?? [];
 
     <div class="main">
         <div class="profile-bodyform">
-            <form action="/admin-update-student-profile/<?= htmlspecialchars($student['student_id'] ?? '') ?>" method="POST" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to update this profile?');">
+            <form action="/admin-update-student-profile/<?= htmlspecialchars($student['student_id'] ?? '') ?>" method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
 
                 <div class="viewprofile-content">
                     <div class="viewprofile-header">
@@ -70,7 +70,8 @@ $student = $studentData ?? [];
                         <div class="detail-item">
                             <strong>Phone</strong>
                             <span class="detail-value">
-                                <input type="tel" id="phonenumber" name="student_phonenumber" value="<?= htmlspecialchars($student['student_phonenumber'] ?? '') ?>">
+                                <input type="tel" id="phonenumber" name="student_phonenumber" value="<?= htmlspecialchars($student['student_phonenumber'] ?? '') ?>" pattern="[0-9]{10}" maxlength="10" oninput="validatePhone(this)">
+                                <span id="phoneError" class="error-message" style="color:red; display:none;">Phone number must be 10 digits</span>
                             </span>
                         </div>
                         <div class="detail-item">
@@ -82,7 +83,8 @@ $student = $studentData ?? [];
                         <div class="detail-item">
                             <strong>Grade</strong>
                             <span class="detail-value">
-                                <input type="text" id="grade" name="student_grade" value="<?= htmlspecialchars($student['student_grade'] ?? '') ?>">
+                                <input type="number" id="grade" name="student_grade" value="<?= htmlspecialchars($student['student_grade'] ?? '') ?>" min="6" max="13" oninput="validateGrade(this)">
+                                <span id="gradeError" class="error-message" style="color:red; display:none;">Grade must be between 6 and 13</span>
                             </span>
                         </div>
                         <div class="detail-item">
@@ -120,4 +122,46 @@ $student = $studentData ?? [];
 
 </body>
 
+<script>
+function validateGrade(input) {
+    const gradeError = document.getElementById('gradeError');
+    const value = parseInt(input.value);
+    
+    if (isNaN(value) || value < 6 || value > 13) {
+        gradeError.style.display = 'inline';
+        return false;
+    } else {
+        gradeError.style.display = 'none';
+        return true;
+    }
+}
+
+function validatePhone(input) {
+    const phoneError = document.getElementById('phoneError');
+    const value = input.value;
+    
+    if (!/^\d{10}$/.test(value)) {
+        phoneError.style.display = 'inline';
+        return false;
+    } else {
+        phoneError.style.display = 'none';
+        return true;
+    }
+}
+
+function validateForm() {
+    const gradeValid = validateGrade(document.getElementById('grade'));
+    const phoneValid = validatePhone(document.getElementById('phonenumber'));
+    
+    if (!gradeValid) {
+        alert('Please enter a valid grade between 6 and 13');
+        return false;
+    }
+    if (!phoneValid) {
+        alert('Please enter a valid 10-digit phone number');
+        return false;
+    }
+    return confirm('Are you sure you want to update this profile?');
+}
+</script>
 </html>

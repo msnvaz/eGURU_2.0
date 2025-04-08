@@ -38,7 +38,7 @@
     
     <div class="main">
         <br>
-        <form method="POST" class="search-form">
+        <form method="POST" class="search-form" style="font-size: 12px;">
             <div class="date-range-container">
                 <div class="date-range">
                     <label for="start_date">Start Date:</label>
@@ -71,6 +71,15 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
+
+                    <label for="status">Session Status:</label>
+                    <select name="status" id="status">
+                        <option value="">All Statuses</option>
+                        <option value="requested" <?= (isset($_POST['status']) && $_POST['status'] == 'requested') ? 'selected' : '' ?>>Requested</option>
+                        <option value="scheduled" <?= (isset($_POST['status']) && $_POST['status'] == 'scheduled') ? 'selected' : '' ?>>Scheduled</option>
+                        <option value="completed" <?= (isset($_POST['status']) && $_POST['status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
+                        <option value="cancelled" <?= (isset($_POST['status']) && $_POST['status'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
+                    </select>
                 </div>
             </div>
             <div class="searchbar"> 
@@ -79,6 +88,7 @@
                        value="<?= isset($_POST['search_term']) ? htmlspecialchars($_POST['search_term']) : '' ?>" >
                 <button type="submit" name="search" value="1">Search</button>
                 <button type="submit" name="download_pdf" value="1">PDF</button>
+                <button type="button" onclick="resetFilters()" class="reset-btn">Reset</button>
             </div>
         </form>
 
@@ -168,7 +178,7 @@
             <?php
             // Previous button
             if ($page > 1): ?>
-                <a href="?page=<?= $page - 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?>">«</a>
+                <a href="?page=<?= $page - 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?><?= isset($_POST['status']) ? '&status=' . urlencode($_POST['status']) : '' ?>">«</a>
             <?php endif; ?>
             
             <?php
@@ -177,13 +187,13 @@
             $endPage = min($pages, $page + 2);
             
             for ($i = $startPage; $i <= $endPage; $i++): ?>
-                <a href="?page=<?= $i ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?>" class="<?= $page == $i ? 'active' : '' ?>"><?= $i ?></a>
+                <a href="?page=<?= $i ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?><?= isset($_POST['status']) ? '&status=' . urlencode($_POST['status']) : '' ?>" class="<?= $page == $i ? 'active' : '' ?>"><?= $i ?></a>
             <?php endfor; ?>
             
             <?php
             // Next button
             if ($page < $pages): ?>
-                <a href="?page=<?= $page + 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?>">»</a>
+                <a href="?page=<?= $page + 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?><?= isset($_POST['status']) ? '&status=' . urlencode($_POST['status']) : '' ?>">»</a>
             <?php endif; ?>
         </div>
         <?php endif; ?>
@@ -228,6 +238,16 @@
                 form.appendChild(pageInput);
             });
         });
+
+        function resetFilters() {
+            document.getElementById('start_date').value = '';
+            document.getElementById('end_date').value = '';
+            document.getElementById('tutor_id').value = '';
+            document.getElementById('student_id').value = '';
+            document.getElementById('status').value = '';
+            document.querySelector('input[name="search_term"]').value = '';
+            document.querySelector('.search-form').submit();
+        }
     </script>
 </body>
 </html>

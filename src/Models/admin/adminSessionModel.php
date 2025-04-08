@@ -18,7 +18,7 @@ class adminSessionModel {
     }
 
     // Fetch all sessions with detailed information
-    public function getAllSessions() {
+    public function getAllSessions($status = '') {
         try {
             $sql = "SELECT 
                 s.session_id,
@@ -41,10 +41,12 @@ class adminSessionModel {
             LEFT JOIN tutor t ON s.tutor_id = t.tutor_id
             LEFT JOIN session_feedback sf ON s.session_id = sf.session_id
             LEFT JOIN session_payment sp ON s.session_id = sp.session_id
-            LEFT JOIN subject sub ON s.subject_id = sub.subject_id
+            LEFT JOIN subject sub ON s.subject_id = sub.subject_id"
+            . ($status ? " WHERE s.session_status = :status" : "") . "
             ORDER BY s.session_id DESC";
             
             $stmt = $this->conn->prepare($sql);
+            if ($status) $stmt->bindParam(':status', $status);
             $stmt->execute();
             
             $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -57,7 +59,7 @@ class adminSessionModel {
     }
 
     // Filter sessions based on date range and tutor/student selection
-    public function filterSessions($startDate, $endDate, $tutorId, $studentId) {
+    public function filterSessions($startDate, $endDate, $tutorId, $studentId, $status = '') {
         try {
             $sql = "SELECT 
                 s.session_id,
@@ -86,6 +88,7 @@ class adminSessionModel {
             " . ($endDate ? "AND s.scheduled_date <= :end_date " : "") . "
             " . ($tutorId ? "AND s.tutor_id = :tutor_id " : "") . "
             " . ($studentId ? "AND s.student_id = :student_id " : "") . "
+            " . ($status ? "AND s.session_status = :status " : "") . "
             ORDER BY s.session_id DESC";
             
             $stmt = $this->conn->prepare($sql);
@@ -94,6 +97,7 @@ class adminSessionModel {
             if ($endDate) $stmt->bindParam(':end_date', $endDate);
             if ($tutorId) $stmt->bindParam(':tutor_id', $tutorId);
             if ($studentId) $stmt->bindParam(':student_id', $studentId);
+            if ($status) $stmt->bindParam(':status', $status);
             
             $stmt->execute();
             
@@ -106,7 +110,7 @@ class adminSessionModel {
         }
     }
 
-    public function searchSessions($searchTerm) {
+    public function searchSessions($searchTerm, $status = '') {
         try {
             $sql = "SELECT 
                 s.session_id,
@@ -130,19 +134,21 @@ class adminSessionModel {
             LEFT JOIN session_feedback sf ON s.session_id = sf.session_id
             LEFT JOIN session_payment sp ON s.session_id = sp.session_id
             LEFT JOIN subject sub ON s.subject_id = sub.subject_id
-            WHERE LOWER(st.student_first_name) LIKE LOWER(:search)
+            WHERE (LOWER(st.student_first_name) LIKE LOWER(:search)
             OR LOWER(st.student_last_name) LIKE LOWER(:search)
             OR LOWER(t.tutor_first_name) LIKE LOWER(:search)
             OR LOWER(t.tutor_last_name) LIKE LOWER(:search)
             OR LOWER(st.student_email) LIKE LOWER(:search)
             OR LOWER(t.tutor_email) LIKE LOWER(:search)
-            OR CAST(s.session_id AS CHAR) LIKE :search
+            OR CAST(s.session_id AS CHAR) LIKE :search)"
+            . ($status ? " AND s.session_status = :status" : "") . "
             ORDER BY s.session_id DESC";
             
             $stmt = $this->conn->prepare($sql);
             $searchParam = "%$searchTerm%"; // Wrapping search term for LIKE query
             
             $stmt->bindParam(':search', $searchParam);
+            if ($status) $stmt->bindParam(':status', $status);
             $stmt->execute();
             
             $sessions = $stmt->fetchAll(PDO::FETCH_ASSOC);

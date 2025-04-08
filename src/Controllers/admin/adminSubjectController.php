@@ -59,7 +59,7 @@ class adminSubjectController {
             }
 
             if ($file && $file['error'] === 0) {
-                $uploadDir = '../uploads/Subjects/';
+                $uploadDir = '../public/uploads/Subjects/';
                 // Create directory if doesn't exist
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0755, true);
@@ -119,7 +119,7 @@ class adminSubjectController {
 
             // Handle file upload if present
             if ($file && $file['error'] === 0) {
-                $uploadDir = '../uploads/Subjects/';
+                $uploadDir = '../public/uploads/Subjects/';
                 // Create directory if doesn't exist
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0755, true);
