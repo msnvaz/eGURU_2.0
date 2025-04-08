@@ -30,11 +30,13 @@
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $tutorRegistration = isset($_POST['tutor_registration']) ? true : false;
                 $studentRegistration = isset($_POST['student_registration']) ? true : false;
+                $platformFee = isset($_POST['platform_fee']) ? $_POST['platform_fee'] :5;
                 
                 // Update settings in the model
                 $this->model = new \App\Models\admin\adminSettingsModel();
                 $this->model->updateAdminSetting('tutor_registration', $tutorRegistration);
                 $this->model->updateAdminSetting('student_registration', $studentRegistration);
+                $this->model->updateAdminSetting('platform_fee', $platformFee);
                 
                 // Redirect back to the settings page
                 header('Location: /admin-settings');
