@@ -477,63 +477,8 @@
     </div>
 
 
-    <section id="forum">
-        <div class="forum-container" >
-            <br><br><br>
-            <h2>Forum</h2>
-            <br>
-            
-            <!-- Sample comment structure -->
-            <div class="comment">
-                <div class="forum-profile">
-                <img  class="avatar" src="images/tutor_2.jpeg" alt="Tutor Image">
-                    <div class="name">John Doe</div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer potenti erat torquent ex cras elementum sem rutrum. Fames rutrum at mi libero consequat sociosqu gravida.</p>
-                <div class="forum-footer">
-                    <span>10:10 am</span>
-                    <button class="reply-btn">Reply</button>
-                </div>
-            </div>
-
-            <div class="comment-reply">
-                <div class="forum-profile">
-                <img  class="avatar" src="images/tutor_2.jpeg" alt="Tutor Image">
-                    <div class="name">John Doe</div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer potenti erat torquent ex cras elementum sem rutrum. Fames rutrum at mi libero consequat sociosqu gravida.</p>
-                <div class="forum-footer">
-                    <span>10:10 am</span>
-                </div>
-            </div>
-
-            <div class="comment-reply">
-                <div class="forum-profile">
-                <img  class="avatar" src="images/tutor_2.jpeg" alt="Tutor Image">
-                <div class="name">John Doe</div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer potenti erat torquent ex cras elementum sem rutrum. Fames rutrum at mi libero consequat sociosqu gravida.</p>
-                <div class="forum-footer">
-                    <span>10:10 am</span>
-                </div>
-            </div>
-
-            <div class="comment">
-                <div class="forum-profile">
-                    <img  class="avatar" src="images/tutor_2.jpeg" alt="Tutor Image">
-                    <div class="name">John Doe</div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer potenti erat torquent ex cras elementum sem rutrum. Fames rutrum at mi libero consequat sociosqu gravida.</p>
-                <div class="forum-footer">
-                    <span>10:10 am</span>
-                    <button class="reply-btn">Reply</button>
-                </div>
-            </div>
-
-            <button class="forum-see-more">See More</button>
-        </div>
-    </section>
-
+    
+    <?php include 'forum.php'; ?> <!-- Include the forum-->
 
 
 
