@@ -11,34 +11,55 @@
 <body>
     <?php include 'AdminHeader.php'; ?>
     <?php include 'AdminNav.php'; ?>
-    
     <div class="main">
         <div class="dashboard-container">
-            <form id="settings-form" action="save_settings.php" method="post">
+            <form id="settings-form" action="/admin-settings" method="post">
                 <!-- Settings Sections -->
                 <div class="settings-grid">
                     <!-- User Management -->
                     <div class="settings-card">
                         <h2>User Management</h2>
                         <div class="settings-content">
+                        <div class="setting-item">
+                                <label class="switch">
+                                <?php
+                                    // Ensure variable exists before accessing
+                                    $tutorRegistrationEnabled = isset($adminTutorRegistration['admin_setting_value']) ? 
+                                        $adminTutorRegistration['admin_setting_value'] : false;
+
+                                    if($tutorRegistrationEnabled == true) {
+                                        echo '<input type="checkbox" name="tutor_registration" checked>';
+                                    } else {
+                                        echo '<input type="checkbox" name="tutor_registration">';
+                                    }
+                                ?>
+                                    <span class="slider"></span>
+                                </label>
+                                <div class="setting-info">
+                                    <h4>Tutor Registration</h4>
+                                    <p>Allow new tutors to register</p>
+                                </div>
+                            </div>
+
+                            <!-- student registration switch as a separate item -->
                             <div class="setting-item">
                                 <label class="switch">
-                                    <input type="checkbox" name="student_registration" checked>
+                                <?php
+                                    // Ensure variable exists before accessing
+                                    $studentRegistrationEnabled = isset($adminStudentRegistration['admin_setting_value']) ? 
+                                        $adminStudentRegistration['admin_setting_value'] : false;
+
+                                    if($studentRegistrationEnabled == true) {
+                                        echo '<input type="checkbox" name="student_registration" checked>';
+                                    } else {
+                                        echo '<input type="checkbox" name="student_registration">';
+                                    }
+                                ?>
                                     <span class="slider"></span>
                                 </label>
                                 <div class="setting-info">
                                     <h4>Student Registration</h4>
-                                    <p>Allow new students to register</p>
-                                </div>
-                            </div>
-                            <div class="setting-item">
-                                <label class="switch">
-                                    <input type="checkbox" name="teacher_verification" checked>
-                                    <span class="slider"></span>
-                                </label>
-                                <div class="setting-info">
-                                    <h4>Teacher Verification</h4>
-                                    <p>Require approval for new teachers</p>
+                                    <p>Allow new tutors to register</p>
                                 </div>
                             </div>
                         </div>
@@ -104,13 +125,18 @@
                     <div class="settings-card">
                         <h2>Payment Settings</h2>
                         <div class="settings-content">
-                            <div class="setting-item">
-                                <input type="number" name="platform_fee" class="number-input" value="5" min="0" max="100">
-                                <div class="setting-info">
-                                    <h4>Platform Fee (%)</h4>
-                                    <p>Commission per booking</p>
-                                </div>
+                        <div class="setting-item">
+                            <?php
+                                // Ensure variable exists before accessing
+                                $platformFee = isset($adminPlatformFee['admin_setting_value']) ? 
+                                    $adminPlatformFee['admin_setting_value'] : 5;
+                            ?>
+                            <input type="number" name="platform_fee" class="number-input" value="<?php echo htmlspecialchars($platformFee); ?>" min="0" max="100">
+                            <div class="setting-info">
+                                <h4>Platform Fee (%)</h4>
+                                <p>Commission per booking</p>
                             </div>
+                        </div>
                             <div class="setting-item">
                                 <select name="payout_schedule" class="select-input">
                                     <option value="7">Weekly</option>
