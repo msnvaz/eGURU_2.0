@@ -40,6 +40,14 @@ class adminSettingsModel {
                 $settings['tutor_registration'] = $tutorRegistration;
             }
             
+            //get platfrom fee setting
+            $sql = "SELECT * FROM admin_settings WHERE admin_setting_name = 'platform_fee'";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $platformFee = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($platformFee) {
+                $settings['platform_fee'] = $platformFee;
+            }
             
             error_log('Model: getAdminSettings fetched ' . count($settings) . ' settings.');
             return $settings;
