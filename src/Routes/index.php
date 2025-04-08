@@ -171,6 +171,7 @@ $router->get('/admin-subjects', adminSubjectController::class, 'showAllSubjects'
 
 //admin settings
 $router->get('/admin-settings', AdminSettingsController::class, 'showSettings');
+$router->post('/admin-settings', AdminSettingsController::class, 'updateSettings'); // Handle form submission
 
 //admin inbox
 //$router->get('/admin-inbox', AdminInboxController::class, 'showInbox');
