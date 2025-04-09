@@ -23,7 +23,7 @@ class adminSettingsModel {
         
         try {
             // Get student registration setting
-            $sql = "SELECT * FROM admin_settings WHERE admin_setting_name = 'student_registration'";
+            /*$sql = "SELECT * FROM admin_settings WHERE admin_setting_name = 'student_registration'";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             $studentRegistration = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,7 +48,16 @@ class adminSettingsModel {
             if ($platformFee) {
                 $settings['platform_fee'] = $platformFee;
             }
-            
+            */
+            // Get all other settings
+            $sql = "SELECT * FROM admin_settings";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $Settings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($Settings as $setting) {
+                $settings[$setting['admin_setting_name']] = $setting;
+            }
+
             error_log('Model: getAdminSettings fetched ' . count($settings) . ' settings.');
             return $settings;
             
