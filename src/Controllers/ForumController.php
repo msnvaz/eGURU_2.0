@@ -1,7 +1,8 @@
 <?php
+
 namespace App\Controllers;
+
 use App\Models\ForumModel;
-use App\Controller;
 
 class ForumController {
     private $forumModel;
@@ -12,7 +13,6 @@ class ForumController {
 
     public function showForum() {
         $messages = $this->forumModel->getAllMessages();
-        include 'Views/forum.php';
+        include 'views/forum.php';
     }
 }
-?>
