@@ -8,6 +8,7 @@ use App\Controllers\TutorPopularController; //for most popular tutors
 use App\Controllers\TutorPreviewController; //for tutor short preview
 use App\Controllers\DisplayAnnouncementController; //for displaying announcements
 use App\Controllers\VisitorQueryController; //for visitor-query
+use App\Controllers\ForumController; //for forum
 
 use App\Controllers\admin\AdminLoginController;
 use App\Controllers\admin\AdminDashboardController;
@@ -67,7 +68,7 @@ $router->post('/visitor-query', VisitorQueryController::class, 'storeVisitorQuer
 $router->post('/upload-ad', AdvertisementController::class, 'uploadAdvertisement');
 $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement');
 $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement');
-$router->get('/forum', ForumController::class, 'showForum');
+$router->post('/forum', ForumController::class, 'showForum');
 
 //$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
 //$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
