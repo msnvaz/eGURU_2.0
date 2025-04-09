@@ -179,57 +179,6 @@
                         </div>
                     </div>
                     
-                    <!-- Security & Privacy Section -->
-                    <div class="settings-section">
-                        <h2>Security & Privacy</h2>
-                        <div class="settings-grid">
-                            <div class="setting-item">
-                                <label class="switch">
-                                <?php
-                                    $twoFactorEnabled = isset($adminTwoFactor['admin_setting_value']) ? 
-                                        $adminTwoFactor['admin_setting_value'] : false;
-
-                                    if($twoFactorEnabled == true) {
-                                        echo '<input type="checkbox" name="require_2fa" checked>';
-                                    } else {
-                                        echo '<input type="checkbox" name="require_2fa">';
-                                    }
-                                ?>
-                                    <span class="slider"></span>
-                                </label>
-                                <div class="setting-info">
-                                    <h4>Two-Factor Authentication</h4>
-                                    <p>Require 2FA for all users</p>
-                                </div>
-                            </div>
-                            
-                            <div class="setting-item">
-                                <select name="password_policy" class="select-input">
-                                    <option value="basic">Basic (8+ chars)</option>
-                                    <option value="standard">Standard (8+ chars, mixed case)</option>
-                                    <option value="strong">Strong (10+ chars, mixed case, numbers, symbols)</option>
-                                </select>
-                                <div class="setting-info">
-                                    <h4>Password Policy</h4>
-                                    <p>Password security requirements</p>
-                                </div>
-                            </div>
-                            
-                            <div class="setting-item">
-                                <select name="session_timeout" class="select-input">
-                                    <option value="15">15 Minutes</option>
-                                    <option value="30">30 Minutes</option>
-                                    <option value="60">60 Minutes</option>
-                                    <option value="120">2 Hours</option>
-                                </select>
-                                <div class="setting-info">
-                                    <h4>Session Timeout</h4>
-                                    <p>Auto logout after inactivity</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
                     <!-- Content Management Section -->
                     <div class="settings-section">
                         <h2>Content Management</h2>
