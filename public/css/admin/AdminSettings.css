@@ -36,16 +36,17 @@
 .setting-item {
     display: flex;
     align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 12px 8px;
+    border-bottom: 1px solid #dad9d9;
+    background-color: #fafafa;
     transition: background-color 0.2s ease;
 }
 
 .setting-item:hover {
-    background-color: #fafafa;
+    background-color: #ffffff;
     border-radius: 6px;
     padding: 12px 8px;
-    margin: 0 -8px;
 }
 
 .setting-item:last-child {
