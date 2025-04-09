@@ -117,9 +117,9 @@ unset($_SESSION['error_message']);
         .error {
             color: #ff4444;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 4px;
             font-size: 14px;
-            padding: 10px;
+            padding: 7px;
             background-color: #ffe6e6;
             border-radius: 4px;         
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
