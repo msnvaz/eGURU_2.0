@@ -176,7 +176,12 @@ $router->get('/admin-settings', AdminSettingsController::class, 'showSettings');
 $router->post('/admin-settings', AdminSettingsController::class, 'updateSettings'); // Handle form submission
 
 //admin inbox
-//$router->get('/admin-inbox', AdminInboxController::class, 'showInbox');
+$router->get('/admin-inbox', AdminInboxController::class, 'showInbox');
+$router->post('/admin-inbox', AdminInboxController::class, 'showInbox'); // Handle search form submission
+$router->get('/admin-inbox-message/{id}', AdminInboxController::class, 'showMessage');
+$router->post('/admin-inbox-archive/{id}', AdminInboxController::class, 'archiveMessage');
+$router->post('/admin-inbox-unarchive/{id}', AdminInboxController::class, 'unarchiveMessage');
+$router->post('/admin-inbox-reply/{id}', AdminInboxController::class, 'replyToMessage');
 
 //admin update subject
 $router->post('/admin-dashboard/updatesubject', adminSubjectController::class, 'updateSubject');
