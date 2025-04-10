@@ -8,6 +8,7 @@ use App\Controllers\TutorPopularController; //for most popular tutors
 use App\Controllers\TutorPreviewController; //for tutor short preview
 use App\Controllers\DisplayAnnouncementController; //for displaying announcements
 use App\Controllers\VisitorQueryController; //for visitor-query
+use App\Controllers\ForumController; //for forum
 
 use App\Controllers\admin\AdminLoginController;
 use App\Controllers\admin\AdminDashboardController;
@@ -67,6 +68,7 @@ $router->post('/visitor-query', VisitorQueryController::class, 'storeVisitorQuer
 $router->post('/upload-ad', AdvertisementController::class, 'uploadAdvertisement');
 $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement');
 $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement');
+$router->post('/forum', ForumController::class, 'showForum');
 
 //$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
 //$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
@@ -174,7 +176,12 @@ $router->get('/admin-settings', AdminSettingsController::class, 'showSettings');
 $router->post('/admin-settings', AdminSettingsController::class, 'updateSettings'); // Handle form submission
 
 //admin inbox
-//$router->get('/admin-inbox', AdminInboxController::class, 'showInbox');
+$router->get('/admin-inbox', AdminInboxController::class, 'showInbox');
+$router->post('/admin-inbox', AdminInboxController::class, 'showInbox'); // Handle search form submission
+$router->get('/admin-inbox-message/{id}', AdminInboxController::class, 'showMessage');
+$router->post('/admin-inbox-archive/{id}', AdminInboxController::class, 'archiveMessage');
+$router->post('/admin-inbox-unarchive/{id}', AdminInboxController::class, 'unarchiveMessage');
+$router->post('/admin-inbox-reply/{id}', AdminInboxController::class, 'replyToMessage');
 
 //admin update subject
 $router->post('/admin-dashboard/updatesubject', adminSubjectController::class, 'updateSubject');
