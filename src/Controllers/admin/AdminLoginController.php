@@ -88,6 +88,10 @@ class AdminLoginController {
         $_SESSION['admin'] = $username;
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_id'] = $adminId;
+        // When admin logs in successfully
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_username'] = $adminData['username']; // Or whatever field contains the admin username
+        $_SESSION['admin_id'] = $adminData['id']; // Optional: Store admin ID if needed
         
         // Redirect to dashboard
         Router::redirect('/admin-dashboard');
