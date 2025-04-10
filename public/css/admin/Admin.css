@@ -160,7 +160,7 @@ td button:hover {
   display: flex;
   flex-wrap: nowrap;
   gap: 10px; /* Reduced from 20px to fit all cards */
-  justify-content: flex-start;
+  justify-content: space-evenly;
   margin-bottom: 20px;
   padding: 5px;
   padding-left: 10px;
@@ -174,7 +174,9 @@ td button:hover {
   box-shadow: 0 2px 5px rgba(0,0,0,0.35);
   padding: 8px;
   flex: 0 0 auto; /* Prevents growing and shrinking */
-  width: 135px; /* Fixed smaller width to fit all cards */
+  width: auto; /* Fixed smaller width to fit all cards */
+  max-width: 10%;
+  min-width: 9%;
   text-align: center;
   border:var(--dark-pink) 2px solid;
   border-left: var(--dark-pink) 5px solid;
