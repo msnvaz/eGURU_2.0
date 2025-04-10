@@ -84,7 +84,42 @@ class AdminDashboardModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function getTopTutorsByRating($limit = 5) {
+    public function getTotalStudentPoints(){
+        $query = "SELECT SUM(student_points) as total_points FROM student";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result['total_points'] ?? 0; // Return the value or 0 if null
+    }
+
+    public function getTotalTutorpoints(){
+        $query = "SELECT SUM(tutor_points) as total_points FROM tutor";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result['total_points'] ?? 0; // Return the value or 0 if null
+    }
+
+    public function getPointValue() {
+        $query = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = 'point_value'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (float)$result['admin_setting_value']:0; // Return 0 if result is null
+    }
+
+    public function getPlatformFee() {
+        $query = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = 'platform_fee'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (float)$result['admin_setting_value'] : 0; // or (int) if always integer
+    }
+    
+    
+    /*public function getTopTutorsByRating($limit = 5) {
         $query = "SELECT t.tutor_id, t.tutor_fname, t.tutor_lname, AVG(r.rating) as average_rating, 
                   COUNT(s.session_id) as session_count 
                   FROM tutor t
@@ -123,5 +158,5 @@ class AdminDashboardModel {
         }
         
         return $result;
-    }
+    }*/
 }

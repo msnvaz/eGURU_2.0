@@ -129,9 +129,11 @@ $router->get('/admin-student-profile/{id}', AdminStudentController::class, 'show
 $router->get('/admin-login', AdminLoginController::class, 'showLoginPage');
 $router->post('/admin-login', AdminLoginController::class, 'checkAdminLogin');
 $router->get('/admin-dashboard', AdminDashboardController::class, 'showDashboard');
-$router->get('/admin-logout', AdminDashboardController::class, 'logout');
+$router->get('/admin-logout', AdminLoginController::class, 'logout');
+
 //admin sessions
 $router->get('/admin-sessions', adminSessionController::class, 'showAllSessions');
+
 //search sessions
 $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions');
 //admin announcements
