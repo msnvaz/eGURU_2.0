@@ -84,28 +84,37 @@ class AdminLoginController {
         // Update database login status
         $this->model->updateLoginStatus($adminId, true);
         
-        // Set session variables
+        // Set session variables (correct way)
         $_SESSION['admin'] = $username;
         $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_id'] = $adminId;
-        // When admin logs in successfully
-        $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_username'] = $adminData['username']; // Or whatever field contains the admin username
-        $_SESSION['admin_id'] = $adminData['id']; // Optional: Store admin ID if needed
+        $_SESSION['admin_username'] = $username; // Use the parameter directly
         
         // Redirect to dashboard
         Router::redirect('/admin-dashboard');
     }
 
-    // Handle logout
+    // In AdminLoginController.php
     public function logout() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
+        // Log the current session state for debugging
+        error_log("Logout initiated. Admin ID in session: " . (isset($_SESSION['admin_id']) ? $_SESSION['admin_id'] : 'not set'));
+        
         // Update database if we have admin ID
         if (isset($_SESSION['admin_id'])) {
-            $this->model->updateLoginStatus($_SESSION['admin_id'], false);
+            $adminId = $_SESSION['admin_id'];
+            $result = $this->model->updateLoginStatus($adminId, false);
+            
+            // Log the result
+            error_log("Admin logout status update for ID $adminId: " . ($result ? 'successful' : 'failed'));
+            
+            if (!$result) {
+                // Handle failed update more gracefully
+                error_log("Failed to update admin login status in database");
+            }
         }
         
         // Clear session
@@ -113,6 +122,7 @@ class AdminLoginController {
         session_destroy();
         
         // Redirect to login page
-        Router::redirect('/admin-login');
+        header('Location: /admin-login');
+        exit();
     }
 }

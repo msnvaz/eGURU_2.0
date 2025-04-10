@@ -10,6 +10,7 @@ class AdminDashboardController {
 
     public function __construct() {
         $this->model = new AdminDashboardModel();
+        $this->loginModel = new AdminLoginModel(); // Initialize the login model
     }
 
     public function showDashboard() {
@@ -24,11 +25,16 @@ class AdminDashboardController {
         $totalTutors = $this->model->getTotalTutors();
         $totalSessions = $this->model->getTotalSessions();
         $completedSessions = $this->model->getCompletedSessions();
-        $totalRevenue = $this->model->getTotalRevenue();
         $sessionCounts = $this->model->getSessionCountsByStatus();
         $studentRegistrations = $this->model->getStudentRegistrationsByMonth();
         $tutorRegistrations = $this->model->getTutorRegistrationsByMonth();
         $sessionsPerSubject = $this->model->getSessionsPerSubject();
+        $totalStudentPoints = (int)($this->model->getTotalStudentPoints());
+        $totalTutorPoints = (int)($this->model->getTotalTutorPoints());
+        $pointValue = (int)($this->model->getPointValue());
+        $platformFee = (int)($this->model->getPlatformFee());
+        $expectedRevenue = ($totalTutorPoints * $pointValue * $platformFee)/100;
+        $totalRevenue = ($this->model->getTotalRevenue())*$pointValue;
         
         // Format month numbers to ensure all 12 months are represented in charts
         $studentRegistrationsByMonth = $this->formatMonthlyData($studentRegistrations);
@@ -58,25 +64,4 @@ class AdminDashboardController {
         return array_values($formattedData); // Convert to indexed array for Chart.js
     }
 
-    public function logout() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        // Update database login status if admin_id is available
-        if (isset($_SESSION['admin_id'])) {
-            $loginModel = new AdminLoginModel();
-            $loginModel->updateLoginStatus($_SESSION['admin_id'], false);
-        }
-        
-        // Unset all session variables
-        $_SESSION = array();
-
-        // Destroy the session
-        session_destroy();
-
-        // Redirect to login page
-        header('Location: ./admin-login');
-        exit();
-    }
 }

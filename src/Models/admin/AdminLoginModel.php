@@ -82,6 +82,14 @@ class AdminLoginModel {
     // Update login status in the database
     public function updateLoginStatus($adminId, $status) {
         try {
+            // Make sure we have a valid connection
+            if (!$this->conn) {
+                $this->connectWithRetry();
+            }
+            
+            // Log the update attempt
+            error_log("Updating admin login status for ID: $adminId to " . ($status ? '1' : '0'));
+            
             $sql = "UPDATE admin SET admin_login_status = :status WHERE admin_id = :admin_id";
             $stmt = $this->conn->prepare($sql);
             
@@ -89,9 +97,31 @@ class AdminLoginModel {
             $stmt->bindParam(':status', $statusValue, PDO::PARAM_INT);
             $stmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
             
-            return $stmt->execute();
+            $result = $stmt->execute();
+            
+            // Check if any rows were actually updated
+            $rowCount = $stmt->rowCount();
+            error_log("Rows affected by login status update: $rowCount");
+            
+            if ($rowCount === 0) {
+                error_log("Warning: No rows affected when updating login status for admin_id: $adminId");
+                // Try to check if the admin record exists
+                $checkSql = "SELECT COUNT(*) as count FROM admin WHERE admin_id = :admin_id";
+                $checkStmt = $this->conn->prepare($checkSql);
+                $checkStmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
+                $checkStmt->execute();
+                $exists = $checkStmt->fetch(PDO::FETCH_ASSOC)['count'] > 0;
+                error_log("Admin ID $adminId exists in database: " . ($exists ? 'Yes' : 'No'));
+            }
+            
+            return $result;
         } catch (\PDOException $e) {
             error_log("Database error updating login status: " . $e->getMessage());
+            // Attempt to reconnect if connection was lost
+            if (strpos($e->getMessage(), 'MySQL server has gone away') !== false) {
+                $this->connectWithRetry();
+                return $this->updateLoginStatus($adminId, $status); // Retry
+            }
             return false;
         }
     }
