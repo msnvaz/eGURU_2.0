@@ -3,6 +3,7 @@
 namespace App\Controllers\admin;
 
 use App\Models\admin\AdminDashboardModel;
+use App\Models\admin\AdminLoginModel; // Add this import
 
 class AdminDashboardController {
     private $model;
@@ -58,7 +59,16 @@ class AdminDashboardController {
     }
 
     public function logout() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Update database login status if admin_id is available
+        if (isset($_SESSION['admin_id'])) {
+            $loginModel = new AdminLoginModel();
+            $loginModel->updateLoginStatus($_SESSION['admin_id'], false);
+        }
+        
         // Unset all session variables
         $_SESSION = array();
 
