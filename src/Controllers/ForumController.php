@@ -1,18 +1,20 @@
 <?php
-
-namespace App\Controllers;
-
 use App\Models\ForumModel;
 
-class ForumController {
-    private $forumModel;
+class ForumController
+{
+    private $forum;
 
-    public function __construct($db) {
-        $this->forumModel = new ForumModel($db);
+    public function __construct($db)
+    {
+        $this->forum = new Forum($db);
     }
 
-    public function showForum() {
-        $messages = $this->forumModel->getAllMessages();
-        include 'views/forum.php';
-    }
+    public function index()
+{
+    $messages = $this->forum->getAllMessagesWithStudentName();
+    var_dump($messages); // Debug line
+    require 'Views/forum.php';
+}
+
 }

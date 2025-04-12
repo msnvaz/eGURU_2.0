@@ -1,29 +1,31 @@
-<section id="forum">
-    <div class="forum-container">
-        <br><br><br>
-        <h2>Forum</h2>
-        <br>
-
-        <?php $messages = $messages ?? []; ?>
-
-        <?php if (!empty($messages)): ?>
-            <?php foreach ($messages as $msg): ?>
-                <div class="comment">
-                    <div class="forum-profile">
-                        <img class="avatar" src="images/tutor_2.jpeg" alt="Tutor Image">
-                        <div class="name"><?= htmlspecialchars($msg['student_first_name']) ?></div>
-                    </div>
-                    <p><?= nl2br(htmlspecialchars($msg['message'])) ?></p>
-                    <div class="forum-footer">
-                        <span><?= date("h:i A", strtotime($msg['time'])) ?></span>
-                        <button class="reply-btn">Reply</button>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No forum messages available yet.</p>
-        <?php endif; ?>
-
-        <button class="forum-see-more">See More</button>
-    </div>
-</section>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forum Messages</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .message-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .student-name { font-weight: bold; }
+        .timestamp { font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <h2>Student Forum Messages</h2>
+    <?php if (!empty($messages)) : ?>
+        <?php foreach ($messages as $msg) : ?>
+            <div class="message-box">
+                <div class="student-name"><?= htmlspecialchars($msg['student_first_name']) ?></div>
+                <div class="timestamp"><?= date("F j, Y, g:i a", strtotime($msg['time'])) ?></div>
+                <p><?= nl2br(htmlspecialchars($msg['message'])) ?></p>
+            </div>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <p>No messages yet.</p>
+    <?php endif; ?>
+</body>
+</html>
