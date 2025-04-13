@@ -68,7 +68,8 @@ $router->post('/visitor-query', VisitorQueryController::class, 'storeVisitorQuer
 $router->post('/upload-ad', AdvertisementController::class, 'uploadAdvertisement');
 $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement');
 $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement');
-$router->get('/forum', ForumController::class, 'index');
+$router->get('/forum', ForumController::class, 'showForumMessages');
+$router->post('/forum', ForumController::class, 'showForumMessages');
 
 //$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
 //$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
