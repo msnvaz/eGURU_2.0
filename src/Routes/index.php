@@ -151,7 +151,8 @@ $router->get('/admin-announcement/delete/{id}', AdminAnnouncementController::cla
 $router->get('/admin-students', AdminStudentController::class, 'showAllStudents');
 //student search
 $router->post('/admin-students', AdminStudentController::class, 'searchStudents');
-//deleted students
+$router->post('/admin-deleted-students', AdminStudentController::class, 'searchStudents');//deleted students
+//student filter
 $router->get('/admin-deleted-students', AdminStudentController::class, 'showDeletedStudents');
 //student profile
 $router->get('/admin-student-profile/{id}', AdminStudentController::class, 'showStudentProfile');
