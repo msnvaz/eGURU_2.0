@@ -18,33 +18,94 @@ class adminStudentModel {
         }
     }
 
-    // Fetch all students
-    public function getAllStudents() {
-        // Default query to fetch all students
-        $query = "SELECT * FROM student WHERE student_status = 'set'";
-
-        // Check if search is performed
-        if (isset($_POST['search'])) {
-            $searchTerm = $_POST['search_term'];
-            //added id search too
-            $query = "SELECT * FROM student WHERE student_first_name LIKE :searchTerm OR student_last_name LIKE :searchTerm OR student_email LIKE :searchTerm OR student_id LIKE :searchTerm";
+    // Fetch all students with filtering options
+    public function getAllStudents($status = 'set') {
+        try {
+            // Default query to fetch students by status
+            $query = "SELECT * FROM student WHERE student_status = :status";
+            $params = [':status' => $status];
+            
+            // Execute the query
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute($params);
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching students: ' . $e->getMessage());
+            return [];
         }
-
-        // Prepare the query
-        $stmt = $this->conn->prepare($query);
-
-        // Bind the search term if available
-        if (isset($searchTerm)) {
-            $stmt->bindValue(':searchTerm', "%$searchTerm%", PDO::PARAM_STR);
-        }
-
-        // Execute the query and return the results
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
     }
 
-    //get student profile on click
+    // Search students by term and apply filters
+    public function searchStudents($searchTerm = '', $grade = '', $registrationStartDate = '', $registrationEndDate = '', $status = 'set', $onlineStatus = '') {
+        try {
+            $query = "SELECT * FROM student WHERE student_status = :status";
+            $params = [':status' => $status];
+            
+            // Add search term filter
+            if (!empty($searchTerm)) {
+                $query .= " AND (student_first_name LIKE :searchTerm 
+                          OR student_last_name LIKE :searchTerm 
+                          OR student_email LIKE :searchTerm 
+                          OR CAST(student_id AS CHAR) LIKE :searchTerm)";
+                $params[':searchTerm'] = "%$searchTerm%";
+            }
+            
+            // Add grade filter
+            if (!empty($grade)) {
+                $query .= " AND student_grade = :grade";
+                $params[':grade'] = $grade;
+            }
+            
+            // Add registration date range filter
+            if (!empty($registrationStartDate)) {
+                $query .= " AND student_registration_date >= :startDate";
+                $params[':startDate'] = $registrationStartDate;
+            }
+            
+            if (!empty($registrationEndDate)) {
+                $query .= " AND student_registration_date <= :endDate";
+                $params[':endDate'] = $registrationEndDate;
+            }
+            
+            // Add online status filter
+            if (!empty($onlineStatus)) {
+                $query .= " AND student_log = :onlineStatus";
+                $params[':onlineStatus'] = $onlineStatus;
+            }
+            
+            // Order by id for consistency
+            $query .= " ORDER BY student_id DESC";
+            
+            // Execute the query
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute($params);
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error searching students: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // Get distinct student grades for the dropdown filter
+    public function getStudentGrades() {
+        try {
+            $query = "SELECT DISTINCT student_grade FROM student 
+                     WHERE student_grade IS NOT NULL 
+                     ORDER BY student_grade";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching student grades: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    // The rest of your existing methods...
+    
     public function getStudentProfile($studentId) {
         $query = "SELECT * FROM student WHERE student_id = :studentId";
         $stmt = $this->conn->prepare($query);
@@ -145,10 +206,7 @@ class adminStudentModel {
 
     // Get all deleted students
     public function getDeletedStudents() {
-        $query = "SELECT * FROM student WHERE student_status = 'unset'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->getAllStudents('unset');
     }
 
     // Restore student profile
