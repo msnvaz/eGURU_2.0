@@ -37,13 +37,14 @@ class SubjectPageController extends Controller {
                 $tutor['tutor_profile_photo'] = $this->getProfileImagePath($tutor['tutor_profile_photo'] ?? '');
 
                 // Convert hour_fees to tutor_pay_per_hour with formatting
-                $tutor['tutor_pay_per_hour'] = isset($tutor['hour_fees'])
-                    ? number_format($tutor['hour_fees'], 2)
-                    : 'N/A';
+                $tutor['tutor_pay_per_hour'] = isset($tutor['tutor_pay_per_hour'])
+                    ? number_format($tutor['tutor_pay_per_hour'], 2)
+                        : 'N/A';
+
 
                 // Average rating fallback
-                $tutor['average_rating'] = isset($tutor['average_rating']) && $tutor['average_rating'] !== null
-                    ? round($tutor['average_rating'], 1)
+                $tutor['average_rating'] = isset($tutor['avg_rating']) && $tutor['avg_rating'] !== null
+                    ? round($tutor['avg_rating'], 1)
                     : 'Not rated yet';
             }
 
