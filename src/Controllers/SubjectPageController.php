@@ -16,34 +16,37 @@ class SubjectPageController extends Controller {
 
     public function showSubjectPage() {
         try {
-            // Get subject dynamically from URL
             $subject = $_GET['subject'] ?? '';
-            
-            // If subject is empty, redirect to a default page or display a message
+
             if (empty($subject)) {
                 return $this->handleMissingView("Subject not specified.");
             }
 
-            // Sanitize subject to avoid invalid values
             $subject = htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
 
-            // Filters
             $gradeFilter = $_GET['tutor_level'] ?? ''; 
-            $availableOnly = isset($_GET['available']) && $_GET['available'] === '1'; // Ensure correct boolean check
+            $availableOnly = isset($_GET['available']) && $_GET['available'] === '1';
 
-            // Fetch data from model
             $tutors = $this->model->getTutorsBySubject($subject, $gradeFilter, $availableOnly);
             $tutorLevels = $this->model->getTutorLevelsBySubject($subject);
 
-            // Debugging Logs
             error_log("Filtering tutors for subject: $subject, grade: $gradeFilter, available: " . ($availableOnly ? 'true' : 'false'));
 
-            // Process profile images
             foreach ($tutors as &$tutor) {
-                $tutor['profile_image'] = $this->getProfileImagePath($tutor['profile_image']);
+                // Profile photo path
+                $tutor['tutor_profile_photo'] = $this->getProfileImagePath($tutor['tutor_profile_photo'] ?? '');
+
+                // Convert hour_fees to tutor_pay_per_hour with formatting
+                $tutor['tutor_pay_per_hour'] = isset($tutor['hour_fees'])
+                    ? number_format($tutor['hour_fees'], 2)
+                    : 'N/A';
+
+                // Average rating fallback
+                $tutor['average_rating'] = isset($tutor['average_rating']) && $tutor['average_rating'] !== null
+                    ? round($tutor['average_rating'], 1)
+                    : 'Not rated yet';
             }
 
-            // Pass data to view
             $viewData = [
                 'subject' => $subject,
                 'tutors' => $tutors,
@@ -52,7 +55,6 @@ class SubjectPageController extends Controller {
                 'availableOnly' => $availableOnly
             ];
 
-            // Load the subject page view
             return $this->loadView('subjectpage', $viewData);
         } catch (\Exception $e) {
             error_log("Controller Error: " . $e->getMessage());
@@ -73,13 +75,11 @@ class SubjectPageController extends Controller {
     }
 
     private function handleMissingView($message) {
-        // Check if 'error.php' view exists before loading it
         $errorViewPath = __DIR__ . "/../Views/error.php";
-        
+
         if (file_exists($errorViewPath)) {
             return $this->loadView('error', ['message' => $message]);
         } else {
-            // Fallback if error view doesn't exist
             die("<h2>Error</h2><p>$message</p>");
         }
     }
@@ -88,16 +88,16 @@ class SubjectPageController extends Controller {
         if (empty($profileImage)) {
             return '/' . $this->defaultImage;
         }
-    
-        $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/eGURU_2.0/' . $this->uploadPath . basename($profileImage);
-    
-        // Debugging
+
+        $baseName = basename($profileImage);
+        $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/eGURU_2.0/' . $this->uploadPath . $baseName;
+
         error_log("Checking file existence: " . $fullPath);
-    
+
         if (file_exists($fullPath)) {
-            return '/eGURU_2.0/' . $this->uploadPath . basename($profileImage);
+            return '/eGURU_2.0/' . $this->uploadPath . $baseName;
         }
-    
+
         return '/eGURU_2.0/' . $this->defaultImage;
     }
 }
