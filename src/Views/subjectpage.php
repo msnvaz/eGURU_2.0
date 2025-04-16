@@ -112,9 +112,10 @@
         <h1><?= htmlspecialchars($subject) ?></h1>
 
         <form method="get" action="" class="filter-container">
+            <input type="hidden" name="subject" value="<?= htmlspecialchars($subject) ?>">
             <div class="filter">
                 <label for="grade-filter">Filter by</label>
-                <select name="tutor_level" id="grade-filter">
+                <select name="tutor_level" id="grade-filter" onchange="this.form.submit()">
                     <option value="">All Grades</option>
                     <?php foreach ($tutorLevels as $level): ?>
                         <option value="<?= htmlspecialchars($level['tutor_level']) ?>" <?= $gradeFilter === $level['tutor_level'] ? 'selected' : '' ?>>
@@ -123,13 +124,6 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-
-            <div class="checkbox-wrapper">
-                <input type="checkbox" id="available" name="available" <?= $availableOnly ? 'checked' : '' ?>>
-                <label for="available">✓ Available</label>
-            </div>
-
-            <button type="submit">Apply</button>
         </form>
     </header>
 
@@ -169,7 +163,6 @@
         <form method="get" action="" class="see-more-form">
             <input type="hidden" name="subject" value="<?= htmlspecialchars($subject) ?>">
             <input type="hidden" name="tutor_level" value="<?= htmlspecialchars($gradeFilter) ?>">
-            <input type="hidden" name="available" value="<?= $availableOnly ? '1' : '0' ?>">
             <input type="hidden" name="page" value="<?= isset($_GET['page']) ? $_GET['page'] + 1 : 2 ?>">
             <button type="submit" class="subject-page-see-more">See More</button>
         </form>
