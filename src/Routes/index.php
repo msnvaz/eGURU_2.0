@@ -9,6 +9,7 @@ use App\Controllers\TutorPreviewController; //for tutor short preview
 use App\Controllers\DisplayAnnouncementController; //for displaying announcements
 use App\Controllers\VisitorQueryController; //for visitor-query
 use App\Controllers\ForumController; //for forum
+use App\Controllers\TutorSearchController; //for forum
 
 use App\Controllers\admin\AdminLoginController;
 use App\Controllers\admin\AdminDashboardController;
@@ -70,6 +71,7 @@ $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement
 $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement');
 $router->get('/forum', ForumController::class, 'showForumMessages');
 $router->post('/forum', ForumController::class, 'showForumMessages');
+$router->get('/tutorsearch', TutorSearchController::class, 'index');
 
 //$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
 //$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
