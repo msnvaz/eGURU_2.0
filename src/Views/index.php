@@ -240,132 +240,23 @@
     <a href="/subject?subject=English"><div class="subject"><img src="images/English.png" alt="English"><br>English</div></a>
     <a href="/subject?subject=History"><div class="subject"><img src="images/History.png" alt="History"><br>History</div></a>
     <a href="/subject?subject=Geography"><div class="subject"><img src="images/Geography.png" alt="Geography"><br>Geography</div></a>
-    <a href="/subject?subject=Commerce"><div class="subject"><img src="images/Commerce.png" alt="Commerce"><br>Commerce</div></a>
-    <a href="/subject?subject=Language"><div class="subject"><img src="images/Language.png" alt="Language"><br>Language</div></a>
-    <a href="/subject?subject=Agriculture"><div class="subject"><img src="images/Agri.png" alt="Agriculture"><br>Agriculture</div></a>
-    <a href="/subject?subject=Health Science"><div class="subject"><img src="images/Health.png" alt="Health Science"><br>Health Science</div></a>
+    <a href="/subject?subject=Information Technology"><div class="subject"><img src="images/IT.jpg" alt="IT"><br>Information Technology</div></a>
+    <a href="/subject?subject=Sinhala"><div class="subject"><img src="images/Sinhala.jpg" alt="Sinhala"><br>Sinhala</div></a>
+    <a href="/subject?subject=Tamil"><div class="subject"><img src="images/Tamil.svg" alt="Tamil"><br>Tamil</div></a>
+    <a href="/subject?subject=Chemistry"><div class="subject"><img src="images/Chemistry.jpg" alt="Chemistry"><br>Chemistry</div></a>
+    <a href="/subject?subject=Physics"><div class="subject"><img src="images/Physics.jpg" alt="Physics"><br>Physics</div></a>
+    <a href="/subject?subject=Biology"><div class="subject"><img src="images/Biology.jpg" alt="Biology"><br>Biology</div></a>
     <a href="/subject?subject=Mathematics"><div class="subject"><img src="images/Maths.png" alt="Mathematics"><br>Mathematics</div></a>
+    <a href="/subject?subject=Buddhism"><div class="subject"><img src="images/Buddhism.jpeg" alt="Buddhism"><br>Buddhism</div></a>
 </div>
 
     </section>
 
     <br><br><br>
     <br><br><br>
-    <section id="search">
-            <div class="search-container" >
-                <h3 class="search-heading">Search to Find the Most Suitable Tutor for You</h3>
-                <div class="search-form">
-                    <select>
-                        <option value="" disabled selected>Grade</option>
-                        <option value="grade6">Grade 6</option>
-                        <option value="grade7">Grade 7</option>
-                        <option value="grade8">Grade 8</option>
-                        <option value="grade9">Grade 9</option>
-                        <option value="grade10">Grade 10</option>
-                        <option value="grade11">Grade 11</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                    <select>
-                        <option value="" disabled selected>Subject</option>
-                        <option value="science">Science</option>
-                        <option value="english">English</option>
-                        <option value="history">History</option>
-                        <option value="geography">Geography</option>
-                        <option value="commerce">Commerce</option>
-                        <option value="language">Language</option>
-                        <option value="agriculture">Agriculture</option>
-                
-                        <!-- Add more options as needed -->
-                    </select>
-                    <select>
-                        <option value="" disabled selected>Experience Level</option>
-                        <option value="undergraduate">Undergraduate</option>
-                        <option value="graduate">Graduate</option>
-                        <option value="full-time">Full-time</option>
-                        <option value="retired">Retired</option>
-                    </select>
-                    <select>
-                        <option value="" disabled selected>Rating</option>
-                        <option value="1">1 Star</option>
-                        <option value="2">2 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="5">5 Stars</option>
-                    </select>
-                    <select>
-                        <option value="" disabled selected>Session Count</option>
-                        <option value="5">Up to 5 sessions</option>
-                        <option value="10">Up to 10 sessions</option>
-                        <option value="15">More than 10 sessions</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                    <select>
-                        <option value="" disabled selected>Availability</option>
-                        <option value="morning">Available</option>
-                        <option value="afternoon">Unavailable</option>
-                        <option value="evening">Tutoring</option>
-                    </select>
+    
+    <?php include 'tutorsearch.php'; ?>
 
-                </div>
-                <button class="search-button" type="button">Search</button>
-                
-            </div>
-
-        <!--Search Results Section-->
-
-            <div class="result-container">
-                <h1>Tutor Results</h1>
-
-                <div class="tutor-card">
-                    <img src="images/tutor_2.jpeg" alt="Tutor Image">
-                    <div class="tutor-info">
-                        <h2>Ms. Ava James</h2>
-                        <p>Undergraduate Tutor</p>
-                        <p class="rating">Rating:
-                            <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
-                        </p>
-                    </div>
-                    <button class="status available">Available</button>
-                </div>
-
-                <div class="tutor-card">
-                    <img src="images/tutor_2.jpeg" alt="Tutor Image">
-                    <div class="tutor-info">
-                        <h2>Mr. James Anderson</h2>
-                        <p>Graduate Teacher</p>
-                        <p class="rating">Rating:
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
-                        </p>
-                    </div>
-                    <button class="status tutoring">Tutoring</button>
-                </div>
-
-                <div class="tutor-card">
-                    <img src="images/tutor_2.jpeg" alt="Tutor Image">
-                    <div class="tutor-info">
-                        <h2>Ms. Eve Annie</h2>
-                        <p>Full time tutor</p>
-                        <p class="rating">Rating:
-                            <span>★</span><span>★</span><span>★</span><span>☆</span><span>☆</span>
-                        </p>
-                    </div>
-                    <button class="status available">Available</button>
-                </div>
-
-                <div class="tutor-card">
-                    <img src="images/tutor_2.jpeg" alt="Tutor Image">
-                    <div class="tutor-info">
-                        <h2>Mr. Drobe Durgh</h2>
-                        <p>Retired Graduate Teacher</p>
-                        <p class="rating">Rating:
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
-                        </p>
-                    </div>
-                    <button class="status unavailable">Unavailable</button>
-                </div>
-                <button class="see-more">See More</button>
-            </div>
-    </section>
 
     <!--Your Path to Personalized Learning Section-->
 

@@ -120,15 +120,16 @@
 
     <div class="profile-container">
         <div class="profile-header">
-            <!-- <img src="<?= htmlspecialchars($tutor['profile_image']) ?>" 
-                 alt="<?= htmlspecialchars($tutor['name']) ?>" 
+            <!-- Optional: Profile Image -->
+            <!-- <img src="<?= htmlspecialchars($tutor['profile_image'] ?? '') ?>" 
+                 alt="<?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?>" 
                  class="profile-image"> -->
             
             <div class="profile-info">
-                <h1><?= htmlspecialchars($tutor['name']) ?></h1>
-                <p><strong>Qualification:</strong> <?= htmlspecialchars($tutor['qualification']) ?></p>
-                <p><strong>Subject:</strong> <?= htmlspecialchars($tutor['subject']) ?></p>
-                <!-- <p><strong>Investment per hour:</strong> LKR.<?= number_format($tutor['hour_fees']) ?></p> -->
+                <h1><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h1>
+                <p><strong>Level:</strong> <?= htmlspecialchars($tutor['tutor_level_qualification']) ?></p>
+                <p><strong>Subjects:</strong> <?= htmlspecialchars($tutor['subjects']) ?></p>
+
                 <div class="availability-badge <?= strtolower($tutor['availability']) ?>">
                     <?= htmlspecialchars($tutor['availability']) ?>
                 </div>
@@ -154,6 +155,11 @@
 
     <script>
         function handleConnect() {
+            <?php
+                // Safely determine login state and tutor ID
+                $isLoggedIn = $_SESSION['user_id'] ?? false;
+                $tutorId = $tutor['tutor_id'];
+            ?>
             <?php if ($isLoggedIn): ?>
                 window.location.href = '/connect.php?tutor_id=<?= urlencode($tutorId) ?>';
             <?php else: ?>
@@ -161,7 +167,7 @@
             <?php endif; ?>
         }
 
-        // Close modal when clicking outside
+        // Close modal when clicking outside of it
         window.onclick = function(event) {
             const modal = document.getElementById('authModal');
             if (event.target == modal) {

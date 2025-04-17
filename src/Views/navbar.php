@@ -7,13 +7,15 @@
         font-family: 'Poppins', sans-serif;
         margin: 0;
         padding: 0;
+        width: 100%;
     }
 
     nav {
         position: fixed;
         top: 0;
-        width: 100%;
+        width: 103%;
         z-index: 1000;
+        margin-left: -3%;
         background-color: #ffffff;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
@@ -42,11 +44,13 @@
 
     .nav-links li {
         margin-left: 20px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
     }
 
     .nav-link {
         text-decoration: none;
-        color: #320da3;
+        color: rgba(41, 50, 65,1);;
         font-weight: 400;
         font-size: 15px;
         padding: 10px;
@@ -55,6 +59,8 @@
 
     .nav-link:hover {
         color: rgb(229, 34, 115);
+        border-bottom: 8px solid rgb(229, 34, 115);
+        font-weight: 600;   
     }
 
     .nav-link.active {
@@ -75,7 +81,7 @@
     .menu-toggle .bar {
         width: 25px;
         height: 3px;
-        background-color: #320da3;
+        background-color: rgba(41, 50, 65,1);;
     }
 
     /* Responsive Styles */
@@ -113,14 +119,14 @@
         </button>
         <ul class="nav-links">
             <li><a href="#home" class="nav-link">Home</a></li>
-            <li><a href="#howitworks" class="nav-link">How it Works</a></li>
-            <li><a href="#why" class="nav-link">Why</a></li>
+            <!--<li><a href="#howitworks" class="nav-link">How it Works</a></li>
+            <li><a href="#why" class="nav-link">Why</a></li>-->
             <li><a href="#reviews" class="nav-link">Reviews</a></li>
             <li><a href="#tutors" class="nav-link">Tutors</a></li>
             <li><a href="#subjects" class="nav-link">Subjects</a></li>
             <li><a href="#search" class="nav-link">Search</a></li>
-            <li><a href="#about" class="nav-link">About</a></li>
-            <li><a href="#faq" class="nav-link">FAQ</a></li>
+            <!--<li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#faq" class="nav-link">FAQ</a></li>-->
             <li><a href="#forum" class="nav-link">Forum</a></li>
             <li style='background-color: rgba(205, 199, 199, 0.4); border-radius:5px;'><a href="/tutor-login" class="nav-link">Tutor Login</a></li>
             <li style='background-color: rgba(205, 199, 199, 0.4); border-radius:5px;'><a href="/student-login" class="nav-link">Student Login</a></li>

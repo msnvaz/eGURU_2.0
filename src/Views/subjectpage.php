@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Science Tutors</title>
+    <title><?= htmlspecialchars($subject) ?> Tutors</title>
     <link rel="stylesheet" href="/css/subjectpage.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/footer.css">
     <style>
-        /* Filter Section */
         .filter-container {
             display: flex;
             align-items: center;
@@ -26,7 +25,6 @@
             cursor: pointer;
         }
 
-        /* Tutor Cards */
         .tutor-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -60,10 +58,8 @@
         .rating {
             margin-top: 8px;
             font-size: 18px;
-            color: #FFD700; /* Gold stars */
+            color: #FFD700;
         }
-
-        /* Availability Status */
         .status {
             margin-top: 10px;
             padding: 5px 10px;
@@ -80,8 +76,6 @@
             background-color: #FF5722;
             color: white;
         }
-
-        /* See More Button */
         .subject-page-see-more {
             display: block;
             width: 200px;
@@ -98,86 +92,84 @@
         .subject-page-see-more:hover {
             background: #0056b3;
         }
-
-        /* Tutor Profile Image */
-.profile-img {
-    width: 100px; /* Adjust size as needed */
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    display: block;
-    margin: 0 auto 10px; /* Center image */
-    border: 3px solid #ddd; /* Optional border for better styling */
-}
-
-
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 10px;
+            border: 3px solid #ddd;
+        }
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-    
-    <div class="container">
+<?php include 'navbar.php'; ?>
+
+<div class="container">
     <header class="header">
         <img src="images/Science.png" alt="Science Logo" class="logo">
-        <h1><?= htmlspecialchars($subject) ?></h1>  <!-- Dynamic subject name -->
+        <h1><?= htmlspecialchars($subject) ?></h1>
 
-        <!-- Filter Form -->
         <form method="get" action="" class="filter-container">
+            <input type="hidden" name="subject" value="<?= htmlspecialchars($subject) ?>">
             <div class="filter">
-                <span>Filter by</span>
-                <select name="tutor_level" id="grade-filter">
+                <label for="grade-filter">Filter by</label>
+                <select name="tutor_level" id="grade-filter" onchange="this.form.submit()">
                     <option value="">All Grades</option>
-                    <option value="Undergraduate" <?= $gradeFilter == 'Undergraduate' ? 'selected' : '' ?>>Undergraduate</option>
-                    <option value="Graduate" <?= $gradeFilter == 'Graduate' ? 'selected' : '' ?>>Graduate</option>
-                    <option value="Full-time" <?= $gradeFilter == 'Full-time' ? 'selected' : '' ?>>Full-time</option>
-                    <option value="Retired" <?= $gradeFilter == 'Retired' ? 'selected' : '' ?>>Retired</option>
+                    <?php foreach ($tutorLevels as $level): ?>
+                        <option value="<?= htmlspecialchars($level['tutor_level']) ?>" <?= $gradeFilter === $level['tutor_level'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($level['tutor_level']) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
-            <div class="checkbox-wrapper">
-                <input type="checkbox" id="available" name="available" <?= $availableOnly ? 'checked' : '' ?>>
-                <label for="available">✓ Available</label>
-            </div>
-            <button type="submit">Apply</button>
         </form>
     </header>
 
     <div class="tutor-list">
-    <?php foreach ($tutors as $tutor): ?>
-        <a href="/tutorpreview?tutor_id=<?= urlencode($tutor['tutor_id']) ?>" class="tutor-card">
-            <img src="<?= htmlspecialchars($tutor['profile_image']) ?>"
-                 alt="<?= htmlspecialchars($tutor['name']) ?>'s Profile"
-                 class="profile-img">
-            
-            <div class="info">
-                <h3><?= htmlspecialchars($tutor['name']) ?></h3>
-                <p><?= htmlspecialchars($tutor['tutor_level']) ?></p>
-                <p>Investment per hour: LKR.<?= number_format($tutor['hour_fees']) ?></p>
-                <div class="rating">
-                    <?php
-                    $rating = (int)$tutor['rating'];
-                    for ($i = 1; $i <= 5; $i++) {
-                        echo $i <= $rating ? '⭐' : '☆';
-                    }
-                    ?>
-                </div>
-            </div>
+        <?php if (empty($tutors)): ?>
+            <p>No tutors found for the selected filters.</p>
+        <?php else: ?>
+            <?php foreach ($tutors as $tutor): ?>
+                <a href="/tutorpreview?tutor_id=<?= urlencode($tutor['tutor_id']) ?>" class="tutor-card">
+                    <img src="<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>"
+                         alt="<?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?>'s Profile"
+                         class="profile-img">
 
-            <div class="status <?= strtolower($tutor['availability']) ?>-status">
-                <?= htmlspecialchars($tutor['availability']) ?>
-            </div>
-        </a>
-    <?php endforeach; ?>
-</div>
-</div>
+                    <div class="info">
+                        <h3><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h3>
+                        <p><?= htmlspecialchars($tutor['tutor_level']) ?></p>
+                        <p>Investment per hour: LKR.<?= htmlspecialchars($tutor['tutor_pay_per_hour']) ?></p>
+                        <div class="rating">
+                            <?php
+                            $rating = is_numeric($tutor['avg_rating']) ? round($tutor['avg_rating']) : 0;
+                            for ($i = 1; $i <= 5; $i++) {
+                                echo $i <= $rating ? '⭐' : '☆';
+                            }
+                            ?>
+                        </div>
+                    </div>
 
-
-        <?php if (count($tutors) >= 10): ?>
-            <button class="subject-page-see-more">See More</button>
+                    <div class="status <?= isset($tutor['availability_slots']) && $tutor['availability_slots'] ? 'available-status' : 'busy-status' ?>">
+                        <?= isset($tutor['availability_slots']) && $tutor['availability_slots'] ? 'Available' : 'Busy' ?>
+                    </div>
+                </a>
+            <?php endforeach; ?>
         <?php endif; ?>
     </div>
-    
-    <script src="script.js"></script>
-    <?php include 'footer.php'; ?>
+
+    <?php if (count($tutors) >= 10): ?>
+        <form method="get" action="" class="see-more-form">
+            <input type="hidden" name="subject" value="<?= htmlspecialchars($subject) ?>">
+            <input type="hidden" name="tutor_level" value="<?= htmlspecialchars($gradeFilter) ?>">
+            <input type="hidden" name="page" value="<?= isset($_GET['page']) ? $_GET['page'] + 1 : 2 ?>">
+            <button type="submit" class="subject-page-see-more">See More</button>
+        </form>
+    <?php endif; ?>
+</div>
+
+<script src="script.js"></script>
+<?php include 'footer.php'; ?>
 </body>
 </html>
-`
