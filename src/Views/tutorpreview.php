@@ -127,8 +127,8 @@
             
             <div class="profile-info">
                 <h1><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h1>
-                <p><strong>Level:</strong> <?= htmlspecialchars($tutor['tutor_level']) ?></p>
-                <p><strong>Subject:</strong> <?= htmlspecialchars($tutor['subject']) ?></p>
+                <p><strong>Level:</strong> <?= htmlspecialchars($tutor['tutor_level_qualification']) ?></p>
+                <p><strong>Subjects:</strong> <?= htmlspecialchars($tutor['subjects']) ?></p>
 
                 <div class="availability-badge <?= strtolower($tutor['availability']) ?>">
                     <?= htmlspecialchars($tutor['availability']) ?>
