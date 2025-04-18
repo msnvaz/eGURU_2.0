@@ -1,30 +1,11 @@
 body {
+    width:100%;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     display: flex; /* Align sidebar and main content side by side */
 }
-
-
-.sidebar ul li a {
-    color: #333;
-    display: inline-block;
-    font-size: 16px;
-    padding: 10px;
-}
-
-.sidebar ul li i {
-    font-size: 16px;
-    color: #333;
-}
-
-.sidebar ul li a:hover {
-    background-color: #0099ff;
-    color: white;
-    border-radius: 5px;
-}
-
 
 .container {
     width: auto;
