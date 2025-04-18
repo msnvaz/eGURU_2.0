@@ -71,7 +71,7 @@ $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement
 $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement');
 $router->get('/forum', ForumController::class, 'showForumMessages');
 $router->post('/forum', ForumController::class, 'showForumMessages');
-$router->get('/tutor/search', TutorSearchController::class, 'search');
+$router->get('/tutor/search', TutorSearchController::class, 'index');
 $router->post('/tutorsearch', TutorSearchController::class, 'search');
 
 

@@ -17,10 +17,13 @@
     <div class="main">
         <br>
         <div class="admin-dashboard">
-            <div class="inbox-tabs">
-                <a href="/admin-inbox" class="tab-link <?= $status !== 'archived' ? 'active' : '' ?>">Inbox</a>
-                <a href="/admin-inbox?status=archived" class="tab-link <?= $status === 'archived' ? 'active' : '' ?>">Archived</a>
-            </div>
+        
+        <div class="inbox-tabs">
+            <a href="/admin-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox</a>
+            <a href="/admin-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
+            <a href="/admin-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
+            <a href="/admin-outbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'outbox') ? 'active' : '' ?>">Outbox</a>
+        </div>
             
             <form method="POST" class="search-form" action="/admin-inbox">
                 <div class="searchbar">

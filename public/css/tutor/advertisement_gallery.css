@@ -1,5 +1,5 @@
 .ad_page_container {
-    margin-top: 2%;
+    margin-top: -3%;
     font-family: Arial, sans-serif;
     margin-left:27%;
     padding-top: 50px;
@@ -12,7 +12,7 @@ h1 {
     text-align: center;
 }
 
-form {
+.ad-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,15 +20,31 @@ form {
     margin-top: 2em;
 }
 
-form input[type="file"]{
+.ad-form input[type="file"]{
     margin-left: 25%;
 }
 
-form input, form textarea {
+.ad-form input, .ad-form textarea {
     width: 50%;
     padding: 0.5em;
     font-size: 1em;
 }
+
+.update-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    margin-top: 2em;
+}
+
+.update-form textarea {
+    width: 300px;
+    height: 200px;
+    padding: 0.5em;
+    font-size: 1em;
+}
+
 
 .gallery {
     display: flex;
@@ -51,7 +67,7 @@ form input, form textarea {
 
 
  /* Add some styling for the popup */
-.popup {
+.update-popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -61,15 +77,21 @@ form input, form textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
-.popup-content {
-    margin-top: 10%;
-    margin-left: 40%;
+.update-popup-content {
+    margin-top: 12%;
+    margin-left: 35%;
     background-color: white;
     padding: 20px;
     border-radius: 5px;
-    width: 300px;
+    width: 500px;
+}
+
+.update-button-box{
+    display: flex;
+    gap: 15px;
 }
        
 .gallery .ad {
@@ -81,7 +103,8 @@ form input, form textarea {
     gap: 15px;
 }
 
-button {
+
+.ad-button {
     display: block;
     width: 75px;
     height: 40px;
@@ -96,7 +119,7 @@ button {
     text-align: center;
 }
 
-button:hover {
+.ad-button:hover {
     background-color: #e03570;
 }
     

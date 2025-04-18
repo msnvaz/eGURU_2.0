@@ -13,28 +13,50 @@ class AdvertisementModel {
         $this->conn = $db->connect();
     }
 
-    public function getAllAdvertisements() {
-        $query = $this->conn->query("SELECT * FROM advertisements ORDER BY created_at DESC");
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+    public function getAllAdvertisements($tutorId) {
+        $status = 'set'; // define status before binding
+        $query = "SELECT * FROM tutor_advertisement WHERE tutor_id = :tutorId AND ad_status = :status ORDER BY ad_created_at DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':tutorId', $tutorId);
+        $stmt->bindParam(':status', $status);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
+    public function addAdvertisement($imagePath, $description, $tutorId) {
+        $query = $this->conn->prepare("INSERT INTO tutor_advertisement (tutor_id, ad_display_pic, ad_description) VALUES (:tutor_id, :image_path, :description)");
+        $query->execute(['tutor_id' => $tutorId, 'image_path' => $imagePath, 'description' => $description]);
     }
 
-    public function addAdvertisement($imagePath, $description) {
-        $query = $this->conn->prepare("INSERT INTO advertisements (image_path, description) VALUES (:image_path, :description)");
-        $query->execute(['image_path' => $imagePath, 'description' => $description]);
+    public function deleteAdvertisementById($id) {
+        $query = "UPDATE tutor_advertisement SET ad_status = :status WHERE ad_id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([
+            ':id' => $id,
+            ':status' => 'unset'
+        ]);
     }
-
-    public function deleteAdvertisementById($id)
-    {
-        $stmt = $this->conn->prepare("DELETE FROM advertisements WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-    }
+    
 
     public function updateAdvertisementDescription($id, $description)
     {
-        $stmt = $this->conn->prepare("UPDATE advertisements SET description = :description WHERE id = :id");
+        $stmt = $this->conn->prepare("UPDATE tutor_advertisement SET ad_description = :description WHERE ad_id = :id");
         $stmt->execute(['description' => $description, 'id' => $id]);
     }
+
+    public function updateTutorAd($adId, $tutorId) {
+        $query = "UPDATE tutor SET tutor_ad_id = :ad_id WHERE tutor_id = :tutor_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':ad_id', $adId);
+        $stmt->bindParam(':tutor_id', $tutorId);
+        $stmt->execute();
+    }
+    
+
 }
+
 
 
 // database code
