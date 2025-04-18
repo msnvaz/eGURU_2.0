@@ -1,32 +1,40 @@
 <section id="search">
     <div class="search-container">
         <h3 class="search-heading">Search to Find the Most Suitable Tutor for You</h3>
-        <form method="GET" action="">
+        <form method="GET" action="/tutor/search">
             <div class="search-form">
                 <select name="grade">
                     <option value="" disabled selected>Grade</option>
-                    <option value="grade6">Grade 6</option>
-                    <!-- Add more options dynamically if needed -->
+                    <?php foreach (range(6, 11) as $g): ?>
+                        <option value="<?= $g ?>"><?= $g ?></option>
+                    <?php endforeach; ?>
                 </select>
+
                 <select name="subject">
                     <option value="" disabled selected>Subject</option>
-                    <option value="mathematics">Mathematics</option>
-                    <!-- Add more options dynamically if needed -->
+                    <?php
+                    $subjects = ["mathematics", "science", "tamil", "history", "geography", "buddhism", "information technology", "physics", "chemistry", "biology"];
+                    foreach ($subjects as $s): ?>
+                        <option value="<?= $s ?>"><?= ucfirst($s) ?></option>
+                    <?php endforeach; ?>
                 </select>
+
                 <select name="level">
                     <option value="" disabled selected>Tutor Level</option>
                     <option value="Degree Holding School Teachers">Degree Holding School Teachers</option>
-                    <option value="Junior Teachers, Training Teachers">Junior Teachers, Training Teachers</option>
-                    <!-- More levels -->
+                    <option value="Experienced Undergraduates, Trainee Teachers">Junior Teachers, Training Teachers</option>
+                    <option value="Undergraduates">Undergraduates</option>
+                    <option value="Diploma Holders">Diploma Holders</option>
+                    <option value="Post AL Students / Other">Post AL Students / Other</option>
                 </select>
+
                 <select name="rating">
                     <option value="" disabled selected>Rating</option>
-                    <option value="1">1 Star</option>
-                    <option value="2">2 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="5">5 Stars</option>
+                    <?php foreach (range(1, 5) as $r): ?>
+                        <option value="<?= $r ?>"><?= $r ?> Star<?= $r > 1 ? 's' : '' ?></option>
+                    <?php endforeach; ?>
                 </select>
+
                 <select name="session_count">
                     <option value="" disabled selected>Session Count</option>
                     <option value="5">Up to 5 sessions</option>
@@ -38,33 +46,37 @@
         </form>
     </div>
 
-    <!-- Search Results Section -->
     <div class="result-container">
         <h1>Tutor Results</h1>
 
-        <?php
-        include "models/tutor_model.php";
-        $filters = $_GET ?? [];
-        $tutors = getFilteredTutors($filters);
-
-        foreach ($tutors as $tutor) {
-            ?>
-            <div class="tutor-card">
-                <img src="images/tutor_2.jpeg" alt="Tutor Image">
-                <div class="tutor-info">
-                    <h2><?= htmlspecialchars($tutor['tutor_first_name'] . " " . $tutor['tutor_last_name']) ?></h2>
-                    <p><?= htmlspecialchars($tutor['level']) ?></p>
-                    <p class="rating">Rating:
-                        <?php
-                        for ($i = 1; $i <= 5; $i++) {
-                            echo $i <= $tutor['average_rating'] ? "<span>★</span>" : "<span>☆</span>";
-                        }
-                        ?>
-                    </p>
+        <?php if (isset($tutors) && is_array($tutors) && count($tutors) > 0): ?>
+            <?php foreach ($tutors as $tutor): ?>
+                <div class="tutor-card">
+                    <img src="images/tutor_2.jpeg" alt="Tutor Image">
+                    <div class="tutor-info">
+                        <h2>
+                            <?= htmlspecialchars($tutor['tutor_first_name'] ?? 'First') . ' ' . htmlspecialchars($tutor['tutor_last_name'] ?? 'Last') ?>
+                        </h2>
+                        <p>
+                            <?= htmlspecialchars($tutor['tutor_level_id'] ?? 'Not Specified') ?>
+                        </p>
+                        <p class="rating">Rating:
+                            <?php
+                            $rating = round($tutor['average_rating'] ?? 0);
+                            for ($i = 1; $i <= 5; $i++):
+                                echo $i <= $rating ? "<span>★</span>" : "<span>☆</span>";
+                            endfor;
+                            ?>
+                        </p>
+                    </div>
+                    <button class="status">
+                        <?= htmlspecialchars($tutor['availability'] ?? 'Not Available') ?>
+                    </button>
                 </div>
-                <button class="status <?= strtolower($tutor['availability']) ?>"><?= ucfirst($tutor['availability']) ?></button>
-            </div>
-        <?php } ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No tutors found matching your filters.</p>
+        <?php endif; ?>
 
         <button class="see-more">See More</button>
     </div>
