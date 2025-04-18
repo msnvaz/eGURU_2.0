@@ -2,86 +2,126 @@
 
 namespace App\Controllers\student;
 
-use App\Models\student\TutorModel;  // Updated to match your actual model name
+use App\Models\student\FindTutorModel;
 
-class StudentFindtutorController {
+class StudentFindtutorController
+{
     private $model;
 
-    public function __construct() {  // Fixed constructor name
-        $this->model = new TutorModel();
-    }
-    
-    public function ShowFindtutor() {
-        require_once '../src/Views/student/findtutor.php';
+    public function __construct()
+    {
+        $this->model = new FindTutorModel();
     }
 
-    public function getTutorById($id) {
-        if (!is_numeric($id)) {
-            echo json_encode(['error' => 'Invalid ID']);
-            return;
+    /**
+     * Display the "Find Tutor" page.
+     */
+    
+    public function ShowFindtutor()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
-        
-        $tutor = $this->model->fetchTutorById($id);
-        if ($tutor) {
-            echo json_encode($tutor);
-        } else {
-            echo json_encode(['error' => 'Tutor not found']);
-        }
-    }
 
-    public function searchTutors() {
-        // Debug POST data
-        error_log("Raw POST data: " . print_r($_POST, true));
-    
-        $grade = isset($_POST['grade']) ? $_POST['grade'] : '';
-        $subject = isset($_POST['subject']) ? $_POST['subject'] : '';
-        $experience = isset($_POST['experience']) ? $_POST['experience'] : '';
-    
-        // Debug filtered data
-        error_log("Filtered data - Grade: '$grade', Subject: '$subject', Experience: '$experience'");
-    
-        $tutors = $this->model->searchTutors($grade, $subject, $experience);
-        
-        // Debug results
-        error_log("Number of tutors found: " . count($tutors));
-        
-        echo json_encode($tutors);
-    }
-
-    public function requestTutor() {
         if (!isset($_SESSION['student_id'])) {
-            echo json_encode(array('success' => false, 'message' => 'Please login first'));
-            return;
-        }
-    
-        $tutorId = isset($_POST['tutor_id']) ? $_POST['tutor_id'] : '';
-        $preferredTime = isset($_POST['preferred_time']) ? $_POST['preferred_time'] : '';
-        $message = isset($_POST['message']) ? $_POST['message'] : '';
-    
-        if (!$tutorId || !$preferredTime || !$message) {
-            echo json_encode(array('success' => false, 'message' => 'Missing required fields'));
-            return;
-        }
-    
-        try {
-            $result = $this->model->createTutorRequest([
-                'student_id' => $_SESSION['student_id'],
-                'tutor_id' => $tutorId,
-                'preferred_time' => $preferredTime,
-                'message' => $message,
-                'status' => 'pending'
-            ]);
-    
-            if ($result) {
-                // Send success response
-                echo json_encode(['success' => true, 'message' => 'Request sent successfully!']);
-            } else {
-                // Send failure response
-                echo json_encode(['success' => false, 'message' => 'Failed to send request.']);
-            }
+            header("Location: /student-login");
             exit();
-            
-        } catch (Exception $e) {
-            echo json_encode(array('success' => false, 'message' => 'Failed to send request'));
         }
-    }}
+
+        $student_id = $_SESSION['student_id'];
+
+        // Fetch filters
+        $grades = $this->model->getGrades();
+        $subjects = $this->model->getSubjects();
+        $experiences = $this->model->getExperiences();
+
+        // Fetch student availability
+        $conn = $this->model->getConnection();
+        $query = "SELECT time_slot_id, day FROM student_availability WHERE student_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$student_id]);
+        $student_availability = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        // Include the view
+        include '../src/Views/student/findtutor.php';
+    }
+
+    /**
+     * Handle the tutor search based on filters.
+     */
+    
+    public function searchTutors()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        if (!isset($_SESSION['student_id'])) {
+            header("Location: /student-login");
+            exit();
+        }
+    
+        $student_id = $_SESSION['student_id'];
+        $grade = $_POST['grade'];
+        $subject_id = $_POST['subject'];
+        $experience = $_POST['experience'];
+    
+        // Debugging: Log the filter values
+        error_log("Grade: $grade, Subject: $subject_id, Experience: $experience");
+    
+        // Fetch tutors matching the filters
+        $tutors = $this->model->searchTutors($grade, $subject_id, $experience, $student_id);
+    
+        // Debugging: Log the result
+        error_log("Tutors: " . print_r($tutors, true));
+    
+        // Fetch filters
+        $grades = $this->model->getGrades();
+        $subjects = $this->model->getSubjects();
+        $experiences = $this->model->getExperiences();
+    
+        // Pass data to the view
+        include '../src/Views/student/findtutor.php';
+    }
+
+    /**
+     * Handle tutor request submission.
+     */
+    public function requestTutor()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['student_id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
+            exit();
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($data['tutorId']) || empty($data['tutorId']) || !isset($data['subjectId']) || empty($data['subjectId'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Invalid request data']);
+            exit();
+        }
+
+        $studentId = $_SESSION['student_id'];
+        $tutorId = $data['tutorId'];
+        $subjectId = $data['subjectId'];
+
+        // Save the request in the session table with NULL values for scheduled_date and schedule_time
+        $conn = $this->model->getConnection();
+        $query = "INSERT INTO session (student_id, tutor_id, scheduled_date, schedule_time, session_status, subject_id) 
+                  VALUES (?, ?, NULL, NULL, 'requested', ?)";
+        $stmt = $conn->prepare($query);
+
+        if ($stmt->execute([$studentId, $tutorId, $subjectId])) {
+            echo json_encode(['success' => 'Request sent successfully']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to send request']);
+        }
+    }
+}

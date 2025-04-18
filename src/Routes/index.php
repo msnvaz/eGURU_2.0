@@ -90,6 +90,11 @@ $router->post('/student-feedback/submit',StudentFeedbackController::class, 'subm
 $router->post('/student-feedback/update',StudentFeedbackController::class, 'updateFeedback');
 $router->post('/student-feedback/delete',StudentFeedbackController::class, 'deleteFeedback');
 
+$router->get('/student-findtutor', StudentFindtutorController::class, 'ShowFindtutor'); // Display the Find Tutor page
+$router->post('/student-search-tutor',StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
+
+$router->post('/student-request-tutor', StudentFindtutorController::class, 'requestTutor');
+
 $router->get('/student-publicprofile', StudentPublicProfileController::class, 'ShowPublicprofile');
 $router->get('/student-session',StudentSessionController::class, 'ShowSession');
 $router->get('/student-payment',StudentPaymentController::class, 'ShowPayment');
