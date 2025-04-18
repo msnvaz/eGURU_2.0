@@ -22,6 +22,8 @@ use App\Controllers\admin\AdminTutorGradingController;
 use App\Controllers\admin\AdminSettingsController;
 use App\Controllers\admin\AdminInboxController;
 use App\Controllers\admin\AdminTransactionController;
+use App\Controllers\admin\adminTutorController; 
+
 
 //Cretaed for manager
 use App\Controllers\manager\ManagerLoginController;
@@ -149,8 +151,6 @@ $router->get('/admin-announcement/update/{id}', AdminAnnouncementController::cla
 $router->post('/admin-announcement/update', AdminAnnouncementController::class, 'updateAnnouncement'); // Update an existing announcement
 $router->get('/admin-announcement/delete/{id}', AdminAnnouncementController::class, 'deleteAnnouncement'); // Delete an announcement
 
-
-
 //admin students
 $router->get('/admin-students', AdminStudentController::class, 'showAllStudents');
 //student search
@@ -213,6 +213,16 @@ $router->post('/admin-transactions', AdminTransactionController::class, 'showTra
 //refund with id
 $router->post('/admin-refund/{id}', AdminTransactionController::class, 'refund');
 
+// Admin tutor routes
+$router->get('/admin-tutors', adminTutorController::class, 'showAllTutors');
+$router->post('/admin-tutors', adminTutorController::class, 'searchTutors');
+$router->post('/admin-deleted-tutors', adminTutorController::class, 'searchTutors');
+$router->get('/admin-deleted-tutors', adminTutorController::class, 'showDeletedTutors');
+$router->get('/admin-tutor-profile/{id}', adminTutorController::class, 'showTutorProfile');
+$router->get('/admin-edit-tutor-profile/{id}', adminTutorController::class, 'editTutorProfile');
+$router->post('/admin-update-tutor-profile/{id}', adminTutorController::class, 'updateTutorProfile');
+$router->post('/tutor-delete-profile/{id}', adminTutorController::class, 'deleteTutorProfile');
+$router->post('/admin-restore-tutor/{id}', adminTutorController::class, 'restoreTutorProfile');
 
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');

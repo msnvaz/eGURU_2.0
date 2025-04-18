@@ -1,0 +1,70 @@
+/* Reuse the same styles as AdminStudentProfile.css */
+.viewprofile-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.viewprofile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-photo-container {
+    margin-right: 20px;
+}
+
+.viewprofile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #333 ;
+    object-fit: cover;
+}
+
+.profile-info h1 {
+    margin: 0;
+    margin-left:20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.button-group {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    margin-left: 0;
+}
+
+.detail-item {
+    margin-bottom: 15px;
+    padding: 7px;
+    background-color: white;
+    border-radius: 6px;
+    padding-left: 15px;
+}
+
+.detail-item strong {
+    display: inline-block;
+    width: 120px;
+    color: #666;
+}
+
+.detail-value {
+    color: #333;
+}
+
+.success-message {
+    color: var(--dark-pink);
+    margin-bottom: 15px;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    font-weight: bold;
+    padding-left: 20px;
+}
