@@ -1,9 +1,8 @@
 <?php
 namespace App\Controllers\tutor;
 
-session_destroy();
-session_start();
-use App\Models\tutor\UserModel;
+
+use App\Models\tutor\TutorDetailsModel;
 
 class TutorLoginController {
     public function showLogin() {
@@ -16,12 +15,16 @@ class TutorLoginController {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = $_POST['email'];
             $password = $_POST['password'];
-
-            $tutor_id = UserModel::validateUser($email, $password);
-
-            if ($tutor_id) {
+    
+            // Create an instance of TutorDetailsModel
+            $tutorModel = new TutorDetailsModel();
+            $tutorData = $tutorModel->validateTutor($email, $password);
+    
+            if ($tutorData) {
+                session_destroy();
+                session_start();
                 $_SESSION['loggedin'] = true;
-                $_SESSION['tutor_id'] = $tutor_id;
+                $_SESSION['tutor_id'] = $tutorData['tutor_id']; // Store tutor ID in session
                 $_SESSION['email'] = $email;
                 header("Location: /tutor-dashboard");
                 exit;
@@ -32,4 +35,6 @@ class TutorLoginController {
             }
         }
     }
+    
+    
 }
