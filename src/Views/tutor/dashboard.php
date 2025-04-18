@@ -1,72 +1,48 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: index.php?action=login");
-    exit();
-}
-
-$userEmail = $_SESSION['email'];
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard</title>
+    <title>Tutor Dashboard</title>
     <link rel="stylesheet" href="/css/tutor/dashboard.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/footer.css">
-
+    <link rel="stylesheet" href="/css/tutor/sidebar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
-<?php include '../src/Views/navbar.php'; ?>
+
+<?php $page="dashboard"; ?>
+
+<!-- Sidebar -->
+<?php include 'sidebar.php'; ?>
+
+<!-- Header -->
+<?php include '../src/Views/tutor/header.php'; ?>
+
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <h2>e-Guru</h2>
-            <ul>
-                <li><i class="fa-solid fa-table-columns"></i><a href="tutor-dashboard">Dashboard</a></li>
-                <li><i class="fa-solid fa-calendar-days"></i><a href="tutor-event">Events</a></li>
-                <li><i class="fa-solid fa-comment"></i><a href="tutor-request">Student Requests</a></li>
-                <li><i class="fa-solid fa-user"></i><a href="tutor-public-profile">Public profile</a></li>
-                <li><i class="fa-solid fa-star"></i><a href="tutor-feedback">Student Feeback</a></li>
-                <li><i class="fa-solid fa-rectangle-ad"></i><a href="tutor-advertisement"> Advertisement</a></li>
-                <li><i class="fa-solid fa-right-from-bracket"></i><a href="tutor-logout"> Logout</a></li>
-            </ul>
-        </div>
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Navbar -->
-            <!-- <nav class="nav-bar">
-                <a href="#">Home</a>
-                <a href="#">How it works</a>
-                <a href="#">Reviews</a>
-                <a href="#">Tutors</a>
-                <a href="#">Subjects</a>
-                <a href="#">Search</a>
-                <a href="#">Forum</a>
-                <a href="#">About</a>
-                <a href="#" class="active">My Profile</a>
-            </nav> -->
+            
 
             <!-- Profile Info, User Info, and Calendar on the Same Level -->
             <div class="profile-info-container">
                 <div class="profile-info">
                     <div class="welcome">
-                        <h2>Welcome back, Mr. Kavindha</h2>
-                        <p>Keep teaching students!</p>
+                        <?php if ($tutorData): ?>
+                            <h2>Welcome, <?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?>!</h2>
+                        <?php else: ?>
+                            <h1>Welcome, Tutor!</h1>
+                        <?php endif; ?>
+                            <p>Keep teaching students!</p>
                     </div>
 
                     <div class="user-info">
-                        <img src="\images\review\review3.jpeg" alt="Mr. Kavindha" width="100" height="100">
+                    <img src="/images/tutor_uploads/tutor_profile_photos/<?= $tutorData['tutor_profile_photo'] ?>" alt="tutor profile photo">
+
                         <div class="user-info-text">
-                            <p>Mr. Kavindha</p>
-                            <p>kavindha123@gmail.com</p>
-                            
+                            <p><?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?></p>
+                            <p><?php echo htmlspecialchars($tutorData['tutor_email'])?></p>
                         </div>
                     </div>
                     </div>
@@ -98,7 +74,7 @@ $userEmail = $_SESSION['email'];
                     </div>
               
                 
-
+                <!--
                 <div class="dashboard-container">
                     <div class="status-card finished-classes">
                       <h3>Classes Finished</h3>
@@ -113,32 +89,69 @@ $userEmail = $_SESSION['email'];
                       <p id="suspendedCount">2</p>
                     </div>
                 </div>
-
+                -->
 
             <!-- Below the Profile Info, User Info, and Calendar -->
             <div id="notifications" class="notifications">
                 <!-- Notifications will be added here -->
             </div>
 
-            <div id="rate_payment">
-                <div id="rating">
-                    <span class="rating-text">Overall Rating: </span>
-                    <div class="stars">
-                      <span class="star filled">&#9733;</span> <!-- Filled star -->
-                      <span class="star filled">&#9733;</span> <!-- Filled star -->
-                      <span class="star filled">&#9733;</span> <!-- Filled star -->
-                      <span class="star filled">&#9733;</span> <!-- Filled star -->
-                      <span class="star">&#9733;</span> <!-- Empty star -->
-                    </div>
-                    <span class="rating-number">4.0/5</span> <!-- Display the rating value -->
+           
+            <div id="rating">
+                <span class="rating-text">Overall Rating </span>
+                <div class="stars" id="starContainer">
+                    <!-- Stars will be dynamically updated -->
                 </div>
-
-                <div id="payment">
-                    <span class="payment-text">Recievables: </span>
-                    <span class="amount" id="paymentAmount">2000 Points</span>
-                    <script src="/js/tutor/payment.js"></script>
-                </div>
+                <span class="rating-number"> <?php echo $tutorRating?></span>
             </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    function updateStarRating(rating) {
+                        const maxStars = 5;
+                        const starContainer = document.getElementById("starContainer");
+
+                        if (!starContainer) return; // Prevent errors if the element is missing
+
+                        starContainer.innerHTML = ""; // Clear existing stars
+
+                        for (let i = 1; i <= maxStars; i++) {
+                            const star = document.createElement("span");
+                            star.classList.add("star");
+
+                            if (i <= Math.floor(rating)) {
+                                star.classList.add("filled"); // Full star
+                                star.innerHTML = "&#9733;";
+                            } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
+                                star.classList.add("half-filled"); // Half-star
+                                star.innerHTML = "&#9733;";
+                            } else {
+                                star.innerHTML = "&#9733;"; // Empty star
+                            }
+
+                            starContainer.appendChild(star);
+                        }
+                    }
+
+                    // Get the rating from PHP and parse it to a number
+                    const tutorRating = parseFloat(
+                        document.querySelector(".rating-number").textContent
+                    );
+
+                    if (!isNaN(tutorRating)) {
+                        updateStarRating(tutorRating);
+                    }
+                });
+
+
+            </script>
+                    
+                    
+                <div id="payment">
+                    <span class="payment-text">Recievables </span>
+                    <span class="amount" id="paymentAmount"><?php echo htmlspecialchars($tutorData['tutor_points'])?> Points</span>
+                    
+                </div>
 
             <!--<div class="carousel-container">
                 <div class="carousel">
@@ -152,77 +165,56 @@ $userEmail = $_SESSION['email'];
             <script src="carousel.js"></script>-->
 
             <!-- Events and Feedback -->
-            <div class="event-feedback-container">
-                <div class="events-section">
-                    <h2>Upcoming Events</h2>
-                    <a href="#" class="view-all">View All</a>
-                    <ul class="event-list">
-                        <li class="event-item">
-                            <div>Mathematics</div>
-                            <div>Mr. James Anderson</div>
-                            <div>20 Aug 2024</div>
-                            <div>2.00 pm</div>
-                        </li>
-                        <li class="event-item">
-                            <div>Science</div>
-                            <div>Mr. James Anderson</div>
-                            <div>20 Aug 2024</div>
-                            <div>2.00 pm</div>
-                        </li>
-                        <li class="event-item">
-                            <div>English</div>
-                            <div>Mr. James Anderson</div>
-                            <div>20 Aug 2024</div>
-                            <div>2.00 pm</div>
-                        </li>
-                    </ul>
+                <div class="event-feedback-container">
+                    <div class="events-section">
+                        <h2>Upcoming Events</h2>
+                        <a href="/tutor-event" class="view-all">View All</a>
+                        <ul class="event-list">
+                            <?php foreach (array_slice($upcomingEvents, 0, 3) as $event): ?>
+                                <li class="event-item">
+                                    <div><?php echo htmlspecialchars($event['subject_name']); ?></div>
+                                    <div><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></div>
+                                    <div><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></div>
+                                    <div><?php echo date('h.i a', strtotime($event['schedule_time'])); ?></div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
 
-                    <h2>Previous Events</h2>
-                    <a href="#" class="view-all">View All</a>
-                    <ul class="event-list">
-                        <li class="event-item">
-                            <div>Mathematics</div>
-                            <div>Mr. James Anderson</div>
-                            <div>20 Aug 2024</div>
-                            <div>2.00 pm</div>
-                        </li>
-                        <li class="event-item">
-                            <div>Science</div>
-                            <div>Mr. James Anderson</div>
-                            <div>20 Aug 2024</div>
-                            <div>2.00 pm</div>
-                        </li>
-                        <li class="event-item">
-                            <div>English</div>
-                            <div>Mr. James Anderson</div>
-                            <div>20 Aug 2024</div>
-                            <div>2.00 pm</div>
-                        </li>
-                    </ul>
-                </div>
+                        <h2>Previous Events</h2>
+                        <a href="/tutor-event" class="view-all">View All</a>
+                        <ul class="event-list">
+                            <?php foreach (array_slice($previousEvents, 0, 3) as $event): ?>
+                                <li class="event-item">
+                                    <div><?php echo htmlspecialchars($event['subject_name']); ?></div>
+                                    <div><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></div>
+                                    <div><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></div>
+                                    <div><?php echo date('h.i a', strtotime($event['schedule_time'])); ?></div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                
 
-                <div class="feedback">
+                
+
+                <div class="feedback"> 
                     <h2>Students' Feedback</h2>
-                    <a href="#" class="view-all">View All</a>
+                    <a href="/tutor-feedback" class="view-all">View All</a>
                     <ul class="feedback-list">
-                        <li>
-                            <img src="/images/user1.jpeg" alt="User Image" class="feedback-img">
-                            Thank you for your wonderful session Sir!!<br>15 Aug 2024 - 4.50 pm
-                        </li>
-                        <li>
-                            <img src="/images/user2.jpeg" alt="User Image" class="feedback-img">
-                            Enough Explanation!! Give more exercises!!<br>15 Aug 2024 - 4.50 pm
-                        </li>
-                        <li>
-                            <img src="/images/user3.jpeg" alt="User Image" class="feedback-img">
-                            Need some practical go-through<br>15 Aug 2024 - 4.50 pm
-                        </li>
-                        <li>
-                            <img src="/images/user4.jpeg" alt="User Image" class="feedback-img">
-                            Need some practical go-through<br>15 Aug 2024 - 4.50 pm
-                        </li>
+                        <?php if (!empty($tutorFeedback)): ?>
+                            <?php foreach (array_slice($tutorFeedback, 0, 4) as $feedback): ?>
+                                <li>
+                                    <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img">
+                                    <?= htmlspecialchars($feedback['student_feedback']); ?><br>
+                                    <?= date('d M Y - h:i A', strtotime($feedback['time_created'])); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li>No feedback available.</li>
+                        <?php endif; ?>
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>
