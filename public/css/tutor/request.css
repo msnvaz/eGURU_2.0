@@ -2,6 +2,7 @@
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     padding: 0;
+    margin-top: -5%;
     height: 100vh;
 }
 
@@ -15,11 +16,11 @@
     margin-top:10%;
 }
 
-.header {
+.request-header {
     display: flex;
 }
 
-.header div {
+.request-header div {
     flex: 1;
     padding: 20px;
     text-align: center;
@@ -28,7 +29,7 @@
     cursor: pointer;
 }
 
-.header div.active {
+.request-header div.active {
     background-color: #ffffff;
 }
 
