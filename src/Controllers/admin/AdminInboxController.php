@@ -19,6 +19,12 @@ class adminInboxController {
         $status = isset($_GET['status']) ? $_GET['status'] : null;
         $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
         $searchTerm = null;
+        // Set active tab based on status
+        if ($status === 'archived') {
+            $activeTab = 'archived';
+        } else {
+            $activeTab = 'inbox';
+        }
         
         // Handle search form submission
         if (isset($_POST['search']) && !empty($_POST['search_term'])) {
@@ -122,5 +128,153 @@ class adminInboxController {
             header('Location: /admin-inbox-message/' . $inboxId . '?error=Failed to send reply');
         }
         exit();
+    }
+    
+    // NEW: Show compose message form
+    public function showComposeForm() {
+        // Get students and tutors for the drop-downs
+        $students = $this->model->getAllStudents();
+        $tutors = $this->model->getAllTutors();
+        $activeTab = 'compose';
+        
+        // Message type (student, tutor, or both)
+        $messageType = isset($_GET['type']) ? $_GET['type'] : 'student';
+        
+        require_once __DIR__ . '/../../Views/admin/AdminComposeMessage.php';
+    }
+    
+    // NEW: Send a message to students and/or tutors
+    public function sendMessage() {
+        // Check if form is submitted
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /admin-compose-message');
+            exit();
+        }
+        
+        // Validate required fields
+        if (!isset($_POST['subject']) || empty($_POST['subject']) ||
+            !isset($_POST['message']) || empty($_POST['message'])) {
+            header('Location: /admin-compose-message?error=Subject and message are required');
+            exit();
+        }
+        
+        // Get form data
+        $subject = $_POST['subject'];
+        $message = $_POST['message'];
+        $messageType = $_POST['message_type'];
+        
+        // Get admin ID
+        $adminId = $_SESSION['admin_id'] ?? 1; // Default to 1 if not set
+        
+        // Process based on message type
+        if ($messageType === 'student') {
+            // Send to students
+            if (!isset($_POST['students']) || empty($_POST['students'])) {
+                header('Location: /admin-compose-message?type=student&error=Please select at least one student');
+                exit();
+            }
+            
+            $studentIds = $_POST['students'];
+            $result = $this->model->sendMessageToMultipleStudents($studentIds, $adminId, $subject, $message);
+            
+            if ($result) {
+                header('Location: /admin-compose-message?type=student&success=Message sent to selected students');
+            } else {
+                header('Location: /admin-compose-message?type=student&error=Failed to send message to students');
+            }
+        } elseif ($messageType === 'tutor') {
+            // Send to tutors
+            if (!isset($_POST['tutors']) || empty($_POST['tutors'])) {
+                header('Location: /admin-compose-message?type=tutor&error=Please select at least one tutor');
+                exit();
+            }
+            
+            $tutorIds = $_POST['tutors'];
+            $result = $this->model->sendMessageToMultipleTutors($tutorIds, $adminId, $subject, $message);
+            
+            if ($result) {
+                header('Location: /admin-compose-message?type=tutor&success=Message sent to selected tutors');
+            } else {
+                header('Location: /admin-compose-message?type=tutor&error=Failed to send message to tutors');
+            }
+        } elseif ($messageType === 'both') {
+            // Send to both students and tutors
+            $studentIds = $_POST['students'] ?? [];
+            $tutorIds = $_POST['tutors'] ?? [];
+            
+            if (empty($studentIds) && empty($tutorIds)) {
+                header('Location: /admin-compose-message?type=both&error=Please select at least one recipient');
+                exit();
+            }
+            
+            $studentResult = true;
+            $tutorResult = true;
+            
+            if (!empty($studentIds)) {
+                $studentResult = $this->model->sendMessageToMultipleStudents($studentIds, $adminId, $subject, $message);
+            }
+            
+            if (!empty($tutorIds)) {
+                $tutorResult = $this->model->sendMessageToMultipleTutors($tutorIds, $adminId, $subject, $message);
+            }
+            
+            if ($studentResult && $tutorResult) {
+                header('Location: /admin-compose-message?type=both&success=Message sent to selected recipients');
+            } else {
+                header('Location: /admin-compose-message?type=both&error=Failed to send message to some recipients');
+            }
+        }
+        
+        exit();
+    }
+
+    // Show outbox page with list of sent messages
+    public function showOutbox() {
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
+        $searchTerm = null;
+        $activeTab = 'outbox';
+        
+        // Handle search form submission
+        if (isset($_POST['search']) && !empty($_POST['search_term'])) {
+            $searchTerm = $_POST['search_term'];
+        }
+        
+        // Get sent messages based on filters
+        $messages = $this->model->getAllSentMessages($page, null, $filter, $searchTerm);
+        
+        // Get total messages for pagination
+        $totalMessages = $this->model->getTotalSentMessages($filter, $searchTerm);
+        $perPage = 10; // Should match the value in the model
+        $totalPages = ceil($totalMessages / $perPage);
+        $currentPage = $page;
+        
+        require_once __DIR__ . '/../../Views/admin/AdminOutbox.php';
+    }
+
+    // Show a specific sent message
+    public function showSentMessage($messageId, $recipientType) {
+        // Get the active message
+        $activeMessage = $this->model->getSentMessage($messageId, $recipientType);
+        
+        if (!$activeMessage) {
+            header('Location: /admin-outbox');
+            exit();
+        }
+        
+        // Get all sent messages for the sidebar (with same filters as outbox page)
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
+        $searchTerm = isset($_GET['search_term']) ? $_GET['search_term'] : null;
+        
+        $messages = $this->model->getAllSentMessages($page, null, $filter, $searchTerm);
+        
+        // Get total messages for pagination
+        $totalMessages = $this->model->getTotalSentMessages($filter, $searchTerm);
+        $perPage = 10; // Should match the value in the model
+        $totalPages = ceil($totalMessages / $perPage);
+        $currentPage = $page;
+        
+        require_once __DIR__ . '/../../Views/admin/AdminOutbox.php';
     }
 }
