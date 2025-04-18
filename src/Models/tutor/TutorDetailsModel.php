@@ -39,9 +39,11 @@ class TutorDetailsModel
     // Method to validate tutor credentials
     public function validateTutor($email, $password) {
         try {
-            $query = "SELECT tutor_id, tutor_password FROM tutor WHERE tutor_email = :tutor_email";
+            $status="set";
+            $query = "SELECT tutor_id, tutor_password FROM tutor WHERE tutor_email = :tutor_email AND tutor_status =:tutor_status";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':tutor_email', $email);
+            $stmt->bindParam(':tutor_status', $status);
             $stmt->execute();
             
             $tutor = $stmt->fetch(PDO::FETCH_ASSOC);
