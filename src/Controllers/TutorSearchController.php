@@ -6,30 +6,25 @@ use App\Models\TutorSearchModel;
 
 class TutorSearchController
 {
-    public function index()
+    public function search()
     {
-        // Check if it's a POST request (form submitted)
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $filters = [
-                'grade' => $_POST['grade'] ?? null,
-                'subject' => $_POST['subject'] ?? null,
-                'level' => $_POST['level'] ?? null,
-                'rating' => $_POST['rating'] ?? null,
-                'session_count' => $_POST['session_count'] ?? null,
-            ];
+        $filters = [
+            'grade' => $_GET['grade'] ?? null,
+            'subject' => $_GET['subject'] ?? null,
+            'level' => $_GET['level'] ?? null,
+            'rating' => $_GET['rating'] ?? null,
+            'session_count' => $_GET['session_count'] ?? null,
+        ];
 
-            $model = new TutorPreviewModel();
-            $tutors = $model->getFilteredTutors($filters);
+        $model = new TutorSearchModel();
+        $tutors = $model->getFilteredTutors($filters);
 
-            // If you use a template view:
-            include '../views/tutorsearch.php'; // Replace with your actual view path
+        $this->render('tutorpreview', ['tutors' => $tutors]);
+    }
 
-            // Or, if you want to return as JSON for AJAX:
-            // header('Content-Type: application/json');
-            // echo json_encode($tutors);
-        } else {
-            // Load view with no filter initially
-            include '../views/tutorsearch.php';
-        }
+    private function render($view, $data = [])
+    {
+        extract($data);
+        include __DIR__ . "/../Views/{$view}.php";
     }
 }
