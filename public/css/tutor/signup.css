@@ -6,7 +6,6 @@
 }
 
 body {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +19,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top:100px; 
+    margin-top:10px; 
    
 }
 
@@ -44,7 +43,11 @@ h1 {
     font-family:Kalam;
 }
 
-form input {
+input[type='date'] {
+    color: rgb(130, 128, 128);
+}
+
+form input{
     width: 80%;
     padding: 10px;
     margin: 10px 0;
@@ -72,7 +75,7 @@ input[type="checkbox"] {
 }
 
 button {
-    background-color: #ec5273;
+    background-color: #de4f6e;
     color: white;
     padding: 10px;
     border: none;
