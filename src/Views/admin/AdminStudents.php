@@ -105,7 +105,7 @@
                         <?php foreach ($paginatedStudents as $row): ?>
                             <div class="student-card deleted">
                                 <a href="/admin-student-profile/<?= isset($row['student_id']) ? htmlspecialchars($row['student_id']) : ''; ?>" class="student-card-link">
-                                    <img src="/uploads/Student_Profiles/<?= !empty($row['student_profile_photo']) ? htmlspecialchars($row['student_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="student-photo">
+                                    <img src="\images\student-uploads\profilePhotos\<?= !empty($row['student_profile_photo']) ? htmlspecialchars($row['student_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="student-photo">
                                     <div class="student-card-content">
                                         <p class="student-name"><?= htmlspecialchars($row['student_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['student_last_name'] ?? 'Last Name'); ?></p>
                                         <p class="student-email"><?= htmlspecialchars($row['student_email'] ?? 'Email not available'); ?></p>
@@ -134,7 +134,7 @@
                     <?php foreach ($paginatedStudents as $row): ?>
                         <div class="student-card <?= $row['student_log'] === 'online' ? 'online' : '' ?>">
                             <a href="/admin-student-profile/<?= htmlspecialchars($row['student_id'] ?? ''); ?>" class="student-card-link">
-                                <img src="/uploads/Student_Profiles/<?= !empty($row['student_profile_photo']) ? htmlspecialchars($row['student_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="student-photo">
+                                <img src="\images\student-uploads\profilePhotos\<?= !empty($row['student_profile_photo']) ? htmlspecialchars($row['student_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="student-photo">
                                 <div class="student-card-content">
                                     <p class="student-name"><?= htmlspecialchars($row['student_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['student_last_name'] ?? 'Last Name'); ?></p>
                                     <p class="student-email"><?= htmlspecialchars($row['student_email'] ?? 'Email not available'); ?></p>
