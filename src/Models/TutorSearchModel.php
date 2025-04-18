@@ -5,8 +5,9 @@ namespace App\Models;
 use App\Config\Database;
 use PDO;
 
-class TutorSearchModel {
-public function getFilteredTutors($filters)
+class TutorSearchModel
+{
+    public function getFilteredTutors($filters)
 {
     $whereClauses = [];
     $havingConditions = [];
@@ -76,4 +77,5 @@ public function getFilteredTutors($filters)
     $stmt = $conn->prepare($sql);
     $stmt->execute($params);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
