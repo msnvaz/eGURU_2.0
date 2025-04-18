@@ -21,8 +21,8 @@ class TutorLoginController {
             $tutorData = $tutorModel->validateTutor($email, $password);
     
             if ($tutorData) {
-                session_destroy();
-                session_start();
+                //session_destroy();
+                //session_start();
                 $_SESSION['loggedin'] = true;
                 $_SESSION['tutor_id'] = $tutorData['tutor_id']; // Store tutor ID in session
                 $_SESSION['email'] = $email;

@@ -12,7 +12,7 @@ class TutorLogoutController {
     }
 
     public function logout() {
-        session_start(); // Start the session
+        //session_start(); // Start the session
 
         if (isset($_SESSION['tutor_id'])) {
             $tutorId = $_SESSION['tutor_id'];

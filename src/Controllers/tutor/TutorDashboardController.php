@@ -23,7 +23,7 @@ class TutorDashboardController {
      */
     public function showTutorDashboardPage() {
         
-    session_start(); // Ensure session is started
+    //session_start(); // Ensure session is started
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");

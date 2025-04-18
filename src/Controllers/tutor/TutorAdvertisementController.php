@@ -16,7 +16,7 @@ class TutorAdvertisementController {
      */
     public function showAdvertisementGalleryPage() {
 
-        session_start(); // Ensure session is started
+        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -46,7 +46,7 @@ class TutorAdvertisementController {
      */
     public function uploadAdvertisement() {
 
-        session_start(); // Ensure session is started
+        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -111,7 +111,7 @@ class TutorAdvertisementController {
     }
 
     public function selectAd() {
-        session_start();
+        //session_start();
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
