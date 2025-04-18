@@ -9,81 +9,11 @@ body {
     display: flex;
 }
 
-.nav-bar {
-    display: flex;
-    justify-content: space-around;
-    background-color: #ffffff;
-    padding: 10px;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-.nav-bar a {
-    text-decoration: none;
-    color: #333;
-    padding: 8px 15px;
-    transition: color 0.3s ease;
-}
-
-.nav-bar a.active {
-    color: #333;
-    border-bottom: 3px solid #FF4081; /* Pink underline */
-}
-
 h1 {
     color: #0044cc;
     margin-top: -50px;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 250px;
-    background-color: #cae9ff;
-    padding: 20px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-}
-
-.sidebar h2 {
-    font-size: 24px;
-    margin-bottom: 30px;
-    color: #003399;
-    text-align: center;
-}
-
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px 0;
-}
-
-.sidebar ul li a {
-    color: #333;
-    display: inline-block;
-    font-size: 16px;
-    padding: 10px;
-}
-
-/* CSS styling for icons */
-.sidebar ul li i {
-    font-size: 16px;
-    color: #333;
-}
-
-.sidebar ul li a:hover {
-    background-color: #0099ff;
-    color: white;
-    border-radius: 5px;
-}
 
 .main-content {
     width: calc(100% - 220px); /* Adjust main content width */
@@ -100,9 +30,9 @@ h1 {
 }
 
 .welcome {
-    justify-content: space-between;
-    margin: 20px 0;
-    background-color: #cae9ff;
+
+    text-align: center;
+    background-color: #CBF1F9;
     padding: 20px;
     border-radius: 10px;
     width: 25%;
@@ -115,26 +45,24 @@ h1 {
 .user-info {
     display: flex;
     align-items: center;
-    background-color: #cae9ff;
+    background-color: #CBF1F9;
     justify-content: space-between;
     border-radius: 10px;
-    width: 25%;
+    width: 23%;
     padding: 10px;
-    margin-top: 1.5%;
-    margin-right: 35%;
-    height: 140px;
+    margin-right: 42%;
+    height: 120px;
 }
 
 .user-info-text{
-    margin-left: -5%;
+    margin-right: 10%
 }
 
 .user-info img {
     margin-left: 2%;
-    margin-right: 0;
     width: 80px;
     height: 80px;
-    border-radius: 5%;
+    border-radius: 15%;
 }
 
 .event-feedback-container {
@@ -179,7 +107,7 @@ h1 {
 }
 
 .feedback {
-    background-color: #cae9ff;
+    background-color: #CBF1F9;
     padding: 20px;
     border-radius: 10px;
     width: 30%;
@@ -372,16 +300,16 @@ h3 {
 
 
 .calendar {
-    width: 280px;
-    height: 280px;
-    margin-top: -14%;
-    background-color: #b2ebf2;
+    width: 350px;
+    height: 300px;
+    margin-top: -9.5%;
+    background-color: #CBF1F9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     padding: 10px;
     margin-right: 5%;
-    margin-left: 70%;
+    margin-left: 66%;
 }
 
 .calendar-header {
@@ -450,8 +378,15 @@ h3 {
     color: #00796b;
 }
 
+.event-feedback-container{
+    margin-top: -2%;
+}
+
 .feedback{
-    margin-right:5% ;
+    margin-top: 2%;
+    margin-right:6% ;
+    width: 350px;
+    height: 500px;
 }
 
 .feedback-list {
@@ -588,15 +523,15 @@ h3 {
     font-size: 20px;
     color: #333;
     padding: 20px;
-    background-color: #cae9ff;
+    background-color: #CBF1F9;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    height: 50px;
+    width: 280px;
+    height: 75px;
     justify-content: center;
     position: relative;
-    left:45%;
-    margin-top: -7%;
+    left:35%;
+    margin-top: -9%;
     
     
   }
@@ -609,7 +544,7 @@ h3 {
   .amount {
     font-size: 20px;
     font-weight: 600;
-    color: #4CAF50;
+    color: #000000;
     animation: increaseAmount 2s ease-out forwards;
   }
   
@@ -630,13 +565,14 @@ h3 {
     font-size: 20px;
     color: #333;
     padding: 20px;
-    background-color: #cae9ff;
+    background-color: #CBF1F9;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    height: 50px;
+    width: 300px;
+    height: 75px;
     margin-left: 3%;
-    margin-top: 4%;
+    margin-top: -10%;
+    margin-bottom: 3%;
     justify-content: center;
     position: relative;
     left: 40px;
@@ -644,6 +580,7 @@ h3 {
   }
   
   .rating-text {
+    text-align: center;
     font-weight: bold;
     margin-right: 10px;
     
@@ -651,23 +588,35 @@ h3 {
   
   .stars {
     display: flex;
-    gap: 5px;
-    font-size: 20px;
-  }
-  
-  .star {
-    color: #ccc;  /* Grey color for unfilled stars */
-    transition: color 0.3s ease;
-  }
-  
-  .star.filled {
-    color: #FFD700; /* Gold color for filled stars */
-  }
-  
+}
+
+.star {
+    font-size: 24px;
+    color: #898989; /* Default empty stars */
+    position: relative;
+}
+
+.star.filled {
+    color: gold; /* Fully filled stars */
+}
+
+.star.half-filled {
+    position: relative;
+}
+
+.star.half-filled::before {
+    content: "★";
+    position: absolute;
+    width: 50%;
+    overflow: hidden;
+    color: gold; /* Half-filled star */
+}
+
   .rating-number {
-    margin-left: 4%;
+    text-align: center;
+    margin-left: 2%;
     font-size: 22px;
-    color: #4CAF50;
+    color: #000000;
     font-weight: bold;
   }
   
