@@ -15,7 +15,7 @@ class TutorFeedbackController {
 
     // Fetch feedbacks for the logged-in tutor
     public function showFeedbackPage() {
-        session_start(); // Ensure session is started
+       // session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -29,7 +29,7 @@ class TutorFeedbackController {
 
     // Handle reply submission
     public function submitReply() {
-        session_start(); // Ensure session is started
+        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -52,7 +52,7 @@ class TutorFeedbackController {
     }
 
    public function updateReply() {
-    session_start(); // Ensure session is started
+    //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");

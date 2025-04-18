@@ -15,7 +15,7 @@ class TutorRequestController {
     }
 
     public function showRequestPage() {
-        session_start();
+        //session_start();
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -35,7 +35,7 @@ class TutorRequestController {
     }
 
     public function handleSessionRequest() {
-        session_start();
+        //session_start();
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['session_id'], $_POST['action'])) {
             $sessionId = intval($_POST['session_id']);
