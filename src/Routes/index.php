@@ -111,17 +111,25 @@ $router->post('/student-profile-delete', StudentPublicProfileController::class,'
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
 $router->post('/tutor-login-action', TutorLoginController::class, 'handleLogin'); // Handle login form submission
 $router->get('/tutor-signup', TutorSignupController::class, 'ShowTutorSignupPage'); // Show signup page
+$router->post('/tutor-signup-action', TutorSignupController::class, 'handleSignup');// Handle signup form submission
+$router->get('/tutor-logout', TutorLogoutController::class, 'logout');
 $router->get('/tutor-dashboard', TutorDashboardController::class, 'ShowTutorDashboardPage'); // Redirect only if logged in
 $router->get('/tutor-event', TutorEventController::class, 'showEventPage'); 
 $router->get('/tutor-request', TutorRequestController::class, 'showrequestPage'); 
-$router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage'); 
+$router->post('/handle-session-request', TutorRequestController::class, 'handleSessionRequest');
+$router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage');
+$router->post('/tutor-profile-updated', TutorPublicProfileController::class, 'ShowUpdatedprofile');
+$router->get('/tutor-profile-edit', TutorPublicProfileController::class, 'ShowEditprofile');
+$router->post('/tutor-profile-delete', TutorPublicProfileController::class,'DeleteProfile'); 
 $router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
-$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); 
-$router->get('/tutor-logout', TutorLogoutController::class, 'logout');
+$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); // Route to show feedback page
+$router->post('/submit-reply', TutorFeedbackController::class, 'submitReply'); // Route for submitting reply
+$router->post('/update-reply', TutorFeedbackController::class, 'updateReply');
 $router->get('/tutor-advertisement', TutorAdvertisementController::class, 'showAdvertisementGalleryPage');
 $router->post('/tutor-upload-ad', TutorAdvertisementController::class, 'uploadAdvertisement');
 $router->post('/tutor-delete-ad', TutorAdvertisementController::class, 'deleteAdvertisement');
 $router->post('/tutor-update-ad', TutorAdvertisementController::class, 'updateAdvertisement');
+$router->post('/tutor-select-ad', TutorAdvertisementController::class, 'selectAd');
 
 
 //student profile for admin
