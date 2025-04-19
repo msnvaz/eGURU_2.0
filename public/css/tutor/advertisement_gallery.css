@@ -8,7 +8,7 @@
 }
 
 h1 {
-    padding-top: 10%;
+    padding-top: 2%;
     text-align: center;
 }
 
@@ -63,6 +63,7 @@ h1 {
 .ad img {
     max-width: 100%;
     height: auto;
+    max-height: 170px;
 }
 
 
