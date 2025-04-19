@@ -102,7 +102,8 @@
                 <div class="stars" id="starContainer">
                     <!-- Stars will be dynamically updated -->
                 </div>
-                <span class="rating-number"> <?php echo $tutorRating?></span>
+                <span class="rating-number"> <?= isset($tutorRating) && $tutorRating !== null ? $tutorRating : '0' ?></span>
+
             </div>
 
             <script>
@@ -149,7 +150,9 @@
                     
                 <div id="payment">
                     <span class="payment-text">Recievables </span>
-                    <span class="amount" id="paymentAmount"><?php echo htmlspecialchars($tutorData['tutor_points'])?> Points</span>
+                    <span class="amount" id="paymentAmount">
+                        <?= isset($tutorData['tutor_points']) && $tutorData['tutor_points'] !== null ? htmlspecialchars($tutorData['tutor_points']) : '0' ?> Points
+                    </span>
                     
                 </div>
 
@@ -170,27 +173,35 @@
                         <h2>Upcoming Events</h2>
                         <a href="/tutor-event" class="view-all">View All</a>
                         <ul class="event-list">
-                            <?php foreach (array_slice($upcomingEvents, 0, 3) as $event): ?>
-                                <li class="event-item">
-                                    <div><?php echo htmlspecialchars($event['subject_name']); ?></div>
-                                    <div><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></div>
-                                    <div><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></div>
-                                    <div><?php echo date('h.i a', strtotime($event['schedule_time'])); ?></div>
-                                </li>
-                            <?php endforeach; ?>
+                            <?php if (!empty($upcomingEvents)): ?>
+                                <?php foreach (array_slice($upcomingEvents, 0, 3) as $event): ?>
+                                    <li class="event-item">
+                                        <div><?php echo htmlspecialchars($event['subject_name']); ?></div>
+                                        <div><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></div>
+                                        <div><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></div>
+                                        <div><?php echo date('h.i a', strtotime($event['schedule_time'])); ?></div>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li class="event-item">No upcoming events available.</li>
+                            <?php endif; ?>
                         </ul>
 
                         <h2>Previous Events</h2>
                         <a href="/tutor-event" class="view-all">View All</a>
                         <ul class="event-list">
-                            <?php foreach (array_slice($previousEvents, 0, 3) as $event): ?>
-                                <li class="event-item">
-                                    <div><?php echo htmlspecialchars($event['subject_name']); ?></div>
-                                    <div><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></div>
-                                    <div><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></div>
-                                    <div><?php echo date('h.i a', strtotime($event['schedule_time'])); ?></div>
-                                </li>
-                            <?php endforeach; ?>
+                            <?php if (!empty($previousEvents)): ?>
+                                <?php foreach (array_slice($previousEvents, 0, 3) as $event): ?>
+                                    <li class="event-item">
+                                        <div><?php echo htmlspecialchars($event['subject_name']); ?></div>
+                                        <div><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></div>
+                                        <div><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></div>
+                                        <div><?php echo date('h.i a', strtotime($event['schedule_time'])); ?></div>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li class="event-item">No previous events available.</li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 
