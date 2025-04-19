@@ -9,6 +9,7 @@ body {
     display: flex;
 }
 
+
 h1 {
     color: #0044cc;
     margin-top: -50px;
@@ -37,7 +38,7 @@ h1 {
     border-radius: 10px;
     width: 25%;
     margin-right: -128px;
-    height: 120px;
+    height: 150px;
     margin-left: 70px;
     
 }
@@ -51,7 +52,7 @@ h1 {
     width: 23%;
     padding: 10px;
     margin-right: 42%;
-    height: 120px;
+    height: 150px;
 }
 
 .user-info-text{
@@ -302,7 +303,7 @@ h3 {
 .calendar {
     width: 350px;
     height: 300px;
-    margin-top: -9.5%;
+    margin-top: -11.5%;
     background-color: #CBF1F9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

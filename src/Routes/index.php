@@ -58,6 +58,8 @@ use App\Controllers\tutor\TutorPaymentsController;
 use App\Controllers\tutor\TutorFeedbackController;
 use App\Controllers\tutor\TutorAdvertisementController;
 use App\Controllers\tutor\TutorLogoutController;
+use App\Controllers\tutor\TutorFeeRequestController;
+use App\Controllers\tutor\TutorStudyMaterialsController;
 
 
 $router = new Router();
@@ -134,6 +136,14 @@ $router->get('/tutor-advertisement', TutorAdvertisementController::class, 'showA
 $router->post('/tutor-upload-ad', TutorAdvertisementController::class, 'uploadAdvertisement');
 $router->post('/tutor-delete-ad', TutorAdvertisementController::class, 'deleteAdvertisement');
 $router->post('/tutor-update-ad', TutorAdvertisementController::class, 'updateAdvertisement');
+$router->get('/tutor-uploads', TutorStudyMaterialsController::class, 'showStudyMaterialsPage'); 
+$router->post('/tutor-upload-material', TutorStudyMaterialsController::class, 'uploadStudyMaterial');
+$router->post('/tutor-delete-material', TutorStudyMaterialsController::class, 'deleteStudyMaterial');
+$router->post('/tutor-update-material', TutorStudyMaterialsController::class, 'updateStudyMaterial');
+$router->get('/tutor-fee-request', TutorFeeRequestController::class, 'showFeeRequestPage'); 
+$router->post('/submit-upgrade-request', TutorFeeRequestController::class, 'submitLevelUpgradeRequest');
+$router->post('/submit-upgrade-request', TutorFeeRequestController::class, 'submitLevelUpgradeRequest');
+$router->post('/cancel-upgrade-request', TutorFeeRequestController::class, 'cancelUpgradeRequest');
 
 
 //student profile for admin
