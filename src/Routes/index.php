@@ -87,12 +87,20 @@ $router->post('/student_signup', StudentSignupController::class, 'student_signup
 $router->post('/student-login', StudentLoginController::class, 'login');
 $router->get('/student-dashboard', StudentDashboardController::class, 'showStudentDashboardPage');
 
-$router->get('/student-findtutor',StudentFindtutorController::class, 'ShowFindtutor');
-$router->get('/student-events',StudentEventsController::class, 'ShowEvents');
+$router->get('/student-findtutor', StudentFindtutorController::class, 'ShowFindtutor'); // Display the Find Tutor page
+$router->post('/student-search-tutor',StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
+$router->post('/student-request-tutor', StudentFindtutorController::class, 'requestTutor');
+
+$router->get('/student-events', StudentEventsController::class, 'showEvents');
+$router->get('/student-events/get-events-by-date', StudentEventsController::class, 'getEventsByDate');
+$router->get('/student-events/get-event-dates-in-month', StudentEventsController::class, 'getEventDatesInMonth');
+$router->get('/student-events/get-formatted-events', StudentEventsController::class, 'getFormattedEvents');
+
 $router->get('/student-feedback',StudentFeedbackController::class, 'showFeedback');
 $router->post('/student-feedback/submit',StudentFeedbackController::class, 'submitFeedback');   //submitFeedback in the controller
 $router->post('/student-feedback/update',StudentFeedbackController::class, 'updateFeedback');
 $router->post('/student-feedback/delete',StudentFeedbackController::class, 'deleteFeedback');
+
 
 $router->get('/student-publicprofile', StudentPublicProfileController::class, 'ShowPublicprofile');
 $router->get('/student-session',StudentSessionController::class, 'ShowSession');
