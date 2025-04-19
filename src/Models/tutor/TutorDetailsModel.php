@@ -39,14 +39,16 @@ class TutorDetailsModel
     // Method to validate tutor credentials
     public function validateTutor($email, $password) {
         try {
-            $status="set";
-            $query = "SELECT tutor_id, tutor_password FROM tutor WHERE tutor_email = :tutor_email AND tutor_status =:tutor_status";
+            $query = "SELECT tutor_id, tutor_password 
+                    FROM tutor 
+                    WHERE tutor_email = :tutor_email 
+                    AND tutor_status IN ('set', 'requested')";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':tutor_email', $email);
-            $stmt->bindParam(':tutor_status', $status);
             $stmt->execute();
-            
+
             $tutor = $stmt->fetch(PDO::FETCH_ASSOC);
+
     
             if ($tutor && ($password == $tutor['tutor_password'])) {
                 // Credentials valid, update last login and log status
@@ -86,15 +88,16 @@ class TutorDetailsModel
     public function createTutor($firstName, $lastName, $email, $birth_date, $password, $nic, $contactNumber, $highest_qualification) {
         try {
             $registrationDate = date('Y-m-d H:i:s'); // Current timestamp
-    
+            $status = "requested";
+            $prof_pic = "default_tutor.png";
             $query = "INSERT INTO tutor (
                         tutor_first_name, tutor_last_name, tutor_email, tutor_password,
                         tutor_DOB, tutor_NIC, tutor_contact_number, tutor_registration_date,
-                        tutor_qualification_proof
+                        tutor_qualification_proof, tutor_status, tutor_profile_photo
                       ) VALUES (
                         :tutor_first_name, :tutor_last_name, :tutor_email, :tutor_password,
                         :tutor_DOB, :tutor_NIC, :tutor_contact_number, :tutor_registration_date,
-                        :tutor_qualification_proof
+                        :tutor_qualification_proof, :tutor_status, :tutor_profile_photo
                       )";
     
             $stmt = $this->conn->prepare($query);
@@ -107,7 +110,9 @@ class TutorDetailsModel
             $stmt->bindParam(':tutor_contact_number', $contactNumber);
             $stmt->bindParam(':tutor_registration_date', $registrationDate);
             $stmt->bindParam(':tutor_qualification_proof', $highest_qualification);
-    
+            $stmt->bindParam(':tutor_status', $status);
+            $stmt->bindParam(':tutor_profile_photo', $prof_pic);
+
             $stmt->execute();
         } catch (PDOException $e) {
             throw new \Exception("Database Error: " . $e->getMessage());
