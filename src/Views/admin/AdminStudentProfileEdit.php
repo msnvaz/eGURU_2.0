@@ -44,6 +44,15 @@ $student = $studentData ?? [];
                             <div class="button-group">
                                 <button type="submit" class="edit-button">Save Changes</button>
                                 <a href="/admin-student-profile/<?= htmlspecialchars($student['student_id'] ?? '') ?>" class="edit-button">Cancel</a>
+                                <?php if ($student['student_status'] === 'blocked'): ?>
+                                    <form action="/admin-unblock-student/<?= htmlspecialchars($student['student_id'] ?? '') ?>" method="POST" style="display:inline;">
+                                        <button type="submit" class="edit-button unblock-button" onclick="return confirm('Are you sure you want to unblock this student?');">Unblock Student</button>
+                                    </form>
+                                <?php elseif ($student['student_status'] === 'set'): ?>
+                                    <form action="/admin-block-student/<?= htmlspecialchars($student['student_id'] ?? '') ?>" method="POST" style="display:inline;">
+                                        <button type="submit" class="edit-button block-button" onclick="return confirm('Are you sure you want to block this student?');">Block Student</button>
+                                    </form>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

@@ -193,4 +193,59 @@ class adminTutorController {
         }
         exit();
     }
+
+    public function showBlockedTutors() {
+        $tutorModel = new adminTutorModel();
+        $grades = $tutorModel->getTutorGrades();
+        $blockedTutors = [];
+        
+        if (isset($_POST['search']) || isset($_GET['search'])) {
+            $searchTerm = $_POST['search_term'] ?? $_GET['search_term'] ?? '';
+            $grade = $_POST['grade'] ?? $_GET['grade'] ?? '';
+            $startDate = $_POST['start_date'] ?? $_GET['start_date'] ?? '';
+            $endDate = $_POST['end_date'] ?? $_GET['end_date'] ?? '';
+            
+            $blockedTutors = $tutorModel->searchTutors(
+                $searchTerm,
+                $grade,
+                $startDate,
+                $endDate,
+                'blocked'
+            );
+        } else {
+            $blockedTutors = $tutorModel->getBlockedTutors();
+        }
+        
+        require_once __DIR__ . '/../../Views/admin/AdminTutors.php';
+    }
+    
+    public function blockTutorProfile($tutorId) {
+        $tutor = $this->model->getTutorProfile($tutorId);
+        if (!$tutor) {
+            header("Location: /admin-tutors?error=Tutor not found");
+            exit();
+        }
+    
+        if ($this->model->blockTutorProfile($tutorId)) {
+            header("Location: /admin-tutors?success=Tutor profile blocked");
+        } else {
+            header("Location: /admin-tutors?error=Failed to block tutor");
+        }
+        exit();
+    }
+    
+    public function unblockTutorProfile($tutorId) {
+        $tutor = $this->model->getTutorProfile($tutorId);
+        if (!$tutor) {
+            header("Location: /admin-blocked-tutors?error=Tutor not found");
+            exit();
+        }
+    
+        if ($this->model->unblockTutorProfile($tutorId)) {
+            header("Location: /admin-blocked-tutors?success=Tutor profile unblocked");
+        } else {
+            header("Location: /admin-blocked-tutors?error=Failed to unblock tutor");
+        }
+        exit();
+    }
 }

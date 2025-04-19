@@ -63,7 +63,14 @@
                             <form action="/admin-restore-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmRestore()">
                                 <button type="submit" class="edit-button">Restore Profile</button>
                             </form>
+                        <?php elseif ($tutor['tutor_status'] === 'blocked'): ?>
+                            <form action="/admin-unblock-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmUnblock()">
+                                <button type="submit" class="edit-button">Unblock Profile</button>
+                            </form>
                         <?php else: ?>
+                            <form action="/admin-block-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmBlock()">
+                                <button type="submit" class="edit-button">Block Profile</button>
+                            </form>
                             <form action="/tutor-delete-profile/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmDelete()">
                                 <button type="submit" class="edit-button">Delete Profile</button>
                             </form>
@@ -74,6 +81,12 @@
                             }
                             function confirmDelete() {
                                 return confirm('Are you sure you want to delete this tutor profile?');
+                            }
+                            function confirmBlock() {
+                                return confirm('Are you sure you want to block this tutor profile?');
+                            }
+                            function confirmUnblock() {
+                                return confirm('Are you sure you want to unblock this tutor profile?');
                             }
                         </script>                    
                     </div>
@@ -131,6 +144,24 @@
                     <strong>Last Login</strong>
                     <span class="detail-value">
                         <?php echo htmlspecialchars($tutor['tutor_last_login'] ?? ' not available'); ?>
+                    </span>
+                </div>
+                
+                <div class="detail-item">
+                    <strong>Account Status</strong>
+                    <span class="detail-value">
+                        <?php 
+                        $status = $tutor['tutor_status'] ?? '';
+                        if ($status === 'set') {
+                            echo 'Active';
+                        } elseif ($status === 'unset') {
+                            echo 'Deleted';
+                        } elseif ($status === 'blocked') {
+                            echo '<span style="color: #d9534f; font-weight: bold;">Blocked</span>';
+                        } else {
+                            echo htmlspecialchars($status);
+                        }
+                        ?>
                     </span>
                 </div>
             </div>
