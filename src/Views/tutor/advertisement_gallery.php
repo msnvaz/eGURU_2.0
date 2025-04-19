@@ -66,7 +66,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .modal-yes-button {
+        .modal-button {
             background-color: #ff4081;
             color: white;
             border: none;
@@ -80,29 +80,21 @@
             transition: background-color 0.3s ease;
         }
 
-        .modal-yes-button:hover {
+        .modal-button:hover {
             background-color: #e03570;
         }
 
-        .modal-cancel-button {
-            background-color:  #ff4081;
-            color: white;
-            border: none;
-            width: 80px;
-            margin-top:15px;
-            padding: 10px 18px;
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .modal-cancel-button:hover {
-            background-color: #e03570;
-        }
 
         .ad-description {
             height:150px;
+        }
+
+        .upload-box{
+            width :auto;
+            padding: 20px;
+            background-color: #CBF1F9;
+            margin-top:10%;
+            border-radius: 2%;
         }
 
 
@@ -121,27 +113,40 @@
 <?php include '../src/Views/tutor/header.php'; ?>
 
         <div class="ad_page_container">
-            <h1>Upload Advertisement</h1>
-            <form class="ad-form" action="/tutor-upload-ad" method="POST" enctype="multipart/form-data">
-                <label for="image">Select Image:</label>
-                <input type="file" name="image" id="image" accept="image/*" required onchange="previewAdImage(event)">
+            <div class="upload-box">
+                <h1>Upload Advertisement</h1>
+                <form class="ad-form" action="/tutor-upload-ad" method="POST" enctype="multipart/form-data">
+                    <!-- File Input -->
+                    <label for="image">Select Image:</label>
+                    <input type="file" name="image" id="image" accept="image/*" required onchange="previewAdImage(event)">
 
-                <!-- Preview Box -->
-                <div id="imagePreviewContainer" style="display: none; margin-top: 10px;">
-                    <p style="text-align: center;">Ad Preview</p>
-                    <img id="adImagePreview" src="" alt="Ad Preview" style="max-width: 200px; border: 2px solid #ccc;">
-                </div>
+                    <!-- Preview Box -->
+                    <div id="imagePreviewContainer" style="display: none; margin-top: 10px;">
+                        <p style="text-align: center;">Ad Preview</p>
+                        <img id="adImagePreview" src="" alt="Ad Preview" style="max-width: 200px; border: 2px solid #ccc;">
 
-                <label for="description">Description:</label>
-                <textarea name="description" id="description" required></textarea>
-                <button class="ad-button" type="submit">Upload</button>
-            </form>
+                        <!-- Remove Button -->
+                        <div style="text-align: center; margin-top: 10px;">
+                            <button type="button" id="removeAdPreviewBtn" style="background-color: crimson; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <label for="description">Description:</label>
+                    <textarea name="description" id="description" required></textarea>
+                    <button class="ad-button" type="submit">Upload</button>
+
+                </form>
+            </div>
 
             <script>
-                function previewAdImage(event) {
-                    const preview = document.getElementById('adImagePreview');
-                    const container = document.getElementById('imagePreviewContainer');
+                const imageInput = document.getElementById('image');
+                const preview = document.getElementById('adImagePreview');
+                const container = document.getElementById('imagePreviewContainer');
+                const removeBtn = document.getElementById('removeAdPreviewBtn');
 
+                function previewAdImage(event) {
                     const file = event.target.files[0];
                     if (file) {
                         preview.src = URL.createObjectURL(file);
@@ -151,7 +156,15 @@
                         preview.src = '';
                     }
                 }
+
+                removeBtn.addEventListener('click', function () {
+                    imageInput.value = ''; // Clear file input
+                    preview.src = ''; // Clear image preview
+                    container.style.display = 'none'; // Hide the preview box
+                });
             </script>
+
+
 
 
             
@@ -226,8 +239,8 @@
             <div id="confirmModal" class="chosen-ad-popup" style="display:none;">
                 <div class="chosen-ad-popup-content">
                     <p id="confirmMessage"></p>
-                    <button class="modal-yes-button" onclick="submitConfirmedAd()">Yes</button>
-                    <button class="modal-cancel-button" onclick="closeConfirmModal()">No</button>
+                    <button class="modal-button" onclick="submitConfirmedAd()">Yes</button>
+                    <button class="modal-button" onclick="closeConfirmModal()">No</button>
                 </div>
             </div>
 
@@ -258,8 +271,8 @@
                     <p>Are you sure you want to delete this advertisement?</p>
                     <form id="deleteConfirmForm" action="/tutor-delete-ad" method="POST">
                         <input type="hidden" name="id" id="deleteAdId">
-                        <button class="modal-yes-button" type="submit">Yes</button>
-                        <button class="modal-cancel-button" type="button" onclick="closeDeleteModal()">No</button>
+                        <button class="modal-button" type="submit">Yes</button>
+                        <button class="modal-button" type="button" onclick="closeDeleteModal()">No</button>
                     </form>
                 </div>
             </div>
