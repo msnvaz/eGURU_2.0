@@ -22,6 +22,8 @@ use App\Controllers\admin\AdminTutorGradingController;
 use App\Controllers\admin\AdminSettingsController;
 use App\Controllers\admin\AdminInboxController;
 use App\Controllers\admin\AdminTransactionController;
+use App\Controllers\admin\adminTutorController; 
+
 
 //Cretaed for manager
 use App\Controllers\manager\ManagerLoginController;
@@ -71,7 +73,9 @@ $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement
 $router->post('/update-ad', AdvertisementController::class, 'updateAdvertisement');
 $router->get('/forum', ForumController::class, 'showForumMessages');
 $router->post('/forum', ForumController::class, 'showForumMessages');
-$router->get('/tutorsearch', TutorSearchController::class, 'index');
+$router->get('/tutor/search', TutorSearchController::class, 'index');
+$router->post('/tutorsearch', TutorSearchController::class, 'search');
+
 
 //$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
 //$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
@@ -119,25 +123,17 @@ $router->post('/student-profile-delete', StudentPublicProfileController::class,'
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
 $router->post('/tutor-login-action', TutorLoginController::class, 'handleLogin'); // Handle login form submission
 $router->get('/tutor-signup', TutorSignupController::class, 'ShowTutorSignupPage'); // Show signup page
-$router->post('/tutor-signup-action', TutorSignupController::class, 'handleSignup');// Handle signup form submission
-$router->get('/tutor-logout', TutorLogoutController::class, 'logout');
 $router->get('/tutor-dashboard', TutorDashboardController::class, 'ShowTutorDashboardPage'); // Redirect only if logged in
 $router->get('/tutor-event', TutorEventController::class, 'showEventPage'); 
 $router->get('/tutor-request', TutorRequestController::class, 'showrequestPage'); 
-$router->post('/handle-session-request', TutorRequestController::class, 'handleSessionRequest');
-$router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage');
-$router->post('/tutor-profile-updated', TutorPublicProfileController::class, 'ShowUpdatedprofile');
-$router->get('/tutor-profile-edit', TutorPublicProfileController::class, 'ShowEditprofile');
-$router->post('/tutor-profile-delete', TutorPublicProfileController::class,'DeleteProfile'); 
+$router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage'); 
 $router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
-$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); // Route to show feedback page
-$router->post('/submit-reply', TutorFeedbackController::class, 'submitReply'); // Route for submitting reply
-$router->post('/update-reply', TutorFeedbackController::class, 'updateReply');
+$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); 
+$router->get('/tutor-logout', TutorLogoutController::class, 'logout');
 $router->get('/tutor-advertisement', TutorAdvertisementController::class, 'showAdvertisementGalleryPage');
 $router->post('/tutor-upload-ad', TutorAdvertisementController::class, 'uploadAdvertisement');
 $router->post('/tutor-delete-ad', TutorAdvertisementController::class, 'deleteAdvertisement');
 $router->post('/tutor-update-ad', TutorAdvertisementController::class, 'updateAdvertisement');
-$router->post('/tutor-select-ad', TutorAdvertisementController::class, 'selectAd');
 
 
 //student profile for admin
@@ -162,8 +158,6 @@ $router->post('/admin-announcement/create', AdminAnnouncementController::class, 
 $router->get('/admin-announcement/update/{id}', AdminAnnouncementController::class, 'showUpdateForm'); // Show update announcement form
 $router->post('/admin-announcement/update', AdminAnnouncementController::class, 'updateAnnouncement'); // Update an existing announcement
 $router->get('/admin-announcement/delete/{id}', AdminAnnouncementController::class, 'deleteAnnouncement'); // Delete an announcement
-
-
 
 //admin students
 $router->get('/admin-students', AdminStudentController::class, 'showAllStudents');
@@ -227,6 +221,16 @@ $router->post('/admin-transactions', AdminTransactionController::class, 'showTra
 //refund with id
 $router->post('/admin-refund/{id}', AdminTransactionController::class, 'refund');
 
+// Admin tutor routes
+$router->get('/admin-tutors', adminTutorController::class, 'showAllTutors');
+$router->post('/admin-tutors', adminTutorController::class, 'searchTutors');
+$router->post('/admin-deleted-tutors', adminTutorController::class, 'searchTutors');
+$router->get('/admin-deleted-tutors', adminTutorController::class, 'showDeletedTutors');
+$router->get('/admin-tutor-profile/{id}', adminTutorController::class, 'showTutorProfile');
+$router->get('/admin-edit-tutor-profile/{id}', adminTutorController::class, 'editTutorProfile');
+$router->post('/admin-update-tutor-profile/{id}', adminTutorController::class, 'updateTutorProfile');
+$router->post('/tutor-delete-profile/{id}', adminTutorController::class, 'deleteTutorProfile');
+$router->post('/admin-restore-tutor/{id}', adminTutorController::class, 'restoreTutorProfile');
 
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');
