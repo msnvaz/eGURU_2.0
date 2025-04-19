@@ -21,6 +21,21 @@
             align-items: center;
             gap: 10px;
         }
+        .tutor-card.blocked {
+            border: 2px solid #d9534f;
+        }
+        .tutor-card.blocked::before {
+            content: "BLOCKED";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #d9534f;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
         @media (max-width: 768px) {
             .tutor-card {
                 width: calc(50% - 20px);
@@ -40,11 +55,12 @@
         <div class="admin-dashboard">
             <br>
             <div class="profile-tabs">
-                <a href="/admin-tutors" class="tab-link <?= !isset($deletedTutors) ? 'active' : '' ?>">Active Tutors</a>
+                <a href="/admin-tutors" class="tab-link <?= !isset($deletedTutors) && !isset($blockedTutors) ? 'active' : '' ?>">Active Tutors</a>
+                <a href="/admin-blocked-tutors" class="tab-link <?= isset($blockedTutors) ? 'active' : '' ?>">Blocked Tutors</a>
                 <a href="/admin-deleted-tutors" class="tab-link <?= isset($deletedTutors) ? 'active' : '' ?>">Deleted Tutors</a>
             </div>
             <br>
-            <form method="POST" class="search-form" style="font-size: 12px;">
+            <form method="POST" action="<?= isset($blockedTutors) ? '/admin-blocked-tutors' : (isset($deletedTutors) ? '/admin-deleted-tutors' : '/admin-tutors') ?>" class="search-form" style="font-size: 12px;">
                 <div class="date-range-container">
                     <div class="date-range">
                         <label for="start_date">Registration Start Date:</label>
@@ -68,7 +84,7 @@
                             <?php endforeach; ?>
                         </select>
                         
-                        <?php if (!isset($deletedTutors)) : ?>
+                        <?php if (!isset($deletedTutors) && !isset($blockedTutors)) : ?>
                         <label for="online_status">Online Status:</label>
                         <select name="online_status" id="online_status">
                             <option value="">All</option>
@@ -90,7 +106,37 @@
             </form>
 
             <div class="tutor-cards">
-                <?php if (isset($deletedTutors)): ?>
+                <?php if (isset($blockedTutors)): ?>
+                    <?php if (!empty($blockedTutors) && is_array($blockedTutors)): ?>
+                        <?php 
+                        $perPage = 12;
+                        $total = count($blockedTutors);
+                        $pages = ceil($total / $perPage);
+                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                        $page = max(1, min($page, $pages));
+                        $offset = ($page - 1) * $perPage;
+                        $paginatedTutors = array_slice($blockedTutors, $offset, $perPage);
+                        ?>
+                        <?php foreach ($paginatedTutors as $row): ?>
+                            <div class="tutor-card blocked">
+                                <a href="/admin-tutor-profile/<?= isset($row['tutor_id']) ? htmlspecialchars($row['tutor_id']) : ''; ?>" class="tutor-card-link">
+                                    <img src="/uploads/Tutor_Profiles/<?= !empty($row['tutor_profile_photo']) ? htmlspecialchars($row['tutor_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="tutor-photo">
+                                    <div class="tutor-card-content">
+                                        <p class="tutor-name"><?= htmlspecialchars($row['tutor_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['tutor_last_name'] ?? 'Last Name'); ?></p>
+                                        <p class="tutor-email"><?= htmlspecialchars($row['tutor_email'] ?? 'Email not available'); ?></p>
+                                        <p class="tutor-registration">ID: <?= htmlspecialchars($row['tutor_id'] ?? 'Not Found'); ?></p>
+                                        <?php if (!empty($row['tutor_level_id'])): ?>
+                                        <p class="tutor-level">Grade Level: <?= htmlspecialchars($row['tutor_level_id'] ?? 'N/A'); ?></p>
+                                        <?php endif; ?>
+                                        <p class="tutor-status">Status: Blocked</p>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>No blocked tutors found.</p>
+                    <?php endif; ?>
+                <?php elseif (isset($deletedTutors)): ?>
                     <?php if (!empty($deletedTutors) && is_array($deletedTutors)): ?>
                         <?php 
                         $perPage = 12;
@@ -153,7 +199,7 @@
             <?php if (($pages ?? 0) > 1): ?>
             <div class="pagination">
                 <?php if ($page > 1): ?>
-                    <a href="?page=<?= $page - 1 ?><?= isset($_POST['search']) || isset($_GET['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) || isset($_GET['search_term']) ? '&search_term=' . urlencode($_POST['search_term'] ?? $_GET['search_term']) : '' ?><?= isset($_POST['start_date']) || isset($_GET['start_date']) ? '&start_date=' . urlencode($_POST['start_date'] ?? $_GET['start_date']) : '' ?><?= isset($_POST['end_date']) || isset($_GET['end_date']) ? '&end_date=' . urlencode($_POST['end_date'] ?? $_GET['end_date']) : '' ?><?= isset($_POST['grade']) || isset($_GET['grade']) ? '&grade=' . urlencode($_POST['grade'] ?? $_GET['grade']) : '' ?><?= isset($_POST['online_status']) || isset($_GET['online_status']) ? '&online_status=' . urlencode($_POST['online_status'] ?? $_GET['online_status']) : '' ?>">«</a>
+                    <a href="?page=<?= $page - 1 ?><?= isset($_POST['search']) || isset($_GET['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) || isset($_GET['search_term']) ? '&search_term=' . urlencode($_POST['search_term'] ?? $_GET['search_term']) : '' ?><?= isset($_POST['start_date']) || isset($_GET['start_date']) ? '&start_date=' . urlencode($_POST['start_date'] ?? $_GET['start_date']) : '' ?><?= isset($_POST['end_date']) || isset($_GET['end_date']) ? '&end_date=' . urlencode($_POST['end_date'] ?? $_GET['end_date']) : '' ?><?= isset($_POST['grade']) || isset($_GET['grade']) ? '&grade=' . urlencode($_POST['grade'] ?? $_GET['grade']) : '' ?>">«</a>
                 <?php endif; ?>
                 
                 <?php
@@ -161,11 +207,11 @@
                 $endPage = min($pages, $page + 2);
                 
                 for ($i = $startPage; $i <= $endPage; $i++): ?>
-                    <a href="?page=<?= $i ?><?= isset($_POST['search']) || isset($_GET['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) || isset($_GET['search_term']) ? '&search_term=' . urlencode($_POST['search_term'] ?? $_GET['search_term']) : '' ?><?= isset($_POST['start_date']) || isset($_GET['start_date']) ? '&start_date=' . urlencode($_POST['start_date'] ?? $_GET['start_date']) : '' ?><?= isset($_POST['end_date']) || isset($_GET['end_date']) ? '&end_date=' . urlencode($_POST['end_date'] ?? $_GET['end_date']) : '' ?><?= isset($_POST['grade']) || isset($_GET['grade']) ? '&grade=' . urlencode($_POST['grade'] ?? $_GET['grade']) : '' ?><?= isset($_POST['online_status']) || isset($_GET['online_status']) ? '&online_status=' . urlencode($_POST['online_status'] ?? $_GET['online_status']) : '' ?>" class="<?= $page == $i ? 'active' : '' ?>"><?= $i ?></a>
+                    <a href="?page=<?= $i ?><?= isset($_POST['search']) || isset($_GET['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) || isset($_GET['search_term']) ? '&search_term=' . urlencode($_POST['search_term'] ?? $_GET['search_term']) : '' ?><?= isset($_POST['start_date']) || isset($_GET['start_date']) ? '&start_date=' . urlencode($_POST['start_date'] ?? $_GET['start_date']) : '' ?><?= isset($_POST['end_date']) || isset($_GET['end_date']) ? '&end_date=' . urlencode($_POST['end_date'] ?? $_GET['end_date']) : '' ?><?= isset($_POST['grade']) || isset($_GET['grade']) ? '&grade=' . urlencode($_POST['grade'] ?? $_GET['grade']) : '' ?>" class="<?= $page == $i ? 'active' : '' ?>"><?= $i ?></a>
                 <?php endfor; ?>
                 
                 <?php if ($page < $pages): ?>
-                    <a href="?page=<?= $page + 1 ?><?= isset($_POST['search']) || isset($_GET['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) || isset($_GET['search_term']) ? '&search_term=' . urlencode($_POST['search_term'] ?? $_GET['search_term']) : '' ?><?= isset($_POST['start_date']) || isset($_GET['start_date']) ? '&start_date=' . urlencode($_POST['start_date'] ?? $_GET['start_date']) : '' ?><?= isset($_POST['end_date']) || isset($_GET['end_date']) ? '&end_date=' . urlencode($_POST['end_date'] ?? $_GET['end_date']) : '' ?><?= isset($_POST['grade']) || isset($_GET['grade']) ? '&grade=' . urlencode($_POST['grade'] ?? $_GET['grade']) : '' ?><?= isset($_POST['online_status']) || isset($_GET['online_status']) ? '&online_status=' . urlencode($_POST['online_status'] ?? $_GET['online_status']) : '' ?>">»</a>
+                    <a href="?page=<?= $page + 1 ?><?= isset($_POST['search']) || isset($_GET['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) || isset($_GET['search_term']) ? '&search_term=' . urlencode($_POST['search_term'] ?? $_GET['search_term']) : '' ?><?= isset($_POST['start_date']) || isset($_GET['start_date']) ? '&start_date=' . urlencode($_POST['start_date'] ?? $_GET['start_date']) : '' ?><?= isset($_POST['end_date']) || isset($_GET['end_date']) ? '&end_date=' . urlencode($_POST['end_date'] ?? $_GET['end_date']) : '' ?><?= isset($_POST['grade']) || isset($_GET['grade']) ? '&grade=' . urlencode($_POST['grade'] ?? $_GET['grade']) : '' ?>">»</a>
                 <?php endif; ?>
             </div>
             <?php endif; ?>
@@ -188,7 +234,7 @@
             document.getElementById('start_date').value = '';
             document.getElementById('end_date').value = '';
             document.getElementById('grade').value = '';
-            <?php if (!isset($deletedTutors)) : ?>
+            <?php if (!isset($deletedTutors) && !isset($blockedTutors)) : ?>
             document.getElementById('online_status').value = '';
             <?php endif; ?>
             document.querySelector('input[name="search_term"]').value = '';

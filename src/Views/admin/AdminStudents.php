@@ -40,7 +40,8 @@
         <div class="admin-dashboard">
             <br>
             <div class="profile-tabs">
-                <a href="/admin-students" class="tab-link <?= !isset($deletedStudents) ? 'active' : '' ?>">Active Students</a>
+                <a href="/admin-students" class="tab-link <?= !isset($deletedStudents) && !isset($blockedStudents) ? 'active' : '' ?>">Active Students</a>
+                <a href="/admin-blocked-students" class="tab-link <?= isset($blockedStudents) ? 'active' : '' ?>">Blocked Students</a>
                 <a href="/admin-deleted-students" class="tab-link <?= isset($deletedStudents) ? 'active' : '' ?>">Deleted Students</a>
             </div>
             <br>
@@ -119,6 +120,36 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <p>No deleted students found.</p>
+                    <?php endif; ?>
+                <?php elseif (isset($blockedStudents)): ?>
+                    <?php if (!empty($blockedStudents) && is_array($blockedStudents)): ?>
+                        <?php 
+                        // Pagination for blocked students
+                        $perPage = 12;
+                        $total = count($blockedStudents);
+                        $pages = ceil($total / $perPage);
+                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                        $page = max(1, min($page, $pages)); // Ensure page is within valid range
+                        $offset = ($page - 1) * $perPage;
+                        $paginatedStudents = array_slice($blockedStudents, $offset, $perPage);
+                        ?>
+                        <?php foreach ($paginatedStudents as $row): ?>
+                            <div class="student-card blocked">
+                                <a href="/admin-student-profile/<?= isset($row['student_id']) ? htmlspecialchars($row['student_id']) : ''; ?>" class="student-card-link">
+                                    <img src="\images\student-uploads\profilePhotos\<?= !empty($row['student_profile_photo']) ? htmlspecialchars($row['student_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="student-photo">
+                                    <div class="student-card-content">
+                                        <p class="student-name"><?= htmlspecialchars($row['student_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['student_last_name'] ?? 'Last Name'); ?></p>
+                                        <p class="student-email"><?= htmlspecialchars($row['student_email'] ?? 'Email not available'); ?></p>
+                                        <p class="student-registration">ID: <?= htmlspecialchars($row['student_id'] ?? 'Not Found'); ?></p>
+                                        <?php if (!empty($row['student_grade'])): ?>
+                                        <p class="student-points">Grade: <?= htmlspecialchars($row['student_grade'] ?? 'N/A'); ?></p>
+                                        <?php endif; ?>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>No blocked students found.</p>
                     <?php endif; ?>
                 <?php elseif (!empty($students) && is_array($students)): ?>
                     <?php 

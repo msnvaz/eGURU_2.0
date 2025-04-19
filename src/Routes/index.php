@@ -188,6 +188,12 @@ $router->post('/admin-update-student-profile/{id}', AdminStudentController::clas
 $router->post('/student-delete-profile/{id}', AdminStudentController::class, 'deleteStudentProfile');
 //student restore profile/set to set
 $router->post('/admin-restore-student/{id}', AdminStudentController::class, 'restoreStudentProfile');
+//student block profile/set to blocked
+// Add this with your other route definitions
+$router->get('/admin-blocked-students', AdminStudentController::class, 'showBlockedStudents');
+$router->post('/admin-block-student/{id}', AdminStudentController::class, 'blockStudentProfile');
+$router->post('/admin-unblock-student/{id}', AdminStudentController::class, 'unblockStudentProfile');
+
 //tutor grading
 $router->get('/admin-tutor-grading', AdminTutorGradingController::class, 'showAllGrades');
 //update tutor grade
@@ -242,6 +248,15 @@ $router->get('/admin-edit-tutor-profile/{id}', adminTutorController::class, 'edi
 $router->post('/admin-update-tutor-profile/{id}', adminTutorController::class, 'updateTutorProfile');
 $router->post('/tutor-delete-profile/{id}', adminTutorController::class, 'deleteTutorProfile');
 $router->post('/admin-restore-tutor/{id}', adminTutorController::class, 'restoreTutorProfile');
+// GET route for displaying the blocked tutors page
+$router->get('/admin-blocked-tutors', adminTutorController::class, 'showBlockedTutors');
+
+// POST route for handling search/filter submissions on the blocked tutors page
+$router->post('/admin-blocked-tutors',  adminTutorController::class, 'searchTutors');
+
+// Block/unblock routes - fix duplicate and inconsistent casing
+$router->post('/admin-block-tutor/{id}',  adminTutorController::class, 'blockTutorProfile');
+$router->post('/admin-unblock-tutor/{id}',  adminTutorController::class, 'unblockTutorProfile');
 
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');

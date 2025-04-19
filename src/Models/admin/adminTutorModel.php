@@ -53,7 +53,7 @@ class adminTutorModel {
                 $params[':endDate'] = $registrationEndDate;
             }
             
-            if (!empty($onlineStatus)) {
+            if (!empty($onlineStatus) && $status != 'blocked' && $status != 'unset') {
                 $query .= " AND tutor_log = :onlineStatus";
                 $params[':onlineStatus'] = $onlineStatus;
             }
@@ -142,5 +142,31 @@ class adminTutorModel {
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
         return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+
+    public function blockTutorProfile($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'blocked' WHERE tutor_id = :tutorId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+    
+    public function unblockTutorProfile($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'set' WHERE tutor_id = :tutorId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+    
+    public function getBlockedTutors() {
+        try {
+            $query = "SELECT * FROM tutor WHERE tutor_status = 'blocked'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching blocked tutors: ' . $e->getMessage());
+            return [];
+        }
     }
 }
