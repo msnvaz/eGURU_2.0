@@ -136,6 +136,7 @@ $router->get('/tutor-advertisement', TutorAdvertisementController::class, 'showA
 $router->post('/tutor-upload-ad', TutorAdvertisementController::class, 'uploadAdvertisement');
 $router->post('/tutor-delete-ad', TutorAdvertisementController::class, 'deleteAdvertisement');
 $router->post('/tutor-update-ad', TutorAdvertisementController::class, 'updateAdvertisement');
+$router->post('/tutor-select-ad', TutorAdvertisementController::class, 'selectAd');
 $router->get('/tutor-uploads', TutorStudyMaterialsController::class, 'showStudyMaterialsPage'); 
 $router->post('/tutor-upload-material', TutorStudyMaterialsController::class, 'uploadStudyMaterial');
 $router->post('/tutor-delete-material', TutorStudyMaterialsController::class, 'deleteStudyMaterial');
