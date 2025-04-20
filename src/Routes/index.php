@@ -273,8 +273,5 @@ $router->get('/manager-logout', ManagerDashboardController::class, 'logout');
 $router->get('/manager-announcement', ManagerAnnouncementController::class, 'getAnnouncements');
 
 
-
-
 $router->dispatch();
-
 

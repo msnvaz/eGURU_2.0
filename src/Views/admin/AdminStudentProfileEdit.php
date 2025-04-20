@@ -25,9 +25,9 @@ $student = $studentData ?? [];
                     <div class="viewprofile-header">
                         <div class="profile-photo-container">
                             <?php if (!empty($student['student_profile_photo'])): ?>
-                                <img src="/uploads/Student_Profiles/<?php echo htmlspecialchars($student['student_profile_photo']); ?>" class="viewprofile-img" alt="Profile Photo">
+                                <img src="\images\student-uploads\profilePhotos\<?php echo htmlspecialchars($student['student_profile_photo']); ?>" class="viewprofile-img" alt="Profile Photo">
                             <?php else: ?>
-                                <img src="/uploads/Student_Profiles/default-profile.jpg" class="viewprofile-img" alt="Default Profile Photo">
+                                <img src="\images\student-uploads\profilePhotos\default-profile.jpg" class="viewprofile-img" alt="Default Profile Photo">
                             <?php endif; ?>
                         </div>
                         <div class="profile-info">
