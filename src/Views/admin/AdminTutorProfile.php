@@ -33,7 +33,7 @@
             <div class="viewprofile-header">
                 <div class="profile-photo-container">
                     <img 
-                        src="/uploads/Tutor_Profiles/<?php echo htmlspecialchars($tutor['tutor_profile_photo'] ?? 'default.jpg'); ?>" 
+                        src="\images\tutor_uploads\tutor_profile_photos\<?php echo htmlspecialchars($tutor['tutor_profile_photo'] ?? 'default.jpg'); ?>" 
                         class="viewprofile-img"
                         alt="Profile Photo"
                     >

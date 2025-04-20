@@ -144,7 +144,7 @@ class adminTutorController {
         }
     
         if (isset($_FILES['profile_photo']) && !empty($_FILES['profile_photo']['name']) && $_FILES['profile_photo']['error'] == 0) {
-            $uploadDir = __DIR__ . '/../../../public/uploads/Tutor_Profiles/';
+            $uploadDir = __DIR__ . '/../../../public/images/tutor_uploads/tutor_profile_photos/';
             if (!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
