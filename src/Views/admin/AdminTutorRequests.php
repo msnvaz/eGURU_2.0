@@ -7,126 +7,30 @@
     <link rel="icon" type="image/png" href="/images/eGURU_6.png">
     <link rel="stylesheet" href="/css/admin/Admin.css">
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
-    <link rel="stylesheet" href="/css/admin/AdminTutors.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        .date-range-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .date-range, .filter-selection {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .tutor-card.requested {
-            border: 2px solid #ffc107;
-        }
-        .tutor-card.requested::before {
-            content: "PENDING";
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #ffc107;
-            color: black;
-            padding: 3px 8px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .action-buttons form {
-            flex: 1;
-            margin: 0 5px;
-        }
-        .approve-button, .reject-button, .view-proof-button {
-            width: 100%;
-            padding: 5px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .approve-button {
-            background-color: #28a745;
-            color: white;
-        }
-        .reject-button {
-            background-color: #dc3545;
-            color: white;
-        }
-        .view-proof-button {
-            background-color: #17a2b8;
-            color: white;
-        }
-        .qualification-proof {
-            margin-top: 10px;
-            padding: 5px;
-            background-color: #f8f9fa;
-            border-radius: 3px;
-        }
-        .notification {
-            padding: 10px 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        @media (max-width: 768px) {
-            .tutor-card {
-                width: calc(50% - 20px);
-            }
-            .date-range, .filter-selection {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .action-buttons {
-                flex-direction: column;
-            }
-            .action-buttons form {
-                margin: 5px 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/admin/AdminTutorRequests.css">
 </head>
 <body>
     <?php include 'AdminHeader.php'; ?>
     <?php include 'AdminNav.php'; ?>
     
     <div class="main">
-        <div class="admin-dashboard">
-            <br>
+        <div class="admin-dashboard requests-container">
             <h2>Tutor Requests</h2>
-            <p>Manage tutor requests and approvals.</p>
-            <br>
             
             <?php if (isset($_GET['success'])): ?>
-                <div class="notification success">
+                <div class="alert-message alert-success">
                     <i class="fas fa-check-circle"></i> <?= htmlspecialchars($_GET['success']) ?>
                 </div>
             <?php endif; ?>
             
             <?php if (isset($_GET['error'])): ?>
-                <div class="notification error">
+                <div class="alert-message alert-error">
                     <i class="fas fa-exclamation-circle"></i> <?= htmlspecialchars($_GET['error']) ?>
                 </div>
             <?php endif; ?>
             
-            <div class="tutor-cards">
+            <div class="requests-grid">
                 <?php if (!empty($pendingTutors) && is_array($pendingTutors)): ?>
                     <?php 
                     $perPage = 12;
@@ -138,43 +42,64 @@
                     $paginatedTutors = array_slice($pendingTutors, $offset, $perPage);
                     ?>
                     <?php foreach ($paginatedTutors as $row): ?>
-                        <div class="tutor-card requested">
-                            <a href="/admin-tutor-profile/<?= htmlspecialchars($row['tutor_id'] ?? ''); ?>" class="tutor-card-link">
-                                <img src="\images\tutor_uploads\tutor_profile_photos\<?= !empty($row['tutor_profile_photo']) ? htmlspecialchars($row['tutor_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="tutor-photo">
-                                <div class="tutor-card-content">
-                                    <p class="tutor-name"><?= htmlspecialchars($row['tutor_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['tutor_last_name'] ?? 'Last Name'); ?></p>
-                                    <p class="tutor-email"><?= htmlspecialchars($row['tutor_email'] ?? 'Email not available'); ?></p>
-                                    <p class="tutor-registration">ID: <?= htmlspecialchars($row['tutor_id'] ?? 'Not Found'); ?></p>
-                                    <p class="tutor-registration">Registration Date: <?= htmlspecialchars($row['tutor_registration_date'] ?? 'Not Found'); ?></p>
+                        <a href="/admin-tutor-profile/<?= htmlspecialchars($row['tutor_id'] ?? ''); ?>" class="tutor-card-link">
+                        <div class="request-card">
+                            <div class="request-content">
+                                <div class="request-profile">
+                                    <img src="\images\tutor_uploads\tutor_profile_photos\<?= !empty($row['tutor_profile_photo']) ? htmlspecialchars($row['tutor_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="request-photo">
+                                    <h3 class="request-name"><?= htmlspecialchars($row['tutor_first_name'] ?? '') . ' ' . htmlspecialchars($row['tutor_last_name'] ?? ''); ?></h3>
+                                    <p class="request-email"><?= htmlspecialchars($row['tutor_email'] ?? ''); ?></p>
+                                </div>
+                                
+                                <div class="request-details">
+                                    <div class="request-detail">
+                                        <span class="request-detail-label">Tutor ID:</span>
+                                        <span><?= htmlspecialchars($row['tutor_id'] ?? ''); ?></span>
+                                    </div>
+                                    <div class="request-detail">
+                                        <span class="request-detail-label">Registered:</span>
+                                        <span><?= htmlspecialchars($row['tutor_registration_date'] ?? ''); ?></span>
+                                    </div>
                                     <?php if (!empty($row['tutor_level_id'])): ?>
-                                    <p class="tutor-level">Grade Level: <?= htmlspecialchars($row['tutor_level_id'] ?? 'N/A'); ?></p>
+                                    <div class="request-detail">
+                                        <span class="request-detail-label">Grade Level:</span>
+                                        <span><?= htmlspecialchars($row['tutor_level_id'] ?? ''); ?></span>
+                                    </div>
                                     <?php endif; ?>
+                                    
                                     <?php if (!empty($row['tutor_qualification_proof'])): ?>
-                                    <div class="qualification-proof">
-                                        <p>Qualification Proof: <?= htmlspecialchars($row['tutor_qualification_proof']); ?></p>
-                                        <a href="/download-qualification-proof/<?= htmlspecialchars($row['tutor_id']); ?>" class="view-proof-button">
+                                    <div class="proof-section">
+                                        <div class="request-detail">
+                                            <span class="request-detail-label">Qualification:</span>
+                                            <span><?= htmlspecialchars($row['tutor_qualification_proof']); ?></span>
+                                        </div>
+                                        <a href="/download-qualification-proof/<?= htmlspecialchars($row['tutor_id']); ?>" class="proof-link">
                                             <i class="fas fa-download"></i> Download Proof
                                         </a>
                                     </div>
                                     <?php endif; ?>
                                 </div>
-                            </a>
-                            <div class="action-buttons">
-                                <form action="/admin-approve-tutor/<?= htmlspecialchars($row['tutor_id']); ?>" method="POST" onsubmit="return confirmApprove()">
-                                    <button type="submit" class="approve-button">
-                                        <i class="fas fa-check"></i> Approve
-                                    </button>
-                                </form>
-                                <form action="/admin-reject-tutor/<?= htmlspecialchars($row['tutor_id']); ?>" method="POST" onsubmit="return confirmReject()">
-                                    <button type="submit" class="reject-button">
-                                        <i class="fas fa-times"></i> Reject
-                                    </button>
-                                </form>
+                                
+                                <div class="request-actions">
+                                    <form action="/admin-approve-tutor/<?= htmlspecialchars($row['tutor_id']); ?>" method="POST" onsubmit="return confirmApprove()">
+                                        <button type="submit" class="action-btn approve-btn">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                    </form>
+                                    <form action="/admin-reject-tutor/<?= htmlspecialchars($row['tutor_id']); ?>" method="POST" onsubmit="return confirmReject()">
+                                        <button type="submit" class="action-btn reject-btn">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p>No pending tutor requests found.</p>
+                    <div class="empty-state">
+                        <p>No pending tutor requests found.</p>
+                    </div>
                 <?php endif; ?>
             </div>
 
@@ -203,13 +128,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('.search-form');
-            form.addEventListener('submit', function() {
-                const pageInput = document.createElement('input');
-                pageInput.type = 'hidden';
-                pageInput.name = 'page';
-                pageInput.value = '1';
-                form.appendChild(pageInput);
-            });
+            if (form) {
+                form.addEventListener('submit', function() {
+                    const pageInput = document.createElement('input');
+                    pageInput.type = 'hidden';
+                    pageInput.name = 'page';
+                    pageInput.value = '1';
+                    form.appendChild(pageInput);
+                });
+            }
         });
 
         function resetFilters() {
@@ -228,9 +155,9 @@
             return confirm('Are you sure you want to reject this tutor?');
         }
 
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const startDate = document.getElementById('start_date').value;
-            const endDate = document.getElementById('end_date').value;
+        document.querySelector('form')?.addEventListener('submit', function(e) {
+            const startDate = document.getElementById('start_date')?.value;
+            const endDate = document.getElementById('end_date')?.value;
 
             if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
                 alert('Start date must be before or equal to end date');
