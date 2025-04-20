@@ -74,9 +74,6 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <?php $current_path = $_SERVER['REQUEST_URI']; ?>
-
 <div class="sidebar">
    <h2></h2>
    <br><br>
@@ -107,7 +104,6 @@
    <div class="active">
        <a href="/admin-inbox" class="<?= $current_path == '/admin-inbox' ? 'current-page' : '' ?>">
            <i class="fa-solid fa-envelope"></i>Inbox
-           <i class="fa-solid fa-circle-exclamation" style="color:var(--dark-pink);"></i>
        </a>
    </div>
    <a href="/admin-subjects" class="<?= $current_path == '/admin-subjects' ? 'current-page' : '' ?>">

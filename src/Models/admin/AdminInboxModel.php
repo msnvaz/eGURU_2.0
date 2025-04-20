@@ -514,4 +514,12 @@ class adminInboxModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    //check if there is unread messages
+    public function getUnreadMessageCount() {
+        $query = "SELECT COUNT(*) FROM admin_inbox WHERE status = 'unread'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
 }
