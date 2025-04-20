@@ -147,6 +147,7 @@
                     </span>
                 </div>
                 
+                <!-- Modify the account status section -->
                 <div class="detail-item">
                     <strong>Account Status</strong>
                     <span class="detail-value">
@@ -158,11 +159,74 @@
                             echo 'Deleted';
                         } elseif ($status === 'blocked') {
                             echo '<span style="color: #d9534f; font-weight: bold;">Blocked</span>';
+                        } elseif ($status === 'requested') {
+                            echo '<span style="color: #ffc107; font-weight: bold;">Pending Approval</span>';
                         } else {
                             echo htmlspecialchars($status);
                         }
                         ?>
                     </span>
+                </div>
+
+                <!-- Add this section for qualification proof -->
+                <?php if ($tutor['tutor_status'] === 'requested' && !empty($tutor['tutor_qualification_proof'])): ?>
+                <div class="detail-item">
+                    <strong>Qualification Proof</strong>
+                    <span class="detail-value">
+                        <a href="/download-qualification-proof/<?= htmlspecialchars($tutor['tutor_id']); ?>" class="edit-button">
+                            <i class="fas fa-download"></i> Download Proof
+                        </a>
+                    </span>
+                </div>
+                <?php endif; ?>
+
+                <div class="button-group">
+                    <a href="/admin-edit-tutor-profile/<?= htmlspecialchars($tutor['tutor_id'] ?? '') ?>" class="edit-button">Edit Profile</a>             
+                    <?php if ($tutor['tutor_status'] === 'requested'): ?>
+                        <form action="/admin-approve-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmApprove()">
+                            <button type="submit" class="edit-button" style="background-color: #28a745; color: white;">Approve Request</button>
+                        </form>
+                        <form action="/admin-reject-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmReject()">
+                            <button type="submit" class="edit-button" style="background-color: #dc3545; color: white;">Reject Request</button>
+                        </form>
+                        <script>
+                            function confirmApprove() {
+                                return confirm('Are you sure you want to approve this tutor?');
+                            }
+                            function confirmReject() {
+                                return confirm('Are you sure you want to reject this tutor?');
+                            }
+                        </script>
+                    <?php elseif ($tutor['tutor_status'] === 'unset'): ?>
+                        <form action="/admin-restore-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmRestore()">
+                            <button type="submit" class="edit-button">Restore Profile</button>
+                        </form>
+                    <?php elseif ($tutor['tutor_status'] === 'blocked'): ?>
+                        <form action="/admin-unblock-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmUnblock()">
+                            <button type="submit" class="edit-button">Unblock Profile</button>
+                        </form>
+                    <?php else: ?>
+                        <form action="/admin-block-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmBlock()">
+                            <button type="submit" class="edit-button">Block Profile</button>
+                        </form>
+                        <form action="/tutor-delete-profile/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmDelete()">
+                            <button type="submit" class="edit-button">Delete Profile</button>
+                        </form>
+                    <?php endif; ?>
+                    <script>
+                        function confirmRestore() {
+                            return confirm('Are you sure you want to restore this tutor profile?');
+                        }
+                        function confirmDelete() {
+                            return confirm('Are you sure you want to delete this tutor profile?');
+                        }
+                        function confirmBlock() {
+                            return confirm('Are you sure you want to block this tutor profile?');
+                        }
+                        function confirmUnblock() {
+                            return confirm('Are you sure you want to unblock this tutor profile?');
+                        }
+                    </script>                    
                 </div>
             </div>
         </div>
