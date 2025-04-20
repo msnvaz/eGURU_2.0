@@ -125,45 +125,7 @@
 
     <!-- testimonial-section - We Value Our Students Let's Hear from them -->
 
-    <section  id="reviews">
-        <div class="testimonial-section" >
-            <br><br><br>
-            <div class="color-section">
-                <h2 class="section-title">We Value Our Students, Let's Hear from them</h2>
-                <div class="testimonial-slider">
-                    <button class="slider-btn prev">&lt;</button>
-                    <div class="testimonial active">
-                        <div class="testimonial-content">
-                            <img src="images/profile_img.jpeg" alt="James Anderson" class="testimonial-img">
-                            <div class="testimonial-text">
-                                <h3>Find the right tutor for you!</h3>
-                                <p>"This platform transformed my learning journey! Engaging courses, expert tutors, and a supportive community helped me achieve my goals."</p>
-                                <span>- James Anderson -</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add more testimonials as needed -->
-                    <button class="slider-btn next">&gt;</button>
-                </div>
-            </div>
-            <div class="features-columns">
-                <button class="arrow-btn prev">&lt;</button>
-                <div class="column">
-                    <p>Whenever I think of quality education now, I think of them instantly. I’ve done so many courses in my free time and learned so much! Thank you for redefining online education for me!</p>
-                    <span>- Ellison Morkel -</span>
-                </div>
-                <div class="column">
-                    <p>Whenever I think of quality education now, I think of them instantly. I’ve done so many courses in my free time and learned so much! Thank you for redefining online education for me!</p>
-                    <span>- Ellison Morkel -</span>
-                </div>
-                <div class="column">
-                    <p>Whenever I think of quality education now, I think of them instantly. I’ve done so many courses in my free time and learned so much! Thank you for redefining online education for me!</p>
-                    <span>- Ellison Morkel -</span>
-                </div>
-                <button class="arrow-btn next">&gt;</button>
-            </div>
-        </div>
-    </section>
+    <?php include 'studentreview.php'?>
 
     <!-- Advertisement-section - Meet Some of Our Best Tutors -->
 
