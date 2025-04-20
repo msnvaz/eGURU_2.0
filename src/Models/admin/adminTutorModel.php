@@ -169,4 +169,30 @@ class adminTutorModel {
             return [];
         }
     }
+
+    public function getPendingTutors() {
+        try {
+            $query = "SELECT * FROM tutor WHERE tutor_status = 'requested' ORDER BY tutor_registration_date DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching pending tutors: ' . $e->getMessage());
+            return [];
+        }
+    }
+    
+    public function approveTutorRequest($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'set' WHERE tutor_id = :tutorId AND tutor_status = 'requested'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+    
+    public function rejectTutorRequest($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'unset' WHERE tutor_id = :tutorId AND tutor_status = 'requested'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
 }

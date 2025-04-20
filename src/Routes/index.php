@@ -265,6 +265,13 @@ $router->post('/admin-blocked-tutors',  adminTutorController::class, 'searchTuto
 $router->post('/admin-block-tutor/{id}',  adminTutorController::class, 'blockTutorProfile');
 $router->post('/admin-unblock-tutor/{id}',  adminTutorController::class, 'unblockTutorProfile');
 
+// Tutor request routes
+$router->get('/admin-tutor-requests', adminTutorController::class, 'showTutorRequests');
+$router->post('/admin-tutor-requests', adminTutorController::class, 'searchTutors');
+$router->post('/admin-approve-tutor/{id}', adminTutorController::class, 'approveTutorRequest');
+$router->post('/admin-reject-tutor/{id}', adminTutorController::class, 'rejectTutorRequest');
+$router->get('/download-qualification-proof/{id}', adminTutorController::class, 'downloadQualificationProof');
+
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');
 $router->post('/manager-login', ManagerLoginController::class, 'checkManagerLogin');

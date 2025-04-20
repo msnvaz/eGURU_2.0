@@ -248,4 +248,102 @@ class adminTutorController {
         }
         exit();
     }
+
+    public function showTutorRequests() {
+        $tutorModel = new adminTutorModel();
+        $grades = $tutorModel->getTutorGrades();
+        $pendingTutors = [];
+        
+        if (isset($_POST['search']) || isset($_GET['search'])) {
+            $searchTerm = $_POST['search_term'] ?? $_GET['search_term'] ?? '';
+            $grade = $_POST['grade'] ?? $_GET['grade'] ?? '';
+            $startDate = $_POST['start_date'] ?? $_GET['start_date'] ?? '';
+            $endDate = $_POST['end_date'] ?? $_GET['end_date'] ?? '';
+            
+            $pendingTutors = $tutorModel->searchTutors(
+                $searchTerm,
+                $grade,
+                $startDate,
+                $endDate,
+                'requested'
+            );
+        } else {
+            $pendingTutors = $tutorModel->getPendingTutors();
+        }
+        
+        require_once __DIR__ . '/../../Views/admin/AdminTutorRequests.php';
+    }
+    
+    public function approveTutorRequest($tutorId) {
+        $tutor = $this->model->getTutorProfile($tutorId);
+        if (!$tutor) {
+            header("Location: /admin-tutor-requests?error=Tutor not found");
+            exit();
+        }
+    
+        if ($this->model->approveTutorRequest($tutorId)) {
+            header("Location: /admin-tutor-requests?success=Tutor profile approved");
+        } else {
+            header("Location: /admin-tutor-requests?error=Failed to approve tutor");
+        }
+        exit();
+    }
+    
+    public function rejectTutorRequest($tutorId) {
+        $tutor = $this->model->getTutorProfile($tutorId);
+        if (!$tutor) {
+            header("Location: /admin-tutor-requests?error=Tutor not found");
+            exit();
+        }
+    
+        if ($this->model->rejectTutorRequest($tutorId)) {
+            header("Location: /admin-tutor-requests?success=Tutor profile rejected");
+        } else {
+            header("Location: /admin-tutor-requests?error=Failed to reject tutor");
+        }
+        exit();
+    }
+
+    public function downloadQualificationProof($tutorId) {
+        $tutor = $this->model->getTutorProfile($tutorId);
+        
+        if (!$tutor || empty($tutor['tutor_qualification_proof'])) {
+            header("Location: /admin-tutor-requests?error=Qualification proof not found");
+            exit();
+        }
+        
+        $filePath = __DIR__ . '/../../../public/uploads/qualification_proofs/' . $tutor['tutor_qualification_proof'];
+        
+        if (!file_exists($filePath)) {
+            header("Location: /admin-tutor-requests?error=File not found");
+            exit();
+        }
+        
+        // Get file extension to determine mime type
+        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+        switch(strtolower($fileExtension)) {
+            case 'pdf':
+                $contentType = 'application/pdf';
+                break;
+            case 'jpg':
+            case 'jpeg':
+                $contentType = 'image/jpeg';
+                break;
+            case 'png':
+                $contentType = 'image/png';
+                break;
+            default:
+                $contentType = 'application/octet-stream';
+        }
+        
+        header('Content-Type: ' . $contentType);
+        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        readfile($filePath);
+        exit();
+    }
 }
