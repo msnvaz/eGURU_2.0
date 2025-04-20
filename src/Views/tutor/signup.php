@@ -7,32 +7,180 @@
     <link rel="stylesheet" href="\css\tutor\signup.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/footer.css">
+    
+        <style>
+        .preview-box {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .preview-box img,
+        .preview-box embed {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin-top: 10px;
+        }
+        .remove-btn {
+            margin-top: 10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .remove-btn:hover {
+            background-color: #e60000;
+        }
+        .file-upload-section {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px #aaa;
+            border-radius: 10px;
+            background-color:rgba(250, 250, 250, 0.16);
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-section:hover {
+            border-color: #555;
+            
+        }
+
+        .file-upload-section label {
+            font-family: Arial, sans-serif
+            font-size: 12px;
+            display: block;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .file-upload-section input[type="file"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            background-color: white;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .file-upload-section input[type="file"]:hover {
+            border-color: #666;
+        }
+
+        input[type="file"]#qualification_file {
+            display: block;
+            margin-top: 10px;
+            padding-left: 20px;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #333;
+            background-color: #f9f9f9;
+            border: 2px #ccc;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        input[type="file"]#qualification_file:hover {
+            border-color: #999;
+            background-color: #f1f1f1;
+        }
+
+
+    </style>
+    
 </head>
 <body>
+
 <?php include '../src/Views/navbar.php'; ?>
 
-    <div class="container">
-        <div class="form-box">
-            <h1>Welcome to e-Guru</h1>
-            <form action="signup.php" method="POST">
-                <input type="text" name="first_name" placeholder="First Name" required>
-                <input type="text" name="last_name" placeholder="Last Name" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-                <input type="text" name="nic" placeholder="NIC" required>
-                <input type="tel" name="contact_number" placeholder="Contact Number" required>
-                <div class="terms">
-                    <input type="checkbox" required>
-                    <label>I agree to the <a href="#">Terms & Privacy Policy</a></label>
+<div class="container">
+    <div class="form-box">
+        <h1>Welcome to e-Guru</h1>
+        <form action="/tutor-signup-action" method="POST" enctype="multipart/form-data">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="date" name="birth_date" placeholder="Date of Birth" required>
+            <input type="text" name="nic" placeholder="NIC" required>
+            <input type="tel" name="contact_number" placeholder="Contact Number" required>
+            <br>
+            <!-- File Upload -->
+            <div class="file-upload-section">
+                <label for="qualification_file">Proof of Highest Qualification <br> (PDF or Image)</label>
+                <input type="file" id="qualification_file" name="highest-qualification" accept=".pdf, image/*">
+
+                <div id="filePreview" class="preview-box" style="display: none;">
+                    <div id="previewContent"></div>
+                    <button type="button" class="remove-btn" onclick="removeFile()">Remove</button>
                 </div>
-                <button type="submit">Sign Up</button>
-            </form>
+            </div>
 
-        </div>
+
+            <div class="terms">
+                <input type="checkbox" required>
+                <label>I agree to the <a href="#">Terms & Privacy Policy</a></label>
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
     </div>
+</div>
 
-    
+<script>
+    const fileInput = document.getElementById('qualification_file');
+    const filePreview = document.getElementById('filePreview');
+    const previewContent = document.getElementById('previewContent');
+
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        previewContent.innerHTML = '';
+        filePreview.style.display = 'none';
+
+        if (!file) return;
+
+        const reader = new FileReader();
+        filePreview.style.display = 'block';
+
+        if (file.type.startsWith('image/')) {
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = "Image preview";
+                img.style.maxWidth = "200px";
+                previewContent.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        } else if (file.type === 'application/pdf') {
+            reader.onload = function (e) {
+                const embed = document.createElement('embed');
+                embed.src = e.target.result;
+                embed.type = "application/pdf";
+                embed.width = "100%";
+                embed.height = "400px";
+                previewContent.appendChild(embed);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewContent.textContent = 'Unsupported file type';
+        }
+    });
+
+    function removeFile() {
+        fileInput.value = '';
+        previewContent.innerHTML = '';
+        filePreview.style.display = 'none';
+    }
+</script>
+
+
 </body>
 </html>

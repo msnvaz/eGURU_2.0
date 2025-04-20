@@ -119,22 +119,43 @@ class AdminDashboardModel {
     }
     
     
-    /*public function getTopTutorsByRating($limit = 5) {
-        $query = "SELECT t.tutor_id, t.tutor_fname, t.tutor_lname, AVG(r.rating) as average_rating, 
-                  COUNT(s.session_id) as session_count 
-                  FROM tutor t
-                  JOIN session s ON t.tutor_id = s.tutor_id
-                  LEFT JOIN ratings r ON s.session_id = r.session_id
-                  GROUP BY t.tutor_id
-                  ORDER BY average_rating DESC
-                  LIMIT :limit";
+    public function getSessionFeedbackRatings() {
+        $ratings = [0, 0, 0, 0, 0]; // Initialize array for 1-5 star ratings
+        
+        $query = "SELECT session_rating, COUNT(*) as count 
+                  FROM session_feedback 
+                  WHERE session_rating IS NOT NULL 
+                  GROUP BY session_rating 
+                  ORDER BY session_rating";
+        
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($results as $result) {
+            if ($result['session_rating'] >= 1 && $result['session_rating'] <= 5) {
+                $ratings[$result['session_rating'] - 1] = (int)$result['count'];
+            }
+        }
+        
+        return $ratings;
+    }
+
+    public function getAverageSessionRating() {
+        $query = "SELECT AVG(session_rating) as average_rating FROM session_feedback WHERE session_rating IS NOT NULL";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // If no feedback data exists, return default value
+        if (!$result || !$result['average_rating']) {
+            return 4.2; // Default average rating
+        }
+        
+        return (float)$result['average_rating'];
     }
     
-    public function getAverageRatingsByCategory() {
+    /*public function getAverageRatingsByCategory() {
         $query = "SELECT 
                   AVG(punctuality) as punctuality,
                   AVG(knowledge) as knowledge,

@@ -65,7 +65,14 @@
                             <form action="/admin-restore-student/<?= htmlspecialchars($student['student_id'])?>" method="POST" onsubmit="return confirmRestore()">
                                 <button type="submit" class="edit-button">Restore Profile</button>
                             </form>
-                        <?php else: ?>
+                        <?php elseif ($student['student_status'] === 'blocked'): ?>
+                            <form action="/admin-unblock-student/<?= htmlspecialchars($student['student_id'])?>" method="POST" onsubmit="return confirmUnblock()">
+                                <button type="submit" class="edit-button">Unblock Student</button>
+                            </form>
+                        <?php elseif ($student['student_status'] === 'set'): ?>
+                            <form action="/admin-block-student/<?= htmlspecialchars($student['student_id'])?>" method="POST" onsubmit="return confirmBlock()">
+                                <button type="submit" class="edit-button">Block Student</button>
+                            </form>
                             <form action="/student-delete-profile/<?= htmlspecialchars($student['student_id'])?>" method="POST" onsubmit="return confirmDelete()">
                                 <button type="submit" class="edit-button">Delete Profile</button>
                             </form>
@@ -75,8 +82,13 @@
                                 return confirm('Are you sure you want to restore this student profile?');
                             }
                             function confirmDelete() {
-
                                 return confirm('Are you sure you want to delete this student profile?');
+                            }
+                            function confirmBlock() {
+                                return confirm('Are you sure you want to block this student?');
+                            }
+                            function confirmUnblock() {
+                                return confirm('Are you sure you want to unblock this student?');
                             }
                         </script>                    
                     </div>

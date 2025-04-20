@@ -7,113 +7,179 @@
     <script src="request.js"></script>
     <link rel="stylesheet" href="/css/tutor/request.css">
     <link rel="stylesheet" href="/css/tutor/dashboard.css">
-    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/tutor/sidebar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            
+        }
+
+    </style>
 </head>
 <body>
-<?php include '../src/Views/navbar.php'; ?>
-<div class="sidebar">
-            <h2>e-Guru</h2>
-            <ul>
-                <li><i class="fa-solid fa-table-columns"></i><a href="tutor-dashboard">Dashboard</a></li>
-                <li><i class="fa-solid fa-calendar-days"></i><a href="tutor-event">Events</a></li>
-                <li><i class="fa-solid fa-comment"></i><a href="tutor-request">Student Requests</a></li>
-                <li><i class="fa-solid fa-user"></i><a href="tutor-public-profile">Public profile</a></li>
-                <li><i class="fa-solid fa-star"></i><a href="tutor-feedback">Student Feeback</a></li>
-                <li><i class="fa-solid fa-rectangle-ad"></i><a href="tutor-advertisement"> Advertisement</a></li>
-                <li><i class="fa-solid fa-right-from-bracket"></i><a href="tutor-logout"> Logout</a></li>
-            </ul>
-        </div>
+
+<?php $page="request"; ?>
+
+<!-- Sidebar -->
+<?php include 'sidebar.php'; ?>
+
+<!-- Header -->
+<?php include '../src/Views/tutor/header.php'; ?>
+
+            
     <div id="body">
     <?php
        // include 'sidebar.php';
     ?>
     
-        <div class="request_container">
-        <div class="header">
-            <div id="past-current-tab" class="active" onclick="toggleRequests('past-current')">Past & Current Student Requests</div>
-            <div id="new-tab" onclick="toggleRequests('new')">New Student Requests</div>
+    <div class="request_container">
+        <div class="request-header">
+            <div id="active-tab" class="tab active" onclick="toggleRequests('active')">Active Student Requests</div>
+            <div id="rejected-tab" class="tab" onclick="toggleRequests('rejected')">Rejected Student Requests</div>
         </div>
-        <div id="past-current-requests" class="requests">
+        <div id="active-requests" class="requests">
             <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>12 hours ago</div>
-                <div><button class="accept">Accept</button></div>
+                <div><b>Subject</b></div>
+                <div><b>Scheduled Date</b></div>
+                <div><b>Scheduled Time</b></div>
+                <div><b>Student Name</b></div>
+                <div><b>Request Action</b></div>
             </div>
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>12 hours ago</div>
-                <div><button class="accept">Accept</button></div>
-            </div>
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>12 hours ago</div>
-                <div><button class="accept">Accept</button></div>
-            </div>
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>12 hours ago</div>
-                <div><button class="accept">Accept</button></div>
-            </div>
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>12 hours ago</div>
-                <div><button class="accept">Accept</button></div>
-            </div>
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>12 hours ago</div>
-                <div><button class="accept">Accept</button></div>
-            </div>
-            <!-- Repeat similar blocks for more requests -->
+
+            <?php if (!empty($active_requests)) : ?>
+                <?php foreach ($active_requests as $request) : ?>
+                    <div class="request">
+                        <div><?= htmlspecialchars($request['subject_name']) ?></div>
+                        <div><?= htmlspecialchars($request['scheduled_date']) ?></div>
+                        <div><?= htmlspecialchars($request['schedule_time']) ?></div>
+                        <div><?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?></div>
+                        <div class="buttons">
+                            <form method="POST" action="/handle-session-request">
+                                <input type="hidden" name="session_id" value="<?= $request['session_id'] ?>">
+                                <input type="hidden" name="action" value=""> <!-- Add this -->
+                                <button type="button" data-action="accept" class="accept">Accept</button>
+                                <button type="button" data-action="decline" class="decline">Decline</button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <div class="request"><div colspan="5">No new requests found.</div></div>
+            <?php endif; ?>
         </div>
-        <div id="new-requests" class="requests" style="display: none;">
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>12 hours to go</div>
-                <div class="buttons">
-                    <button class="accept">Accept</button>
-                    <button class="decline">Decline</button>
-                </div>
+
+        <div id="rejected-requests" class="requests" style="display: none;">
+            <div class="request"><!-- Headers of the table -->
+                <div><b>Subject</b></div>
+                <div><b>Scheduled date</b></div>
+                <div><b>Scheduled time</b></div>
+                <div><b>Student Name</b></div>
             </div>
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>5 hours to go</div>
-                <div class="buttons">
-                    <button class="accept">Accept</button>
-                    <button class="decline">Decline</button>
+
+            <?php foreach ($rejected_requests as $request): ?>
+                <div class="request">
+                    <div><?= htmlspecialchars($request['subject_name']) ?></div>
+                    <div><?= htmlspecialchars($request['scheduled_date']) ?></div>
+                    <div><?= htmlspecialchars($request['schedule_time']) ?></div>
+                    <div><?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?></div>
                 </div>
-            </div>
-            <div class="request">
-                <div>Mathematics</div>
-                <div>Grade 9</div>
-                <div>John Doe</div>
-                <div>3 hours to go</div>
-                <div class="buttons">
-                    <button class="accept">Accept</button>
-                    <button class="decline">Decline</button>
-                </div>
-            </div>
-            <!-- Repeat similar blocks for more requests -->
+            <?php endforeach; ?>
+        </div>
+
+    </div>
+    <script>
+    function toggleRequests(tab) {
+        const pastTab = document.getElementById('active-tab');
+        const newTab = document.getElementById('rejected-tab');
+        const pastRequests = document.getElementById('active-requests');
+        const newRequests = document.getElementById('rejected-requests');
+
+        if (tab === 'active') {
+            pastRequests.style.display = 'block';
+            newRequests.style.display = 'none';
+            pastTab.classList.add('active');
+            newTab.classList.remove('active');
+        } else {
+            pastRequests.style.display = 'none';
+            newRequests.style.display = 'block';
+            newTab.classList.add('active');
+            pastTab.classList.remove('active');
+        }
+    }
+</script>
+    </div>
+
+    <!-- Confirmation Modal -->
+<div id="confirmationModal" class="modal-overlay" style="display: none;">
+    <div class="modal-box">
+        <p id="confirmationText">Are you sure?</p>
+        <div class="modal-actions">
+            <button class="accept" id="confirmYes">Proceed</button>
+            <button class="decline" id="confirmNo">Cancel</button>
         </div>
     </div>
-    <script src="script.js"></script>
-    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('confirmationModal');
+    const modalText = document.getElementById('confirmationText');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+
+    let selectedForm = null;
+    let selectedAction = '';
+
+    document.querySelectorAll('form[action="/handle-session-request"]').forEach(form => {
+        form.querySelectorAll('button[data-action]').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                selectedForm = form;
+                selectedAction = this.getAttribute('data-action');
+                modalText.textContent = `Are you sure you want to ${selectedAction} this session request?`;
+                modal.style.display = 'flex';
+            });
+        });
+    });
+
+    confirmYes.addEventListener('click', () => {
+        if (selectedForm) {
+            // Set the hidden action input
+            selectedForm.querySelector('input[name="action"]').value = selectedAction;
+            modal.style.display = 'none';
+            selectedForm.submit();
+        }
+    });
+
+    confirmNo.addEventListener('click', () => {
+        modal.style.display = 'none';
+        selectedForm = null;
+    });
+</script>
+
+
+
 </body>
 </html>

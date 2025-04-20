@@ -5,11 +5,11 @@
     margin-left: 70px;
     margin-top: -400px;
     margin-right: -120px;
-    margin-bottom: -150px;
+    margin-bottom: -110px;
     
 }
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
     margin-left: 250px;
@@ -225,107 +225,6 @@
     font-size: 0.875rem;
     color: #666;
 }
-
-.findtutor-card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    width: 250px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: box-shadow 0.3s;
-}
-
-.findtutor-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.findtutor-card img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-}
-
-.findtutor-details h3 {
-    margin: 5px 0;
-}
-
-.availability {
-    text-align: center;
-    padding: 5px;
-    border-radius: 3px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.available {
-    background-color: green;
-}
-
-.unavailable {
-    background-color: red;
-}
-
-/* Popup styles */
-.findtutorpopup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.findtutorpopup-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    width: 300px;
-}
-
-.findtutorpopup-content h2 {
-    margin-bottom: 10px;
-}
-
-.findtutorpopup-content p {
-    margin-bottom: 20px;
-}
-
-.findtutorpopup-content button {
-    padding: 10px 20px;
-    background-color: green;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.findtutorpopup-content button:hover {
-    background-color: darkgreen;
-}
-
-.findtutor-bodyform {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    height: 180%;
-    margin-top: 50px;
-    margin-left: 350px;
-    margin-top: 100px;
-}
-
-
 
 .tutor-replies-section {
     background: #fff;

@@ -7,25 +7,21 @@
     <link rel="stylesheet" href="/css/tutor/events.css">
     <link rel="stylesheet" href="/css/tutor/random.css">
     <link rel="stylesheet" href="/css/tutor/dashboard.css">
-    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/tutor/sidebar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <?php include '../src/Views/navbar.php'; ?>
-    <?php //include 'sidebar.php'; ?>
+
+<?php $page="event"; ?>
+
+<!-- Sidebar -->
+<?php include 'sidebar.php'; ?>
+
+<!-- Header -->
+<?php include '../src/Views/tutor/header.php'; ?>
+
     <div id="entire">   
-    <div class="sidebar">
-            <h2>e-Guru</h2>
-            <ul>
-                <li><i class="fa-solid fa-table-columns"></i><a href="tutor-dashboard">Dashboard</a></li>
-                <li><i class="fa-solid fa-calendar-days"></i><a href="tutor-event">Events</a></li>
-                <li><i class="fa-solid fa-comment"></i><a href="tutor-request">Student Requests</a></li>
-                <li><i class="fa-solid fa-user"></i><a href="tutor-public-profile">Public profile</a></li>
-                <li><i class="fa-solid fa-star"></i><a href="tutor-feedback">Student Feeback</a></li>
-                <li><i class="fa-solid fa-rectangle-ad"></i><a href="tutor-advertisement"> Advertisement</a></li>
-                <li><i class="fa-solid fa-right-from-bracket"></i><a href="tutor-logout"> Logout</a></li>
-            </ul>
-        </div>
+    
         <div class="calendars-events">
             <div class="calendar-events" id="prev-month-calendar">
                 <div class="calendar-events-header">
@@ -83,83 +79,62 @@
         </div>
 
         <div class="container-events">
-            <div class="tabs">
-                <div id="upcoming-tab" class="active" onclick="toggleContent('upcoming')">Upcoming Events</div>
-                <div id="previous-tab" onclick="toggleContent('previous')">Previous Events</div>
-            </div>
-            <div id="upcoming-content" class="content active">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Subject</th>
-                            <th>Grade</th>
-                            <th>Instructor</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Mathematics</td>
-                            <td>Grade 9</td>
-                            <td>John Doe</td>
-                            <td>20 Aug 2024</td>
-                            <td>2:00 pm</td>
-                        </tr>
-                        <tr>
-                            <td>Science</td>
-                            <td>Grade 9</td>
-                            <td>John Doe</td>
-                            <td>20 Aug 2024</td>
-                            <td>2:00 pm</td>
-                        </tr>
-                        <tr>
-                            <td>English</td>
-                            <td>Grade 9</td>
-                            <td>John Doe</td>
-                            <td>20 Aug 2024</td>
-                            <td>2:00 pm</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="previous-content" class="content">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Subject</th>
-                            <th>Grade</th>
-                            <th>Instructor</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>History</td>
-                            <td>Grade 9</td>
-                            <td>Jane Smith</td>
-                            <td>15 Jul 2024</td>
-                            <td>10:00 am</td>
-                        </tr>
-                        <tr>
-                            <td>Geography</td>
-                            <td>Grade 9</td>
-                            <td>Jane Smith</td>
-                            <td>15 Jul 2024</td>
-                            <td>11:00 am</td>
-                        </tr>
-                        <tr>
-                            <td>Biology</td>
-                            <td>Grade 9</td>
-                            <td>Jane Smith</td>
-                            <td>15 Jul 2024</td>
-                            <td>12:00 pm</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="tabs">
+        <div id="upcoming-tab" class="active" onclick="toggleContent('upcoming')">Upcoming Events</div>
+        <div id="previous-tab" onclick="toggleContent('previous')">Previous Events</div>
+    </div>
+    
+    <div id="upcoming-content" class="content active">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Grade</th>
+                    <th>Student</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($upcomingEvents as $event): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
+                        <td><?php echo htmlspecialchars($event['student_grade']); ?></td>
+                        <td><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></td>
+                        <td><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></td>
+                        <td><?php echo date('h:i a', strtotime($event['schedule_time'])); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="previous-content" class="content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Grade</th>
+                    <th>Student</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($previousEvents as $event): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
+                        <td><?php echo htmlspecialchars($event['student_grade']); ?></td>
+                        <td><?php echo htmlspecialchars($event['student_first_name'] . ' ' . $event['student_last_name']); ?></td>
+                        <td><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></td>
+                        <td><?php echo date('h:i a', strtotime($event['schedule_time'])); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
     </div>
     <script src="/js/tutor/eventcal.js"></script>
     <script>

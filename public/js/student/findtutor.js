@@ -1,53 +1,76 @@
-document.querySelector("button").addEventListener("click", () => {
-    let grade = document.getElementById("grade").value;
-    let subject = document.getElementById("subject").value;
-    let experience = document.getElementById("experience").value;
+let selectedTutorId = null;
 
-    // Debug log
-    console.log("Sending search request with:", { grade, subject, experience });
-
-    let formData = new FormData();
-    formData.append("grade", grade);
-    formData.append("subject", subject);
-    formData.append("experience", experience);
-
-    fetch("/student-search-tutor", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-    })
-    .then(data => {
-        console.log("Received response:", data);
-        
-        let results = document.getElementById("results");
-        results.innerHTML = "";
-        
-        if (!Array.isArray(data)) {
-            results.innerHTML = "<p>Error: Unexpected response format</p>";
-            return;
+        function showRequestModal(tutorId, tutorName) {
+            selectedTutorId = tutorId;
+            document.getElementById('tutorName').textContent = tutorName;
+            document.getElementById('requestModal').style.display = 'flex';
         }
 
-        if (data.length === 0) {
-            results.innerHTML = "<p>No tutors found matching your criteria</p>";
-            return;
+        function hideRequestModal() {
+            document.getElementById('requestModal').style.display = 'none';
         }
 
-        data.forEach(tutor => {
-            let card = `<div class="tutor-card" onclick="showPopup(${tutor.tutor_id})">
-                            <h3>${tutor.name}</h3>
-                            <p>${tutor.subject} | ${tutor.grade} | ${tutor.tutor_level}</p>
-                        </div>`;
-            results.innerHTML += card;
-        });
-    })
-    .catch(err => {
-        console.error("Search error:", err);
-        document.getElementById("results").innerHTML = 
-            `<p>Error searching for tutors: ${err.message}</p>`;
-    });
-});
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function showErrorMessage(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message || 'Please try again. If the problem persists, contact support.';
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function confirmRequest() {
+            if (!selectedTutorId) {
+                showErrorMessage('Invalid tutor selection. Please try again.');
+                return;
+            }
+
+            const subjectSelect = document.getElementById('subject');
+            const subjectId = subjectSelect.value;
+
+            if (!subjectId) {
+                showErrorMessage('Please select a subject before requesting a tutor.');
+                return;
+            }
+
+            fetch('/student-request-tutor', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    tutorId: selectedTutorId,
+                    subjectId: subjectId
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                hideRequestModal();
+                showSuccessMessage();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showErrorMessage('Unable to send request at this time. Please try again later.');
+            });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('requestModal');
+            if (event.target === modal) {
+                hideRequestModal();
+            }
+        }

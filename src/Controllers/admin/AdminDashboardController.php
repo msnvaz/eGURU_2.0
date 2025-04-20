@@ -35,6 +35,8 @@ class AdminDashboardController {
         $platformFee = (int)($this->model->getPlatformFee());
         $expectedRevenue = ($totalTutorPoints * $pointValue * $platformFee)/100;
         $totalRevenue = ($this->model->getTotalRevenue())*$pointValue;
+        $sessionFeedbackRatings = $this->model->getSessionFeedbackRatings();
+        $averageSessionRating = (float)($this->model->getAverageSessionRating());
         
         // Format month numbers to ensure all 12 months are represented in charts
         $studentRegistrationsByMonth = $this->formatMonthlyData($studentRegistrations);
