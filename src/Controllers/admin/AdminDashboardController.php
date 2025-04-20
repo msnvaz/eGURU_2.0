@@ -3,12 +3,14 @@
 namespace App\Controllers\admin;
 
 use App\Models\admin\AdminDashboardModel;
+use App\Models\admin\AdminLoginModel; // Add this import
 
 class AdminDashboardController {
     private $model;
 
     public function __construct() {
         $this->model = new AdminDashboardModel();
+        $this->loginModel = new AdminLoginModel(); // Initialize the login model
     }
 
     public function showDashboard() {
@@ -23,11 +25,18 @@ class AdminDashboardController {
         $totalTutors = $this->model->getTotalTutors();
         $totalSessions = $this->model->getTotalSessions();
         $completedSessions = $this->model->getCompletedSessions();
-        $totalRevenue = $this->model->getTotalRevenue();
         $sessionCounts = $this->model->getSessionCountsByStatus();
         $studentRegistrations = $this->model->getStudentRegistrationsByMonth();
         $tutorRegistrations = $this->model->getTutorRegistrationsByMonth();
         $sessionsPerSubject = $this->model->getSessionsPerSubject();
+        $totalStudentPoints = (int)($this->model->getTotalStudentPoints());
+        $totalTutorPoints = (int)($this->model->getTotalTutorPoints());
+        $pointValue = (int)($this->model->getPointValue());
+        $platformFee = (int)($this->model->getPlatformFee());
+        $expectedRevenue = ($totalTutorPoints * $pointValue * $platformFee)/100;
+        $totalRevenue = ($this->model->getTotalRevenue())*$pointValue;
+        $sessionFeedbackRatings = $this->model->getSessionFeedbackRatings();
+        $averageSessionRating = (float)($this->model->getAverageSessionRating());
         
         // Format month numbers to ensure all 12 months are represented in charts
         $studentRegistrationsByMonth = $this->formatMonthlyData($studentRegistrations);
@@ -57,16 +66,4 @@ class AdminDashboardController {
         return array_values($formattedData); // Convert to indexed array for Chart.js
     }
 
-    public function logout() {
-        session_start();
-        // Unset all session variables
-        $_SESSION = array();
-
-        // Destroy the session
-        session_destroy();
-
-        // Redirect to login page
-        header('Location: ./admin-login');
-        exit();
-    }
 }

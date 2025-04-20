@@ -71,11 +71,12 @@ class TutorSearchModel
             GROUP BY t.tutor_id
             " . (!empty($havingConditions) ? "HAVING " . implode(" AND ", $havingConditions) : "");
 
-        // Execute the query
-        $db = new Database();
-        $conn = $db->connect();
-        $stmt = $conn->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    // Execute
+    $db = new Database();
+    $conn = $db->connect();
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+}
+

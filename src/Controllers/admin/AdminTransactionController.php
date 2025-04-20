@@ -31,7 +31,17 @@ class AdminTransactionController extends Controller
 
     public function refund($id)
     {
-        $this->transactionModel->updateTransactionStatus($id, 'refunded'); // Update transaction status to refunded
+        $result = $this->transactionModel->updateTransactionStatus($id, 'refunded');
+        
+        if ($result) {
+            // If refund was successful
+            $_SESSION['refund_success'] = "Refund processed successfully.";
+        } else {
+            // If refund failed - likely because tutor doesn't have enough points or payment was already refunded
+            $_SESSION['refund_error'] = "Refund failed. Please check if tutor has enough points or if payment was already refunded.";
+        }
+        
         header('Location: /admin/transactions'); // Redirect back to transactions page
+        exit();
     }
 }
