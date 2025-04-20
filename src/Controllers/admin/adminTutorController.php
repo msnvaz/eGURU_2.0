@@ -312,7 +312,7 @@ class adminTutorController {
             exit();
         }
         
-        $filePath = __DIR__ . '/../../../public/uploads/qualification_proofs/' . $tutor['tutor_qualification_proof'];
+        $filePath = __DIR__ . '/../../../public/uploads/tutor_qualification_proof/' . $tutor['tutor_qualification_proof'];
         
         if (!file_exists($filePath)) {
             header("Location: /admin-tutor-requests?error=File not found");
