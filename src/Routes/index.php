@@ -215,7 +215,14 @@ $router->get('/admin-inbox-message/{id}', AdminInboxController::class, 'showMess
 $router->post('/admin-inbox-archive/{id}', AdminInboxController::class, 'archiveMessage');
 $router->post('/admin-inbox-unarchive/{id}', AdminInboxController::class, 'unarchiveMessage');
 $router->post('/admin-inbox-reply/{id}', AdminInboxController::class, 'replyToMessage');
+// Admin compose message routes
+$router->get('/admin-compose-message', AdminInboxController::class, 'showComposeForm');
+$router->post('/admin-send-message', AdminInboxController::class, 'sendMessage');
 
+// Admin outbox routes
+$router->get('/admin-outbox', AdminInboxController::class, 'showOutbox');
+$router->post('/admin-outbox', AdminInboxController::class, 'showOutbox'); // For handling search in outbox
+$router->get('/admin-outbox-message/{id}/{type}', AdminInboxController::class, 'showSentMessage');
 //admin update subject
 $router->post('/admin-dashboard/updatesubject', adminSubjectController::class, 'updateSubject');
 
