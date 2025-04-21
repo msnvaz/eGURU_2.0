@@ -36,6 +36,7 @@ class adminInboxController {
         
         // Get total messages for pagination
         $totalMessages = $this->model->getTotalMessages($status, $filter, $searchTerm);
+        $unreadCount = $this->model->getUnreadMessageCount();
         $perPage = 10; // Should match the value in the model
         $totalPages = ceil($totalMessages / $perPage);
         $currentPage = $page;
@@ -277,4 +278,6 @@ class adminInboxController {
         
         require_once __DIR__ . '/../../Views/admin/AdminOutbox.php';
     }
+
+    
 }

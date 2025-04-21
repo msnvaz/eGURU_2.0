@@ -48,9 +48,9 @@
 /* Tutor's Reply Section */
 .tutor-reply {
     margin-top: 20px;
-    background-color: #e0f7fa;
+    background-color: #CBF1F9;
     padding: 10px;
-    border-left: 5px solid #0288d1;
+    border-left: 5px solid #9198993d;
     border-radius: 5px;
 }
 
@@ -74,7 +74,7 @@
 .create-reply-container button {
     margin-top: 10px;
     padding: 8px 16px;
-    background-color: #4CAF50;
+    background-color: #ff4081;
     color: white;
     border: none;
     border-radius: 5px;
@@ -82,7 +82,7 @@
 }
 
 .create-reply-container button:hover {
-    background-color: #45a049;
+    background-color: #e03570;
 }
 
 /* Edit Reply Container */
@@ -108,7 +108,7 @@
 
 /* Save Changes Button */
 .btn-save {
-    background-color: #4CAF50; /* Green */
+    background-color: #ff4081; /* Green */
     color: white;
     border: none;
     padding: 8px 12px;
@@ -120,7 +120,7 @@
 }
 
 .btn-save:hover {
-    background-color: #388E3C; /* Darker green */
+    background-color: #e03570; /* Darker green */
 }
 
 /* Cancel Button */
@@ -145,7 +145,7 @@
 .tutor-reply {
     margin-top: 10px;
     padding: 10px;
-    background-color: #eef2ff; /* Light blue background */
+    background-color: #CBF1F9; /* Light blue background */
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -160,7 +160,7 @@
 
 /* Edit Reply Button */
 .btn-edit {
-    background-color: #4CAF50; /* Green */
+    background-color: #ff4081; /* Green */
     color: white;
     border: none;
     padding: 8px 12px;
@@ -172,5 +172,5 @@
 }
 
 .btn-edit:hover {
-    background-color: #388E3C; /* Darker green */
+    background-color: #e03570; /* Darker green */
 }

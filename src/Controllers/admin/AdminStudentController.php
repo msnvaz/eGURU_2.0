@@ -219,7 +219,7 @@ class adminStudentController {
     
         // Handle profile photo upload if provided
         if (isset($_FILES['profile_photo']) && !empty($_FILES['profile_photo']['name']) && $_FILES['profile_photo']['error'] == 0) {
-            $uploadDir = __DIR__ . '/../../../public/uploads/Student_Profiles/';
+            $uploadDir = __DIR__ . '/../../../public/images/student-uploads/profilePhotos/';
             
             // Ensure upload directory exists
             if (!file_exists($uploadDir)) {

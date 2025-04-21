@@ -46,6 +46,12 @@
         </form>
     </div>
 
+    <?php
+    // Check if the search form was submitted
+    $searchPerformed = !empty($_GET);
+    ?>
+
+    <?php if ($searchPerformed): ?>
     <div class="result-container">
         <h1>Tutor Results</h1>
 
@@ -80,4 +86,5 @@
 
         <button class="see-more">See More</button>
     </div>
+    <?php endif; ?>
 </section>

@@ -190,7 +190,7 @@
   .tutor-card {
     width: 18%;
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 20px;
     text-align: center;
     border-radius:10px;
@@ -294,5 +294,30 @@
     
     .tutor-tab-link {
       margin: 5px 0;
+    }
+
+    .tutor-card img.tutor-photo {
+      margin-bottom: 5px; /* Reduce space after the image */
+      margin-top: 0;
+    }
+    
+    .tutor-card-content {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    
+    /* Ensure proper layout for the card content */
+    .tutor-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    /* Make sure content is properly aligned */
+    .tutor-card-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px; /* This controls the spacing between elements */
     }
   }
