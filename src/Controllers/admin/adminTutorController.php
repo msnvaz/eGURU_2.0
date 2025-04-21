@@ -346,4 +346,102 @@ class adminTutorController {
         readfile($filePath);
         exit();
     }
+
+    public function showTutorUpgradeRequests() {
+        $tutorModel = new adminTutorModel();
+        $levels = $tutorModel->getAllTutorLevels();
+        $upgradeRequests = [];
+        
+        if (isset($_POST['search']) || isset($_GET['search'])) {
+            $searchTerm = $_POST['search_term'] ?? $_GET['search_term'] ?? '';
+            $level = $_POST['level'] ?? $_GET['level'] ?? '';
+            $startDate = $_POST['start_date'] ?? $_GET['start_date'] ?? '';
+            $endDate = $_POST['end_date'] ?? $_GET['end_date'] ?? '';
+            
+            $upgradeRequests = $tutorModel->searchTutorUpgradeRequests(
+                $searchTerm,
+                $level,
+                $startDate,
+                $endDate,
+                'pending'
+            );
+        } else {
+            $upgradeRequests = $tutorModel->getTutorUpgradeRequests('pending');
+        }
+        
+        require_once __DIR__ . '/../../Views/admin/AdminTutorUpgradeRequests.php';
+    }
+
+    public function searchTutorUpgradeRequests() {
+        $tutorModel = new adminTutorModel();
+        $levels = $tutorModel->getAllTutorLevels();
+        
+        $searchTerm = $_POST['search_term'] ?? '';
+        $level = $_POST['level'] ?? '';
+        $startDate = $_POST['start_date'] ?? '';
+        $endDate = $_POST['end_date'] ?? '';
+        
+        $upgradeRequests = $tutorModel->searchTutorUpgradeRequests(
+            $searchTerm,
+            $level,
+            $startDate,
+            $endDate,
+            'pending'
+        );
+        
+        require_once __DIR__ . '/../../Views/admin/AdminTutorUpgradeRequests.php';
+    }
+
+    public function approveUpgradeRequest($requestId) {
+        $tutorModel = new adminTutorModel();
+        $request = $tutorModel->getTutorUpgradeRequest($requestId);
+        
+        if (!$request) {
+            header("Location: /admin-tutor-upgrade-requests?error=Request not found");
+            exit();
+        }
+        
+        // Check if a custom level was specified
+        $customLevel = null;
+        if (!empty($_POST['custom_level'])) {
+            $customLevel = htmlspecialchars($_POST['custom_level']);
+        }
+        
+        if ($tutorModel->approveUpgradeRequest($requestId, $customLevel)) {
+            header("Location: /admin-tutor-upgrade-requests?success=Upgrade request approved");
+        } else {
+            header("Location: /admin-tutor-upgrade-requests?error=Failed to approve upgrade request");
+        }
+        exit();
+    }
+
+    public function rejectUpgradeRequest($requestId) {
+        $tutorModel = new adminTutorModel();
+        $request = $tutorModel->getTutorUpgradeRequest($requestId);
+        
+        if (!$request) {
+            header("Location: /admin-tutor-upgrade-requests?error=Request not found");
+            exit();
+        }
+        
+        if ($tutorModel->rejectUpgradeRequest($requestId)) {
+            header("Location: /admin-tutor-upgrade-requests?success=Upgrade request rejected");
+        } else {
+            header("Location: /admin-tutor-upgrade-requests?error=Failed to reject upgrade request");
+        }
+        exit();
+    }
+
+    public function showUpgradeRequestDetails($requestId) {
+        $tutorModel = new adminTutorModel();
+        $request = $tutorModel->getTutorUpgradeRequest($requestId);
+        $levels = $tutorModel->getAllTutorLevels();
+        
+        if (!$request) {
+            header("Location: /admin-tutor-upgrade-requests?error=Request not found");
+            exit();
+        }
+        
+        require_once __DIR__ . '/../../Views/admin/AdminTutorUpgradeRequestDetails.php';
+    }
 }

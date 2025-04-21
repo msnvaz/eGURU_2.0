@@ -94,7 +94,7 @@
    <a href="/admin-tutor-grading" class="<?= $current_path == '/admin-tutor-grading' ? 'current-page' : '' ?>">
        <i class="fa-solid fa-stairs"></i>Tutor Grading
    </a>
-   <a href="/admin-fee-requests" class="<?= $current_path == '/admin-fee-requests' ? 'current-page' : '' ?>">
+   <a href="/admin-tutor-upgrade-requests" class="<?= $current_path == '/admin-fee-requests' ? 'current-page' : '' ?>">
        <i class="fa-solid fa-money-bill-1"></i>Fee Requests
    </a>
    <a href="/admin-ads" class="<?= $current_path == '/admin-ads' ? 'current-page' : '' ?>">
