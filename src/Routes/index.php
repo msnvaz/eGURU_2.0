@@ -62,6 +62,7 @@ use App\Controllers\tutor\TutorLogoutController;
 use App\Controllers\tutor\TutorFeeRequestController;
 use App\Controllers\tutor\TutorStudyMaterialsController;
 use App\Controllers\tutor\TutorTimeSlotController;
+use App\Controllers\tutor\TutorStudentProfileController;
 
 
 $router = new Router();
@@ -153,6 +154,7 @@ $router->post('/submit-upgrade-request', TutorFeeRequestController::class, 'subm
 $router->post('/cancel-upgrade-request', TutorFeeRequestController::class, 'cancelUpgradeRequest');
 $router->get('/tutor-timeslot', TutorTimeSlotController::class, 'showTutorTimeSlotPage'); 
 $router->post('/tutor-timeslot-save', TutorTimeSlotController::class, 'saveTutorTimeSlots');
+$router->get('/tutor-student-profile/{id}', TutorStudentProfileController::class, 'showTutorStudentProfile');
 
 
 //student profile for admin
