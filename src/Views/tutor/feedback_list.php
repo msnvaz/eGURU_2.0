@@ -98,40 +98,32 @@ $successMessage = isset($_GET['success']) && !empty($_GET['success']) ? $_GET['s
 $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error'] : null;
 ?>
 
-<!-- ✅ MODAL TEMPLATE -->
-<div id="messageModal" class="modal" style="display: <?= ($successMessage || $errorMessage) ? 'block' : 'none' ?>;">
-    <div class="modal-content">
-        <span class="close" onclick="closeMessageModal()">&times;</span>
-        <h2 id="modalTitle"><?= $successMessage ? 'Success' : ($errorMessage ? 'Error' : '') ?></h2>
-        <hr style="color:#adb5bd;">
-        <br>
-        <p id="modalMessage" style="text-align:center; color: <?= $successMessage ? 'black' : 'red' ?>;">
-            <?= htmlspecialchars($successMessage ?? $errorMessage) ?>
-        </p>
-        <div class="modal-actions">
-            <button style="margin-left:43%;" class="confirm-button" onclick="closeMessageModal()">OK</button>
+<?php if ($successMessage || $errorMessage): ?>
+    <div id="messageModal" class="modal" style="display: block;">
+        <div class="modal-content">
+            <span class="close" onclick="closeMessageModal()">&times;</span>
+            <h2><?= $successMessage ? 'Success' : 'Error' ?></h2>
+            <hr style="color:#adb5bd;">
+            <br>
+            <p style="text-align:center; color: <?= $successMessage ? 'black' : 'red' ?>;">
+                <?= htmlspecialchars($successMessage ?? $errorMessage) ?>
+            </p>
+            <div class="modal-actions" >
+                <button style="margin-left:43%;" class="confirm-button" onclick="closeMessageModal()">OK</button>
+            </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
 
 <script>
-function closeMessageModal() {
-    document.getElementById('messageModal').style.display = 'none';
-    const url = new URL(window.location);
-    url.searchParams.delete('success');
-    url.searchParams.delete('error');
-    window.history.replaceState({}, document.title, url);
-}
-
-// ✅ Show modal with dynamic message
-function showMessage(message, isSuccess = false) {
-    document.getElementById("messageModal").style.display = "block";
-    document.getElementById("modalTitle").innerText = isSuccess ? "Success" : "Error";
-    document.getElementById("modalMessage").innerText = message;
-    document.getElementById("modalMessage").style.color = isSuccess ? "black" : "red";
-}
+    function closeMessageModal() {
+        document.getElementById('messageModal').style.display = 'none';
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        url.searchParams.delete('error');
+        window.history.replaceState({}, document.title, url);
+    }
 </script>
-
 
 <!-- Sidebar -->
 <?php include 'sidebar.php'; ?>
@@ -194,14 +186,20 @@ function showMessage(message, isSuccess = false) {
                 </div>
 
                 <div class="edit-reply-container" id="editContainer_<?= $feedback['feedback_id'] ?>" style="display: none;">
-                    <textarea id="editReply_<?= $feedback['feedback_id'] ?>"><?= htmlspecialchars($feedback['tutor_reply']) ?></textarea>
-                    <button class="btn-save" onclick="updateReply(<?= $feedback['feedback_id'] ?>)">Save Changes</button>
-                    <button class="btn-cancel" onclick="cancelEdit(<?= $feedback['feedback_id'] ?>)">Cancel</button>
+                    <form method="POST" action="/update-reply">
+                        <input type="hidden" name="feedback_id" value="<?= $feedback['feedback_id'] ?>">
+                        <textarea name="reply" id="editReply_<?= $feedback['feedback_id'] ?>"><?= htmlspecialchars($feedback['tutor_reply']) ?></textarea>
+                        <button type="submit" class="btn-save">Save Changes</button>
+                        <button type="button" class="btn-cancel" onclick="cancelEdit(<?= $feedback['feedback_id'] ?>)">Cancel</button>
+                    </form>
                 </div>
             <?php else : ?>
                 <div class="create-reply-container">
-                    <textarea id="reply_<?= $feedback['feedback_id'] ?>" placeholder="Type your reply..."></textarea>
-                    <button class="btn-reply" onclick="submitReply(<?= $feedback['feedback_id'] ?>)">Save Reply</button>
+                    <form method="POST" action="/submit-reply">
+                        <input type="hidden" name="feedback_id" value="<?= $feedback['feedback_id'] ?>">
+                        <textarea name="reply" id="reply_<?= $feedback['feedback_id'] ?>" placeholder="Type your reply..."></textarea>
+                        <button type="submit" class="btn-reply">Save Reply</button>
+                    </form>
                 </div>
             <?php endif; ?>
         </div>
@@ -209,71 +207,16 @@ function showMessage(message, isSuccess = false) {
 </div>
 
 <script>
-function submitReply(feedbackId) {
-    const replyText = document.getElementById(`reply_${feedbackId}`).value.trim();
-    if (!replyText) {
-        showMessage("Reply cannot be empty.", false);
-        return;
-    }
-
-    fetch('/submit-reply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `feedback_id=${feedbackId}&reply=${encodeURIComponent(replyText)}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            window.location.href = window.location.pathname + '?success=Reply saved successfully';
-        } else {
-            showMessage(data.error || 'An error occurred.', false);
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        showMessage("An unexpected error occurred.", false);
-    });
-}
-
-
 function editReply(feedbackId) {
-    document.getElementById(`replyContainer_${feedbackId}`).style.display = 'none';
-    document.getElementById(`editContainer_${feedbackId}`).style.display = 'block';
+    document.getElementById("replyContainer_" + feedbackId).style.display = 'none';
+    document.getElementById("editContainer_" + feedbackId).style.display = 'block';
 }
 
 function cancelEdit(feedbackId) {
-    document.getElementById(`replyContainer_${feedbackId}`).style.display = 'block';
-    document.getElementById(`editContainer_${feedbackId}`).style.display = 'none';
+    document.getElementById("replyContainer_" + feedbackId).style.display = 'block';
+    document.getElementById("editContainer_" + feedbackId).style.display = 'none';
 }
-
-function updateReply(feedbackId) {
-    const updatedText = document.getElementById(`editReply_${feedbackId}`).value.trim();
-    if (!updatedText) {
-        showMessage("Reply cannot be empty.", false);
-        return;
-    }
-
-    fetch('/update-reply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `feedback_id=${feedbackId}&reply=${encodeURIComponent(updatedText)}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            window.location.href = window.location.pathname + '?success=Reply updated successfully';
-        } else {
-            showMessage(data.error || 'An error occurred.', false);
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        showMessage("An unexpected error occurred.", false);
-    });
-}
-
 </script>
 
 </body>
-
 </html>
