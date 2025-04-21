@@ -455,7 +455,7 @@ class adminTutorController {
             exit();
         }
         
-        $filePath = __DIR__ . '/../../../public/uploads/study_materials/' . $material['material_path'];
+        $filePath = __DIR__ . '/../../../public/uploads/tutor_study_materials/' . $material['material_path'];
         
         if (!file_exists($filePath)) {
             header("Location: /admin-tutors?error=File not found");

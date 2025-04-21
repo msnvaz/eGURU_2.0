@@ -120,7 +120,7 @@
                         label: 'Student Registrations',
                         data: <?= json_encode($studentRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
                         borderColor: 'rgba(60, 108, 164, 0.86)',
-                        backgroundColor: 'rgba(79, 111, 147, 0.2)',
+                        backgroundColor: 'rgb(0, 119, 255)',
                         borderWidth: 1.5,
                         tension: 0.3
                     },
@@ -128,7 +128,7 @@
                         label: 'Tutor Registrations',
                         data: <?= json_encode($tutorRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
                         borderColor: 'rgba(238, 109, 77, 0.65)',
-                        backgroundColor: 'rgba(238, 109, 77, 0.65)',
+                        backgroundColor: 'rgba(255, 119, 85, 0.65)',
                         borderWidth: 4,
                         tension: 0.3
                     }

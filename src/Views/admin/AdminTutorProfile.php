@@ -167,7 +167,9 @@
                         ?>
                     </span>
                 </div>
-                <div class="viewprofile-sections">
+            </div>
+        </div>
+        <div class="viewprofile-sections">
                     <!-- Tutor Advertisements Section -->
                     <div class="section-container">
                         <h3>Advertisements</h3>
@@ -175,7 +177,7 @@
                             <p>No advertisements found for this tutor.</p>
                         <?php else: ?>
                             <div class="ad-grid">
-                                <?php foreach ($advertisements as $ad): ?>) ?>
+                                <?php foreach ($advertisements as $ad): ?>
                                     <div class="ad-card">
                                         <div class="ad-image">
                                             <?php if (!empty($ad['ad_display_pic'])): ?>
@@ -257,9 +259,8 @@
                     </span>
                 </div>
                 <?php endif; ?>
-            </div>
-        </div>
     </div>
     </div>
+    
 </body>
 </html>

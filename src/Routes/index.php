@@ -297,6 +297,9 @@ $router->get('/admin-tutor-upgrade-details/{id}', adminTutorController::class, '
 $router->post('/admin-approve-upgrade/{id}', adminTutorController::class, 'approveUpgradeRequest');
 $router->post('/admin-reject-upgrade/{id}', adminTutorController::class, 'rejectUpgradeRequest');
 
+//tutor study materials /download-material/38
+$router->post('download-material/{id}', adminTutorController::class, 'downloadStudyMaterial');
+
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');
 $router->post('/manager-login', ManagerLoginController::class, 'checkManagerLogin');

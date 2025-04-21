@@ -92,8 +92,12 @@
 /* Advertisement Grid */
 .ad-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* For exactly 3 columns */
     gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+    height: auto;
+    padding: 0 20px;
 }
 
 .ad-card {
@@ -110,6 +114,7 @@
 
 .ad-image {
     height: 180px;
+    width: auto;
     overflow: hidden;
     background-color: #f5f5f5;
     display: flex;
