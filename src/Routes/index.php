@@ -276,6 +276,17 @@ $router->post('/admin-approve-tutor/{id}', adminTutorController::class, 'approve
 $router->post('/admin-reject-tutor/{id}', adminTutorController::class, 'rejectTutorRequest');
 $router->get('/download-qualification-proof/{id}', adminTutorController::class, 'downloadQualificationProof');
 
+// Tutor upgrade requests routes
+$router->get('/admin-tutor-upgrade-requests', adminTutorController::class, 'showTutorUpgradeRequests');
+$router->post('/admin-tutor-upgrade-requests', adminTutorController::class, 'searchTutorUpgradeRequests');
+
+// Tutor upgrade request details route
+$router->get('/admin-tutor-upgrade-details/{id}', adminTutorController::class, 'showUpgradeRequestDetails');
+
+// Approve/reject upgrade request routes
+$router->post('/admin-approve-upgrade/{id}', adminTutorController::class, 'approveUpgradeRequest');
+$router->post('/admin-reject-upgrade/{id}', adminTutorController::class, 'rejectUpgradeRequest');
+
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');
 $router->post('/manager-login', ManagerLoginController::class, 'checkManagerLogin');
