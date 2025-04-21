@@ -12,7 +12,7 @@ class TutorTimeSlotController {
     }
 
     public function showTutorTimeSlotPage() {
-        session_start();
+        //session_start();
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -27,7 +27,7 @@ class TutorTimeSlotController {
     }
 
     public function saveTutorTimeSlots() {
-        session_start();
+        //session_start();
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
