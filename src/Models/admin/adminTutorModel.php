@@ -70,10 +70,14 @@ class adminTutorModel {
 
     public function getTutorGrades() {
         try {
-            $query = "SELECT DISTINCT tutor_level_id FROM tutor 
-                     WHERE tutor_level_id IS NOT NULL 
-                     ORDER BY tutor_level_id";
-            $stmt = $this->conn->prepare($query);
+            //join tutor_level table to get the tutor_level_name only distinct values for tutor levels
+            $query = "SELECT DISTINCT tl.tutor_level_id, tl.tutor_level, tl.tutor_level_qualification, tl.tutor_pay_per_hour, tl.tutor_level_color 
+                      FROM tutor_level tl
+                      JOIN tutor t ON tl.tutor_level_id = t.tutor_level_id
+                      WHERE t.tutor_status = 'set'
+                      ORDER BY tl.tutor_level_id";
+            $stmt = $this->conn->prepare($query);   
+            
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -327,6 +331,51 @@ class adminTutorModel {
         } catch (PDOException $e) {
             error_log('Error fetching tutor levels: ' . $e->getMessage());
             return [];
+        }
+    }
+
+    public function getTutorAdvertisements($tutorId) {
+        try {
+            $query = "SELECT * FROM tutor_advertisement 
+                      WHERE tutor_id = :tutorId 
+                      ORDER BY ad_created_at DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutor advertisements: ' . $e->getMessage());
+            return [];
+        }
+    }
+    
+    public function getTutorStudyMaterials($tutorId) {
+        try {
+            $query = "SELECT m.*, s.subject_name 
+                      FROM tutor_study_material m
+                      LEFT JOIN subject s ON m.subject_id = s.subject_id
+                      WHERE m.tutor_id = :tutorId 
+                      ORDER BY m.material_id DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutor study materials: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getStudyMaterial($materialId) {
+        try {
+            $query = "SELECT * FROM tutor_study_material WHERE material_id = :materialId";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':materialId', $materialId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching study material: ' . $e->getMessage());
+            return null;
         }
     }
 }

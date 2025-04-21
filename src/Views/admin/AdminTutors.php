@@ -79,7 +79,7 @@
                                 <option value="<?= htmlspecialchars($grade['tutor_level_id']) ?>" 
                                     <?= (isset($_POST['grade']) && $_POST['grade'] == $grade['tutor_level_id']) || 
                                         (isset($_GET['grade']) && $_GET['grade'] == $grade['tutor_level_id']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($grade['tutor_level_id']) ?>
+                                    <?= htmlspecialchars($grade['tutor_level']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
