@@ -66,7 +66,7 @@ class TutorStudyMaterialsController {
                         $this->model->addStudyMaterial($fileName, $description, $tutorId, $subjectId, $grade);
                     }
         
-                    header('Location: /tutor-uploads');
+                    header('Location: /tutor-uploads?success=Upload Successful');
                     exit();
                 } else {
                     echo "Failed to upload the file. Please try again.";
@@ -81,14 +81,14 @@ class TutorStudyMaterialsController {
     public function deleteStudyMaterial() {
         if (isset($_POST['id'])) {
             $this->model->deleteStudyMaterialById($_POST['id']);
-            header("Location: /tutor-uploads");
+            header("Location: /tutor-uploads?success=Delete Successful");
         }
     }
 
     public function updateStudyMaterial() {
         if (isset($_POST['id']) && isset($_POST['description'])) {
             $this->model->updateStudyMaterial($_POST['id'], $_POST['description'], $_POST['grade'], $_POST['subject_id']);
-            header("Location: /tutor-uploads");
+            header("Location: /tutor-uploads?success=Update Successful");
         }
     }
 }

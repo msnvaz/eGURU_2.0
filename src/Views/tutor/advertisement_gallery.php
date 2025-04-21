@@ -95,6 +95,82 @@
             background-color: #CBF1F9;
             margin-top:10%;
             border-radius: 2%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.33);
+        }
+
+                /* Modal Background */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.59); /* dark background */
+        }
+
+        /* Modal Content Box */
+        .modal-content {
+            border-top: 6px solid #e03570;
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+            align-items: center;
+        }
+
+        /* Close Button (X) */
+        .close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* Modal Buttons */
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .confirm-button {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .confirm-button:hover {
+            background-color: #e03570;
+        }
+
+        .modal-cancel-button {
+            background-color: #ddd;
+            color: #333;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-cancel-button:hover {
+            background-color: #bbb;
         }
 
 
@@ -111,6 +187,38 @@
 
 <!-- Header -->
 <?php include '../src/Views/tutor/header.php'; ?>
+
+<?php
+$successMessage = isset($_GET['success']) && !empty($_GET['success']) ? $_GET['success'] : null;
+$errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error'] : null;
+?>
+
+<?php if ($successMessage || $errorMessage): ?>
+    <div id="messageModal" class="modal" style="display: block;">
+        <div class="modal-content">
+            <span class="close" onclick="closeMessageModal()">&times;</span>
+            <h2><?= $successMessage ? 'Success' : 'Error' ?></h2>
+            <hr style="color:#adb5bd;">
+            <br>
+            <p style="text-align:center; color: <?= $successMessage ? 'black' : 'red' ?>;">
+                <?= htmlspecialchars($successMessage ?? $errorMessage) ?>
+            </p>
+            <div class="modal-actions" >
+                <button style="margin-left:43%;" class="confirm-button" onclick="closeMessageModal()">OK</button>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<script>
+    function closeMessageModal() {
+        document.getElementById('messageModal').style.display = 'none';
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        url.searchParams.delete('error');
+        window.history.replaceState({}, document.title, url);
+    }
+</script>
 
         <div class="ad_page_container">
             <div class="upload-box">
