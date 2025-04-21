@@ -139,7 +139,11 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 2%;">
                 <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img" style="width: 40px; height: 40px; border-radius: 50%;">
                 <div>
-                    <strong><?= htmlspecialchars($feedback['student_name']) ?></strong> - Session ID: <?= htmlspecialchars($feedback['session_id']) ?>
+                    <div>
+                        <a href="/tutor-student-profile/<?= $feedback['student_id'] ?>">
+                        <strong><?= htmlspecialchars($feedback['student_name']) ?></strong> - Session ID: <?= htmlspecialchars($feedback['session_id']) ?>
+                    </div>
+                     
                 </div>
             </div>
 
