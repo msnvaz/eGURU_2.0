@@ -113,21 +113,33 @@
         new Chart(studentRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                datasets: [{
-                    label: 'Student Registrations',
-                    data: <?= json_encode($studentRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
-                    borderColor: '#293241',
-                    backgroundColor: 'rgba(74, 144, 226, 0.2)',
-                    borderWidth: 2,
-                    tension: 0.3
-                }]
+                labels: ['January', 'February', 'March', 'April', 'May', 'June',
+                        'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [
+                    {
+                        label: 'Student Registrations',
+                        data: <?= json_encode($studentRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
+                        borderColor: 'rgba(60, 108, 164, 0.86)',
+                        backgroundColor: 'rgba(79, 111, 147, 0.2)',
+                        borderWidth: 1.5,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Tutor Registrations',
+                        data: <?= json_encode($tutorRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
+                        borderColor: 'rgba(238, 109, 77, 0.65)',
+                        backgroundColor: 'rgba(238, 109, 77, 0.65)',
+                        borderWidth: 4,
+                        tension: 0.3
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false
             }
         });
+
     
         // Teacher Registrations Over Time
         const teacherRegistrationsCtx = document.getElementById('teacherRegistrationsChart').getContext('2d');
