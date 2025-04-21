@@ -15,7 +15,7 @@ class TutorFeeRequestController {
     }
 
     public function showFeeRequestPage() {
-        session_start();
+        //session_start();
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -42,7 +42,7 @@ class TutorFeeRequestController {
     }
 
     public function submitLevelUpgradeRequest() {
-        session_start();
+        //session_start();
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -65,7 +65,7 @@ class TutorFeeRequestController {
     }
     
     public function cancelUpgradeRequest() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['tutor_id'])) {
             header("Location: /tutor-login");
             exit;
