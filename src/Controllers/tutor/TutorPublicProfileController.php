@@ -17,7 +17,7 @@ class TutorPublicProfileController {
 
     public function showPublicProfilePage() {
         
-       // session_start(); // Ensure session is started
+        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -43,7 +43,7 @@ class TutorPublicProfileController {
 
     public function ShowEditprofile() {
 
-       // session_start(); // Ensure session is started
+        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -123,7 +123,7 @@ class TutorPublicProfileController {
                 $this->model->updateTutorGrades($_SESSION['tutor_id'], $grades);
     
                 // Redirect after successful update
-                header('Location: /tutor-public-profile');
+                header('Location: /tutor-public-profile?success=Profile Update Successful');
                 exit();
     
             } catch (\Exception $e) {

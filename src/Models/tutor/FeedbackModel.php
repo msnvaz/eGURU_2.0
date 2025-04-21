@@ -20,7 +20,8 @@ class FeedbackModel {
                     sf.feedback_id, 
                     sf.student_feedback, 
                     sf.time_created,
-                    sf.session_id, 
+                    sf.session_id,
+                    sf.session_rating, 
                     s.student_profile_photo,
                     CONCAT(s.student_first_name, ' ', s.student_last_name) AS student_name,
                     CONCAT(t.tutor_first_name, ' ', t.tutor_last_name) AS tutor_name,
@@ -68,7 +69,7 @@ class FeedbackModel {
         }
 
         // Save the tutor's reply to the feedback
-        $query = "UPDATE ssession_feedback SET tutor_reply = :replyMessage WHERE feedback_id = :feedbackId";
+        $query = "UPDATE session_feedback SET tutor_reply = :replyMessage WHERE feedback_id = :feedbackId";
         
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':replyMessage', $replyMessage);
