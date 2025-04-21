@@ -141,7 +141,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                 <div>
                     <div>
                         <a href="/tutor-student-profile/<?= $feedback['student_id'] ?>">
-                        <strong><?= htmlspecialchars($feedback['student_name']) ?></strong> - Session ID: <?= htmlspecialchars($feedback['session_id']) ?>
+                        <strong><?= htmlspecialchars($feedback['student_name']) ?></strong> - Session ID: <?= htmlspecialchars($feedback['session_id']) ?></a>
                     </div>
                      
                 </div>

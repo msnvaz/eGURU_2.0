@@ -201,7 +201,7 @@
   <div style="background-color:#fff; margin:15% auto; padding:20px; border-radius:10px; width:80%; max-width:400px; text-align:center;">
     <h2>Registration Successful</h2>
     <p>You have been successfully registered.</p>
-    <button onclick="redirectToLogin()" style="padding:10px 20px; background-color:#28a745; color:white; border:none; border-radius:5px;">OK</button>
+    <button onclick="redirectToLogin()" style="padding:10px 20px; background-color:#ff4081; color:white; border:none; border-radius:5px;">OK</button>
   </div>
 </div>
 

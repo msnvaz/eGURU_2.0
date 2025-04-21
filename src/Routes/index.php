@@ -130,6 +130,7 @@ $router->post('/student-profile-delete', StudentPublicProfileController::class,'
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
 $router->post('/tutor-login-action', TutorLoginController::class, 'handleLogin'); // Handle login form submission
 $router->get('/tutor-signup', TutorSignupController::class, 'ShowTutorSignupPage'); // Show signup page
+$router->post('/tutor-signup-action', TutorSignupController::class, 'handleSignup');// Handle signup form submission
 $router->get('/tutor-dashboard', TutorDashboardController::class, 'ShowTutorDashboardPage'); // Redirect only if logged in
 $router->get('/tutor-event', TutorEventController::class, 'showEventPage'); 
 $router->get('/tutor-request', TutorRequestController::class, 'showrequestPage'); 
