@@ -30,8 +30,15 @@ h2 {
     background: #fefefe;
     padding: 20px;
     padding-bottom: 60px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.request-box{
+    width :auto;
+    padding: 20px;
+    background-color: #CBF1F9;
+    margin-top:10%;
+    border-radius: 5%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.208);
 }
 
 .request-form {
@@ -138,6 +145,7 @@ th, td {
 
 /* Modal Content Box */
 .modal-content {
+    border-top: 6px solid #e03570;
     background-color: #fff;
     margin: 10% auto;
     padding: 30px;

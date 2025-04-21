@@ -15,7 +15,7 @@ class TutorFeeRequestController {
     }
 
     public function showFeeRequestPage() {
-        //session_start();
+        session_start();
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -42,7 +42,7 @@ class TutorFeeRequestController {
     }
 
     public function submitLevelUpgradeRequest() {
-        //session_start();
+        session_start();
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -56,16 +56,16 @@ class TutorFeeRequestController {
             $requestedLevel = $_POST['requested_level'];
             $requestBody = $_POST['request_body'];
             $this->model->submitUpgradeRequest($tutorId, $currentLevel, $requestedLevel, $requestBody);
-            header("Location: /tutor-fee-request?success=1");
+            header("Location: /tutor-fee-request?success=Request Successful");
             exit;
         } else {
-            header("Location: /tutor-fee-request?error=InvalidRequest");
+            header("Location: /tutor-fee-request?error=Invalid Request");
             exit;   
         }
     }
     
     public function cancelUpgradeRequest() {
-        //session_start();
+        session_start();
         if (!isset($_SESSION['tutor_id'])) {
             header("Location: /tutor-login");
             exit;
@@ -77,7 +77,7 @@ class TutorFeeRequestController {
             $this->model->cancelUpgradeRequest($requestId);
         }
     
-        header("Location: /tutor-fee-request"); // redirect back to the panel
+        header("Location: /tutor-fee-request?success=Request Cancel Successful"); // redirect back to the panel
         exit;
     }
     

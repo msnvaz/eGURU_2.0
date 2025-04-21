@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/css/tutor/sidebar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     
+    
+    
     </head>
 <body>
 
@@ -19,6 +21,40 @@
 
 <!-- Header -->
 <?php include '../src/Views/tutor/header.php'; ?>
+
+<?php
+$successMessage = isset($_GET['success']) && !empty($_GET['success']) ? $_GET['success'] : null;
+$errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error'] : null;
+?>
+
+<?php if ($successMessage || $errorMessage): ?>
+    <div id="messageModal" class="modal" style="display: block;">
+        <div class="modal-content">
+            <span class="close" onclick="closeMessageModal()">&times;</span>
+            <h2><?= $successMessage ? 'Success' : 'Error' ?></h2>
+            <hr style="color:#adb5bd;">
+            <br>
+            <p style="text-align:center; color: <?= $successMessage ? 'black' : 'red' ?>;">
+                <?= htmlspecialchars($successMessage ?? $errorMessage) ?>
+            </p>
+            <div class="modal-actions" >
+                <button style="margin-left:43%;" class="confirm-button" onclick="closeMessageModal()">OK</button>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+
+<script>
+    function closeMessageModal() {
+        document.getElementById('messageModal').style.display = 'none';
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        url.searchParams.delete('error');
+        window.history.replaceState({}, document.title, url);
+    }
+</script>
+
 
 
     <div class="upgrade-form">
@@ -49,25 +85,27 @@
 
         <br>
     
-        <h2>Request Tutor Level Upgrade</h2>
-        <br>
-        <form class="request-form" action="/submit-upgrade-request" method="POST">
-            <label for="requested_level">Choose Level to Upgrade To:</label>
-            <select name="requested_level" required>
-                <option value="" style="text-align: center;">-- Select --</option>
-                <?php foreach ($tutorLevels as $level): ?>
-                    <option style="text-align: center;" value="<?= htmlspecialchars($level['tutor_level_id']) ?>">
-                        <?= htmlspecialchars($level['tutor_level']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+        <div class="request-box">
+            <h2>Request Tutor Level Upgrade</h2>
+            <br>
+            <form class="request-form" action="/submit-upgrade-request" method="POST">
+                <label for="requested_level">Choose Level to Upgrade To:</label>
+                <select name="requested_level" required>
+                    <option value="" style="text-align: center;">-- Select --</option>
+                    <?php foreach ($tutorLevels as $level): ?>
+                        <option style="text-align: center;" value="<?= htmlspecialchars($level['tutor_level_id']) ?>">
+                            <?= htmlspecialchars($level['tutor_level']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
 
 
-            <label for="request_body">Request Message:</label>
-            <textarea name="request_body" rows="4" placeholder="Explain your reason for upgrade..." required></textarea>
+                <label for="request_body">Request Message:</label>
+                <textarea name="request_body" rows="4" placeholder="Explain your reason for upgrade..." required></textarea>
 
-            <button type="submit" class="request-button">Submit Request</button>
-        </form>
+                <button type="submit" class="request-button">Submit Request</button>
+            </form>
+        </div>
 
         <br><br>
 
@@ -142,6 +180,8 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2>Cancel Request</h2>
+        <hr style="color:#adb5bd;">
+        <br>
         <p>Are you sure you want to cancel this level upgrade request?</p>
         <form action="/cancel-upgrade-request" method="POST">
             <input type="hidden" name="request_id" id="modalRequestId">
@@ -152,6 +192,8 @@
         </form>
     </div>
 </div>
+
+
 
 
 <script>
