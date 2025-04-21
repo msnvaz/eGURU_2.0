@@ -1,0 +1,162 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Main Content Area */
+.bodyform {
+    margin-top: 5%;
+    margin-left: 20%; 
+    margin-right: 5%;
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Profile Content */
+.profile-content {
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.viewprofile-header {
+    display: flex;
+    align-items: center;
+}
+
+/* Profile Picture */
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-right:3%;
+}
+
+.profile-picture img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.profile-picture img:hover {
+    transform: scale(1.05);
+}
+
+/* Profile Section */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.section-row {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.section-box {
+    background-color: #f9fafc;
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.section-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section-box h3 {
+    color: #003399;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e6e9ef;
+    font-size: 1.2rem;
+}
+
+.section-box p {
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.section-box p:last-child {
+    margin-bottom: 0;
+}
+
+.section-box p strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 1100px) {
+    .section-row {
+        flex-direction: column;
+    }
+    
+    .section-box {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .bodyform {
+        margin-left: 0;
+        padding: 20px 15px;
+    }
+    
+    .profile-content {
+        padding: 20px;
+    }
+    
+    .profile-picture img {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* Animation for page load */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-content {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.section-box {
+    animation: fadeIn 0.6s ease forwards;
+    animation-delay: calc(var(--i, 0) * 0.1s);
+}
+
+/* You might need to adjust these based on your sidebar dimensions */
+@media (min-width: 769px) {
+    body.sidebar-collapsed .bodyform {
+        margin-left: 70px;
+    }
+}
