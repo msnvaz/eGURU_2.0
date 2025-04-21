@@ -246,6 +246,9 @@ $router->post('/admin-dashboard/restoresubject', adminSubjectController::class, 
 $router->get('/admin-inbox', AdminInboxController::class, 'index'); // Show inbox
 $router->post('/admin-inbox/send', AdminInboxController::class, 'sendMessage'); // Handle sending a message
 
+$router->get('/admin-tutor-reports', AdminInboxController::class, 'showTutorReports');
+$router->get('/admin-tutor-report/{id}', AdminInboxController::class, 'showTutorReport');
+
 //transactions
 $router->get('/admin-transactions', AdminTransactionController::class, 'showTransactions'); // Show all transactions and handle search
 $router->post('/admin-transactions', AdminTransactionController::class, 'showTransactions'); // Allow search functionality

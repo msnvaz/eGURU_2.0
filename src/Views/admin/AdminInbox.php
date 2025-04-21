@@ -18,16 +18,17 @@
         <br>
         <div class="admin-dashboard">
         
-        <div class="inbox-tabs">
-            <a href="/admin-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox
-            <?php if ($unreadCount > 0): ?>
-                <i class="fa-solid fa-circle-exclamation" style="margin:0;"></i>
-            <?php endif; ?>
-            </a>
-            <a href="/admin-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
-            <a href="/admin-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
-            <a href="/admin-outbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'outbox') ? 'active' : '' ?>">Outbox</a>
-        </div>
+            <div class="inbox-tabs">
+                <a href="/admin-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox
+                <?php if ($unreadCount > 0): ?>
+                    <i class="fa-solid fa-circle-exclamation" style="margin:0;"></i>
+                <?php endif; ?>
+                </a>
+                <a href="/admin-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
+                <a href="/admin-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
+                <a href="/admin-outbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'outbox') ? 'active' : '' ?>">Outbox</a>
+                <a href="/admin-tutor-reports" class="tab-link <?= (isset($activeTab) && $activeTab === 'reports') ? 'active' : '' ?>">Tutor Reports</a>
+            </div>
             
             <form method="POST" class="search-form" action="/admin-inbox">
                 <div class="searchbar">
