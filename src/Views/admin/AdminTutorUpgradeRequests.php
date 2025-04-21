@@ -8,215 +8,9 @@
     <link rel="stylesheet" href="/css/admin/Admin.css">
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/admin/AdminTutorRequests.css">
+    <link rel="stylesheet" href="/css/admin/AdminTutorUpgradeRequests.css">
     <style>
-        .upgrade-container {
-            padding: 20px;
-        }
         
-        .filters-container {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        
-        .search-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .search-form .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .search-form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        
-        .search-form input, .search-form select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .search-form button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .search-form .reset-btn {
-            background-color: #f44336;
-        }
-        
-        .requests-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            margin-top: 10px;
-        }
-        
-        .request-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-            overflow: hidden;
-        }
-        
-        .request-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-        }
-        
-        .request-content {
-            padding: 10px;
-        }
-        
-        .request-profile {
-            text-align: center;
-            margin-bottom: 5px;
-        }
-        
-        .request-photo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-        
-        .request-name {
-            margin: 0;
-            font-size: 18px;
-            color: #333;
-        }
-        
-        .request-email {
-            margin: 5px 0 0;
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .request-details {
-            margin-bottom: 5px;
-        }
-        
-        .request-detail {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .request-detail-label {
-            font-weight: 500;
-            color: #555;
-        }
-        
-        .level-badges {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-        }
-        
-        .level-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            color: white;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .current-level {
-            background-color: #3498db;
-        }
-        
-        .requested-level {
-            background-color: #9b59b6;
-        }
-        
-        .request-body {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-style: italic;
-            color: #555;
-        }
-        
-        .request-actions {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        
-        .action-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        
-        .view-btn {
-            background-color: #3498db;
-        }
-        
-        .approve-btn {
-            background-color: #2ecc71;
-        }
-        
-        .reject-btn {
-            background-color: #e74c3c;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #666;
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .pagination a {
-            padding: 8px 12px;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            color: #333;
-            text-decoration: none;
-        }
-        
-        .pagination a.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .btn-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
     </style>
 </head>
 <body>
@@ -239,51 +33,6 @@
                 </div>
             <?php endif; ?>
             
-            <!--<div class="filters-container">
-                <form action="/admin-tutor-upgrade-requests" method="POST" class="search-form">
-                    <input type="hidden" name="search" value="1">
-                    
-                    <div class="form-group">
-                        <label for="search_term">Search:</label>
-                        <input type="text" id="search_term" name="search_term" placeholder="Name, Email, ID..." value="<?= htmlspecialchars($_POST['search_term'] ?? $_GET['search_term'] ?? '') ?>">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="level">Requested Level:</label>
-                        <select id="level" name="level">
-                            <option value="">All Levels</option>
-                            <?php foreach ($levels as $level): ?>
-                                <option value="<?= htmlspecialchars($level['tutor_level_id']) ?>" <?= (isset($_POST['level']) || isset($_GET['level'])) && ($level['tutor_level_id'] == ($_POST['level'] ?? $_GET['level'])) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($level['tutor_level_id']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="start_date">From Date:</label>
-                        <input type="date" id="start_date" name="start_date" value="<?= htmlspecialchars($_POST['start_date'] ?? $_GET['start_date'] ?? '') ?>">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="end_date">To Date:</label>
-                        <input type="date" id="end_date" name="end_date" value="<?= htmlspecialchars($_POST['end_date'] ?? $_GET['end_date'] ?? '') ?>">
-                    </div>
-                    
-                    <div class="form-group" style="display: flex; align-items: flex-end;">
-                        <button type="submit">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                    
-                    <div class="form-group" style="display: flex; align-items: flex-end;">
-                        <button type="button" class="reset-btn" onclick="resetFilters()">
-                            <i class="fas fa-undo"></i> Reset
-                        </button>
-                    </div>
-                </form>
-            </div>-->
-            
             <div class="requests-grid">
                 <?php if (!empty($upgradeRequests) && is_array($upgradeRequests)): ?>
                     <?php 
@@ -299,15 +48,29 @@
                         <div class="request-card">
                             <div class="request-content">
                                 <div class="request-profile">
-                                    <img src="\images\tutor_uploads\tutor_profile_photos\<?= !empty($request['tutor_profile_photo']) ? htmlspecialchars($request['tutor_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="request-photo">
-                                    <h3 class="request-name"><?= htmlspecialchars($request['tutor_first_name'] ?? '') . ' ' . htmlspecialchars($request['tutor_last_name'] ?? ''); ?></h3>
-                                    <p class="request-email"><?= htmlspecialchars($request['tutor_email'] ?? ''); ?></p>
+                                    <div class="request-detail" style="font-size: 16px;font-weight: 600;justify-content: center;">
+                                        <span class="request-detail-label"style="font-size: 16px;font-weight: 600 !important;">Request ID : </span>
+                                        <span><?= htmlspecialchars($request['request_id'] ?? ''); ?></span>
+                                    </div>
+                                <div class="level-badges">
+                                    <?php if (!empty($request['current_level_id'])): ?>
+                                        <span class="level-badge current-level">
+                                            Current: <?= htmlspecialchars($request['current_level_id']); ?>
+                                        </span>
+                                        <span><i class="fa-solid fa-arrow-right"></i></span>
+                                    <?php endif; ?>
+                                    
+                                    <?php if (array_key_exists('requested_level_id', $request)): ?>
+                                        <span class="level-badge requested-level" >
+                                            Requested: <?= ($request['requested_level_id'] !== null) ? htmlspecialchars($request['requested_level_id']) : 'Not Specified'; ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>                         
                                 </div>
-                                
                                 <div class="request-details">
                                     <div class="request-detail">
-                                        <span class="request-detail-label">Request ID:</span>
-                                        <span><?= htmlspecialchars($request['request_id'] ?? ''); ?></span>
+                                        <span class="request-detail-label">Tutor Name:</span>
+                                        <span><?= htmlspecialchars($request['tutor_first_name'] ?? '') . ' ' . htmlspecialchars($request['tutor_last_name'] ?? ''); ?></span>
                                     </div>
                                     <div class="request-detail">
                                         <span class="request-detail-label">Tutor ID:</span>
@@ -316,25 +79,10 @@
                                     <div class="request-detail">
                                         <span class="request-detail-label">Request Date:</span>
                                         <span><?= htmlspecialchars($request['request_date'] ?? ''); ?></span>
-                                    </div>
-                                    
-                                    <div class="level-badges">
-                                        <?php if (!empty($request['current_level_id'])): ?>
-                                        <span class="level-badge current-level">
-                                            Current: <?= htmlspecialchars($request['current_level_id']); ?>
-                                        </span>
-                                        <?php endif; ?>
-                                        
-                                        <?php if (!empty($request['requested_level_id'])): ?>
-                                        <span class="level-badge requested-level">
-                                            Requested: <?= htmlspecialchars($request['requested_level_id']); ?>
-                                        </span>
-                                        <?php endif; ?>
-                                    </div>
-                                    
+                                    </div>                            
                                     <?php if (!empty($request['request_body'])): ?>
-                                    <div class="request-body">
-                                        "<?= htmlspecialchars($request['request_body']); ?>"
+                                        <div class="request-body">
+                                        "<?= htmlspecialchars($request['request_body'] !== null ? $request['request_body'] : 'No message'); ?>"
                                     </div>
                                     <?php endif; ?>
                                 </div>
