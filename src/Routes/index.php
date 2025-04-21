@@ -54,12 +54,13 @@ use App\Controllers\tutor\TutorDashboardController;
 use App\Controllers\tutor\TutorEventController;
 use App\Controllers\tutor\TutorRequestController;
 use App\Controllers\tutor\TutorPublicProfileController;
-use App\Controllers\tutor\TutorPaymentsController;
+use App\Controllers\tutor\TutorPaymentController;
 use App\Controllers\tutor\TutorFeedbackController;
 use App\Controllers\tutor\TutorAdvertisementController;
 use App\Controllers\tutor\TutorLogoutController;
 use App\Controllers\tutor\TutorFeeRequestController;
 use App\Controllers\tutor\TutorStudyMaterialsController;
+use App\Controllers\tutor\TutorTimeSlotController;
 
 
 $router = new Router();
@@ -146,6 +147,8 @@ $router->get('/tutor-fee-request', TutorFeeRequestController::class, 'showFeeReq
 $router->post('/submit-upgrade-request', TutorFeeRequestController::class, 'submitLevelUpgradeRequest');
 $router->post('/submit-upgrade-request', TutorFeeRequestController::class, 'submitLevelUpgradeRequest');
 $router->post('/cancel-upgrade-request', TutorFeeRequestController::class, 'cancelUpgradeRequest');
+$router->get('/tutor-timeslot', TutorTimeSlotController::class, 'showTutorTimeSlotPage'); 
+$router->post('/tutor-timeslot-save', TutorTimeSlotController::class, 'saveTutorTimeSlots');
 
 
 //student profile for admin
