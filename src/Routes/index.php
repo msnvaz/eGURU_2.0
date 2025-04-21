@@ -10,6 +10,7 @@ use App\Controllers\DisplayAnnouncementController; //for displaying announcement
 use App\Controllers\VisitorQueryController; //for visitor-query
 use App\Controllers\ForumController; //for forum
 use App\Controllers\TutorSearchController; //for forum
+use App\Controllers\StudentReviewController; //for forum
 
 use App\Controllers\admin\AdminLoginController;
 use App\Controllers\admin\AdminDashboardController;
@@ -79,6 +80,7 @@ $router->post('/forum', ForumController::class, 'showForumMessages');
 
 $router->get('/tutor/search', TutorSearchController::class, 'showSearchForm');
 $router->post('/tutor/search', TutorSearchController::class, 'search');
+$router->get('/studentreview', StudentReviewController::class, 'showTestimonials');
 
 
 //$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
