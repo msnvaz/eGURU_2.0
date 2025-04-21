@@ -19,26 +19,110 @@ class AdminLoginController {
 
     // Check admin login credentials (POST request)
     public function checkAdminLogin() {
-        session_start(); // Start the session at the beginning
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     
         // Get username and password from POST request
         $username = $_POST['username'];
         $password = $_POST['password'];
     
-        // Attempt to log in
-        $admin = $this->model->login($username, $password);
+        // Process logout confirmation if needed
+        if (isset($_POST['confirm_logout']) && isset($_SESSION['pending_admin_id'])) {
+            if ($_POST['confirm_logout'] === 'yes') {
+                // Force logout previous session
+                $this->model->forceLogout($_SESSION['pending_admin_id']);
+                // Continue with new login
+                $this->completeLogin($username, $_SESSION['pending_admin_id']);
+                return;
+            } else {
+                // User declined to logout previous session
+                unset($_SESSION['pending_admin_id']);
+                $_SESSION['error_message'] = 'Login canceled. Previous session remains active.';
+                Router::redirect('/admin-login');
+                return;
+            }
+        }
     
-        // Check if login was successful
-        if ($admin) {
-            $_SESSION['admin'] = $username; // Set session variable
-            Router::redirect('/admin-dashboard'); // Redirect to the dashboard
-        } else {
-            // Log the failed attempt for debugging
-            error_log("Login failed for username: $username");
-            //pass the message to error_message
-            $_SESSION['error_message'] = 'Login failed';
-            Router::redirect('/admin-login'); // Redirect back to the login page
+        // Attempt to log in
+        $loginResult = $this->model->login($username, $password);
+    
+        // Check login result status
+        switch ($loginResult['status']) {
+            case 'success':
+                $this->completeLogin($username, $loginResult['admin_id']);
+                break;
+                
+            case 'already_logged_in_locally':
+                Router::redirect('/admin-dashboard'); // Already logged in this browser
+                break;
+                
+            case 'already_logged_in_elsewhere':
+                // Store the admin ID for confirmation
+                $_SESSION['pending_admin_id'] = $loginResult['admin_id'];
+                $_SESSION['pending_username'] = $username;
+                
+                // Show confirmation page
+                require_once __DIR__ . '/../../Views/admin/confirm_logout.php';
+                break;
+                
+            case 'invalid_credentials':
+                error_log("Login failed for username: $username");
+                $_SESSION['error_message'] = 'Invalid username or password';
+                Router::redirect('/admin-login');
+                break;
+                
+            case 'database_error':
+                $_SESSION['error_message'] = 'System error. Please try again later.';
+                Router::redirect('/admin-login');
+                break;
         }
     }
 
+    // Complete the login process
+    private function completeLogin($username, $adminId) {
+        // Update database login status
+        $this->model->updateLoginStatus($adminId, true);
+        
+        // Set session variables (correct way)
+        $_SESSION['admin'] = $username;
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_id'] = $adminId;
+        $_SESSION['admin_username'] = $username; // Use the parameter directly
+        
+        // Redirect to dashboard
+        Router::redirect('/admin-dashboard');
+    }
+
+    // In AdminLoginController.php
+    public function logout() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Log the current session state for debugging
+        error_log("Logout initiated. Admin ID in session: " . (isset($_SESSION['admin_id']) ? $_SESSION['admin_id'] : 'not set'));
+        
+        // Update database if we have admin ID
+        if (isset($_SESSION['admin_id'])) {
+            $adminId = $_SESSION['admin_id'];
+            $result = $this->model->updateLoginStatus($adminId, false);
+            
+            // Log the result
+            error_log("Admin logout status update for ID $adminId: " . ($result ? 'successful' : 'failed'));
+            
+            if (!$result) {
+                // Handle failed update more gracefully
+                error_log("Failed to update admin login status in database");
+            }
+        }
+        
+        // Clear session
+        $_SESSION = array();
+        session_destroy();
+        
+        // Redirect to login page
+        header('Location: /admin-login');
+        exit();
+    }
 }

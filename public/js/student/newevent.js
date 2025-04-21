@@ -85,24 +85,6 @@ nextButton.addEventListener("click", () => {
 updateCalendars();
 
 
-
-// JavaScript to toggle between tabs
-function showUpcoming() {
-    document.getElementById('upcoming-events').style.display = 'block';
-    document.getElementById('previous-events').style.display = 'none';
-
-    document.getElementById('upcoming-tab').classList.add('active');
-    document.getElementById('previous-tab').classList.remove('active');
-  }
-
-  function showPrevious() {
-    document.getElementById('upcoming-events').style.display = 'none';
-    document.getElementById('previous-events').style.display = 'block';
-
-    document.getElementById('upcoming-tab').classList.remove('active');
-    document.getElementById('previous-tab').classList.add('active');
-  }
-
   // JavaScript to toggle event details
   function toggleDetails(row) {
     const detailsRow = row.nextElementSibling;
@@ -110,3 +92,54 @@ function showUpcoming() {
       detailsRow.style.display = detailsRow.style.display === 'table-row' ? 'none' : 'table-row';
     }
   }
+
+  function showUpcoming() {
+    document.getElementById('upcoming-events').style.display = 'block';
+    document.getElementById('previous-events').style.display = 'none';
+    document.getElementById('upcoming-tab').classList.add('active');
+    document.getElementById('previous-tab').classList.remove('active');
+}
+
+function showPrevious() {
+    document.getElementById('upcoming-events').style.display = 'none';
+    document.getElementById('previous-events').style.display = 'block';
+    document.getElementById('upcoming-tab').classList.remove('active');
+    document.getElementById('previous-tab').classList.add('active');
+}
+
+function viewEventDetails(event) {
+    const detailsContent = document.getElementById('event-details-content');
+    
+    let tutorPhotoHtml = '';
+    if (event.tutor_profile_photo) {
+        tutorPhotoHtml = `<img src=\"images/student-uploads/${event.tutor_profile_photo}" alt="${event.tutor_name}" class="tutor-photo">`;
+    }
+
+    let meetingLinkHtml = '';
+    if (event.meeting_link) {
+        meetingLinkHtml = `<p><strong>Meeting Link:</strong> <a href="${event.meeting_link}" target="_blank" class="meeting-link">Join Meeting</a></p>`;
+    }
+
+    detailsContent.innerHTML = `
+        ${tutorPhotoHtml}
+        <p><strong>Subject:</strong> ${event.subject_name}</p>
+        <p><strong>Instructor:</strong> ${event.tutor_name}</p>
+        <p><strong>Grade:</strong> ${event.grade || 'N/A'}</p>
+        <p><strong>Date:</strong> ${new Date(event.scheduled_date).toLocaleDateString()}</p>
+        <p><strong>Time:</strong> ${event.schedule_time}</p>
+        ${meetingLinkHtml}
+    `;
+
+    document.getElementById('event-details-modal').style.display = 'block';
+}
+
+function closeEventDetails() {
+    document.getElementById('event-details-modal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('event-details-modal');
+    if (event.target === modal) {
+        closeEventDetails();
+    }
+}

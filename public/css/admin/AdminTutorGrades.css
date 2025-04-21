@@ -15,7 +15,8 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   position: relative;
   align-items: center;
-  border-left: var(--powder-blue) 5px solid;
+  border: var(--dark-blue) 2px solid;
+  border-left: var(--dark-blue) 5px solid;
   transition: box-shadow 0.3s;
   display: flex;
   flex-direction: column;
@@ -26,7 +27,7 @@
 }
 
 .grade-card-heading {
-  font-size: 65px;
+  font-size: 45px;
   font-weight: 600;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   color: var(--dark-blue);

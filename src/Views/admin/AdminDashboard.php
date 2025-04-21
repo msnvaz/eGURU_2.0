@@ -45,6 +45,21 @@
                     <p class="stat-number"><?= number_format($totalRevenue, 2) ?></p>
                     <span class="stat-trend positive">+8% ↑</span>
                 </div>
+                <div class="stat-card">
+                    <h3>Recievables</h3>
+                    <p class="stat-number"><?= number_format($expectedRevenue,2) ?></p>
+                    <span class="stat-trend positive">+8% ↑</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Total points in Student wallets</h3>
+                    <p class="stat-number"><?= $totalStudentPoints ?></p>
+                    <span class="stat-trend positive">+8% ↑</span>
+                </div>
+                <div class="stat-card">
+                    <h3>Total points in Tutor wallets</h3>
+                    <p class="stat-number"><?= $totalTutorPoints ?></p>
+                    <span class="stat-trend positive">+8% ↑</span>
+                </div>
         </div>
         <div class="container mt-4">
             <!-- First row of charts -->
@@ -84,7 +99,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="chart-container">
-                        <h3>Student Feedback</h3>
+                        <h3>Session Feedback (<?=number_format($averageSessionRating,2) ?>)</h3>
                         <canvas id="studentFeedbackChart"></canvas>
                     </div>
                 </div>
@@ -213,35 +228,60 @@
             helpfulness: <?= isset($feedbackData['helpfulness']) ? $feedbackData['helpfulness'] : 4.8 ?>
         };
         
+       // Get session feedback data and process it for the chart
+        const sessionRatings = <?php echo json_encode($this->model->getSessionFeedbackRatings()); ?>;
+
+        // Create a chart to visualize session ratings distribution
         new Chart(studentFeedbackCtx, {
-            type: 'radar',
+            type: 'bar',
             data: {
-                labels: ['Punctuality', 'Knowledge', 'Clarity', 'Engagement', 'Helpfulness'],
+                labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
                 datasets: [{
-                    label: 'Feedback Score',
-                    data: [
-                        feedbackData.punctuality,
-                        feedbackData.knowledge,
-                        feedbackData.clarity,
-                        feedbackData.engagement,
-                        feedbackData.helpfulness
+                    label: 'Number of Ratings',
+                    data: sessionRatings,
+                    backgroundColor: [
+                        '#3d5a80', '#98c1d9', 'rgba(253, 133, 0, 0.7)', '#ee6c4d', '#293241'
                     ],
-                    backgroundColor: 'rgba(74, 144, 226, 0.4)',
-                    borderColor: '#4A90E2',
-                    borderWidth: 1.5
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)'
+                    ],
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Session Rating Distribution'
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
                 scales: {
-                    r: {
-                        min: 0,
-                        max: 5
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Ratings'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Rating'
+                        }
                     }
                 }
             }
         });
+        
     </script>
     
     <style>

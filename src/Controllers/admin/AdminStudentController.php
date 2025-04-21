@@ -13,29 +13,143 @@ class adminStudentController {
         $this->model = new adminStudentModel();
     }
 
-    public function showAllStudents() {
-        $studentModel = new adminStudentModel();
-        $students = $studentModel->getAllStudents();  // Get all students from the model
-        //have to add search
-        require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
-    }
-
     public function searchStudents() {
         $studentModel = new adminStudentModel();
-        $students = $studentModel->getAllStudents();  // Get all students from the model
-        //have to add search
+        $grades = $studentModel->getStudentGrades();
+        
+        // Get search parameters
+        $searchTerm = $_POST['search_term'] ?? '';
+        $grade = $_POST['grade'] ?? '';
+        $startDate = $_POST['start_date'] ?? '';
+        $endDate = $_POST['end_date'] ?? '';
+        $onlineStatus = $_POST['online_status'] ?? '';
+        
+        // Determine if we're looking for active or deleted students
+        // Check if we're on the deleted students page
+        $currentUrl = $_SERVER['REQUEST_URI'];
+        $status = (strpos($currentUrl, 'admin-deleted-students') !== false) ? 'unset' : 'set';
+        
+        // Search students
+        $students = $studentModel->searchStudents(
+            $searchTerm,
+            $grade,
+            $startDate,
+            $endDate,
+            $status,
+            $onlineStatus
+        );
+        
+        // Set variable for view to distinguish between active and deleted students
+        if ($status == 'unset') {
+            $deletedStudents = $students;
+        }
+        
+        // Load the view
+        require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
+    }
+    
+    public function showAllStudents() {
+        $studentModel = new adminStudentModel();
+        $grades = $studentModel->getStudentGrades();
+        $students = [];
+        
+        // Handle search and filter
+        if (isset($_POST['search']) || isset($_GET['search'])) {
+            // Get filter values from POST or GET (for pagination)
+            $searchTerm = $_POST['search_term'] ?? $_GET['search_term'] ?? '';
+            $grade = $_POST['grade'] ?? $_GET['grade'] ?? '';
+            $startDate = $_POST['start_date'] ?? $_GET['start_date'] ?? '';
+            $endDate = $_POST['end_date'] ?? $_GET['end_date'] ?? '';
+            $onlineStatus = $_POST['online_status'] ?? $_GET['online_status'] ?? '';
+            
+            // Get filtered students
+            $students = $studentModel->searchStudents(
+                $searchTerm,
+                $grade,
+                $startDate,
+                $endDate,
+                'set',  // Active students
+                $onlineStatus
+            );
+        } else {
+            // Get all active students if no search/filter
+            $students = $studentModel->getAllStudents('set');
+        }
+        
+        // Load the view
         require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
     }
 
+    public function showDeletedStudents() {
+        $studentModel = new adminStudentModel();
+        $grades = $studentModel->getStudentGrades();
+        $deletedStudents = [];
+        
+        // Handle search and filter for deleted students
+        if (isset($_POST['search']) || isset($_GET['search'])) {
+            // Get filter values
+            $searchTerm = $_POST['search_term'] ?? $_GET['search_term'] ?? '';
+            $grade = $_POST['grade'] ?? $_GET['grade'] ?? '';
+            $startDate = $_POST['start_date'] ?? $_GET['start_date'] ?? '';
+            $endDate = $_POST['end_date'] ?? $_GET['end_date'] ?? '';
+            
+            // Get filtered deleted students
+            $deletedStudents = $studentModel->searchStudents(
+                $searchTerm,
+                $grade,
+                $startDate,
+                $endDate,
+                'unset'  // Deleted students
+            );
+        } else {
+            // Get all deleted students if no search/filter
+            $deletedStudents = $studentModel->getDeletedStudents();
+        }
+        
+        // Load the view
+        require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
+    }
+
+    public function showBlockedStudents() {
+        $studentModel = new adminStudentModel();
+        $grades = $studentModel->getStudentGrades();
+        $blockedStudents = [];
+        
+        // Handle search and filter for blocked students
+        if (isset($_POST['search']) || isset($_GET['search'])) {
+            // Get filter values
+            $searchTerm = $_POST['search_term'] ?? $_GET['search_term'] ?? '';
+            $grade = $_POST['grade'] ?? $_GET['grade'] ?? '';
+            $startDate = $_POST['start_date'] ?? $_GET['start_date'] ?? '';
+            $endDate = $_POST['end_date'] ?? $_GET['end_date'] ?? '';
+            
+            // Get filtered blocked students
+            $blockedStudents = $studentModel->searchStudents(
+                $searchTerm,
+                $grade,
+                $startDate,
+                $endDate,
+                'blocked'  // Blocked students
+            );
+        } else {
+            // Get all blocked students if no search/filter
+            $blockedStudents = $studentModel->getBlockedStudents();
+        }
+        
+        // Load the view
+        require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
+    }
+
+    // Rest of your existing methods
     public function showStudentProfile($studentId) {
         $studentModel = new adminStudentModel();
-        $student = $studentModel->getStudentProfile($studentId);  // Get student profile from the model
+        $student = $studentModel->getStudentProfile($studentId);
         require_once __DIR__ . '/../../Views/admin/AdminStudentProfile.php';
     }
 
     public function editStudentProfile($studentId) {
         $studentModel = new adminStudentModel();
-        $studentData = $studentModel->getStudentProfile($studentId);  // Changed variable name to match view
+        $studentData = $studentModel->getStudentProfile($studentId);
         require_once __DIR__ . '/../../Views/admin/AdminStudentProfileEdit.php';
     }
 
@@ -104,9 +218,8 @@ class adminStudentController {
         }
     
         // Handle profile photo upload if provided
-        // IMPORTANT: Changed from 'student_profile_photo' to 'profile_photo' to match the form field
         if (isset($_FILES['profile_photo']) && !empty($_FILES['profile_photo']['name']) && $_FILES['profile_photo']['error'] == 0) {
-            $uploadDir = __DIR__ . '/../../../public/uploads/Student_Profiles/';
+            $uploadDir = __DIR__ . '/../../../public/images/student-uploads/profilePhotos/';
             
             // Ensure upload directory exists
             if (!file_exists($uploadDir)) {
@@ -148,8 +261,6 @@ class adminStudentController {
         }
     }
 
-    //delete student profile
-    //set the status to unset
     public function deleteStudentProfile($studentId) {
         $studentModel = new adminStudentModel();
         
@@ -170,14 +281,6 @@ class adminStudentController {
         exit();
     }
 
-    // Show deleted students
-    public function showDeletedStudents() {
-        $studentModel = new adminStudentModel();
-        $deletedStudents = $studentModel->getDeletedStudents();
-        require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
-    }
-
-    // Restore student profile
     public function restoreStudentProfile($studentId) {
         $studentModel = new adminStudentModel();
         
@@ -197,5 +300,44 @@ class adminStudentController {
         }
         exit();
     }
+
+    public function blockStudentProfile($studentId) {
+        $studentModel = new adminStudentModel();
+        
+        // Check if the student exists
+        $student = $studentModel->getStudentProfile($studentId);
+        if (!$student) {
+            header("Location: /admin-students?error=Student not found");
+            exit();
+        }
+    
+        // Attempt to block the student
+        $blocked = $studentModel->updateStudentStatus($studentId, 'blocked');
+        if ($blocked) {
+            header("Location: /admin-student-profile/$studentId?success=Student profile blocked");
+        } else {
+            header("Location: /admin-student-profile/$studentId?error=Failed to block student");
+        }
+        exit();
+    }
+
+    public function unblockStudentProfile($studentId) {
+        $studentModel = new adminStudentModel();
+        
+        // Check if the student exists
+        $student = $studentModel->getStudentProfile($studentId);
+        if (!$student) {
+            header("Location: /admin-students?error=Student not found");
+            exit();
+        }
+    
+        // Attempt to unblock the student
+        $unblocked = $studentModel->updateStudentStatus($studentId, 'set');
+        if ($unblocked) {
+            header("Location: /admin-student-profile/$studentId?success=Student profile unblocked");
+        } else {
+            header("Location: /admin-student-profile/$studentId?error=Failed to unblock student");
+        }
+        exit();
+    }
 }
-?>

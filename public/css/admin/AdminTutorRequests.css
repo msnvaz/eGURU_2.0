@@ -1,0 +1,236 @@
+/* Main Container */
+.requests-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Cards Grid */
+.requests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Individual Request Card */
+.request-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    border: 2px solid var(--dark-pink);
+    border-left: 4px solid var(--dark-pink);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Card Content Area */
+.request-content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Profile Section */
+.request-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.request-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--light-pink);
+    margin-bottom: 5px;
+}
+
+.request-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-blue);
+    margin: 0 0 5px 0;
+    text-align: center;
+    word-break: break-word;
+}
+
+.request-email {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Details Section */
+.request-details {
+    margin: 15px 0;
+    font-size: 13px;
+    color: #555;
+    flex: 1;
+}
+
+.request-detail {
+    margin: 8px 0;
+    display: flex;
+}
+
+.request-detail-label {
+    font-weight: 600;
+    min-width: 120px;
+    color: var(--dark-blue);
+}
+
+/* Qualification Proof */
+.proof-section {
+    background: #f9f9f9;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 0px;
+}
+
+.proof-link {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 8px 12px;
+    background-color: #17a2b8;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+/* Action Buttons */
+.request-actions {
+    display: flex;
+    gap: 0px;
+    margin-top: 0px;
+    justify-content: space-evenly;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+    font-size: 13px;
+}
+
+.action-btn i {
+    font-size: 16px;
+    margin:0;
+}
+
+.approve-btn {
+    background: #28a745;
+    color: white;
+    margin-top: 0;
+}
+
+.reject-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Notifications */
+.alert-message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success {
+    background: #e6ffed;
+    color: #1f7d2e;
+    border: 1px solid #a3d8ae;
+}
+
+.alert-error {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    grid-column: 1/-1;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 5px;
+}
+
+.pagination a {
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--dark-blue);
+    border: 1px solid #ddd;
+}
+
+.pagination a.active {
+    background: var(--dark-blue);
+    color: white;
+    border-color: var(--dark-blue);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .requests-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .request-actions {
+        flex-direction: column;
+    }
+    
+    .request-detail {
+        flex-direction: column;
+    }
+    
+    .request-detail-label {
+        min-width: auto;
+        margin-bottom: 2px;
+    }
+}
+
+@media (max-width: 576px) {
+    .requests-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .request-content {
+        padding: 15px;
+    }
+}

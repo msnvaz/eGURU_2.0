@@ -84,22 +84,78 @@ class AdminDashboardModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function getTopTutorsByRating($limit = 5) {
-        $query = "SELECT t.tutor_id, t.tutor_fname, t.tutor_lname, AVG(r.rating) as average_rating, 
-                  COUNT(s.session_id) as session_count 
-                  FROM tutor t
-                  JOIN session s ON t.tutor_id = s.tutor_id
-                  LEFT JOIN ratings r ON s.session_id = r.session_id
-                  GROUP BY t.tutor_id
-                  ORDER BY average_rating DESC
-                  LIMIT :limit";
+    public function getTotalStudentPoints(){
+        $query = "SELECT SUM(student_points) as total_points FROM student";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result['total_points'] ?? 0; // Return the value or 0 if null
+    }
+
+    public function getTotalTutorpoints(){
+        $query = "SELECT SUM(tutor_points) as total_points FROM tutor";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result['total_points'] ?? 0; // Return the value or 0 if null
+    }
+
+    public function getPointValue() {
+        $query = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = 'point_value'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (float)$result['admin_setting_value']:0; // Return 0 if result is null
+    }
+
+    public function getPlatformFee() {
+        $query = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = 'platform_fee'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (float)$result['admin_setting_value'] : 0; // or (int) if always integer
     }
     
-    public function getAverageRatingsByCategory() {
+    
+    public function getSessionFeedbackRatings() {
+        $ratings = [0, 0, 0, 0, 0]; // Initialize array for 1-5 star ratings
+        
+        $query = "SELECT session_rating, COUNT(*) as count 
+                  FROM session_feedback 
+                  WHERE session_rating IS NOT NULL 
+                  GROUP BY session_rating 
+                  ORDER BY session_rating";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($results as $result) {
+            if ($result['session_rating'] >= 1 && $result['session_rating'] <= 5) {
+                $ratings[$result['session_rating'] - 1] = (int)$result['count'];
+            }
+        }
+        
+        return $ratings;
+    }
+
+    public function getAverageSessionRating() {
+        $query = "SELECT AVG(session_rating) as average_rating FROM session_feedback WHERE session_rating IS NOT NULL";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // If no feedback data exists, return default value
+        if (!$result || !$result['average_rating']) {
+            return 4.2; // Default average rating
+        }
+        
+        return (float)$result['average_rating'];
+    }
+    
+    /*public function getAverageRatingsByCategory() {
         $query = "SELECT 
                   AVG(punctuality) as punctuality,
                   AVG(knowledge) as knowledge,
@@ -123,5 +179,5 @@ class AdminDashboardModel {
         }
         
         return $result;
-    }
+    }*/
 }

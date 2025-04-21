@@ -19,6 +19,17 @@
             display: inline-block;
             transition: transform 0.2s;
         }
+        a{
+            font-weight: bold;
+            color: #000;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
     </style>
 </head>
 <body>
@@ -27,7 +38,7 @@
     
     <div class="main">
         <br>
-        <form method="POST" class="search-form">
+        <form method="POST" class="search-form" style="font-size: 12px;">
             <div class="date-range-container">
                 <div class="date-range">
                     <label for="start_date">Start Date:</label>
@@ -60,6 +71,15 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
+
+                    <label for="status">Session Status:</label>
+                    <select name="status" id="status">
+                        <option value="">All Statuses</option>
+                        <option value="requested" <?= (isset($_POST['status']) && $_POST['status'] == 'requested') ? 'selected' : '' ?>>Requested</option>
+                        <option value="scheduled" <?= (isset($_POST['status']) && $_POST['status'] == 'scheduled') ? 'selected' : '' ?>>Scheduled</option>
+                        <option value="completed" <?= (isset($_POST['status']) && $_POST['status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
+                        <option value="cancelled" <?= (isset($_POST['status']) && $_POST['status'] == 'cancelled') ? 'selected' : '' ?>>Cancelled</option>
+                    </select>
                 </div>
             </div>
             <div class="searchbar"> 
@@ -68,6 +88,7 @@
                        value="<?= isset($_POST['search_term']) ? htmlspecialchars($_POST['search_term']) : '' ?>" >
                 <button type="submit" name="search" value="1">Search</button>
                 <button type="submit" name="download_pdf" value="1">PDF</button>
+                <button type="button" onclick="resetFilters()" class="reset-btn">Reset</button>
             </div>
         </form>
 
@@ -87,16 +108,35 @@
             </thead>
             <tbody>
                 <?php if (!empty($sessions)) : ?>
-                    <?php foreach ($sessions as $session) : ?>
+                    <?php
+                    // Pagination setup
+                    $perPage = 20; // 20 records per page
+                    $total = count($sessions);
+                    $pages = ceil($total / $perPage);
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $page = max(1, min($page, $pages)); // Ensure page is within valid range
+                    $offset = ($page - 1) * $perPage;
+                    $paginatedSessions = array_slice($sessions, $offset, $perPage);
+                    ?>
+                    
+                    <?php foreach ($paginatedSessions as $session) : ?>
                         <tr class="expandable-row">
                             <td>
                                 <span class="expand-icon">►</span>
                                 <?= htmlspecialchars($session['session_id']) ?>
                             </td>
-                            <td>(<?= htmlspecialchars($session['student_id']) ?>)
-                                <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?></td>
-                            <td>(<?= htmlspecialchars($session['tutor_id']) ?>)
-                                <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?></td>
+                            <td>
+                                <a href="/admin-student-profile/<?= isset($session['student_id']) ? htmlspecialchars($session['student_id']) : ''; ?>">
+                                (<?= htmlspecialchars($session['student_id']) ?>)
+                                <?= htmlspecialchars($session['student_first_name'] . ' ' . $session['student_last_name']) ?>
+                                </a>
+                            </td>
+                            <td>   
+                                <a href="/admin-tutor-profile/<?= isset($session['tutor_id']) ? htmlspecialchars($session['tutor_id']) : ''; ?>">
+                                (<?= htmlspecialchars($session['tutor_id']) ?>)
+                                <?= htmlspecialchars($session['tutor_first_name'] . ' ' . $session['tutor_last_name']) ?>
+                                </a>
+                            </td>
                             <td><?= htmlspecialchars($session['scheduled_date']) ?></td>
                             <td><?= htmlspecialchars($session['schedule_time']) ?></td>
                             <td><?= htmlspecialchars($session['session_status']) ?></td>
@@ -132,6 +172,31 @@
                 <?php endif; ?>
             </tbody>
         </table>
+        
+        <?php if (!empty($sessions) && $pages > 1): ?>
+        <div class="pagination">
+            <?php
+            // Previous button
+            if ($page > 1): ?>
+                <a href="?page=<?= $page - 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?><?= isset($_POST['status']) ? '&status=' . urlencode($_POST['status']) : '' ?>">«</a>
+            <?php endif; ?>
+            
+            <?php
+            // Page numbers
+            $startPage = max(1, $page - 2);
+            $endPage = min($pages, $page + 2);
+            
+            for ($i = $startPage; $i <= $endPage; $i++): ?>
+                <a href="?page=<?= $i ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?><?= isset($_POST['status']) ? '&status=' . urlencode($_POST['status']) : '' ?>" class="<?= $page == $i ? 'active' : '' ?>"><?= $i ?></a>
+            <?php endfor; ?>
+            
+            <?php
+            // Next button
+            if ($page < $pages): ?>
+                <a href="?page=<?= $page + 1 ?><?= isset($_POST['search']) ? '&search=1' : '' ?><?= isset($_POST['search_term']) ? '&search_term=' . urlencode($_POST['search_term']) : '' ?><?= isset($_POST['start_date']) ? '&start_date=' . urlencode($_POST['start_date']) : '' ?><?= isset($_POST['end_date']) ? '&end_date=' . urlencode($_POST['end_date']) : '' ?><?= isset($_POST['tutor_id']) ? '&tutor_id=' . urlencode($_POST['tutor_id']) : '' ?><?= isset($_POST['student_id']) ? '&student_id=' . urlencode($_POST['student_id']) : '' ?><?= isset($_POST['status']) ? '&status=' . urlencode($_POST['status']) : '' ?>">»</a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
     </div>
 
     <script>
@@ -160,6 +225,29 @@
                 e.preventDefault();
             }
         });
+        
+        // Preserve search parameters when changing pages
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.search-form');
+            form.addEventListener('submit', function() {
+                // Reset page to 1 when submitting a new search
+                const pageInput = document.createElement('input');
+                pageInput.type = 'hidden';
+                pageInput.name = 'page';
+                pageInput.value = '1';
+                form.appendChild(pageInput);
+            });
+        });
+
+        function resetFilters() {
+            document.getElementById('start_date').value = '';
+            document.getElementById('end_date').value = '';
+            document.getElementById('tutor_id').value = '';
+            document.getElementById('student_id').value = '';
+            document.getElementById('status').value = '';
+            document.querySelector('input[name="search_term"]').value = '';
+            document.querySelector('.search-form').submit();
+        }
     </script>
 </body>
 </html>

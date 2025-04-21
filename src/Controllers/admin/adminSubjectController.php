@@ -59,7 +59,12 @@ class adminSubjectController {
             }
 
             if ($file && $file['error'] === 0) {
-                $uploadDir = 'uploads/';
+                $uploadDir = '../public/uploads/Subjects/';
+                // Create directory if doesn't exist
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                
                 $fileName = basename($file['name']);
                 $targetFilePath = $uploadDir . $fileName;
 
@@ -76,7 +81,7 @@ class adminSubjectController {
                     echo "<script>alert('Subject added successfully.')</script>";
                     header("Location: /admin-subjects");
                 } else {
-                    echo "<script>alert('Failed to upload file.')</script>";
+                    echo "<script>alert('Failed to upload file: " . error_get_last()['message'] . "')</script>";
                     return;
                 }
             } else {
@@ -114,7 +119,12 @@ class adminSubjectController {
 
             // Handle file upload if present
             if ($file && $file['error'] === 0) {
-                $uploadDir = 'uploads/';
+                $uploadDir = '../public/uploads/Subjects/';
+                // Create directory if doesn't exist
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                
                 $fileName = basename($file['name']);
                 $targetFilePath = $uploadDir . $fileName;
 
@@ -122,7 +132,7 @@ class adminSubjectController {
                 if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
                     $updateData['subject_display_pic'] = $fileName;
                 } else {
-                    echo "<script>alert('Failed to upload file.')</script>";
+                    echo "<script>alert('Failed to upload file: " . error_get_last()['message'] . "')</script>";
                     return;
                 }
             }
