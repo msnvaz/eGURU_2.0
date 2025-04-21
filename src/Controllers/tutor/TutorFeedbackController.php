@@ -19,8 +19,9 @@ class TutorFeedbackController {
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
-        exit;
-    }
+            exit;
+        }
+
         $tutorId = $_SESSION['tutor_id'];
         $feedbacks = $this->feedbackModel->getFeedbacksByTutor($tutorId);
         // Pass data to the view
@@ -28,66 +29,61 @@ class TutorFeedbackController {
     }
 
     // Handle reply submission
-public function submitReply() {
-    //session_start(); // Ensure session is started
-
-    header('Content-Type: application/json'); // Tell client we're returning JSON
-
-    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-        echo json_encode(['success' => false, 'error' => 'Unauthorized']);
-        exit;
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $feedbackId = $_POST['feedback_id'] ?? null;
-        $replyMessage = trim($_POST['reply'] ?? '');
-
-        if (empty($feedbackId) || empty($replyMessage)) {
-            echo json_encode(['success' => false, 'error' => 'Reply cannot be empty.']);
-            exit;
-        }
-
-        $success = $this->feedbackModel->saveReply($feedbackId, $replyMessage);
-
-        if ($success) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'error' => 'Reply already exists or feedback not found.']);
-        }
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Invalid request method.']);
-    }
-}
-
-
-   public function updateReply() {
-    //session_start(); // Ensure session is started
+    public function submitReply() {
+        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
-        exit;
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $feedbackId = $_POST['feedback_id'] ?? null;
+            $replyMessage = trim($_POST['reply'] ?? '');
+
+            if (empty($feedbackId) || empty($replyMessage)) {
+                header("Location: /tutor-feedback?error=Reply cannot be empty.");
+                exit;
+            }
+
+            $success = $this->feedbackModel->saveReply($feedbackId, $replyMessage);
+
+            if ($success) {
+                header("Location: /tutor-feedback?success=Reply saved successfully");
+            } else {
+                header("Location: /tutor-feedback?error=Failed to save reply.");
+            }
+        } else {
+            header("Location: /tutor-feedback?error=Invalid request method.");
+        }
     }
 
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        echo json_encode(['error' => 'Invalid request method.']);
-        return;
+    // Handle reply update
+    public function updateReply() {
+        //session_start(); // Ensure session is started
+
+        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+            header("Location: /tutor-login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: /tutor-feedback?error=Invalid request method.");
+            exit;
+        }
+
+        $feedbackId = $_POST['feedback_id'] ?? null;
+        $replyMessage = $_POST['reply'] ?? null;
+
+        if (!$feedbackId || !$replyMessage) {
+            header("Location: /tutor-feedback?error=Feedback ID and reply message are required.");
+            exit;
+        }
+
+        if ($this->feedbackModel->updateReply($feedbackId, $replyMessage)) {
+            header("Location: /tutor-feedback?success=Reply updated successfully");
+        } else {
+            header("Location: /tutor-feedback?error=Failed to update reply.");
+        }
     }
-
-    $feedbackId = $_POST['feedback_id'] ?? null;
-    $replyMessage = $_POST['reply'] ?? null;
-
-    if (!$feedbackId || !$replyMessage) {
-        echo json_encode(['error' => 'Feedback ID and reply message are required.']);
-        return;
-    }
-
-    if ($this->feedbackModel->updateReply($feedbackId, $replyMessage)) {
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['error' => 'Failed to update reply.']);
-    }
-}
-
-
-
 }

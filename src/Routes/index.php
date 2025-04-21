@@ -134,7 +134,9 @@ $router->get('/tutor-event', TutorEventController::class, 'showEventPage');
 $router->get('/tutor-request', TutorRequestController::class, 'showrequestPage'); 
 $router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage'); 
 $router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
-$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); 
+$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage');
+$router->post('/submit-reply', TutorFeedbackController::class, 'submitReply'); // Route for submitting reply
+$router->post('/update-reply', TutorFeedbackController::class, 'updateReply'); 
 $router->get('/tutor-logout', TutorLogoutController::class, 'logout');
 $router->get('/tutor-advertisement', TutorAdvertisementController::class, 'showAdvertisementGalleryPage');
 $router->post('/tutor-upload-ad', TutorAdvertisementController::class, 'uploadAdvertisement');
