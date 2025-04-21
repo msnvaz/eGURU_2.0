@@ -118,6 +118,16 @@ class TutorDetailsModel
             throw new \Exception("Database Error: " . $e->getMessage());
         }
     }
+
+    public function checkEmailExists($email) {
+        $sql = "SELECT COUNT(*) FROM tutor WHERE tutor_email = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$email]);
+        $count = $stmt->fetchColumn();
+    
+        return $count > 0;
+    }
+    
     
     
 

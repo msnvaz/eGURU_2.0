@@ -93,6 +93,14 @@
             background-color: #f1f1f1;
         }
 
+        .error-message {
+            color: red;
+            background-color:rgba(255, 255, 255, 0.46);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
 
     </style>
     
@@ -101,9 +109,16 @@
 
 <?php include '../src/Views/navbar.php'; ?>
 
+
+
 <div class="container">
     <div class="form-box">
+        
         <h1>Welcome to e-Guru</h1>
+        <?php if (!empty($error)) : ?>
+            <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
+        <?php endif; ?>
+
         <form action="/tutor-signup-action" method="POST" enctype="multipart/form-data">
             <input type="text" name="first_name" placeholder="First Name" required>
             <input type="text" name="last_name" placeholder="Last Name" required>
@@ -180,6 +195,30 @@
         filePreview.style.display = 'none';
     }
 </script>
+
+<!-- Registration Success Modal -->
+<div id="successModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
+  <div style="background-color:#fff; margin:15% auto; padding:20px; border-radius:10px; width:80%; max-width:400px; text-align:center;">
+    <h2>Registration Successful</h2>
+    <p>You have been successfully registered.</p>
+    <button onclick="redirectToLogin()" style="padding:10px 20px; background-color:#28a745; color:white; border:none; border-radius:5px;">OK</button>
+  </div>
+</div>
+
+<script>
+    function redirectToLogin() {
+        window.location.href = '/tutor-login';
+    }
+
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            document.getElementById('successModal').style.display = 'block';
+        }
+    }
+</script>
+
+
 
 
 </body>
