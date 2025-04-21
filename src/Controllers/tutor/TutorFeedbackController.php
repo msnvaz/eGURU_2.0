@@ -15,7 +15,7 @@ class TutorFeedbackController {
 
     // Fetch feedbacks for the logged-in tutor
     public function showFeedbackPage() {
-       // session_start(); // Ensure session is started
+        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -28,28 +28,37 @@ class TutorFeedbackController {
     }
 
     // Handle reply submission
-    public function submitReply() {
-        //session_start(); // Ensure session is started
+public function submitReply() {
+    //session_start(); // Ensure session is started
 
-        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            header("Location: /tutor-login");
+    header('Content-Type: application/json'); // Tell client we're returning JSON
+
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        echo json_encode(['success' => false, 'error' => 'Unauthorized']);
         exit;
     }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $feedbackId = $_POST['feedback_id'];
-            $replyMessage = trim($_POST['reply']);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $feedbackId = $_POST['feedback_id'] ?? null;
+        $replyMessage = trim($_POST['reply'] ?? '');
 
-            if (!empty($replyMessage)) {
-                $success = $this->feedbackModel->saveReply($feedbackId, $replyMessage);
-                if ($success) {
-                    echo json_encode(['success' => true]);
-                } else {
-                    echo json_encode(['success' => false, 'error' => 'Reply already exists or feedback not found.']);
-                }
-            }
+        if (empty($feedbackId) || empty($replyMessage)) {
+            echo json_encode(['success' => false, 'error' => 'Reply cannot be empty.']);
+            exit;
         }
+
+        $success = $this->feedbackModel->saveReply($feedbackId, $replyMessage);
+
+        if ($success) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Reply already exists or feedback not found.']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Invalid request method.']);
     }
+}
+
 
    public function updateReply() {
     //session_start(); // Ensure session is started
