@@ -121,12 +121,12 @@ body {
     </style>
 
 
-        
+
     <link rel="icon" type="image/png" href="/images/eGURU_3.png">
 </head>
 <div class="header">
     <a href="/" class="logo-link">
-        <img src="./images/eGURU_3.png" alt="Your Logo" class="logo-image">
+        <img src="/images/eGURU_3.png" alt="Your Logo" class="logo-image">
     </a>
 
     <div class="profile-container">

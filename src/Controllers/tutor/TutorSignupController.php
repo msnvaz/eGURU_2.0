@@ -15,6 +15,13 @@ class TutorSignupController {
      * Displays the tutor signup page.
      */
     public function showTutorSignupPage() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $error = $_SESSION['error'] ?? '';
+        unset($_SESSION['error']);
+
         require_once __DIR__ . '/../../Views/tutor/signup.php';
     }
 
@@ -23,6 +30,10 @@ class TutorSignupController {
      */
     public function handleSignup() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
             $firstName = $_POST['first_name'];
             $lastName = $_POST['last_name'];
             $email = $_POST['email'];
@@ -31,10 +42,17 @@ class TutorSignupController {
             $nic = $_POST['nic'];
             $contactNumber = $_POST['contact_number'];
     
-            $registrationDate = date('Y-m-d H:i:s'); // current datetime
-    
+            $registrationDate = date('Y-m-d H:i:s');
             $highest_qualification = null;
-    
+
+            // Check if email already exists
+            if ($this->model->checkEmailExists($email)) {
+                $_SESSION['error'] = "An account with this email already exists. Please try logging in or use a different email.";
+                header("Location: /tutor-signup");
+                exit;
+            }
+
+            // Handle file upload
             if (isset($_FILES['highest-qualification']) && $_FILES['highest-qualification']['error'] == 0) {
                 $uploadDir = './uploads/tutor_qualification_proof/';
                 $fileName = basename($_FILES['highest-qualification']['name']);
@@ -42,13 +60,10 @@ class TutorSignupController {
     
                 if (move_uploaded_file($_FILES['highest-qualification']['tmp_name'], $uploadPath)) {
                     $highest_qualification = $fileName;
-                } else {
-                    
                 }
             }
-    
+
             try {
-                // Include registration date in the function call
                 $this->model->createTutor(
                     $firstName,
                     $lastName,
@@ -60,13 +75,13 @@ class TutorSignupController {
                     $highest_qualification,
                     $registrationDate
                 );
-    
-                header("Location: /tutor-login");
+
+                header("Location: /tutor-signup?success=true");
                 exit;
+
             } catch (\Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
         }
     }
-    
 }
