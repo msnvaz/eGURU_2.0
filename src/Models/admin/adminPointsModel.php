@@ -71,6 +71,14 @@ class adminPointsModel {
             
             $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             error_log('Model: getAllPointTransactions fetched ' . count($records) . ' records');
+            
+            // Debug output to check for missing tutor IDs
+            foreach ($records as $record) {
+                if ($record['transaction_type'] === 'cashout' && empty($record['user_id'])) {
+                    error_log('Warning: Cashout transaction #' . $record['transaction_id'] . ' has empty tutor_id');
+                }
+            }
+            
             return $records;
         } catch (PDOException $e) {
             error_log('Error fetching point transactions: ' . $e->getMessage());
@@ -183,6 +191,14 @@ class adminPointsModel {
             
             $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             error_log('Model: filterPointTransactions fetched ' . count($records) . ' records');
+            
+            // Debug output to check for missing tutor IDs
+            foreach ($records as $record) {
+                if ($record['transaction_type'] === 'cashout' && empty($record['user_id'])) {
+                    error_log('Warning: Filtered cashout transaction #' . $record['transaction_id'] . ' has empty tutor_id');
+                }
+            }
+            
             return $records;
         } catch (PDOException $e) {
             error_log('Error filtering point transactions: ' . $e->getMessage());
@@ -212,7 +228,8 @@ class adminPointsModel {
                 OR LOWER(s.student_last_name) LIKE LOWER(:search)
                 OR LOWER(s.student_email) LIKE LOWER(:search)
                 OR CAST(p.payment_id AS CHAR) LIKE :search
-                OR LOWER(p.bank_transaction_id) LIKE LOWER(:search))";
+                OR LOWER(p.bank_transaction_id) LIKE LOWER(:search))
+                ORDER BY";
             
             // Base cashout search query
             $cashoutQuery = "SELECT 
@@ -260,6 +277,14 @@ class adminPointsModel {
             
             $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             error_log('Model: searchPointTransactions found ' . count($records) . ' matching records');
+            
+            // Debug output to check for missing tutor IDs
+            foreach ($records as $record) {
+                if ($record['transaction_type'] === 'cashout' && empty($record['user_id'])) {
+                    error_log('Warning: Search result cashout transaction #' . $record['transaction_id'] . ' has empty tutor_id');
+                }
+            }
+            
             return $records;
         } catch (PDOException $e) {
             error_log('Error searching point transactions: ' . $e->getMessage());

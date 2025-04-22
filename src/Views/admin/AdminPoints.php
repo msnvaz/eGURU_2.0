@@ -175,17 +175,7 @@
                                 <?= ucfirst(htmlspecialchars($record['transaction_type'])) ?>
                             </td>
                             <td>
-                                <?php if ($record['transaction_type'] === 'purchase'): ?>
-                                <a href="/admin-student-profile/<?= htmlspecialchars($record['user_id']) ?>">
-                                (<?= htmlspecialchars($record['user_id']) ?>)
                                 <?= htmlspecialchars($record['first_name'] . ' ' . $record['last_name']) ?>
-                                </a>
-                                <?php else: ?>
-                                <a href="/admin-tutor-profile/<?= htmlspecialchars($record['user_id']) ?>">
-                                (<?= htmlspecialchars($record['user_id']) ?>)
-                                <?= htmlspecialchars($record['first_name'] . ' ' . $record['last_name']) ?>
-                                </a>
-                                <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($record['point_amount']) ?></td>
                             <td>Rs.<?= number_format($record['cash_value'], 2) ?></td>
