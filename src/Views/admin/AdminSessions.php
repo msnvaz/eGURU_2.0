@@ -87,11 +87,11 @@
                 <input type="text" name="search_term" placeholder="Search by Student/Tutor Name or Email" 
                        value="<?= isset($_POST['search_term']) ? htmlspecialchars($_POST['search_term']) : '' ?>" >
                 <button type="submit" name="search" value="1">Search</button>
-                <button type="submit" name="download_pdf" value="1">PDF</button>
+                <button type="submit" onclick="printTable()">PDF</button>
                 <button type="button" onclick="resetFilters()" class="reset-btn">Reset</button>
             </div>
         </form>
-
+        <div class="session-table" id="session-table" >
         <table>
             <thead>
                 <tr>
@@ -172,7 +172,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
-        
+        </div>
         <?php if (!empty($sessions) && $pages > 1): ?>
         <div class="pagination">
             <?php
@@ -215,7 +215,7 @@
             });
         });
 
-        // Optional: Add form validation
+        //Add form validation
         document.querySelector('form').addEventListener('submit', function(e) {
             const startDate = document.getElementById('start_date').value;
             const endDate = document.getElementById('end_date').value;
@@ -247,6 +247,15 @@
             document.getElementById('status').value = '';
             document.querySelector('input[name="search_term"]').value = '';
             document.querySelector('.search-form').submit();
+        }
+
+        function printTable() {
+            var printContents = document.getElementById('session-table').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+        //   document.body.innerHTML = originalContents;
+            location.reload();
         }
     </script>
 </body>
