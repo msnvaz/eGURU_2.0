@@ -8,14 +8,19 @@ class DisplayAnnouncementController {
     private $announcementModel;
 
     public function __construct() {
-        // Create a new database connection
-        $db = new Database();  // Instantiate Database class
-        $this->announcementModel = new DisplayAnnouncementModel($db->connect()); // Pass the connection to the model
+        $db = new Database();
+        $this->announcementModel = new DisplayAnnouncementModel($db->connect());
     }
 
-    public function displayAnnouncements() {
-        $announcements = $this->announcementModel->getAllAnnouncements();
-        return $this->announcementModel->getAllAnnouncements(); // Return announcements instead of including a file
-        include_once __DIR__ . "/../Views/announcement.php";
+    public function displayAnnouncements($offset = 0) {
+        return $this->announcementModel->getAnnouncements($offset);
     }
+
+    public function loadMoreAnnouncements() {
+        $offset = (int)($_POST['offset'] ?? 0);
+        $moreAnnouncements = $this->displayAnnouncements($offset);
+        echo json_encode($moreAnnouncements);
+    }
+    
+    
 }

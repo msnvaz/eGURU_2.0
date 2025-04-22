@@ -21,6 +21,7 @@ class TutorDisplayModel {
                 t.tutor_id,
                 t.tutor_first_name, 
                 t.tutor_last_name, 
+                t.tutor_profile_photo,
                 COUNT(s.session_id) AS completed_sessions
             FROM tutor t
             JOIN session s ON t.tutor_id = s.tutor_id
@@ -54,6 +55,7 @@ class TutorDisplayModel {
                 t.tutor_id,
                 t.tutor_first_name,
                 t.tutor_last_name,
+                t.tutor_profile_photo,
                 COUNT(s.session_id) AS scheduled_sessions
             FROM tutor t
             JOIN session s ON t.tutor_id = s.tutor_id
