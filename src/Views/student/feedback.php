@@ -367,7 +367,7 @@
                         <?php foreach ($tutors as $tutor): ?>
                             <div class="tutor-card">
                                 <img 
-                                    src="images/student-uploads/<?php echo htmlspecialchars($tutor['tutor_profile_photo']); ?>" 
+                                    src="/images/tutor_uploads/tutor_profile_photos/<?php echo htmlspecialchars($tutor['tutor_profile_photo']); ?>" 
                                     alt="<?php echo htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']); ?>" 
                                     class="tutor-image"
                                     

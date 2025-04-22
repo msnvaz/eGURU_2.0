@@ -132,7 +132,7 @@ if (!isset($_SESSION['student_id'])) {
                             <div class="tutor-card">
                                 <div class="tutor-header">
                                     <img class="tutor-profile-photo" 
-                                         src="images/student-uploads/<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>" 
+                                         src="/images/tutor_uploads/tutor_profile_photos/<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>" 
                                          alt="<?= htmlspecialchars($tutor['tutor_first_name']) ?>'s photo">
                                     <h2><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h2>
                                     <span class="tutor-level" style="background-color: <?= htmlspecialchars($tutor['tutor_level_color']) ?>">

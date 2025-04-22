@@ -35,6 +35,8 @@
 
 .table-container {
   margin-top: 15px;
+  margin-bottom: 20px;
+  padding: 10px;
   background-color: #e0f7ff;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -150,23 +152,7 @@ color: #D32F2F;
 font-style: italic;
 }
 
-.meeting-link {
-display: inline-block;
-padding: 4px 10px;
-background-color: #E14177 ;
-color: white;
-text-decoration: none;
-border-radius: 4px;
-margin-top: 4px;
-transition: background-color 0.3s ease;
-}
-.meeting-link:hover {
-background-color:  #e02362;
-text-decoration: none;
-}
-.meeting-link:active {
-background-color:  #ec185e;
-}
+
 
 .tutor-photo {
 width: 100px;

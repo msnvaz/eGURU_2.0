@@ -142,7 +142,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
             <?php else: ?>
                 <?php foreach ($tutorReplies as $reply): ?>
                     <div class="tutor-reply-card">
-                        <img src="images/student-uploads/<?php echo htmlspecialchars($reply['tutor_profile_photo']); ?>" 
+                        <img src="/images/tutor_uploads/tutor_profile_photos/<?php echo htmlspecialchars($reply['tutor_profile_photo']); ?>" 
                              alt="Tutor" class="tutor-avatar">
                         <div class="tutor-reply-content">
                             <div class="tutor-name">

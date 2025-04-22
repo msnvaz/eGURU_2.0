@@ -112,7 +112,11 @@ $router->post('/student-update-timeslot', StudentTimeslotController::class, 'upd
 
 $router->get('/student-publicprofile', StudentPublicProfileController::class, 'ShowPublicprofile');
 $router->get('/student-payment',StudentPaymentController::class, 'ShowPayment');
-$router->get('/student-downloads',StudentDownloadsController::class, 'ShowDownloads');
+
+$router->get('/student-downloads', StudentDownloadsController::class, 'showDownloads');
+$router->get('/student-downloads/filter', StudentDownloadsController::class, 'filterMaterials');
+$router->get('/student-downloads/download', StudentDownloadsController::class, 'downloadMaterial');
+
 $router->get('/student-report',StudentReportController::class, 'ShowReport');
 $router->post('/student/save-report', StudentReportController::class, 'saveReport');
 $router->post('/student/get-tutor-details', StudentReportController::class, 'getTutorDetails');
