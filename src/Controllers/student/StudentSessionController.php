@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controllers\student;
 
 use App\Models\student\SessionRequestModel;
@@ -12,49 +11,127 @@ class StudentSessionController {
     }
 
     public function showSession() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['student_id'])) {
+            header("Location: /student-login");
+            exit();
+        }
+
         include '../src/Views/student/session.php';
     }
 
     public function getPendingRequests() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!isset($_SESSION['student_id'])) {
             http_response_code(401);
-            echo json_encode(['success' => false, 'message' => 'User not authenticated']);
-            exit;
+            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+            exit();
         }
-    
-        $student_id = $_SESSION['student_id'];
-        $pendingRequests = $this->model->getPendingRequestsByStudent($student_id);
-        
-    
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'requests' => $pendingRequests]);
-        exit;
+
+        try {
+            $requests = $this->model->getPendingRequests($_SESSION['student_id']);
+            error_log('Pending requests: ' . json_encode($requests)); // Debug log
+            echo json_encode(['success' => true, 'requests' => $requests]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Failed to retrieve pending requests: ' . $e->getMessage()]);
+            error_log('Error in getPendingRequests: ' . $e->getMessage());
+        }
+    }
+
+    public function getRequestResults() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['student_id'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+            exit();
+        }
+
+        try {
+            $results = $this->model->getRequestResults($_SESSION['student_id']);
+            error_log('Request results: ' . json_encode($results)); // Debug log
+            echo json_encode(['success' => true, 'requests' => $results]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'Failed to retrieve request results: ' . $e->getMessage()]);
+            error_log('Error in getRequestResults: ' . $e->getMessage());
+        }
     }
 
     public function cancelRequest() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!isset($_SESSION['student_id'])) {
             http_response_code(401);
-            echo json_encode(['success' => false, 'message' => 'User not authenticated']);
-            exit;
+            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+            exit();
         }
 
-        $student_id = $_SESSION['student_id'];
-        $request_id = isset($_POST['request_id']) ? $_POST['request_id'] : null;
-
-        if (!$request_id) {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!isset($data['sessionId'])) {
             http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Invalid request']);
-            exit;
+            echo json_encode(['success' => false, 'error' => 'Invalid request: sessionId is required']);
+            exit();
         }
 
-        $result = $this->model->cancelRequest($request_id, $student_id);
-
-        header('Content-Type: application/json');
-        if ($result) {
-            echo json_encode(['success' => true, 'message' => 'Request cancelled successfully']);
-        } else {
+        try {
+            $success = $this->model->cancelRequest($data['sessionId'], $_SESSION['student_id']);
+            
+            if ($success) {
+                echo json_encode(['success' => true]);
+            } else {
+                http_response_code(400);
+                echo json_encode(['success' => false, 'error' => 'Failed to cancel request. This request may no longer be cancelable.']);
+            }
+        } catch (\Exception $e) {
             http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Failed to cancel request']);
+            echo json_encode(['success' => false, 'error' => 'An error occurred: ' . $e->getMessage()]);
+            error_log('Error in cancelRequest: ' . $e->getMessage());
         }
-        exit;
-    }}
+    }
+
+    public function getSessionDetails($sessionId) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['student_id'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+            exit();
+        }
+
+        if (!$sessionId) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Session ID is required']);
+            exit();
+        }
+
+        try {
+            $details = $this->model->getSessionDetails($sessionId, $_SESSION['student_id']);
+            
+            if ($details) {
+                echo json_encode($details);
+            } else {
+                http_response_code(404);
+                echo json_encode(['success' => false, 'error' => 'Session not found']);
+            }
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => 'An error occurred: ' . $e->getMessage()]);
+            error_log('Error in getSessionDetails: ' . $e->getMessage());
+        }
+    }
+}

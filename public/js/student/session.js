@@ -1,185 +1,169 @@
-function toggleRequests(tab) {
-    const pendingTab = document.getElementById("pending-tab");
-    const resultsTab = document.getElementById("results-tab");
-    const pendingRequests = document.getElementById("pending-requests");
-    const requestResults = document.getElementById("request-results");
+let activeTab = 'pending';
 
-    if (tab === "pending") {
-      pendingTab.classList.add("active");
-      resultsTab.classList.remove("active");
-      pendingRequests.classList.remove("hidden");
-      requestResults.classList.add("hidden");
-    } else if (tab === "results") {
-      resultsTab.classList.add("active");
-      pendingTab.classList.remove("active");
-      requestResults.classList.remove("hidden");
-      pendingRequests.classList.add("hidden");
-    }
-  }
+        function toggleRequests(tab) {
+            document.querySelectorAll('.tableheader div').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById(`${tab}-tab`).classList.add('active');
+            
+            document.querySelectorAll('.table-container').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            const containerId = `${tab}-${tab === 'pending' ? 'requests' : 'sessions'}`;
+            document.getElementById(containerId).style.display = 'block';
+            
+            activeTab = tab;
+            loadRequests();
+        }
 
-  function cancelRequest(button) {
-    button.textContent = "Cancelled";
-    button.classList.remove("btn-pending");
-    button.classList.add("btn-declined");
-  }
+        function loadRequests() {
+            const container = document.getElementById(`${activeTab}-${activeTab === 'pending' ? 'requests' : 'sessions'}-body`);
+            
+            const colSpan = '4';
+            container.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Loading...</td></tr>`;
+            
+            const endpoint = activeTab === 'pending' ? '/student-pending-requests' : '/student-request-results';
+            
+            fetch(endpoint)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Data received:', data);
+                    
+                    container.innerHTML = '';
+                    
+                    if (!data.success) {
+                        throw new Error(data.error || 'Unknown error');
+                    }
+                    
+                    const filteredRequests = data.requests.filter(request => {
+                        if (activeTab === 'pending') return request.session_status === 'requested';
+                        if (activeTab === 'rejected') return request.session_status === 'rejected';
+                        if (activeTab === 'cancelled') return request.session_status === 'cancelled';
+                        return false;
+                    });
+                    
+                    if (filteredRequests.length === 0) {
+                        container.innerHTML = `<tr><td colspan="${colSpan}" class="no-data">No ${activeTab} ${activeTab === 'pending' ? 'requests' : 'sessions'} found</td></tr>`;
+                        return;
+                    }
+                    
+                    filteredRequests.forEach(request => {
+                        const row = document.createElement('tr');
+                        const actionButton = request.session_status === 'requested' 
+                            ? `<button onclick="cancelRequest(${request.session_id})" class="cancel-btn">Cancel</button>`
+                            : `<button onclick="viewSessionDetails(${request.session_id})" class="view-btn">View</button>`;
+                            
+                        row.innerHTML = `
+                            <td>${request.tutor_name}</td>
+                            <td>${request.subject}</td>
+                            <td><span class="status-badge ${request.session_status}">${request.session_status}</span></td>
+                            <td>${actionButton}</td>
+                        `;
+                        container.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading requests:', error);
+                    container.innerHTML = `<tr><td colspan="${colSpan}" class="error">Error loading data: ${error.message}. Please try again.</td></tr>`;
+                });
+        }
 
+        function cancelRequest(sessionId) {
+            if (!confirm('Are you sure you want to cancel this session request?')) {
+                return;
+            }
 
+            fetch('/student-cancel-request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sessionId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Request cancelled successfully.');
+                    loadRequests();
+                } else {
+                    alert('Failed to cancel request: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
 
-/*approved popup*/
-  
-function showApprovedPopup(tutor, time, subject, meetingId, password) {
-  document.getElementById("approved_popup-tutor").textContent = tutor;
-  document.getElementById("approved_popup-time").textContent = time;
-  document.getElementById("approved_popup-meeting-id").textContent = meetingId;
-  document.getElementById("approved_popup-password").textContent = password;
-  document.getElementById("approved_popup").style.display = "flex";
-}
+        function viewSessionDetails(sessionId) {
+            fetch(`/student-session-details/${sessionId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Session details:', data);
+                    
+                    const detailsContent = document.getElementById('session-details-content');
+                    
+                    if (data.error) {
+                        detailsContent.innerHTML = `<p class="error">${data.error}</p>`;
+                        document.getElementById('session-details-modal').style.display = 'block';
+                        return;
+                    }
 
-function closeApprovedPopup() {
-  document.getElementById("approved_popup").style.display = "none";
-}
+                    let tutorPhotoHtml = '';
+                    if (data.tutor_profile_photo) {
+                        tutorPhotoHtml = `<img src=\"images/student-uploads/${data.tutor_profile_photo}\" alt=\"${data.tutor_name}\" class=\"tutor-photo\">`;
+                     }
 
-//pending requests
-document.addEventListener('DOMContentLoaded', function () {
-  loadPendingRequests();
-});
+                    let dateTimeInfo = '';
+                    
+                    if (data.session_status === 'cancelled') {
+                        const cancelDate = data.cancelled_at ? new Date(data.cancelled_at) : new Date();
+                        dateTimeInfo = `
+                            <p><strong>Cancelled on:</strong> ${cancelDate.toLocaleDateString()} at ${cancelDate.toLocaleTimeString()}</p>
+                        `;
+                    }
+                    
+                    detailsContent.innerHTML = `
+                        ${tutorPhotoHtml}
+                        <p><strong>Tutor:</strong> ${data.tutor_name}</p>
+                        <p><strong>Subject:</strong> ${data.subject}</p>
+                        <p><strong>Status:</strong> <span class="status-badge ${data.session_status}">${data.session_status}</span></p>
+                        ${dateTimeInfo}
+                    `;
+                    document.getElementById('session-details-modal').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error loading session details:', error);
+                    const detailsContent = document.getElementById('session-details-content');
+                    detailsContent.innerHTML = `<p class="error">Error loading session details: ${error.message}</p>`;
+                    document.getElementById('session-details-modal').style.display = 'block';
+                });
+        }
 
-function loadPendingRequests() {
-  fetch('/student-session/pending-requests')
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          updatePendingRequestsTable(data.requests);
-      } else {
-          document.querySelector("#pending-requests tbody").innerHTML = "<tr><td colspan='5'>No pending requests</td></tr>";
-      }
-  })
-  .catch(error => console.error('Fetch error:', error));
-}
+        function closeSessionDetails() {
+            document.getElementById('session-details-modal').style.display = 'none';
+        }
 
-function updatePendingRequestsTable(requests) {
+        document.addEventListener('DOMContentLoaded', loadRequests);
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('session-details-modal');
+            if (event.target === modal) {
+                closeSessionDetails();
+            }
+        }
     
-    const tableBody = document.querySelector("#pending-requests tbody");
-    tableBody.innerHTML = '';
 
-    if (requests.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="5">No pending requests</td></tr>';
-        return;
-    }
-
-
-    requests.forEach(request => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${request.tutor_name}</td>
-            <td>${request.subject}</td>
-            <td>${request.grade}</td>
-            <td>${request.requested_date}</td>
-            <td>${request.status}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
-
-function getStatusBadge(status) {
-    const statusClasses = {
-        'Pending': 'badge-pending',
-        'Accepted': 'badge-accepted',
-        'Rejected': 'badge-rejected',
-        'Cancelled': 'badge-cancelled'
-    };
-    return `<span class="badge ${statusClasses[status] || ''}">${status}</span>`;
-}
-
-function formatDate(dateString) {
-    return new Date(dateString).toLocaleString();
-}
-
-function cancelRequest(requestId) {
-  fetch('/student-session/cancel-request', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: 'request_id=' + requestId
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          // Remove the row from the table
-          const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
-          if (row) {
-              row.remove();
-          }
-          // Optionally show a success message
-          alert('Request cancelled successfully');
-      } else {
-          alert('Failed to cancel request: ' + data.message);
-      }
-  })
-  .catch(error => {
-      console.error('Error:', error);
-      alert('An error occurred while cancelling the request');
-  });
-}
-
-function loadPendingRequests() {
-  fetch('/student-session/pending-requests')
-  .then(response => response.json())
-  .then(data => {
-      const tableBody = document.querySelector('#pending-requests tbody');
-      tableBody.innerHTML = '';
-
-      if (data.success && data.requests.length > 0) {
-          data.requests.forEach(request => {
-              const row = document.createElement('tr');
-              row.setAttribute('data-request-id', request.request_id);
-              row.innerHTML = `
-                  <td>${request.tutor_name}</td>
-                  <td>${request.subject}</td>
-                  <td>${request.grade}</td>
-                  <td>${request.created_at}</td>
-                  <td>${request.status}</td>
-                  <td>
-                      <button onclick="cancelRequest(${request.request_id})">Cancel</button>
-                  </td>
-              `;
-              tableBody.appendChild(row);
-          });
-      } else {
-          const row = document.createElement('tr');
-          row.innerHTML = '<td colspan="6">No pending requests</td>';
-          tableBody.appendChild(row);
-      }
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  });
-}
-
-function cancelRequest(requestId) {
-  fetch('/student-session/cancel-request', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: 'request_id=' + requestId
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
-          if (row) {
-              row.remove();
-          }
-      } else {
-          alert('Failed to cancel request: ' + data.message);
-      }
-  })
-  .catch(error => {
-      console.error('Error:', error);
-      alert('An error occurred while cancelling the request');
-  });
-}
-
-document.addEventListener('DOMContentLoaded', loadPendingRequests);
+                   
+                    

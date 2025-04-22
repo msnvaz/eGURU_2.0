@@ -1,167 +1,177 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    margin: 20px;
-  }
-
-  .request_container {
-    width: 73%;
-    margin: auto;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 120px;
-    margin-left: 300px;
-  }
-
-  .header {
-    display: flex;
-    border-bottom: 2px solid #ddd;
-    background-color: #e6f7ff;
-  }
-
-  .header div {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .header .active {
-    background-color: #b3e5fc;
-    color: black;
-  }
-
-  .table-container {
-    padding: 20px;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .tutor-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .tutor-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .btn-pending, .btn-approved, .btn-declined {
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .btn-pending {
-    background-color: #28a745;
-  }
-
-  .btn-approved {
-    background-color: #007bff;
-  }
-
-  .btn-declined {
-    background-color: #dc3545;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  
-
-  /* Approved Popup Styles */
-  .approved_popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .approved_popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 30%;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .approved_popup-content h2 {
-    margin-bottom: 20px;
-  }
-
-  .approved_popup-content a {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    color: white;
-    background-color: #007bff;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-
-  .close-btn {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-
-  .pending-btn {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
+.request_container {
+  width: 73%;
+  margin: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 120px;
+  margin-left: 330px;
 }
+
+.tableheader {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ddd;
+  background-color: #e0f7ff;
+  
+}
+.tableheader div {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  background:#e0f7ff;
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+  
+}
+.tableheader div.active {
+  background:#b3e5fc;
+  color: black;
+}
+
+
+.table-container {
+  margin-top: 15px;
+  background-color: #e0f7ff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.table-container.active{
+  background: #b3e5fc;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #b3e5fc;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+}
+
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+
+.status-badge.requested {
+background-color: #FFF8DC;
+color: #DAA520;
+}
+
+.status-badge.scheduled {
+background-color: #b4f5fe;
+color: #0097A7;
+}
+
+.status-badge.completed {
+background-color: #E8F5E9;
+color: #388E3C;
+}
+
+.status-badge.cancelled {
+background-color: #FFEBEE;
+color: #D32F2F;
+}
+
+.status-badge.rejected {
+background-color: #EFEBE9;
+color: #5D4037;
+}
+
+
+.modal {
+display: none;
+position: fixed;
+z-index: 100;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+background-color: white;
+margin: 10% auto;
+padding: 20px;
+border-radius: 8px;
+width: 50%;
+max-width: 500px;
+}
+
+
+
+
+.status-badge {
+padding: 5px 10px;
+border-radius: 20px;
+font-size: 0.9em;
+font-weight: bold;
+display: inline-block;
+}
+
 
 .cancel-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
+background-color: #F44336;
+color: white;
+border: none;
+padding: 6px 12px;
+border-radius: 4px;
+cursor: pointer;
 }
 
-.pending-btn:hover {
-    background-color: darkgreen;
+.view-btn {
+background-color: #E14177;
+color: white;
+border: none;
+padding: 6px 12px;
+border-radius: 4px;
+cursor: pointer;
 }
 
-.cancel-btn:hover {
-    background-color: darkred;
+.no-data {
+text-align: center;
+padding: 20px;
+color: #757575;
 }
 
-.approved-status {
-    color: blue;
-    font-weight: bold;
+.error {
+color: #D32F2F;
+font-style: italic;
+}
+
+.meeting-link {
+display: inline-block;
+padding: 4px 10px;
+background-color: #E14177 ;
+color: white;
+text-decoration: none;
+border-radius: 4px;
+margin-top: 4px;
+transition: background-color 0.3s ease;
+}
+.meeting-link:hover {
+background-color:  #e02362;
+text-decoration: none;
+}
+.meeting-link:active {
+background-color:  #ec185e;
+}
+
+.tutor-photo {
+width: 100px;
+height: 100px;
+border-radius: 50%;
+object-fit: cover;
+margin-bottom: 1rem;
 }
