@@ -256,30 +256,38 @@ class adminInboxController {
     }
 
     // Show a specific sent message
-    public function showSentMessage($messageId, $recipientType) {
-        // Get the active message
-        $activeMessage = $this->model->getSentMessage($messageId, $recipientType);
-        
-        if (!$activeMessage) {
-            header('Location: /admin-outbox');
-            exit();
-        }
-        
-        // Get all sent messages for the sidebar (with same filters as outbox page)
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
-        $searchTerm = isset($_GET['search_term']) ? $_GET['search_term'] : null;
-        
-        $messages = $this->model->getAllSentMessages($page, null, $filter, $searchTerm);
-        
-        // Get total messages for pagination
-        $totalMessages = $this->model->getTotalSentMessages($filter, $searchTerm);
-        $perPage = 10; // Should match the value in the model
-        $totalPages = ceil($totalMessages / $perPage);
-        $currentPage = $page;
-        
-        require_once __DIR__ . '/../../Views/admin/AdminOutbox.php';
+public function showSentMessage($messageId, $recipientType) {
+    // Get the active message
+    $activeMessage = $this->model->getSentMessage($messageId, $recipientType);
+    
+    if (!$activeMessage) {
+        header('Location: /admin-outbox');
+        exit();
     }
+    
+    // Get replies from students or tutors
+    $recipientReplies = [];
+    if ($recipientType === 'student') {
+        $recipientReplies = $this->model->getStudentReplies($messageId);
+    } else if ($recipientType === 'tutor') {
+        $recipientReplies = $this->model->getTutorReplies($messageId);
+    }
+    
+    // Get all sent messages for the sidebar (with same filters as outbox page)
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
+    $searchTerm = isset($_GET['search_term']) ? $_GET['search_term'] : null;
+    
+    $messages = $this->model->getAllSentMessages($page, null, $filter, $searchTerm);
+    
+    // Get total messages for pagination
+    $totalMessages = $this->model->getTotalSentMessages($filter, $searchTerm);
+    $perPage = 10; // Should match the value in the model
+    $totalPages = ceil($totalMessages / $perPage);
+    $currentPage = $page;
+    
+    require_once __DIR__ . '/../../Views/admin/AdminOutbox.php';
+}
 
     // Show tutor reports page
     public function showTutorReports() {
