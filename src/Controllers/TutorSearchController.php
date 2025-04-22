@@ -6,7 +6,6 @@ use App\Models\TutorSearchModel;
 
 class TutorSearchController
 {
-    // Handles GET requests to show the search form and display filtered results (if any)
     public function showSearchForm()
     {
         $filters = [
@@ -17,7 +16,6 @@ class TutorSearchController
             'session_count' => $_GET['session_count'] ?? null,
         ];
 
-        // Remove empty filters (null or empty string)
         $filters = array_filter($filters, fn($value) => $value !== null && $value !== '');
 
         $tutors = [];
@@ -35,7 +33,6 @@ class TutorSearchController
         ]);
     }
 
-    // Handles POST form submissions and redirects as GET request with query parameters
     public function search()
     {
         $query = http_build_query([
@@ -46,15 +43,13 @@ class TutorSearchController
             'session_count' => $_POST['session_count'] ?? null,
         ]);
 
-        // Redirect to search form with query string
         header("Location: /tutor/search?$query");
         exit;
     }
 
-    // Helper method to render view
     private function render($view, $data = [])
     {
         extract($data);
-        include __DIR__ . "/../Views/{$view}.php";
+        include __DIR__ . "/../Views/tutorsearchresult.php";
     }
 }
