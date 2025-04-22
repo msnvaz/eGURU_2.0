@@ -25,13 +25,12 @@ use App\Controllers\admin\AdminSettingsController;
 use App\Controllers\admin\AdminInboxController;
 use App\Controllers\admin\AdminTransactionController;
 use App\Controllers\admin\adminTutorController; 
-
+use App\Controllers\admin\adminPointsController; //for points
 
 //Cretaed for manager
 use App\Controllers\manager\ManagerLoginController;
 use App\Controllers\manager\ManagerDashboardController;
 use App\Controllers\manager\ManagerAnnouncementController;
-
 
 use App\Router;
 
@@ -187,6 +186,12 @@ $router->get('/admin-sessions', adminSessionController::class, 'showAllSessions'
 
 //search sessions
 $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions');
+
+// Admin point transactions
+$router->get('/admin-points', adminPointsController::class, 'showAllPoints');
+// Search/filter points
+$router->post('/admin-points', adminPointsController::class, 'showAllPoints');
+
 //admin announcements
 $router->get('/admin-announcement', AdminAnnouncementController::class, 'showAnnouncements'); // View all announcements
 $router->get('/admin-announcement/create{id}', AdminAnnouncementController::class, 'showCreateForm'); // Show create announcement form

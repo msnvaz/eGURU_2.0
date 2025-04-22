@@ -69,6 +69,7 @@
         .current-page {
             color: white !important;
             background-color:rgba(41, 50, 65, 0.2);
+            text-shadow: 3px 5px 10px rgba(53, 58, 85, 0.56);
         }
 
     </style>
@@ -97,9 +98,6 @@
    <a href="/admin-tutor-upgrade-requests" data-path="/admin-tutor-upgrade-requests">
        <i class="fa-solid fa-money-bill-1"></i>Fee Requests
    </a>
-   <a href="/admin-ads" data-path="/admin-ads">
-       <i class="fa-solid fa-star"></i>Ads
-   </a>
    <hr>
    <div class="active">
        <a href="/admin-inbox" data-path="/admin-inbox">
@@ -116,13 +114,16 @@
        <i class="fa-solid fa-calendar-days"></i>Sessions
    </a>
     <!--transactions-->
-    <a href="/admin-transactions" data-path="/admin-transactions">
-        <i class="fa-solid fa-credit-card"></i>Transactions
+    <a href="/admin-points" data-path="/admin-points">
+        <i class="fa-solid fa-credit-card"></i>Points
     </a>
-   <hr>
-   <a href="/admin-settings" data-path="/admin-settings">
-       <i class="fa-solid fa-gear"></i>Settings
-   </a>
+    <a href="/admin-transactions" data-path="/admin-transactions">
+        <i class="fa-solid fa-hand-holding-dollar"></i>Session Payments
+    </a>
+    <hr>
+    <a href="/admin-settings" data-path="/admin-settings">
+        <i class="fa-solid fa-gear"></i>Settings
+    </a>
 </div>
 
 <script>
