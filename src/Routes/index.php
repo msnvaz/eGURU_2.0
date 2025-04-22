@@ -43,7 +43,7 @@ use App\Controllers\student\StudentFeedbackController;
 use App\Controllers\student\StudentPublicProfileController;
 use App\Controllers\student\StudentSessionController;
 use App\Controllers\student\StudentPaymentController;
-use App\Controllers\student\StudentRatingController;
+use App\Controllers\student\StudentTimeSlotController;
 use App\Controllers\student\StudentDownloadsController;
 use App\Controllers\student\StudentReportController;
 use App\Controllers\student\StudentLogoutController;
@@ -84,8 +84,6 @@ $router->post('/tutor/search', TutorSearchController::class, 'search');
 $router->get('/studentreview', StudentReviewController::class, 'showTestimonials');
 
 
-//$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
-//$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
 
 //student routes
 $router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
@@ -108,11 +106,19 @@ $router->post('/student-feedback/submit',StudentFeedbackController::class, 'subm
 $router->post('/student-feedback/update',StudentFeedbackController::class, 'updateFeedback');
 $router->post('/student-feedback/delete',StudentFeedbackController::class, 'deleteFeedback');
 
+$router->get('/student-session', StudentSessionController::class, 'showSession');
+$router->get('/student-pending-requests', StudentSessionController::class, 'getPendingRequests');
+$router->get('/student-request-results', StudentSessionController::class, 'getRequestResults');
+$router->post('/student-cancel-request', StudentSessionController::class, 'cancelRequest');
+$router->get('/student-session-details/{sessionId}', StudentSessionController::class, 'getSessionDetails');
+
+$router->get('/student-timeslot', StudentTimeSlotController::class, 'showStudentTimeSlotPage'); 
+$router->post('/student-timeslot-save', StudentTimeSlotController::class, 'saveStudentTimeSlots');
+$router->post('/student-delete-timeslot', StudentTimeslotController::class, 'deleteTimeslot');
+$router->post('/student-update-timeslot', StudentTimeslotController::class, 'updateTimeslot');
 
 $router->get('/student-publicprofile', StudentPublicProfileController::class, 'ShowPublicprofile');
-$router->get('/student-session',StudentSessionController::class, 'ShowSession');
 $router->get('/student-payment',StudentPaymentController::class, 'ShowPayment');
-$router->get('/student-rating',StudentRatingController::class, 'ShowRating');
 $router->get('/student-downloads',StudentDownloadsController::class, 'ShowDownloads');
 $router->get('/student-report',StudentReportController::class, 'ShowReport');
 $router->post('/student/save-report', StudentReportController::class, 'saveReport');
