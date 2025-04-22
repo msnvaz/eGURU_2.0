@@ -638,4 +638,32 @@ class adminInboxModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    // Get student replies to admin messages
+public function getStudentReplies($inboxId) {
+    $query = "SELECT sir.*, s.student_first_name, s.student_last_name 
+              FROM student_inbox_reply sir
+              JOIN student_inbox si ON sir.inbox_id = si.inbox_id
+              JOIN student s ON si.student_id = s.student_id
+              WHERE si.inbox_id = :inboxId AND si.sender_type = 'admin'
+              ORDER BY sir.created_at ASC";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(':inboxId', $inboxId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Get tutor replies to admin messages
+public function getTutorReplies($inboxId) {
+    $query = "SELECT tir.*, t.tutor_first_name, t.tutor_last_name 
+              FROM tutor_inbox_reply tir
+              JOIN tutor_inbox ti ON tir.inbox_id = ti.inbox_id
+              JOIN tutor t ON ti.tutor_id = t.tutor_id
+              WHERE ti.inbox_id = :inboxId AND ti.sender_type = 'admin'
+              ORDER BY tir.created_at ASC";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(':inboxId', $inboxId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }

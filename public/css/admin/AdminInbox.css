@@ -268,3 +268,14 @@
 .action-button.archive {
     background-color: var(--dark-pink);
 }
+
+.recipient-reply {
+    background-color: #f0f7ff;
+    border-left: 4px solid #2583c5;
+}
+
+.reply-sender {
+    font-weight: bold;
+    color: #2583c5;
+    margin-bottom: 5px;
+}

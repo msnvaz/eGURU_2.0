@@ -79,7 +79,6 @@
                 <div class="inbox-content">
                     <?php if (isset($activeMessage)): ?>
                         <div class="message-header">
-                        <div class="message-header">
                             <h3 class="message-subject-header"><?= htmlspecialchars($activeMessage['subject']) ?></h3>
                             <div class="message-info">
                                 <span>From: <?= htmlspecialchars($activeMessage['sender_type']) === 'student' ? 'Student' : 'Tutor' ?> #<?= htmlspecialchars($activeMessage['sender_id']) ?></span>
@@ -100,6 +99,7 @@
                                 </form>
                             <?php endif; ?>
                         </div>
+                        
                         <?php if (!empty($replies)): ?>
                             <div class="previous-replies">
                                 <h4>Previous Replies</h4>
@@ -108,6 +108,25 @@
                                         <div class="reply-admin">Admin: <?= htmlspecialchars($reply['admin_username']) ?></div>
                                         <div class="reply-text"><?= nl2br(htmlspecialchars($reply['reply_message'])) ?></div>
                                         <div class="reply-date"><?= htmlspecialchars(date('F d, Y \a\t h:i A', strtotime($reply['replied_at']))) ?></div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($recipientReplies)): ?>
+                            <div class="previous-replies">
+                                <h4>Replies from <?= ucfirst($recipientType) ?></h4>
+                                <?php foreach ($recipientReplies as $reply): ?>
+                                    <div class="reply-item recipient-reply">
+                                        <div class="reply-sender">
+                                            <?php if ($recipientType === 'student'): ?>
+                                                <?= htmlspecialchars($reply['student_first_name'] . ' ' . $reply['student_last_name']) ?>
+                                            <?php else: ?>
+                                                <?= htmlspecialchars($reply['tutor_first_name'] . ' ' . $reply['tutor_last_name']) ?>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="reply-text"><?= nl2br(htmlspecialchars($reply['message'])) ?></div>
+                                        <div class="reply-date"><?= htmlspecialchars(date('F d, Y \a\t h:i A', strtotime($reply['created_at']))) ?></div>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
@@ -127,6 +146,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
+                
             </div>
         </div>
     </div>
