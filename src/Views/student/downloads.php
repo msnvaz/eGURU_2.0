@@ -1,67 +1,69 @@
+<?php
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$page = "download";
+include __DIR__ . '/header.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Downloads</title>
-    <link rel="stylesheet" href="css/student/downloads.css">
-    <link rel="stylesheet" href="css/student/new.css">
-    <link rel="stylesheet" href="css/student/nav.css">
-    <link rel="stylesheet" href="css/student/sidebar.css">
+    <link rel="stylesheet" href="/css/student/downloads.css">
+    <link rel="stylesheet" href="/css/student/nav.css">
+    <link rel="stylesheet" href="/css/student/sidebar.css">
 </head>
-
-<?php $page="download"; ?>
 <body>
     
-<?php include '../src/Views/student/header.php'; ?>
+    <?php include '../src/Views/student/sidebar.php'; ?>
+    
+    <div class="download-bodyform">
+        <div id="download-content">
+            <h1>Download Study Materials</h1><br>
 
-        <?php include 'sidebar.php'; ?>
-<div class="download-bodyform">
-<!-- Content area -->
-<div id="download-content">
-        <h1>Download Study Materials</h1><br>
+            <?php if(isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars($_SESSION['error']); ?>
+                    <?php unset($_SESSION['error']); ?>
+                </div>
+            <?php endif; ?>
+            
+            <div class="selection">
+                <label for="tutor">Tutor:</label>
+                <select id="tutor">
+                    <option value="">All Tutors</option>
+                    <?php foreach ($completedTutors as $tutor): ?>
+                        <option value="<?= htmlspecialchars($tutor['tutor_id']) ?>">
+                            <?= htmlspecialchars($tutor['first_name'] . ' ' . $tutor['last_name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                
+                <br><br>
+                <label for="subject">Subject:</label>
+                <select id="subject">
+                    <option value="">All Subjects</option>
+                    <?php foreach ($completedSubjects as $subject): ?>
+                        <option value="<?= htmlspecialchars($subject['subject_id']) ?>">
+                            <?= htmlspecialchars($subject['subject_name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                
+                <br><br>
+                <button class="btn" onclick="loadMaterials()">Show Materials</button>
+            </div>
 
-        <?php
-// Assume you fetched the data from the database
-$row = [
-    'file_path' => 'uploads/study_materials/Number system.pdf',
-    'title' => 'Number system'
-];
-
-?>
-
-        <!-- Dropdown for grade and subject -->
-        <div class="selection">
-            <label for="grade">Grade:</label>
-            <select id="grade">
-                <option value="grade6">Grade 6</option>
-                <option value="grade7">Grade 7</option>
-                <option value="grade8">Grade 8</option>
-                <option value="grade9">Grade 9</option>
-                <option value="grade10">Grade 10</option>
-                <option value="grade11">Grade 11</option>
-            </select>
-            <br><br>
-            <label for="subject">Subject:</label>
-            <select id="subject">
-                <option value="math">Math</option>
-                <option value="science">Science</option>
-                <option value="history">History</option>
-                <option value="ict">ICT</option>
-                <option value="geography">Geography</option>
-                <option value="english">English</option>
-            </select>
-<br><br>
-            <button class="btn" onclick="loadMaterials()">Show Materials</button>
+            <div id="materialContainer" class="materials-container">
+                <!-- Materials will be loaded here after clicking the button -->
+            </div>
         </div>
-
-        <!-- List of study materials -->
-        <ul id="materialList" class="materials">
-            <!-- Dynamically filled by JS -->
-             
-        </ul>
     </div>
-</div>
-    <script src="js/student/downloads.js"></script>
+
+    <script src="/js/student/downloads.js"></script>
 </body>
 </html>
