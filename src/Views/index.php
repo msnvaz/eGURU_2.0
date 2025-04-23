@@ -234,7 +234,6 @@
     </section>
     <!-- php code line for visitor-query should be here -->
      <br>
-     <?php include 'visitor-query.php'; ?>
     <!-- FAQ Section-->
 
     <section id="faq">
