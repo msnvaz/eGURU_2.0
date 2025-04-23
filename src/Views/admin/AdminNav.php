@@ -118,7 +118,7 @@
         <i class="fa-solid fa-credit-card"></i>Points
     </a>
     <a href="/admin-transactions" data-path="/admin-transactions">
-        <i class="fa-solid fa-hand-holding-dollar"></i>Session Payments
+        <i class="fa-solid fa-hand-holding-dollar"></i>Session Refund
     </a>
     <hr>
     <a href="/admin-settings" data-path="/admin-settings">

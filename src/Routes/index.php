@@ -187,7 +187,7 @@ $router->get('/admin-sessions', adminSessionController::class, 'showAllSessions'
 //search sessions
 $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions');
 
-// Admin point transactions
+// Admin point purchase/cashout
 $router->get('/admin-points', adminPointsController::class, 'showAllPoints');
 // Search/filter points
 $router->post('/admin-points', adminPointsController::class, 'showAllPoints');

@@ -24,6 +24,8 @@
                 $cashoutCount = 0;
                 $cashoutPoints = 0;
                 $cashoutValue = 0;
+                $platformRate = 0.05; // 5% platform rate
+                $platformRevenue = 0;
                 
                 foreach ($records as $record) {
                     if ($record['transaction_type'] === 'purchase') {
@@ -36,7 +38,7 @@
                         $cashoutValue += $record['cash_value'];
                     }
                 }
-                
+                $platformRevenue = $purchaseValue - ($cashoutValue * (1-$platformRate));
                 //echo $purchaseCount;
             ?>
         
@@ -134,6 +136,10 @@
                 <h3>Total Cashout Value</h3>
                 <p class="stat-number">Rs.<?= number_format($cashoutValue, 0) ?></p>
                 
+            </div>
+            <div class="stat-card">
+                <h3>Platform Revenue</h3>
+                <p class="stat-number">Rs.<?= number_format($platformRevenue, 0) ?></p>
             </div>
         </div>
 
