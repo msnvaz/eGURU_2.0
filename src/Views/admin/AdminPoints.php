@@ -141,7 +141,7 @@
         <table>
             <thead>
                 <tr>
-                    <th colspan="6" style="text-align: center;border-radius: 20px 20px 0 0;font-size:14px;margin:0;">Points Transactions</th>
+                    <th colspan="8" style="text-align: center;border-radius: 20px 20px 0 0;font-size:14px;margin:0;">Points Transactions</th>
                 </tr>
                 <tr>
                     <th>ID</th>
@@ -150,6 +150,8 @@
                     <th>Points</th>
                     <th>Cash Value</th>
                     <th>Transaction ID</th>
+                    <th>Transaction Date</th>
+                    <th>Transaction Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -180,9 +182,11 @@
                             <td><?= htmlspecialchars($record['point_amount']) ?></td>
                             <td>Rs.<?= number_format($record['cash_value'], 2) ?></td>
                             <td><?= htmlspecialchars($record['bank_transaction_id']) ?></td>
+                            <td><?= htmlspecialchars($record['transaction_date']) ?></td>
+                            <td><?= htmlspecialchars($record['transaction_time']) ?></td>
                         </tr>
                         <tr class="details-row">
-                            <td colspan="6">
+                            <td colspan="8">
                                 <div class="details-content">
                                     <div class="details-grid">
                                         <div class="details-grid-item">
@@ -192,6 +196,7 @@
                                             <p><strong>Points Amount:</strong> <?= htmlspecialchars($record['point_amount']) ?></p>
                                             <p><strong>Cash Value:</strong> Rs.<?= number_format($record['cash_value'], 2) ?></p>
                                             <p><strong>Bank Transaction ID:</strong> <?= htmlspecialchars($record['bank_transaction_id']) ?></p>
+                                            <p><strong>Transaction Date &Time:</strong> <?= htmlspecialchars($record['transaction_time']) ?></p>
                                             <p><strong>Points to Cash Ratio:</strong> 
                                                 <?= $record['point_amount'] ? (number_format($record['cash_value'] / $record['point_amount'], 2)) : 'N/A' ?> : 1
                                             </p>
