@@ -210,7 +210,7 @@
         // Teacher Performance (Using sample data for now)
         const teacherPerformanceCtx = document.getElementById('teacherPerformanceChart').getContext('2d');
         new Chart(teacherPerformanceCtx, {
-            type: 'polarArea',
+            type: 'doughnut',
             data: {
                 labels: ['Teacher A', 'Teacher B', 'Teacher C', 'Teacher D'],
                 datasets: [{
