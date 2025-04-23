@@ -1,5 +1,15 @@
 <?php
 use App\Controllers\student\StudentDashboardController;
+
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$page = "dashboard";
+include __DIR__ . '/header.php';
+
+
 // Ensure student is logged in
 if (!isset($_SESSION['student_id'])) {
     header("Location: /student-login");
@@ -11,6 +21,11 @@ $dashboardController = new StudentDashboardController();
 
 // Fetch tutor replies
 $tutorReplies = $dashboardController->getTutorReplies();
+
+// Fetch upcoming and previous events
+$upcomingEvents = $dashboardController->getUpcomingEvents();
+$previousEvents = $dashboardController->getPreviousEvents();
+
 
 // Fetch student details from session
 $student_name = isset($_SESSION['student_name']) ? $_SESSION['student_name'] : 'Student';
@@ -31,10 +46,10 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
     <link rel="stylesheet" href="css/student/sidebar.css">
 
 </head>
-<?php $page="dashboard"; ?>
+
 
 <body>
-    <?php include '../src/Views/student/header.php'; ?>
+    
     <div class="container">
         <?php include 'sidebar.php'; ?>
         <div class="header-container">
@@ -44,8 +59,8 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                     <p>Keep up the good work!</p>
                 </div>
                 <div class="user-info">
-                    <img src="images/student-uploads/profilePhotos/<?php echo isset($_SESSION['profile_picture']) ? $_SESSION['profile_picture'] : 'profile1.jpg'; ?>"
-                        alt="Profile" class="user-avatar">
+                <img src="/images/student-uploads/profilePhotos/<?php echo isset($_SESSION['profile_picture']) && file_exists('images/student-uploads/profilePhotos/' . $_SESSION['profile_picture']) ? htmlspecialchars($_SESSION['profile_picture']) : 'profile1.jpg'; ?>" 
+    alt="Profile" class="user-avatar">
                     <div class="user-details">
 
                         <h2><?= isset($_SESSION['student_name']) ? htmlspecialchars($_SESSION['student_name']) : 'Student Name' ?>
@@ -56,8 +71,9 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                             <?= isset($_SESSION['student_points']) ? htmlspecialchars($_SESSION['student_points']) : '0' ?>
                         </p>
 
-                        <button class="find-tutor-btn"><a style="text-decoration:none; color:white;"
-                                href="student-findtutor">Find Tutor</a></button>
+                        <button class="find-tutor-btn">
+    <a style="text-decoration:none; color:white;" href="/student-findtutor">Find Tutor</a>
+</button>
                                 <img src="images/student-uploads/welcome.png" alt="welcome" class="welcome_img">
                     </div>
                 </div>
@@ -82,47 +98,39 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
 
         <div class="content-container">
             <div class="events-section">
-                <div class="section-header">
+            <div class="section-header">
                     <h2>Upcoming Events</h2>
-                    <a href="student-events" class="view-all">View All</a>
+                    <a href="/student-events" class="view-all">View All</a>
                 </div>
                 <div class="event-list">
-                    <div class="event-card">
-                        <div>Mathematics</div>
-                        <div>Mr. Kavinda</div>
-                        <div>20 Dec 2024</div>
-                        <div>2:00 PM</div>
-                    </div>
-                    <div class="event-card">
-                        <div>Science</div>
-                        <div>Mr. Dulanjaya</div>
-                        <div>21 Dec 2024</div>
-                        <div>10:00 AM</div>
-                    </div>
-
+                    <?php foreach ($upcomingEvents as $event): ?>
+                        <div class="event-card">
+                            <div><?= htmlspecialchars($event['subject_name']) ?></div>
+                            <div><?= htmlspecialchars($event['tutor_name']) ?></div>
+                            <div><?= htmlspecialchars(date('d M Y', strtotime($event['scheduled_date']))) ?></div>
+                            <div><?= htmlspecialchars(date('g:i A', strtotime($event['schedule_time']))) ?></div>
+                        </div>
+                    <?php endforeach; ?>
                 </div><br>
                 <div class="section-header">
                     <h2>Previous Events</h2>
-                    <a href="student-events" class="view-all">View All</a>
+                    
                 </div>
                 <div class="event-list">
-                    <div class="event-card">
-                        <div>History</div>
-                        <div>Mr. Nuwan</div>
-                        <div>20 Nov 2024</div>
-                        <div>4:00 PM</div>
-                    </div>
-                    <div class="event-card">
-                        <div>ICT</div>
-                        <div>Ms. Chathuri</div>
-                        <div>29 Nov 2024</div>
-                        <div>9:00 AM</div>
-                    </div>
+                    <?php foreach ($previousEvents as $event): ?>
+                        <div class="event-card">
+                            <div><?= htmlspecialchars($event['subject_name']) ?></div>
+                            <div><?= htmlspecialchars($event['tutor_name']) ?></div>
+                            <div><?= htmlspecialchars(date('d M Y', strtotime($event['scheduled_date']))) ?></div>
+                            <div><?= htmlspecialchars(date('g:i A', strtotime($event['schedule_time']))) ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
 
                 </div>
-            </div>
+          
 
-            <div class="feedback-section">
+        <div class="feedback-section">
                 <div class="section-header">
                     <h2>Tutors' Feedback</h2>
                     <a href="student-feedback" class="view-all">View All</a>
@@ -134,7 +142,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
             <?php else: ?>
                 <?php foreach ($tutorReplies as $reply): ?>
                     <div class="tutor-reply-card">
-                        <img src="images/student-uploads/<?php echo htmlspecialchars($reply['tutor_profile_photo']); ?>" 
+                        <img src="/images/tutor_uploads/tutor_profile_photos/<?php echo htmlspecialchars($reply['tutor_profile_photo']); ?>" 
                              alt="Tutor" class="tutor-avatar">
                         <div class="tutor-reply-content">
                             <div class="tutor-name">
@@ -146,9 +154,11 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                             <div class="tutor-subject">
                                 <?php echo htmlspecialchars($reply['subject_name']); ?>
                             </div>
+                            
                             <p class="reply-text">
                                 "<?php echo htmlspecialchars($reply['tutor_reply']); ?>"
                             </p>
+                
                             <div class="reply-date">
                                 <?php echo $dashboardController->formatDateTime($reply['last_updated']); ?>
                             </div>
@@ -157,8 +167,8 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-    </div>
-
+                </div>
+                
     <script src="js/student/dashboard.js"></script>
 </body>
 

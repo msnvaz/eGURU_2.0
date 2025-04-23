@@ -96,6 +96,8 @@ class adminTutorController {
     
     public function showTutorProfile($tutorId) {
         $tutor = $this->model->getTutorProfile($tutorId);
+        $advertisements = $this->model->getTutorAdvertisements($tutorId);
+        $studyMaterials = $this->model->getTutorStudyMaterials($tutorId);
         require_once __DIR__ . '/../../Views/admin/AdminTutorProfile.php';
     }
 
@@ -443,5 +445,51 @@ class adminTutorController {
         }
         
         require_once __DIR__ . '/../../Views/admin/AdminTutorUpgradeRequestDetails.php';
+    }
+
+    public function downloadStudyMaterial($materialId) {
+        $material = $this->model->getStudyMaterial($materialId);
+        
+        if (!$material || empty($material['material_path'])) {
+            header("Location: /admin-tutors?error=Material not found");
+            exit();
+        }
+        
+        $filePath = __DIR__ . '/../../../public/uploads/tutor_study_materials/' . $material['material_path'];
+        
+        if (!file_exists($filePath)) {
+            header("Location: /admin-tutors?error=File not found");
+            exit();
+        }
+        
+        // Get file extension to determine mime type
+        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+        switch(strtolower($fileExtension)) {
+            case 'pdf':
+                $contentType = 'application/pdf';
+                break;
+            case 'jpg':
+            case 'jpeg':
+                $contentType = 'image/jpeg';
+                break;
+            case 'png':
+                $contentType = 'image/png';
+                break;
+            case 'docx':
+                $contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
+            default:
+                $contentType = 'application/octet-stream';
+        }
+        
+        header('Content-Type: ' . $contentType);
+        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        readfile($filePath);
+        exit();
     }
 }

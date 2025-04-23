@@ -131,7 +131,6 @@ class adminInboxController {
         exit();
     }
     
-    // NEW: Show compose message form
     public function showComposeForm() {
         // Get students and tutors for the drop-downs
         $students = $this->model->getAllStudents();
@@ -140,6 +139,9 @@ class adminInboxController {
         
         // Message type (student, tutor, or both)
         $messageType = isset($_GET['type']) ? $_GET['type'] : 'student';
+        
+        // Pre-selected recipient (from reports)
+        $selectedRecipient = isset($_GET['recipient']) ? $_GET['recipient'] : null;
         
         require_once __DIR__ . '/../../Views/admin/AdminComposeMessage.php';
     }
@@ -254,30 +256,88 @@ class adminInboxController {
     }
 
     // Show a specific sent message
-    public function showSentMessage($messageId, $recipientType) {
-        // Get the active message
-        $activeMessage = $this->model->getSentMessage($messageId, $recipientType);
+public function showSentMessage($messageId, $recipientType) {
+    // Get the active message
+    $activeMessage = $this->model->getSentMessage($messageId, $recipientType);
+    
+    if (!$activeMessage) {
+        header('Location: /admin-outbox');
+        exit();
+    }
+    
+    // Get replies from students or tutors
+    $recipientReplies = [];
+    if ($recipientType === 'student') {
+        $recipientReplies = $this->model->getStudentReplies($messageId);
+    } else if ($recipientType === 'tutor') {
+        $recipientReplies = $this->model->getTutorReplies($messageId);
+    }
+    
+    // Get all sent messages for the sidebar (with same filters as outbox page)
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
+    $searchTerm = isset($_GET['search_term']) ? $_GET['search_term'] : null;
+    
+    $messages = $this->model->getAllSentMessages($page, null, $filter, $searchTerm);
+    
+    // Get total messages for pagination
+    $totalMessages = $this->model->getTotalSentMessages($filter, $searchTerm);
+    $perPage = 10; // Should match the value in the model
+    $totalPages = ceil($totalMessages / $perPage);
+    $currentPage = $page;
+    
+    require_once __DIR__ . '/../../Views/admin/AdminOutbox.php';
+}
+
+    // Show tutor reports page
+    public function showTutorReports() {
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
+        $searchTerm = null;
+        $activeTab = 'reports';
         
-        if (!$activeMessage) {
-            header('Location: /admin-outbox');
+        // Handle search form submission
+        if (isset($_POST['search']) && !empty($_POST['search_term'])) {
+            $searchTerm = $_POST['search_term'];
+        }
+        
+        // Get reports based on filters
+        $reports = $this->model->getAllTutorReports($page, $filter, $searchTerm);
+        
+        // Get total reports for pagination
+        $totalReports = $this->model->getTotalTutorReports($filter, $searchTerm);
+        $unreadCount = $this->model->getUnreadMessageCount();
+        $perPage = 10;
+        $totalPages = ceil($totalReports / $perPage);
+        $currentPage = $page;
+        
+        require_once __DIR__ . '/../../Views/admin/AdminTutorReports.php';
+    }
+
+    // Show a specific tutor report
+    public function showTutorReport($reportId) {
+        // Get the active report
+        $activeReport = $this->model->getTutorReport($reportId);
+        
+        if (!$activeReport) {
+            header('Location: /admin-tutor-reports');
             exit();
         }
         
-        // Get all sent messages for the sidebar (with same filters as outbox page)
+        // Get all reports for the sidebar (with same filters as reports page)
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
         $searchTerm = isset($_GET['search_term']) ? $_GET['search_term'] : null;
         
-        $messages = $this->model->getAllSentMessages($page, null, $filter, $searchTerm);
+        $reports = $this->model->getAllTutorReports($page, $filter, $searchTerm);
         
-        // Get total messages for pagination
-        $totalMessages = $this->model->getTotalSentMessages($filter, $searchTerm);
-        $perPage = 10; // Should match the value in the model
-        $totalPages = ceil($totalMessages / $perPage);
+        // Get total reports for pagination
+        $totalReports = $this->model->getTotalTutorReports($filter, $searchTerm);
+        $unreadCount = $this->model->getUnreadMessageCount();
+        $perPage = 10;
+        $totalPages = ceil($totalReports / $perPage);
         $currentPage = $page;
         
-        require_once __DIR__ . '/../../Views/admin/AdminOutbox.php';
+        require_once __DIR__ . '/../../Views/admin/AdminTutorReports.php';
     }
-
-    
 }

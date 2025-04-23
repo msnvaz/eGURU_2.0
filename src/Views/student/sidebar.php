@@ -20,7 +20,7 @@
                 <li> <a class= "<?php echo ($page== "event") ? 'active' : ''; ?>"href="student-events"><i class="fa-solid fa-calendar-days"></i>Events</a></li>
                 <li> <a class= "<?php echo ($page== "feedback") ? 'active' : ''; ?>"href="student-feedback"><i class="fa-solid fa-comment"></i>Feedback</a></li>
                 <li><a class= "<?php echo ($page== "profile") ? 'active' : ''; ?>"href="student-publicprofile"><i class="fa-solid fa-user"></i> Public Profile</a></li>
-                <li> <a class= "<?php echo ($page== "session") ? 'active' : ''; ?>"href="student-session"><i class="fa fa-calendar-alt fa-2x"></i>Sessions </a></li>
+                <li> <a class= "<?php echo ($page== "session") ? 'active' : ''; ?>"href="student-session"><i class="fa fa-calendar-alt fa-2x"></i>Requests </a></li>
                 <li> <a class= "<?php echo ($page== "payment") ? 'active' : ''; ?>"href="student-payment"><i class="fa-solid fa-money-bill"></i>Payments</a></li>
                 <li> <a class= "<?php echo ($page== "timeslot") ? 'active' : ''; ?>"href="student-timeslot"><i class="fa fa-calendar-alt fa-2x"></i>Timeslots </a></li>
                 <li><a class= "<?php echo ($page== "download") ? 'active' : ''; ?>"href="student-downloads"><i class="fa-solid fa-download"></i> Downloads </a></li>

@@ -124,7 +124,7 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
             
             echo '<div class="tutor ' . $rankClass . '">';
             echo '<div class="rank-badge">' . $rank . '</div>';
-            echo '<img src="images/tutor_' . $tutor['tutor_id'] . '.jpeg" alt="' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '">' ;
+            echo '<img src="' . htmlspecialchars($tutor['tutor_profile_photo']) . '" alt="' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '">';
             echo '<h3>' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '</h3>';
             
             // Display subjects

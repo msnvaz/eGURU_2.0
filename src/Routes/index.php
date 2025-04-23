@@ -11,6 +11,7 @@ use App\Controllers\VisitorQueryController; //for visitor-query
 use App\Controllers\ForumController; //for forum
 use App\Controllers\TutorSearchController; //for forum
 use App\Controllers\StudentReviewController; //for forum
+use App\Controllers\TutorAdDisplayController; //for forum
 
 use App\Controllers\admin\AdminLoginController;
 use App\Controllers\admin\AdminDashboardController;
@@ -24,13 +25,12 @@ use App\Controllers\admin\AdminSettingsController;
 use App\Controllers\admin\AdminInboxController;
 use App\Controllers\admin\AdminTransactionController;
 use App\Controllers\admin\adminTutorController; 
-
+use App\Controllers\admin\adminPointsController; //for points
 
 //Cretaed for manager
 use App\Controllers\manager\ManagerLoginController;
 use App\Controllers\manager\ManagerDashboardController;
 use App\Controllers\manager\ManagerAnnouncementController;
-
 
 use App\Router;
 
@@ -43,7 +43,7 @@ use App\Controllers\student\StudentFeedbackController;
 use App\Controllers\student\StudentPublicProfileController;
 use App\Controllers\student\StudentSessionController;
 use App\Controllers\student\StudentPaymentController;
-use App\Controllers\student\StudentRatingController;
+use App\Controllers\student\StudentTimeSlotController;
 use App\Controllers\student\StudentDownloadsController;
 use App\Controllers\student\StudentReportController;
 use App\Controllers\student\StudentLogoutController;
@@ -62,6 +62,7 @@ use App\Controllers\tutor\TutorLogoutController;
 use App\Controllers\tutor\TutorFeeRequestController;
 use App\Controllers\tutor\TutorStudyMaterialsController;
 use App\Controllers\tutor\TutorTimeSlotController;
+use App\Controllers\tutor\TutorStudentProfileController;
 
 
 $router = new Router();
@@ -71,6 +72,7 @@ $router->get('/subject', SubjectPageController::class, 'showSubjectPage');
 $router->get('/tutorpreview', TutorPreviewController::class, 'showTutorProfile'); // newly added by shayan
 $router->get('/advertisement', AdvertisementController::class, 'showAdvertisementGalleryPage');
 $router->get('/announcement', DisplayAnnouncementController::class, 'displayAnnouncements');
+$router->post('/announcement', DisplayAnnouncementController::class, 'loadMoreAnnouncements'); // for load more announcments
 $router->post('/visitor-query', VisitorQueryController::class, 'storeVisitorQuery'); //for visitor query
 $router->post('/upload-ad', AdvertisementController::class, 'uploadAdvertisement');
 $router->post('/delete-ad', AdvertisementController::class, 'deleteAdvertisement');
@@ -81,10 +83,10 @@ $router->post('/forum', ForumController::class, 'showForumMessages');
 $router->get('/tutor/search', TutorSearchController::class, 'showSearchForm');
 $router->post('/tutor/search', TutorSearchController::class, 'search');
 $router->get('/studentreview', StudentReviewController::class, 'showTestimonials');
+$router->get('/tutor-ads', TutorAdDisplayController::class,'index');
 
 
-//$router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
-//$router->get('/student-signin', StudentSigninController::class, 'ShowStudentSigninPage');
+
 
 //student routes
 $router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginPage');
@@ -107,12 +109,24 @@ $router->post('/student-feedback/submit',StudentFeedbackController::class, 'subm
 $router->post('/student-feedback/update',StudentFeedbackController::class, 'updateFeedback');
 $router->post('/student-feedback/delete',StudentFeedbackController::class, 'deleteFeedback');
 
+$router->get('/student-session', StudentSessionController::class, 'showSession');
+$router->get('/student-pending-requests', StudentSessionController::class, 'getPendingRequests');
+$router->get('/student-request-results', StudentSessionController::class, 'getRequestResults');
+$router->post('/student-cancel-request', StudentSessionController::class, 'cancelRequest');
+$router->get('/student-session-details/{sessionId}', StudentSessionController::class, 'getSessionDetails');
+
+$router->get('/student-timeslot', StudentTimeSlotController::class, 'showStudentTimeSlotPage'); 
+$router->post('/student-timeslot-save', StudentTimeSlotController::class, 'saveStudentTimeSlots');
+$router->post('/student-delete-timeslot', StudentTimeslotController::class, 'deleteTimeslot');
+$router->post('/student-update-timeslot', StudentTimeslotController::class, 'updateTimeslot');
 
 $router->get('/student-publicprofile', StudentPublicProfileController::class, 'ShowPublicprofile');
-$router->get('/student-session',StudentSessionController::class, 'ShowSession');
 $router->get('/student-payment',StudentPaymentController::class, 'ShowPayment');
-$router->get('/student-rating',StudentRatingController::class, 'ShowRating');
-$router->get('/student-downloads',StudentDownloadsController::class, 'ShowDownloads');
+
+$router->get('/student-downloads', StudentDownloadsController::class, 'showDownloads');
+$router->get('/student-downloads/filter', StudentDownloadsController::class, 'filterMaterials');
+$router->get('/student-downloads/download', StudentDownloadsController::class, 'downloadMaterial');
+
 $router->get('/student-report',StudentReportController::class, 'ShowReport');
 $router->post('/student/save-report', StudentReportController::class, 'saveReport');
 $router->post('/student/get-tutor-details', StudentReportController::class, 'getTutorDetails');
@@ -129,6 +143,7 @@ $router->post('/student-profile-delete', StudentPublicProfileController::class,'
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
 $router->post('/tutor-login-action', TutorLoginController::class, 'handleLogin'); // Handle login form submission
 $router->get('/tutor-signup', TutorSignupController::class, 'ShowTutorSignupPage'); // Show signup page
+$router->post('/tutor-signup-action', TutorSignupController::class, 'handleSignup');// Handle signup form submission
 $router->get('/tutor-dashboard', TutorDashboardController::class, 'ShowTutorDashboardPage'); // Redirect only if logged in
 $router->get('/tutor-event', TutorEventController::class, 'showEventPage'); 
 $router->get('/tutor-request', TutorRequestController::class, 'showrequestPage'); 
@@ -153,6 +168,7 @@ $router->post('/submit-upgrade-request', TutorFeeRequestController::class, 'subm
 $router->post('/cancel-upgrade-request', TutorFeeRequestController::class, 'cancelUpgradeRequest');
 $router->get('/tutor-timeslot', TutorTimeSlotController::class, 'showTutorTimeSlotPage'); 
 $router->post('/tutor-timeslot-save', TutorTimeSlotController::class, 'saveTutorTimeSlots');
+$router->get('/tutor-student-profile/{id}', TutorStudentProfileController::class, 'showTutorStudentProfile');
 
 
 //student profile for admin
@@ -170,6 +186,12 @@ $router->get('/admin-sessions', adminSessionController::class, 'showAllSessions'
 
 //search sessions
 $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions');
+
+// Admin point transactions
+$router->get('/admin-points', adminPointsController::class, 'showAllPoints');
+// Search/filter points
+$router->post('/admin-points', adminPointsController::class, 'showAllPoints');
+
 //admin announcements
 $router->get('/admin-announcement', AdminAnnouncementController::class, 'showAnnouncements'); // View all announcements
 $router->get('/admin-announcement/create{id}', AdminAnnouncementController::class, 'showCreateForm'); // Show create announcement form
@@ -246,6 +268,9 @@ $router->post('/admin-dashboard/restoresubject', adminSubjectController::class, 
 $router->get('/admin-inbox', AdminInboxController::class, 'index'); // Show inbox
 $router->post('/admin-inbox/send', AdminInboxController::class, 'sendMessage'); // Handle sending a message
 
+$router->get('/admin-tutor-reports', AdminInboxController::class, 'showTutorReports');
+$router->get('/admin-tutor-report/{id}', AdminInboxController::class, 'showTutorReport');
+
 //transactions
 $router->get('/admin-transactions', AdminTransactionController::class, 'showTransactions'); // Show all transactions and handle search
 $router->post('/admin-transactions', AdminTransactionController::class, 'showTransactions'); // Allow search functionality
@@ -290,6 +315,9 @@ $router->get('/admin-tutor-upgrade-details/{id}', adminTutorController::class, '
 // Approve/reject upgrade request routes
 $router->post('/admin-approve-upgrade/{id}', adminTutorController::class, 'approveUpgradeRequest');
 $router->post('/admin-reject-upgrade/{id}', adminTutorController::class, 'rejectUpgradeRequest');
+
+//tutor study materials /download-material/38
+$router->post('download-material/{id}', adminTutorController::class, 'downloadStudyMaterial');
 
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');

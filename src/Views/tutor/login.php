@@ -7,14 +7,24 @@
     <link rel="stylesheet" href="/css/tutor/login.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        .error-message {
+            color: red;
+            background-color:rgba(255, 255, 255, 0.46);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <?php include '../src/Views/navbar.php'; ?>
     <main>
         <div class="login-container">
             <h1>Welcome to e-Guru</h1>
+
             <?php if (!empty($error)) : ?>
-                <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+                <p class="error-message"><?php echo htmlspecialchars($error); ?></p>
             <?php endif; ?>
 
             <form action="/tutor-login-action" method="POST">

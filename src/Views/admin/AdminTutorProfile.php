@@ -167,8 +167,88 @@
                         ?>
                     </span>
                 </div>
+            </div>
+        </div>
+        <div class="viewprofile-sections">
+                    <!-- Tutor Advertisements Section -->
+                    <div class="section-container">
+                        <h3>Advertisements</h3>
+                        <?php if (empty($advertisements)): ?>
+                            <p>No advertisements found for this tutor.</p>
+                        <?php else: ?>
+                            <div class="ad-grid">
+                                <?php foreach ($advertisements as $ad): ?>
+                                    <div class="ad-card">
+                                        <div class="ad-image">
+                                            <?php if (!empty($ad['ad_display_pic'])): ?>
+                                                <img src="/uploads/tutor_ads/<?= htmlspecialchars($ad['ad_display_pic']); ?>" alt="Advertisement">
+                                            <?php else: ?>
+                                                <div class="no-image">No Image</div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="ad-details">
+                                            <p class="ad-description"><?= htmlspecialchars($ad['ad_description']); ?></p>
+                                            <div class="ad-meta">
+                                                <span class="ad-date">Posted: <?= date('M d, Y', strtotime($ad['ad_created_at'])); ?></span>
+                                                <span class="ad-status <?= $ad['ad_status'] === 'set' ? 'active' : 'inactive'; ?>">
+                                                    Status: <?= $ad['ad_status'] === 'set' ? 'Active' : 'Inactive'; ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
-                <!-- Add this section for qualification proof -->
+                    <!-- Tutor Study Materials Section -->
+                    <div class="section-container">
+                        <h3>Study Materials</h3>
+                        <?php if (empty($studyMaterials)): ?>
+                            <p>No study materials found for this tutor.</p>
+                        <?php else: ?>
+                            <div class="materials-table-container">
+                                <table class="materials-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Subject</th>
+                                            <th>Description</th>
+                                            <th>Grade</th>
+                                            <th>Status</th>
+                                            <th>File</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($studyMaterials as $material): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($material['material_id']); ?></td>
+                                                <td><?= htmlspecialchars($material['subject_name'] ?? 'N/A'); ?></td>
+                                                <td><?= htmlspecialchars($material['material_description']); ?></td>
+                                                <td><?= htmlspecialchars($material['grade']); ?></td>
+                                                <td>
+                                                    <span class="status-badge <?= $material['material_status'] === 'set' ? 'active' : 'inactive'; ?>">
+                                                        <?= $material['material_status'] === 'set' ? 'Active' : 'Inactive'; ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <?php if (!empty($material['material_path'])): ?>
+                                                        <a href="/download-material/<?= htmlspecialchars($material['material_id']); ?>" class="download-button">
+                                                            Download
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <span>No file</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                
                 <?php if ($tutor['tutor_status'] === 'requested' && !empty($tutor['tutor_qualification_proof'])): ?>
                 <div class="detail-item">
                     <strong>Qualification Proof</strong>
@@ -179,58 +259,8 @@
                     </span>
                 </div>
                 <?php endif; ?>
-
-                <div class="button-group">
-                    <a href="/admin-edit-tutor-profile/<?= htmlspecialchars($tutor['tutor_id'] ?? '') ?>" class="edit-button">Edit Profile</a>             
-                    <?php if ($tutor['tutor_status'] === 'requested'): ?>
-                        <form action="/admin-approve-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmApprove()">
-                            <button type="submit" class="edit-button" style="background-color: #28a745; color: white;">Approve Request</button>
-                        </form>
-                        <form action="/admin-reject-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmReject()">
-                            <button type="submit" class="edit-button" style="background-color: #dc3545; color: white;">Reject Request</button>
-                        </form>
-                        <script>
-                            function confirmApprove() {
-                                return confirm('Are you sure you want to approve this tutor?');
-                            }
-                            function confirmReject() {
-                                return confirm('Are you sure you want to reject this tutor?');
-                            }
-                        </script>
-                    <?php elseif ($tutor['tutor_status'] === 'unset'): ?>
-                        <form action="/admin-restore-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmRestore()">
-                            <button type="submit" class="edit-button">Restore Profile</button>
-                        </form>
-                    <?php elseif ($tutor['tutor_status'] === 'blocked'): ?>
-                        <form action="/admin-unblock-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmUnblock()">
-                            <button type="submit" class="edit-button">Unblock Profile</button>
-                        </form>
-                    <?php else: ?>
-                        <form action="/admin-block-tutor/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmBlock()">
-                            <button type="submit" class="edit-button">Block Profile</button>
-                        </form>
-                        <form action="/tutor-delete-profile/<?= htmlspecialchars($tutor['tutor_id'])?>" method="POST" onsubmit="return confirmDelete()">
-                            <button type="submit" class="edit-button">Delete Profile</button>
-                        </form>
-                    <?php endif; ?>
-                    <script>
-                        function confirmRestore() {
-                            return confirm('Are you sure you want to restore this tutor profile?');
-                        }
-                        function confirmDelete() {
-                            return confirm('Are you sure you want to delete this tutor profile?');
-                        }
-                        function confirmBlock() {
-                            return confirm('Are you sure you want to block this tutor profile?');
-                        }
-                        function confirmUnblock() {
-                            return confirm('Are you sure you want to unblock this tutor profile?');
-                        }
-                    </script>                    
-                </div>
-            </div>
-        </div>
     </div>
     </div>
+    
 </body>
 </html>

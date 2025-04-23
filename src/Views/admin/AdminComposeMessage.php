@@ -19,12 +19,14 @@
     <div class="main">
         <br>
         <div class="admin-dashboard">
-        <div class="inbox-tabs">
-            <a href="/admin-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox</a>
-            <a href="/admin-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
-            <a href="/admin-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
-            <a href="/admin-outbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'outbox') ? 'active' : '' ?>">Outbox</a>
-        </div>
+            <div class="inbox-tabs">
+                <a href="/admin-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox
+                </a>
+                <a href="/admin-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
+                <a href="/admin-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
+                <a href="/admin-outbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'outbox') ? 'active' : '' ?>">Outbox</a>
+                <a href="/admin-tutor-reports" class="tab-link <?= (isset($activeTab) && $activeTab === 'reports') ? 'active' : '' ?>">Tutor Reports</a>
+            </div>
                     
             <div class="compose-container">
                 <?php if (isset($_GET['success'])): ?>
@@ -62,21 +64,21 @@
                         <label for="students">Select Students:</label>
                         <select id="students" name="students[]" multiple class="select2" <?= $messageType === 'student' || $messageType === 'both' ? 'required' : '' ?>>
                             <?php foreach ($students as $student): ?>
-                                <option value="<?= $student['student_id'] ?>">
-                                    <?= htmlspecialchars($student['student_first_name'] . ' ' . $student['student_last_name']) ?> (ID: <?= $student['student_id'] ?>)
+                                <option value="<?= $student['student_id'] ?>" <?= (isset($selectedRecipient) && $messageType === 'student' && $selectedRecipient == $student['student_id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($student['student_first_name'] . ' ' . $student['student_last_name']) ?> (#<?= $student['student_id'] ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <?php endif; ?>
-                    
+
                     <?php if ($messageType === 'tutor' || $messageType === 'both'): ?>
                     <div class="recipient-section">
                         <label for="tutors">Select Tutors:</label>
                         <select id="tutors" name="tutors[]" multiple class="select2" <?= $messageType === 'tutor' || $messageType === 'both' ? 'required' : '' ?>>
                             <?php foreach ($tutors as $tutor): ?>
-                                <option value="<?= $tutor['tutor_id'] ?>">
-                                    <?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?> (ID: <?= $tutor['tutor_id'] ?>)
+                                <option value="<?= $tutor['tutor_id'] ?>" <?= (isset($selectedRecipient) && $messageType === 'tutor' && $selectedRecipient == $tutor['tutor_id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?> (#<?= $tutor['tutor_id'] ?>)
                                 </option>
                             <?php endforeach; ?>
                         </select>

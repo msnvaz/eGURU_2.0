@@ -62,7 +62,7 @@ class SessionsModel {
     }
 
     public function getRequestedSessionsByTutor($tutorId) {
-        $sql = "SELECT s.session_id, s.scheduled_date, s.schedule_time, st.student_first_name, st.student_last_name, subj.subject_name 
+        $sql = "SELECT s.student_id, s.session_id, s.scheduled_date, s.schedule_time, st.student_first_name, st.student_last_name, subj.subject_name 
                 FROM session s
                 JOIN student st ON s.student_id = st.student_id
                 JOIN subject subj ON s.subject_id = subj.subject_id

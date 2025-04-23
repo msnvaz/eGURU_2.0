@@ -130,23 +130,7 @@
     <!-- Advertisement-section - Meet Some of Our Best Tutors -->
 
     <section  id="tutors">
-        <div class="color-section" >
-            <br><br><br><br>
-            <h2 class="section-title">Meet Some of Our Best Tutors</h2>
-            <br>
-            <div class="slider-container">
-                <button class="slider-btn prev">&lt;</button>
-                <div class="slider-wrapper">
-                    <div class="slider">
-                        <img src="uploads/ad_1.jpeg" alt="Tuition Classes">
-                        <img src="uploads/ad_2.jpeg" alt="Home Tuition">
-                        <img src="uploads/ad_3.jpeg" alt="Online Tutoring">
-                        <!-- Add more images as needed -->
-                    </div>
-                </div>
-                <button class="slider-btn next">&gt;</button>
-            </div>
-        </div>
+        <?php include 'tutor_ad_display.php';?>
         
         <br>
         <?php include 'announcement.php'; ?>

@@ -84,6 +84,15 @@ class ProfileModel {
         return $result ? $result : [];
     }
 
+    public function updateStudentGrade($studentId, $grade) {
+        $sql = "UPDATE student SET student_grade = :student_grade WHERE student_id = :student_id";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([
+            ':student_grade' => $grade,
+            ':student_id' => $studentId
+        ]);
+    }
+    
     public function deleteProfile($studentId) {
         $this->db->beginTransaction();
         try {

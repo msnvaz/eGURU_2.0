@@ -56,60 +56,73 @@
     ?>
     
     <div class="request_container">
-        <div class="request-header">
-            <div id="active-tab" class="tab active" onclick="toggleRequests('active')">Active Student Requests</div>
-            <div id="rejected-tab" class="tab" onclick="toggleRequests('rejected')">Rejected Student Requests</div>
-        </div>
-        <div id="active-requests" class="requests">
-            <div class="request">
-                <div><b>Subject</b></div>
-                <div><b>Scheduled Date</b></div>
-                <div><b>Scheduled Time</b></div>
-                <div><b>Student Name</b></div>
-                <div><b>Request Action</b></div>
-            </div>
-
-            <?php if (!empty($active_requests)) : ?>
-                <?php foreach ($active_requests as $request) : ?>
-                    <div class="request">
-                        <div><?= htmlspecialchars($request['subject_name']) ?></div>
-                        <div><?= htmlspecialchars($request['scheduled_date']) ?></div>
-                        <div><?= htmlspecialchars($request['schedule_time']) ?></div>
-                        <div><?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?></div>
-                        <div class="buttons">
-                            <form method="POST" action="/handle-session-request">
-                                <input type="hidden" name="session_id" value="<?= $request['session_id'] ?>">
-                                <input type="hidden" name="action" value=""> <!-- Add this -->
-                                <button type="button" data-action="accept" class="accept">Accept</button>
-                                <button type="button" data-action="decline" class="decline">Decline</button>
-                            </form>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else : ?>
-                <div class="request"><div colspan="5">No new requests found.</div></div>
-            <?php endif; ?>
+    <div class="request-header">
+        <div id="active-tab" class="tab active" onclick="toggleRequests('active')">Active Student Requests</div>
+        <div id="rejected-tab" class="tab" onclick="toggleRequests('rejected')">Rejected Student Requests</div>
+    </div>
+    
+    <div id="active-requests" class="requests">
+        <div class="request">
+            <div><b>Subject</b></div>
+            <div><b>Scheduled Date</b></div>
+            <div><b>Scheduled Time</b></div>
+            <div><b>Student Name</b></div>
+            <div><b>Request Action</b></div>
         </div>
 
-        <div id="rejected-requests" class="requests" style="display: none;">
-            <div class="request"><!-- Headers of the table -->
-                <div><b>Subject</b></div>
-                <div><b>Scheduled date</b></div>
-                <div><b>Scheduled time</b></div>
-                <div><b>Student Name</b></div>
-            </div>
-
-            <?php foreach ($rejected_requests as $request): ?>
+        <?php if (!empty($active_requests)) : ?>
+            <?php foreach ($active_requests as $request) : ?>
                 <div class="request">
                     <div><?= htmlspecialchars($request['subject_name']) ?></div>
                     <div><?= htmlspecialchars($request['scheduled_date']) ?></div>
                     <div><?= htmlspecialchars($request['schedule_time']) ?></div>
-                    <div><?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?></div>
+                    
+                    <!-- Make student name clickable -->
+                    <div>
+                        <a href="/tutor-student-profile/<?= $request['student_id'] ?>">
+                            <?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?>
+                        </a>
+                    </div>
+
+
+                    <div class="buttons">
+                        <form method="POST" action="/handle-session-request">
+                            <input type="hidden" name="session_id" value="<?= $request['session_id'] ?>">
+                            <input type="hidden" name="action" value="">
+                            <button type="button" data-action="accept" class="accept">Accept</button>
+                            <button type="button" data-action="decline" class="decline">Decline</button>
+                        </form>
+                    </div>
                 </div>
             <?php endforeach; ?>
+        <?php else : ?>
+            <div class="request"><div colspan="5">No new requests found.</div></div>
+        <?php endif; ?>
+    </div>
+
+    <div id="rejected-requests" class="requests" style="display: none;">
+        <div class="request">
+            <div><b>Subject</b></div>
+            <div><b>Scheduled date</b></div>
+            <div><b>Scheduled time</b></div>
+            <div><b>Student Name</b></div>
         </div>
 
+        <?php foreach ($rejected_requests as $request): ?>
+            <div class="request">
+                <div><?= htmlspecialchars($request['subject_name']) ?></div>
+                <div><?= htmlspecialchars($request['scheduled_date']) ?></div>
+                <div><?= htmlspecialchars($request['schedule_time']) ?></div>
+                <div>
+                    <a href="/tutor-student-profile/<?= $request['student_id'] ?>">
+                        <?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?>
+                    </a>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
+</div>
+
     <script>
     function toggleRequests(tab) {
         const pastTab = document.getElementById('active-tab');
