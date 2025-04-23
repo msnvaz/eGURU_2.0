@@ -120,11 +120,11 @@ td button:hover {
   box-shadow: 0 2px 10px rgba(0,0,0,0.0);
   padding: 20px;
   margin-bottom: 20px;
-  height: 300px;
+  height: 180px;
   gap: 10px;
 }
 .chart-container h3 {
-  margin: 0 0 15px;
+  margin: 0 0 5px;
   font-size: 18px;
   color: #293241;
 }
@@ -179,14 +179,15 @@ td button:hover {
   min-width: 9%;
   text-align: center;
   border:var(--dark-pink) 2px solid;
-  border-left: var(--dark-pink) 5px solid;
+  border-right: var(--dark-pink) 5px solid;
+  border-bottom: var(--dark-pink) 5px solid;
 }
 
 .stat-card h3 {
   margin-top: 0;
   margin-bottom: 5px;
   font-size: 14px;
-  color: #6c757d;
+  color: #494e53;
   white-space: normal; /* Change from nowrap to normal */
   overflow: hidden;
   display: -webkit-box;
@@ -200,16 +201,18 @@ td button:hover {
   font-size: 24px; /* Slightly smaller */
   font-weight: bold;
   color: #293241;
-  margin: 8px 0;
+  margin: 0px 0;
+  font-weight: 600;
 }
 
 .stat-trend {
   font-size: 14px;
   display: block;
+  font-weight: 600;
 }
 
 .stat-trend.positive {
-  color: #28a745;
+  color: #2caa49;
 }
 
 .stat-trend.negative {
