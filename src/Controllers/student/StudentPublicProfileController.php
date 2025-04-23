@@ -62,6 +62,9 @@ class StudentPublicProfileController {
                     $this->model->createProfile($data);
                 }
     
+                // Update the student_grade in the student table
+                $this->model->updateStudentGrade($data['student_id'], $data['grade']);
+    
                 header('Location: /student-publicprofile');
                 exit();
     
