@@ -92,11 +92,11 @@ function renderReplies($parentId, $model, $level = 1) {
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <p style="padding:10px;">No comments yet. Be the first to comment!</p>
+            <p style="padding:10px;">No Questions yet. Be the first to ask!</p>
         <?php endif; ?>
 
         <form id="comment-form" action="/forum" method="post">
-            <h3 id="title">Leave a Comment</h3>
+            <h3 id="title">Leave a Question</h3>
             <input type="hidden" name="reply_id" id="reply_id" value="0">
             <input type="text" name="name" placeholder="Your name" required>
             <textarea name="comment" placeholder="Your comment" required></textarea>
