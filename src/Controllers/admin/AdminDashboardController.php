@@ -50,6 +50,9 @@ class AdminDashboardController {
         // Format month numbers to ensure all 12 months are represented in charts
         $studentRegistrationsByMonth = $this->formatMonthlyData($studentRegistrations);
         $tutorRegistrationsByMonth = $this->formatMonthlyData($tutorRegistrations);
+        // Get monthly purchase data
+        $monthlyCashouts = $this->model->getMonthlyCashouts();
+        $monthlyCashoutsData = $this->formatMonthlyData($monthlyCashouts);
         
         // Prepare data for the session status chart
         $sessionData = [];

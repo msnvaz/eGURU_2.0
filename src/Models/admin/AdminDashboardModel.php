@@ -167,4 +167,14 @@ class AdminDashboardModel {
         
         return (float)$result['total_purchases'] ?? 0; // Return the value or 0 if null
     }
+
+    public function getMonthlyCashouts() {
+        $query = "SELECT MONTH(transaction_date) as month, SUM(cash_value) as total 
+                  FROM tutor_point_cashout 
+                  GROUP BY MONTH(transaction_date)
+                  ORDER BY month";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
