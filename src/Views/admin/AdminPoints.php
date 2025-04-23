@@ -24,7 +24,6 @@
                 $cashoutCount = 0;
                 $cashoutPoints = 0;
                 $cashoutValue = 0;
-                $platformRate = 0.05; // 5% platform rate
                 $platformRevenue = 0;
                 
                 foreach ($records as $record) {
@@ -38,7 +37,7 @@
                         $cashoutValue += $record['cash_value'];
                     }
                 }
-                $platformRevenue = $purchaseValue - ($cashoutValue * (1-$platformRate));
+                $platformRevenue = $purchaseValue - ($cashoutValue * (1-$platformFee/100));
                 //echo $purchaseCount;
             ?>
         
