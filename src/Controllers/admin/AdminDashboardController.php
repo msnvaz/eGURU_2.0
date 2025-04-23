@@ -3,14 +3,17 @@
 namespace App\Controllers\admin;
 
 use App\Models\admin\AdminDashboardModel;
-use App\Models\admin\AdminLoginModel; // Add this import
+use App\Models\admin\AdminLoginModel; // Add this 
+use App\Models\admin\AdminPointsModel; // Add this
 
 class AdminDashboardController {
     private $model;
+    private $AdminPointModel;
 
     public function __construct() {
         $this->model = new AdminDashboardModel();
         $this->loginModel = new AdminLoginModel(); // Initialize the login model
+        $this->AdminPointModel = new AdminPointsModel(); // Initialize the point model
     }
 
     public function showDashboard() {
@@ -32,11 +35,17 @@ class AdminDashboardController {
         $totalStudentPoints = (int)($this->model->getTotalStudentPoints());
         $totalTutorPoints = (int)($this->model->getTotalTutorPoints());
         $pointValue = (int)($this->model->getPointValue());
-        $platformFee = (int)($this->model->getPlatformFee());
-        $expectedRevenue = ($totalTutorPoints * $pointValue * $platformFee)/100;
-        $totalRevenue = ($this->model->getTotalRevenue())*$pointValue;
+
+        $platformFee = (float)($this->model->getPlatformFee());
+        $payables = (($totalTutorPoints) * $pointValue * (100-$platformFee))/100;
+        $recievables = (($totalTutorPoints) * $pointValue * $platformFee)/100;
+
         $sessionFeedbackRatings = $this->model->getSessionFeedbackRatings();
         $averageSessionRating = (float)($this->model->getAverageSessionRating());
+
+        $totalCashouts = (float)($this->model->getTotalCashouts());
+        $totalPurchases = (float)($this->model->getTotalPurchases());
+        $cashInHand = $totalPurchases-($totalCashouts*((100-$platformFee)/100));
         
         // Format month numbers to ensure all 12 months are represented in charts
         $studentRegistrationsByMonth = $this->formatMonthlyData($studentRegistrations);

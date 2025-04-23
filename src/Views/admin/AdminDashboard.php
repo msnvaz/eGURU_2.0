@@ -23,42 +23,42 @@
                 <div class="stat-card">
                     <h3>Total Students</h3>
                     <p class="stat-number"><?= $totalStudents ?></p>
-                    <span class="stat-trend positive">+12% ↑</span>
+                    
                 </div>
                 <div class="stat-card">
                     <h3>Total Tutors</h3>
                     <p class="stat-number"><?= $totalTutors ?></p>
-                    <span class="stat-trend positive">+5% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Sessions</h3>
-                    <p class="stat-number"><?= $totalSessions ?></p>
-                    <span class="stat-trend positive">+10% ↑</span>
+                    
                 </div>
                 <div class="stat-card">
                     <h3>Completed Sessions</h3>
                     <p class="stat-number"><?= $completedSessions ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Revenue</h3>
-                    <p class="stat-number"><?= number_format($totalRevenue, 2) ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Recievables</h3>
-                    <p class="stat-number"><?= number_format($expectedRevenue,2) ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Total points in Student wallets</h3>
-                    <p class="stat-number"><?= $totalStudentPoints ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
+                    
                 </div>
                 <div class="stat-card">
                     <h3>Total points in Tutor wallets</h3>
                     <p class="stat-number"><?= $totalTutorPoints ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
+                    
+                </div>
+                <div class="stat-card">
+                    <h3>Recievables</h3>
+                    <p class="stat-number">Rs<?= number_format($recievables) ?></p>
+                    <span class="stat-trend positive"><?= number_format($recievables,2) ?></span>
+                </div>
+                <div class="stat-card">
+                    <h3>Payables</h3>
+                    <p class="stat-number"><?= number_format($payables,2) ?></p>
+                    <span class="stat-trend positive"><?= number_format($payables,2) ?></span>
+                </div>
+                <div class="stat-card">
+                    <h3>Total points in Student wallets</h3>
+                    <p class="stat-number"><?= $totalStudentPoints ?></p>
+                    
+                </div>
+                <div class="stat-card">
+                    <h3>Cash in hand</h3>
+                    <p class="stat-number">Rs.<?= number_format($cashInHand,0) ?></p>
+                    <span class="stat-trend positive"><?= number_format($cashInHand,2) ?></span>
                 </div>
         </div>
         <div class="container mt-4">
