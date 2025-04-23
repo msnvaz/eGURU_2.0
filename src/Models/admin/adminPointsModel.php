@@ -32,7 +32,8 @@ class adminPointsModel {
                 p.point_amount,
                 p.cash_value,
                 p.bank_transaction_id,
-                NULL AS transaction_date
+                p.transaction_date,
+                p.transaction_time
             FROM student_point_purchase p
             LEFT JOIN student s ON p.student_id = s.student_id";
             
@@ -47,7 +48,8 @@ class adminPointsModel {
                 c.point_amount,
                 c.cash_value,
                 c.bank_transaction_id,
-                NULL AS transaction_date
+                c.transaction_date,
+                c.transaction_time
             FROM tutor_point_cashout c
             LEFT JOIN tutor t ON c.tutor_id = t.tutor_id";
             
@@ -104,7 +106,8 @@ class adminPointsModel {
                 p.point_amount,
                 p.cash_value,
                 p.bank_transaction_id,
-                NULL AS transaction_date
+                p.transaction_date,
+                p.transaction_time
             FROM student_point_purchase p
             LEFT JOIN student s ON p.student_id = s.student_id
             WHERE 1=1";
@@ -121,7 +124,8 @@ class adminPointsModel {
                 c.point_amount,
                 c.cash_value,
                 c.bank_transaction_id,
-                NULL AS transaction_date
+                c.transaction_date,
+                c.transaction_time
             FROM tutor_point_cashout c
             LEFT JOIN tutor t ON c.tutor_id = t.tutor_id
             WHERE 1=1";
@@ -221,15 +225,36 @@ class adminPointsModel {
                 p.point_amount,
                 p.cash_value,
                 p.bank_transaction_id,
-                NULL AS transaction_date
+                p.transaction_date,
+                p.transaction_time
             FROM student_point_purchase p
             LEFT JOIN student s ON p.student_id = s.student_id
             WHERE (LOWER(s.student_first_name) LIKE LOWER(:search)
                 OR LOWER(s.student_last_name) LIKE LOWER(:search)
                 OR LOWER(s.student_email) LIKE LOWER(:search)
                 OR CAST(p.payment_id AS CHAR) LIKE :search
-                OR LOWER(p.bank_transaction_id) LIKE LOWER(:search))
-                ORDER BY";
+                OR LOWER(p.bank_transaction_id) LIKE LOWER(:search)) ";
+            
+            $cashoutQuery = "SELECT 
+                'cashout' AS transaction_type,
+                c.cashout_id AS transaction_id,
+                NULL AS student_id,
+                c.tutor_id AS user_id,
+                t.tutor_first_name AS first_name,
+                t.tutor_last_name AS last_name,
+                t.tutor_email AS email,
+                c.point_amount,
+                c.cash_value,
+                c.bank_transaction_id,
+                c.transaction_date,
+                c.transaction_time
+            FROM tutor_point_cashout c
+            LEFT JOIN tutor t ON c.tutor_id = t.tutor_id
+            WHERE (LOWER(t.tutor_first_name) LIKE LOWER(:search)
+                OR LOWER(t.tutor_last_name) LIKE LOWER(:search)
+                OR LOWER(t.tutor_email) LIKE LOWER(:search)
+                OR CAST(c.cashout_id AS CHAR) LIKE :search
+                OR LOWER(c.bank_transaction_id) LIKE LOWER(:search)) ";
             
             // Base cashout search query
             $cashoutQuery = "SELECT 
@@ -243,15 +268,16 @@ class adminPointsModel {
                 c.point_amount,
                 c.cash_value,
                 c.bank_transaction_id,
-                NULL AS transaction_date
+                c.transaction_date,
+                c.transaction_time
             FROM tutor_point_cashout c
             LEFT JOIN tutor t ON c.tutor_id = t.tutor_id
             WHERE (LOWER(t.tutor_first_name) LIKE LOWER(:search)
                 OR LOWER(t.tutor_last_name) LIKE LOWER(:search)
                 OR LOWER(t.tutor_email) LIKE LOWER(:search)
                 OR CAST(c.cashout_id AS CHAR) LIKE :search
-                OR LOWER(c.bank_transaction_id) LIKE LOWER(:search))";
-            
+                OR LOWER(c.bank_transaction_id) LIKE LOWER(:search));";
+                        
             $searchParam = "%$searchTerm%"; // Wrap search term for LIKE query
             
             // Execute appropriate query based on transaction type
