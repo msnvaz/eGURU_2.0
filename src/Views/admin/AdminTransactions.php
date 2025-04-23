@@ -12,7 +12,7 @@
     <style>
         .alert {
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 12px;
             margin-bottom: 15px;
         }
         .alert-success {
@@ -177,9 +177,17 @@
             modal.style.display = 'none';
         }
 
+        //if the function is just given it gives a get request
         function confirmRefund() {
             if (currentPaymentId) {
-                window.location.href = `/admin-refund/${currentPaymentId}`;
+                // Create a form element
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin-refund/${currentPaymentId}`;
+                
+                // Append the form to the body and submit it
+                document.body.appendChild(form);
+                form.submit();
             }
         }
 
