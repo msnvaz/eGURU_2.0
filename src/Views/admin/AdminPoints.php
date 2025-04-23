@@ -38,7 +38,7 @@
                         $cashoutValue += $record['cash_value'];
                     }
                 }
-                $platformRevenue = $purchaseValue + ($cashoutValue * $platformRate);
+                $platformRevenue = $purchaseValue - ($cashoutValue * (1-$platformRate));
                 //echo $purchaseCount;
             ?>
         
