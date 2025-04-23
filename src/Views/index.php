@@ -233,6 +233,7 @@
         </div>
     </section>
     <!-- php code line for visitor-query should be here -->
+     <br>
     <!-- FAQ Section-->
 
     <section id="faq">
