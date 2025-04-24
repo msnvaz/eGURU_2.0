@@ -42,7 +42,7 @@ class StudentFindtutorController
         $stmt->execute([$student_id]);
         $student_availability = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        // Include the view
+        // Pass student availability to the view
         include '../src/Views/student/findtutor.php';
     }
 
@@ -101,7 +101,8 @@ class StudentFindtutorController
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!isset($data['tutorId']) || empty($data['tutorId']) || !isset($data['subjectId']) || empty($data['subjectId'])) {
+        if (!isset($data['tutorId']) || empty($data['tutorId']) || 
+            !isset($data['subjectId']) || empty($data['subjectId'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Invalid request data']);
             exit();
@@ -110,18 +111,24 @@ class StudentFindtutorController
         $studentId = $_SESSION['student_id'];
         $tutorId = $data['tutorId'];
         $subjectId = $data['subjectId'];
+        
+        // Check if we have selected date and time
+        $scheduledDate = isset($data['scheduledDate']) ? $data['scheduledDate'] : null;
+        $scheduleTime = isset($data['scheduleTime']) ? $data['scheduleTime'] : null;
+        $sessionStatus = ($scheduledDate && $scheduleTime) ? 'scheduled' : 'requested';
 
-        // Save the request in the session table with NULL values for scheduled_date and schedule_time
+        // Save the request in the session table
         $conn = $this->model->getConnection();
         $query = "INSERT INTO session (student_id, tutor_id, scheduled_date, schedule_time, session_status, subject_id) 
-                  VALUES (?, ?, NULL, NULL, 'requested', ?)";
+                VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
 
-        if ($stmt->execute([$studentId, $tutorId, $subjectId])) {
+        if ($stmt->execute([$studentId, $tutorId, $scheduledDate, $scheduleTime, $sessionStatus, $subjectId])) {
             echo json_encode(['success' => 'Request sent successfully']);
         } else {
             http_response_code(500);
             echo json_encode(['error' => 'Failed to send request']);
         }
     }
+    
 }

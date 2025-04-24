@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\scheduleAlgorithm\scheduleAlgorithmController; //for schedule algorithm
 use App\Controllers\HomeController;
 use App\Controllers\SubjectPageController;
 use App\Controllers\AdvertisementController;
@@ -98,8 +99,9 @@ $router->get('/student-dashboard', StudentDashboardController::class, 'showStude
 $router->get('/student-events/get-event-dates-in-month', StudentEventsController::class, 'getEventDatesInMonth');
 
 $router->get('/student-findtutor', StudentFindtutorController::class, 'ShowFindtutor'); // Display the Find Tutor page
-$router->post('/student-search-tutor',StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
-$router->post('/student-request-tutor', StudentFindtutorController::class, 'requestTutor');
+$router->post('/student-search-tutor', StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
+$router->post('/student-request-tutor', StudentFindtutorController::class, 'requestTutor'); // Handle tutor request
+$router->post('/student-available-slots', scheduleAlgorithmController::class, 'getAvailableTimeSlots'); // Get available time slots
 
 $router->get('/student-events', StudentEventsController::class, 'showEvents');
 $router->get('/student-events/get-events-by-date', StudentEventsController::class, 'getEventsByDate');
