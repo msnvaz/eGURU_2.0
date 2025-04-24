@@ -52,6 +52,8 @@ class StudentPublicProfileController {
                 } else {
                     $_SESSION['error'] = 'File upload failed';
                 }
+            } else {
+                $data['student_profile_photo'] = $_SESSION['profile_picture']; // Use existing profile picture
             }
     
             try {

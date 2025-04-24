@@ -40,7 +40,7 @@ class StudentDashboardModel {
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Database Error: " . $e->getMessage());
             return [];
         }

@@ -48,7 +48,7 @@ use App\Controllers\student\StudentTimeSlotController;
 use App\Controllers\student\StudentDownloadsController;
 use App\Controllers\student\StudentReportController;
 use App\Controllers\student\StudentLogoutController;
-use App\Controllers\student\StudentEditProfileController;
+use App\Controllers\student\StudentInboxController;
 
 use App\Controllers\tutor\TutorSignupController;
 use App\Controllers\tutor\TutorLoginController;
@@ -142,6 +142,23 @@ $router->get('/student-publicprofile', StudentPublicProfileController::class, 'S
 $router->post('/student-profile-updated', StudentPublicProfileController::class, 'ShowUpdatedprofile');
 $router->get('/student-profile-edit', StudentPublicProfileController::class, 'ShowEditprofile');
 $router->post('/student-profile-delete', StudentPublicProfileController::class,'DeleteProfile');
+
+$router->get('/student-inbox', StudentInboxController::class, 'showInbox');
+$router->post('/student-inbox', StudentInboxController::class, 'showInbox'); // Handle search form submission
+$router->get('/student-inbox-message/{id}', StudentInboxController::class, 'showMessage');
+$router->post('/student-inbox-archive/{id}', StudentInboxController::class, 'archiveMessage');
+$router->post('/student-inbox-unarchive/{id}', StudentInboxController::class, 'unarchiveMessage');
+$router->post('/student-inbox-reply/{id}', StudentInboxController::class, 'replyToMessage');
+// Tutor compose message routes
+$router->get('/student-compose-message', StudentInboxController::class, 'showComposeForm');
+$router->post('/student-send-message', StudentInboxController::class, 'sendMessage');
+// Tutor outbox routes
+$router->get('/student-outbox', StudentInboxController::class, 'showOutbox');
+$router->post('/student-outbox', StudentInboxController::class, 'showOutbox'); // For handling search in outbox
+$router->get('/student-outbox-message/{id}/{type}', StudentInboxController::class, 'showSentMessage');
+
+$router->get('/student-inbox', StudentInboxController::class, 'index'); // Show inbox
+$router->post('/student-inbox/send', StudentInboxController::class, 'sendMessage'); // Handle sending a message
 
 // Tutor routes
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page

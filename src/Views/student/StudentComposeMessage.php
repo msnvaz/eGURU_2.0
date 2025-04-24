@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eGURU Student - Compose Message</title>
+    <link rel="icon" type="image/png" href="/images/eGURU_6.png">
+    <link rel="stylesheet" href="/css/student/sidebar.css">
+    <link rel="stylesheet" href="/css/student/nav.css">
+    <link rel="stylesheet" href="/css/student/StudentInbox.css">
+    <link rel="stylesheet" href="/css/student/StudentComposeMessage.css">
+    <link rel="stylesheet" href="/css/student/StudentOutbox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<?php $page="inbox"; ?>
+
+<!-- Sidebar -->
+<?php include 'sidebar.php'; ?>
+
+<!-- Header -->
+<?php include '../src/Views/student/header.php'; ?>
+    
+    <div class="main">
+        <br>
+        <div class="student-dashboard">
+            <div class="inbox-tabs">
+                <a href="/student-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox</a>
+                <a href="/student-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
+                <a href="/student-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
+                <a href="/student-outbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'outbox') ? 'active' : '' ?>">Outbox</a>
+            </div>
+            
+            <div class="compose-container">
+                <?php if (isset($_GET['success'])): ?>
+                    <div class="alert alert-success">
+                        <?= htmlspecialchars($_GET['success']) ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="alert alert-error">
+                        <?= htmlspecialchars($_GET['error']) ?>
+                    </div>
+                <?php endif; ?>
+                
+                <form action="/student-send-message" method="post" class="compose-form">
+                    <label for="recipient_type">Recipient Type:</label>
+                    <select id="recipient_type" name="recipient_type" required>
+                        <option value="admin">Admin</option>
+                        <option value="tutor">Tutor</option>
+                    </select>
+                    
+                    <div id="tutor-select" style="display: none;">
+                        <label for="tutor_id">Select Tutor:</label>
+                        <select id="tutor_id" name="tutor_id">
+                            <?php foreach ($tutors as $tutor): ?>
+                                <option value="<?= $tutor['tutor_id'] ?>">
+                                    <?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?> (#<?= $tutor['tutor_id'] ?>)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" required>
+                    
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+                    
+                    <div class="form-buttons">
+                        <button type="reset">Reset</button>
+                        <button type="submit">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('recipient_type').addEventListener('change', function() {
+            const tutorSelect = document.getElementById('tutor-select');
+            tutorSelect.style.display = this.value === 'tutor' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>
