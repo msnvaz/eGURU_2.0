@@ -14,6 +14,6 @@ class TutorAdDisplayController
         $ads = $model->getUniqueAdsForTutors();
 
         // ✅ Pass it to the view
-        return view('tutor_ad_display', ['ads' => $ads]);
+        return view('tutor_ad_display.php', ['ads' => $ads]);
     }
 }
