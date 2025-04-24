@@ -1,9 +1,10 @@
 h2 {
+    margin-top: 5%;
     text-align: center;
 }
 
 .tutor-level-table {
-    margin-top: 3%;
+    margin-top: 5%;
     width: 800px;
     margin-left: 3%;
     border-collapse: collapse;
@@ -25,7 +26,7 @@ h2 {
     width: 900px;
     margin-left: 28%;
     text-align: center;
-    margin-top: 40px;
+    margin-top: 20px;
     margin-bottom: 5%;
     background: #fefefe;
     padding: 20px;
@@ -36,7 +37,7 @@ h2 {
     width :auto;
     padding: 20px;
     background-color: #CBF1F9;
-    margin-top:10%;
+    margin-top:7%;
     border-radius: 5%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.208);
 }

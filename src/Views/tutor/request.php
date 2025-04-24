@@ -74,8 +74,8 @@
             <?php foreach ($active_requests as $request) : ?>
                 <div class="request">
                     <div><?= htmlspecialchars($request['subject_name']) ?></div>
-                    <div><?= htmlspecialchars($request['scheduled_date']) ?></div>
-                    <div><?= htmlspecialchars($request['schedule_time']) ?></div>
+                    <div><?= htmlspecialchars($request['scheduled_date'] ?? 'Not Scheduled') ?></div>
+                    <div><?= htmlspecialchars($request['schedule_time'] ?? 'Not Scheduled') ?></div>
                     
                     <!-- Make student name clickable -->
                     <div>
@@ -111,8 +111,8 @@
         <?php foreach ($rejected_requests as $request): ?>
             <div class="request">
                 <div><?= htmlspecialchars($request['subject_name']) ?></div>
-                <div><?= htmlspecialchars($request['scheduled_date']) ?></div>
-                <div><?= htmlspecialchars($request['schedule_time']) ?></div>
+                <div><?= htmlspecialchars($request['scheduled_date'] ?? 'Not Scheduled') ?></div>
+                <div><?= htmlspecialchars($request['schedule_time'] ?? 'Not Scheduled') ?></div>
                 <div>
                     <a href="/tutor-student-profile/<?= $request['student_id'] ?>">
                         <?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?>
