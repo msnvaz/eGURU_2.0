@@ -7,6 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $page = "event";
 include __DIR__ . '/header.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,6 @@ include __DIR__ . '/header.php';
     <link rel="stylesheet" href="/css/student/newevent.css">
     <link rel="stylesheet" href="/css/student/nav.css">
     <link rel="stylesheet" href="/css/student/sidebar.css">
-    
 </head>
 <body>
     <div class="event-bodyform-container">
@@ -105,17 +105,26 @@ include __DIR__ . '/header.php';
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($upcomingEvents)): ?>
-                            <?php foreach ($upcomingEvents as $event): ?>
-                            <tr class="event-row" onclick="viewEventDetails(<?php echo htmlspecialchars(json_encode($event)); ?>)">
+                        <?php 
+                        // Get the selected date from the query parameter
+                        $selectedDate = isset($_GET['date']) ? $_GET['date'] : null;
+
+                        if (!empty($upcomingEvents)): 
+                            foreach ($upcomingEvents as $event): 
+                                // Check if the event date matches the selected date
+                                $isHighlighted = ($selectedDate === $event['scheduled_date']);
+                        ?>
+                            <tr class="event-row <?php echo $isHighlighted ? 'highlight' : ''; ?>" onclick="viewEventDetails(<?php echo htmlspecialchars(json_encode($event)); ?>)">
                                 <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
                                 <td><?php echo htmlspecialchars($event['grade'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($event['tutor_name'] ?? 'N/A'); ?></td>
                                 <td><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></td>
                                 <td><?php echo date('g:i a', strtotime($event['schedule_time'])); ?></td>
                             </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
+                        <?php 
+                            endforeach; 
+                        else: 
+                        ?>
                             <tr>
                                 <td colspan="5">No upcoming events available.</td>
                             </tr>
@@ -166,7 +175,6 @@ include __DIR__ . '/header.php';
         </div>
     </div>
 
-    
     <script src="/js/student/newevent.js"></script>
 </body>
 </html>

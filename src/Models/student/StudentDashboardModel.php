@@ -45,4 +45,19 @@ class StudentDashboardModel {
             return [];
         }
     }
+
+
+public function getTotalPurchasedPoints($studentId) {
+    try {
+        $query = "SELECT SUM(point_amount) AS total_points FROM student_point_purchase WHERE student_id = :studentId";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':studentId', $studentId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total_points'] ?? 0;
+    } catch (\PDOException $e) {
+        error_log("Error fetching total purchased points: " . $e->getMessage());
+        return 0;
+    }
+}
 }

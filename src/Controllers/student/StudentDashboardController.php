@@ -39,7 +39,12 @@ class StudentDashboardController {
             header("Location: /student-login");
             exit();
         }
-
+    
+        $studentId = $_SESSION['student_id'];
+    
+        // Fetch total purchased points
+        $totalPurchasedPoints = $this->model->getTotalPurchasedPoints($studentId);
+    
         // Include the dashboard view
         include __DIR__ . '/../../Views/student/dashboard.php';
     }
