@@ -50,6 +50,8 @@ use App\Controllers\student\StudentReportController;
 use App\Controllers\student\StudentLogoutController;
 use App\Controllers\student\StudentInboxController;
 
+use App\Controllers\student\StudentTutorRequestFormController;
+
 use App\Controllers\tutor\TutorSignupController;
 use App\Controllers\tutor\TutorLoginController;
 use App\Controllers\tutor\TutorDashboardController;
@@ -101,6 +103,7 @@ $router->get('/student-events/get-event-dates-in-month', StudentEventsController
 $router->get('/student-findtutor', StudentFindtutorController::class, 'ShowFindtutor'); // Display the Find Tutor page
 $router->post('/student-search-tutor', StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
 $router->post('/student-request-tutor', StudentFindtutorController::class, 'requestTutor'); // Handle tutor request
+
 $router->post('/student-available-slots', scheduleAlgorithmController::class, 'getAvailableTimeSlots'); // Get available time slots
 
 $router->get('/student-events', StudentEventsController::class, 'showEvents');
