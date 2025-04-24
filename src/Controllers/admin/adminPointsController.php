@@ -66,12 +66,13 @@ class adminPointsController {
         // If no search button was clicked, show all records
         else {
             $records = $this->model->getAllPointTransactions($transactionType);
+            
         }
     
         // Populate tutor and student dropdowns
         $tutors = $this->model->getAllTutors();
         $students = $this->model->getAllStudents();
-    
+        $platformFee = $this->model->getPlatformFee(); // Fetch platform fee
     
         // Render the view
         require_once __DIR__ . '/../../Views/admin/AdminPoints.php';

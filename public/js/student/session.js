@@ -122,7 +122,7 @@ let activeTab = 'pending';
 
                     let tutorPhotoHtml = '';
                     if (data.tutor_profile_photo) {
-                        tutorPhotoHtml = `<img src=\"images/student-uploads/${data.tutor_profile_photo}\" alt=\"${data.tutor_name}\" class=\"tutor-photo\">`;
+                        tutorPhotoHtml = `<img src=\"/images/tutor_uploads/tutor_profile_photos/${data.tutor_profile_photo}\" alt=\"${data.tutor_name}\" class=\"tutor-photo\">`;
                      }
 
                     let dateTimeInfo = '';

@@ -109,7 +109,7 @@
     width :auto;
     padding: 20px;
     background-color: #CBF1F9;
-    margin-top:10%;
+    margin-top:12%;
     border-radius: 5%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.33);
 }

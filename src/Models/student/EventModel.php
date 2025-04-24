@@ -97,21 +97,21 @@ class EventModel {
 
     public function getEventDatesInMonth($month, $year, $student_id) {
         $query = "
-            SELECT DISTINCT s.scheduled_date
+            SELECT DISTINCT s.scheduled_date, s.session_status
             FROM session s
             WHERE s.student_id = :student_id 
             AND MONTH(s.scheduled_date) = :month 
             AND YEAR(s.scheduled_date) = :year
             AND s.session_status IN ('scheduled', 'completed')
         ";
-        
+    
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
         $stmt->bindParam(':month', $month, PDO::PARAM_INT);
         $stmt->bindParam(':year', $year, PDO::PARAM_INT);
         $stmt->execute();
-        
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getLimitedUpcomingEvents($student_id, $limit) {

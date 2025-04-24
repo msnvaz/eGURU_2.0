@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\scheduleAlgorithm\scheduleAlgorithmController; //for schedule algorithm
 use App\Controllers\HomeController;
 use App\Controllers\SubjectPageController;
 use App\Controllers\AdvertisementController;
@@ -47,7 +48,9 @@ use App\Controllers\student\StudentTimeSlotController;
 use App\Controllers\student\StudentDownloadsController;
 use App\Controllers\student\StudentReportController;
 use App\Controllers\student\StudentLogoutController;
-use App\Controllers\student\StudentEditProfileController;
+use App\Controllers\student\StudentInboxController;
+
+use App\Controllers\student\StudentTutorRequestFormController;
 
 use App\Controllers\tutor\TutorSignupController;
 use App\Controllers\tutor\TutorLoginController;
@@ -63,6 +66,7 @@ use App\Controllers\tutor\TutorFeeRequestController;
 use App\Controllers\tutor\TutorStudyMaterialsController;
 use App\Controllers\tutor\TutorTimeSlotController;
 use App\Controllers\tutor\TutorStudentProfileController;
+use App\Controllers\tutor\TutorInboxController;
 
 
 $router = new Router();
@@ -94,10 +98,16 @@ $router->get('/student-signup', StudentSignupController::class, 'ShowStudentSign
 $router->post('/student_signup', StudentSignupController::class, 'student_signup');
 $router->post('/student-login', StudentLoginController::class, 'login');
 $router->get('/student-dashboard', StudentDashboardController::class, 'showStudentDashboardPage');
+$router->get('/student-events/get-event-dates-in-month', StudentEventsController::class, 'getEventDatesInMonth');
 
 $router->get('/student-findtutor', StudentFindtutorController::class, 'ShowFindtutor'); // Display the Find Tutor page
-$router->post('/student-search-tutor',StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
-$router->post('/student-request-tutor', StudentFindtutorController::class, 'requestTutor');
+$router->post('/student-search-tutor', StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
+$router->post('/student-request-tutor/{id}', StudentFindtutorController::class, 'requestTutor'); // Handle tutor request
+
+$router->get('/student-request-tutor/{id}', StudentTutorRequestFormController::class, 'showTutorRequestForm'); // Show tutor request form
+$router->post('/student-process-tutor-request', StudentTutorRequestFormController::class, 'processTutorRequest'); // Process tutor request form
+
+$router->post('/student-available-slots', scheduleAlgorithmController::class, 'getAvailableTimeSlots'); // Get available time slots
 
 $router->get('/student-events', StudentEventsController::class, 'showEvents');
 $router->get('/student-events/get-events-by-date', StudentEventsController::class, 'getEventsByDate');
@@ -139,20 +149,41 @@ $router->post('/student-profile-updated', StudentPublicProfileController::class,
 $router->get('/student-profile-edit', StudentPublicProfileController::class, 'ShowEditprofile');
 $router->post('/student-profile-delete', StudentPublicProfileController::class,'DeleteProfile');
 
+$router->get('/student-inbox', StudentInboxController::class, 'showInbox');
+$router->post('/student-inbox', StudentInboxController::class, 'showInbox'); // Handle search form submission
+$router->get('/student-inbox-message/{id}', StudentInboxController::class, 'showMessage');
+$router->post('/student-inbox-archive/{id}', StudentInboxController::class, 'archiveMessage');
+$router->post('/student-inbox-unarchive/{id}', StudentInboxController::class, 'unarchiveMessage');
+$router->post('/student-inbox-reply/{id}', StudentInboxController::class, 'replyToMessage');
+// Tutor compose message routes
+$router->get('/student-compose-message', StudentInboxController::class, 'showComposeForm');
+$router->post('/student-send-message', StudentInboxController::class, 'sendMessage');
+// Tutor outbox routes
+$router->get('/student-outbox', StudentInboxController::class, 'showOutbox');
+$router->post('/student-outbox', StudentInboxController::class, 'showOutbox'); // For handling search in outbox
+$router->get('/student-outbox-message/{id}/{type}', StudentInboxController::class, 'showSentMessage');
+
+$router->get('/student-inbox', StudentInboxController::class, 'index'); // Show inbox
+$router->post('/student-inbox/send', StudentInboxController::class, 'sendMessage'); // Handle sending a message
+
 // Tutor routes
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
 $router->post('/tutor-login-action', TutorLoginController::class, 'handleLogin'); // Handle login form submission
 $router->get('/tutor-signup', TutorSignupController::class, 'ShowTutorSignupPage'); // Show signup page
 $router->post('/tutor-signup-action', TutorSignupController::class, 'handleSignup');// Handle signup form submission
+$router->get('/tutor-logout', TutorLogoutController::class, 'logout');
 $router->get('/tutor-dashboard', TutorDashboardController::class, 'ShowTutorDashboardPage'); // Redirect only if logged in
 $router->get('/tutor-event', TutorEventController::class, 'showEventPage'); 
-$router->get('/tutor-request', TutorRequestController::class, 'showrequestPage'); 
-$router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage'); 
+$router->get('/tutor-request', TutorRequestController::class, 'showRequestPage'); 
+$router->post('/handle-session-request', TutorRequestController::class, 'handleSessionRequest');
+$router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage');
+$router->post('/tutor-profile-updated', TutorPublicProfileController::class, 'ShowUpdatedprofile');
+$router->get('/tutor-profile-edit', TutorPublicProfileController::class, 'ShowEditprofile');
+$router->post('/tutor-profile-delete', TutorPublicProfileController::class,'DeleteProfile'); 
 $router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
-$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage');
+$router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); // Route to show feedback page
 $router->post('/submit-reply', TutorFeedbackController::class, 'submitReply'); // Route for submitting reply
-$router->post('/update-reply', TutorFeedbackController::class, 'updateReply'); 
-$router->get('/tutor-logout', TutorLogoutController::class, 'logout');
+$router->post('/update-reply', TutorFeedbackController::class, 'updateReply');
 $router->get('/tutor-advertisement', TutorAdvertisementController::class, 'showAdvertisementGalleryPage');
 $router->post('/tutor-upload-ad', TutorAdvertisementController::class, 'uploadAdvertisement');
 $router->post('/tutor-delete-ad', TutorAdvertisementController::class, 'deleteAdvertisement');
@@ -169,6 +200,24 @@ $router->post('/cancel-upgrade-request', TutorFeeRequestController::class, 'canc
 $router->get('/tutor-timeslot', TutorTimeSlotController::class, 'showTutorTimeSlotPage'); 
 $router->post('/tutor-timeslot-save', TutorTimeSlotController::class, 'saveTutorTimeSlots');
 $router->get('/tutor-student-profile/{id}', TutorStudentProfileController::class, 'showTutorStudentProfile');
+// Tutor inbox
+$router->get('/tutor-inbox', TutorInboxController::class, 'showInbox');
+$router->post('/tutor-inbox', TutorInboxController::class, 'showInbox'); // Handle search form submission
+$router->get('/tutor-inbox-message/{id}', TutorInboxController::class, 'showMessage');
+$router->post('/tutor-inbox-archive/{id}', TutorInboxController::class, 'archiveMessage');
+$router->post('/tutor-inbox-unarchive/{id}', TutorInboxController::class, 'unarchiveMessage');
+$router->post('/tutor-inbox-reply/{id}', TutorInboxController::class, 'replyToMessage');
+// Tutor compose message routes
+$router->get('/tutor-compose-message', TutorInboxController::class, 'showComposeForm');
+$router->post('/tutor-send-message', TutorInboxController::class, 'sendMessage');
+// Tutor outbox routes
+$router->get('/tutor-outbox', TutorInboxController::class, 'showOutbox');
+$router->post('/tutor-outbox', TutorInboxController::class, 'showOutbox'); // For handling search in outbox
+$router->get('/tutor-outbox-message/{id}/{type}', TutorInboxController::class, 'showSentMessage');
+// Tutor Inbox(?)
+$router->get('/tutor-inbox', TutorInboxController::class, 'index'); // Show inbox
+$router->post('/tutor-inbox/send', TutorInboxController::class, 'sendMessage'); // Handle sending a message
+
 
 
 //student profile for admin
@@ -187,7 +236,7 @@ $router->get('/admin-sessions', adminSessionController::class, 'showAllSessions'
 //search sessions
 $router->post('/admin-sessions', adminSessionController::class, 'showAllSessions');
 
-// Admin point transactions
+// Admin point purchase/cashout
 $router->get('/admin-points', adminPointsController::class, 'showAllPoints');
 // Search/filter points
 $router->post('/admin-points', adminPointsController::class, 'showAllPoints');

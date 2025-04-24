@@ -67,9 +67,8 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                         </h2>
                         <p><?= isset($_SESSION['student_email']) ? htmlspecialchars($_SESSION['student_email']) : 'test@example.com' ?>
                         </p>
-                        <p class="points">Points:
-                            <?= isset($_SESSION['student_points']) ? htmlspecialchars($_SESSION['student_points']) : '0' ?>
-                        </p>
+                        <p class="points">Total Purchased Points: <?= htmlspecialchars($totalPurchasedPoints ?? 0) ?></p>
+    
 
                         <button class="find-tutor-btn">
     <a style="text-decoration:none; color:white;" href="/student-findtutor">Find Tutor</a>

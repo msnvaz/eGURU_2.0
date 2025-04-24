@@ -74,9 +74,14 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
                 $rankClass = ($rank <= 4) ? "rank-$rank" : "";
                 
                 echo '<div class="tutor ' . $rankClass . '">';
+                
                 if ($rank <= 4) {
                     echo '<div class="rank-badge">' . $rank . '</div>';
                 }
+
+                // Display tutor profile photo if available
+                $profilePhoto = !empty($tutor['tutor_profile_photo']) ? htmlspecialchars($tutor['tutor_profile_photo']) : 'default-profile.png';
+                echo '<img src="' . $profilePhoto . '" alt="Tutor Photo">';
 
                 // Display Tutor Name and Scheduled Sessions
                 $fullName = htmlspecialchars($tutor['tutor_first_name']) . ' ' . htmlspecialchars($tutor['tutor_last_name']);
@@ -88,6 +93,7 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
                 } else {
                     echo '<div class="tutor-subjects">Subjects not available</div>';
                 }
+
                 echo '</div>';
             }
             ?>

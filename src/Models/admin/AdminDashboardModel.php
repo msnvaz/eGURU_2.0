@@ -46,14 +46,6 @@ class AdminDashboardModel {
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    public function getTotalRevenue() {
-        $query = "SELECT SUM(payment_point_amount) as total FROM session_payment";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-        return $result ? $result : 0; // Return 0 if result is null
-    }
-
     public function getStudentRegistrationsByMonth() {
         $query = "SELECT MONTH(student_registration_date) as month, COUNT(*) as total FROM student GROUP BY MONTH(student_registration_date)";
         $stmt = $this->conn->prepare($query);
@@ -155,29 +147,34 @@ class AdminDashboardModel {
         return (float)$result['average_rating'];
     }
     
-    /*public function getAverageRatingsByCategory() {
-        $query = "SELECT 
-                  AVG(punctuality) as punctuality,
-                  AVG(knowledge) as knowledge,
-                  AVG(clarity) as clarity,
-                  AVG(engagement) as engagement,
-                  AVG(helpfulness) as helpfulness
-                  FROM feedback";
+
+    //get the total ofall cashouts from tutor point cashout table
+    public function getTotalCashouts() {
+        $query = "SELECT SUM(cash_value) as total_cashouts FROM tutor_point_cashout";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        // If no feedback data exists, return default values
-        if (!$result || !$result['punctuality']) {
-            return [
-                'punctuality' => 4.2,
-                'knowledge' => 5.0,
-                'clarity' => 4.5,
-                'engagement' => 3.8,
-                'helpfulness' => 4.8
-            ];
-        }
+        return (float)$result['total_cashouts'] ?? 0; // Return the value or 0 if null
+    }
+
+    //get the total ofall purchases from student point purchase table
+    public function getTotalPurchases() {
+        $query = "SELECT SUM(cash_value) as total_purchases FROM student_point_purchase";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
-    }*/
+        return (float)$result['total_purchases'] ?? 0; // Return the value or 0 if null
+    }
+
+    public function getMonthlyCashouts() {
+        $query = "SELECT MONTH(transaction_date) as month, SUM(cash_value) as total 
+                  FROM tutor_point_cashout 
+                  GROUP BY MONTH(transaction_date)
+                  ORDER BY month";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

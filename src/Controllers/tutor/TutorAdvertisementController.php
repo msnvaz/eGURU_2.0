@@ -131,7 +131,7 @@ class TutorAdvertisementController {
                 $_SESSION['selected_ad_id'] = $adId;
             }
 
-            header("Location: /tutor-advertisement?success=Selection Successful");
+            header("Location: /tutor-advertisement?success=Change Successful");
             exit;
         }
     }

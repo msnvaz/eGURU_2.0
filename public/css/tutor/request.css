@@ -1,19 +1,18 @@
-#body {
+body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     padding: 0;
-    margin-top: -5%;
-    height: 100vh;
+    margin:0;
 }
 
 .request_container {
     width: 70%;
-    background-color: white;
+    background-color: #f4f4f4;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: visible;
     margin-left: 22%;
-    margin-top:10%;
+    margin-top:7%;
 }
 
 .request-header {

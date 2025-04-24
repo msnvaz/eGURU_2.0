@@ -353,5 +353,12 @@ class adminPointsModel {
             return [];
         }
     }
+    public function getPlatformFee() {
+        $query = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = 'platform_fee'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (float)$result['admin_setting_value'] : 0; // or (int) if always integer
+    }
 }
 ?>
