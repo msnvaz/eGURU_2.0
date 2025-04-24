@@ -21,13 +21,12 @@
 </head>
 <body>
     <h2>Unique Tutor Ads</h2>
-
     <?php if (!empty($ads) && is_array($ads)): ?>
         <ul>
             <?php foreach ($ads as $ad): ?>
                 <li>
                     Tutor ID: <?= esc($ad['tutor_id']) ?> <br>
-                    <img src="<?= base_url('uploads/ad_pics/' . $ad['ad_display_pic']) ?>" width="100" alt="Ad Pic">
+                    <img src="<?= base_url($ad['ad_display_pic']) ?>" width="100" alt="Ad Pic">                    
                 </li>
             <?php endforeach; ?>
         </ul>
