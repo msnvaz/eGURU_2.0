@@ -20,56 +20,46 @@ class scheduleAlgorithmModel {
 
     //check availablity of tutor and student
     public function checkAvailability($tutor_id, $student_id) {
-        $query="SELECT 
-                    sa.day,
-                    ts.time_slot_id,
-                    ts.starting_time,
-                    ts.ending_time
-                FROM 
-                    student_availability sa
-                JOIN 
-                    tutor_availability ta ON sa.time_slot_id = ta.time_slot_id AND sa.day = ta.day
-                JOIN 
-                    time_slot ts ON sa.time_slot_id = ts.time_slot_id
-                WHERE 
-                    sa.student_id = $student_id  
-                    AND ta.tutor_id = $tutor_id  
-                    AND NOT EXISTS (
-                        SELECT 1
-                        FROM session s
-                        WHERE 
-                            s.student_id = sa.student_id
-                            AND s.tutor_id = ta.tutor_id
-                            -- Convert day of week to a date in the coming week
-                            AND s.scheduled_date = DATE_ADD(CURRENT_DATE(), INTERVAL (CASE 
-                                WHEN sa.day = 'Monday' THEN (7 + 1 - DAYOFWEEK(CURRENT_DATE())) MOD 7
-                                WHEN sa.day = 'Tuesday' THEN (7 + 2 - DAYOFWEEK(CURRENT_DATE())) MOD 7
-                                WHEN sa.day = 'Wednesday' THEN (7 + 3 - DAYOFWEEK(CURRENT_DATE())) MOD 7
-                                WHEN sa.day = 'Thursday' THEN (7 + 4 - DAYOFWEEK(CURRENT_DATE())) MOD 7
-                                WHEN sa.day = 'Friday' THEN (7 + 5 - DAYOFWEEK(CURRENT_DATE())) MOD 7
-                                WHEN sa.day = 'Saturday' THEN (7 + 6 - DAYOFWEEK(CURRENT_DATE())) MOD 7
-                                WHEN sa.day = 'Sunday' THEN (7 + 7 - DAYOFWEEK(CURRENT_DATE())) MOD 7
-                                END) DAY)
-                            -- Check if session time overlaps with the time slot
-                            AND TIME(s.schedule_time) >= MAKETIME(ts.starting_time, 0, 0)
-                            AND TIME(s.schedule_time) < MAKETIME(ts.ending_time, 0, 0)
-                            AND s.session_status IN ('scheduled', 'requested')
-                    )
-                ORDER BY 
-                    CASE 
-                        WHEN sa.day = 'Monday' THEN 1
-                        WHEN sa.day = 'Tuesday' THEN 2
-                        WHEN sa.day = 'Wednesday' THEN 3
-                        WHEN sa.day = 'Thursday' THEN 4
-                        WHEN sa.day = 'Friday' THEN 5
-                        WHEN sa.day = 'Saturday' THEN 6
-                        WHEN sa.day = 'Sunday' THEN 7
-                    END,
-                    ts.starting_time;";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':tutor_id', $tutor_id);
-        $stmt->bindParam(':student_id', $student_id);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $tutorId = 20021; // Replace with actual tutor ID or variable
+        $studentId = 10021; // Replace with actual student ID or variable
+        $query = "SELECT 
+            ta.tutor_id,
+            t.tutor_first_name,
+            t.tutor_last_name,
+            sa.student_id,
+            s.student_first_name,
+            s.student_last_name,
+            ta.day,
+            ts.start_time,
+            ts.end_time
+        FROM 
+            tutor_availability ta
+        INNER JOIN 
+            student_availability sa ON sa.time_slot_id = ta.time_slot_id AND sa.day = ta.day
+        INNER JOIN 
+            tutor t ON t.tutor_id = ta.tutor_id
+        INNER JOIN 
+            student s ON s.student_id = sa.student_id
+        INNER JOIN 
+            time_slots ts ON ts.time_slot_id = ta.time_slot_id
+        LEFT JOIN 
+            session sess ON 
+                sess.tutor_id = ta.tutor_id AND 
+                sess.student_id = sa.student_id AND 
+                sess.scheduled_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY) AND
+                sess.session_status IN ('scheduled', 'requested')
+        WHERE 
+            ta.tutor_id = :tutor_id AND
+            sa.student_id = :student_id AND
+            sess.session_id IS NULL
+        ORDER BY 
+            ta.day, ts.start_time";
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            ':tutor_id' => $tutorId,
+            ':student_id' => $studentId
+        ]);
+        $availableSessions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
