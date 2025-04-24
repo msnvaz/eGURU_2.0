@@ -2,22 +2,29 @@
 
 namespace App\Models;
 
-use Config\Database;
+use App\Config\Database;
 
 class TutorAdDisplayModel
 {
-    public function getUniqueAdsForTutors()
+    private $conn;
+
+    public function __construct()
     {
-        $db = Database::connect(); // ✅ Get default DB connection
-
-        $sql = "SELECT DISTINCT t.tutor_id, ta.ad_display_pic
-                FROM tutor_advertisement ta
-                JOIN tutor t ON ta.ad_id = t.tutor_ad_id
-                WHERE ta.ad_status = 'set'";
-
-        $query = $db->query($sql);
-        $data = $query->getResultArray(); // ✅ Returns array like fetch_assoc()
-
-        return $data;
+        $db = new Database();
+        $this->conn = $db->connect();
     }
+
+    public function getFiveUniqueAds()
+{
+    $sql = "SELECT DISTINCT ad_display_pic
+            FROM tutor_advertisement
+            WHERE ad_status = 'set'
+            LIMIT 5";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
 }

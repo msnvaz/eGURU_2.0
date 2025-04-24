@@ -6,14 +6,18 @@ use App\Models\TutorAdDisplayModel;
 
 class TutorAdDisplayController
 {
+    // Original method used when routed directly
     public function index()
     {
         $model = new TutorAdDisplayModel();
+        $ads = $model->getFiveUniqueAds();
+        require __DIR__ . '/../Views/tutor_ad_display.php';
+    }
 
-        // ✅ Fetch the ad data
-        $ads = $model->getUniqueAdsForTutors();
-
-        // ✅ Pass it to the view
-        return view('tutor_ad_display.php', ['ads' => $ads]);
+    // ✅ New method to use when including the view in other files
+    public function getAds()
+    {
+        $model = new TutorAdDisplayModel();
+        return $model->getFiveUniqueAds();
     }
 }
