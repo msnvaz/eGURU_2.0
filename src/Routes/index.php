@@ -63,6 +63,7 @@ use App\Controllers\tutor\TutorFeeRequestController;
 use App\Controllers\tutor\TutorStudyMaterialsController;
 use App\Controllers\tutor\TutorTimeSlotController;
 use App\Controllers\tutor\TutorStudentProfileController;
+use App\Controllers\tutor\TutorInboxController;
 
 
 $router = new Router();
