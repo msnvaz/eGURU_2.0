@@ -151,8 +151,8 @@ if (!isset($_SESSION['student_id'])) {
                             <div class="tutor-card" data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>" data-subject-id="<?= htmlspecialchars($subjectId) ?>">
                                 <div class="tutor-header">
                                     <img class="tutor-profile-photo" 
-                                         src="/images/tutor_uploads/tutor_profile_photos/<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>" 
-                                         alt="<?= htmlspecialchars($tutor['tutor_first_name']) ?>'s photo">
+                                        src="/images/tutor_uploads/tutor_profile_photos/<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>" 
+                                        alt="<?= htmlspecialchars($tutor['tutor_first_name']) ?>'s photo">
                                     <h2><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h2>
                                     <span class="tutor-level" style="background-color: <?= htmlspecialchars($tutor['tutor_level_color']) ?>">
                                         <?= htmlspecialchars($tutor['tutor_level']) ?>
@@ -165,26 +165,10 @@ if (!isset($_SESSION['student_id'])) {
                                     <p><strong>Grades:</strong> <?= htmlspecialchars($tutor['grades']) ?></p>
                                 </div>
                                 
-                                <!--<div class="availability">
-                                    <h3>Available Times</h3>
-                                    <ul class="availability-list">
-                                        <?php 
-                                        $times = explode(',', $tutor['available_times']);
-                                        foreach ($times as $time): 
-                                            if (!empty(trim($time))):
-                                        ?>
-                                            <li class="availability-item"><?= htmlspecialchars(trim($time)) ?></li>
-                                        <?php 
-                                            endif;
-                                        endforeach; 
-                                        ?>
-                                    </ul>
-                                </div>-->
-                                <a href="/student-request-tutor/<?= htmlspecialchars($tutor['tutor_id']) ?>">
-                                <button class="request-button" 
-                                        data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>">
+                                <a href="/student-request-tutor/<?= htmlspecialchars($tutor['tutor_id']) ?>" 
+                                class="request-button" 
+                                data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>">
                                     See Available Time Slots
-                                </button>
                                 </a>
                             </div>
                         <?php endforeach; ?>
