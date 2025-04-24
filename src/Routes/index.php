@@ -102,7 +102,10 @@ $router->get('/student-events/get-event-dates-in-month', StudentEventsController
 
 $router->get('/student-findtutor', StudentFindtutorController::class, 'ShowFindtutor'); // Display the Find Tutor page
 $router->post('/student-search-tutor', StudentFindtutorController::class, 'searchTutors'); // Handle tutor search
-$router->post('/student-request-tutor', StudentFindtutorController::class, 'requestTutor'); // Handle tutor request
+$router->post('/student-request-tutor/{id}', StudentFindtutorController::class, 'requestTutor'); // Handle tutor request
+
+$router->get('/student-request-tutor/{id}', StudentTutorRequestFormController::class, 'showTutorRequestForm'); // Show tutor request form
+$router->post('/student-process-tutor-request', StudentTutorRequestFormController::class, 'processTutorRequest'); // Process tutor request form
 
 $router->post('/student-available-slots', scheduleAlgorithmController::class, 'getAvailableTimeSlots'); // Get available time slots
 
