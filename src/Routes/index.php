@@ -84,6 +84,7 @@ $router->get('/student-signup', StudentSignupController::class, 'ShowStudentSign
 $router->post('/student_signup', StudentSignupController::class, 'student_signup');
 $router->post('/student-login', StudentLoginController::class, 'login');
 $router->get('/student-dashboard', StudentDashboardController::class, 'showStudentDashboardPage');
+$router->get('/student-events/get-event-dates-in-month', StudentEventsController::class, 'getEventDatesInMonth');
 
 $router->get('/student-findtutor', StudentFindtutorController::class, 'ShowFindtutor'); // Display the Find Tutor page
 $router->post('/student-search-tutor',StudentFindtutorController::class, 'searchTutors'); // Handle tutor search

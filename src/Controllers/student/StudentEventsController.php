@@ -61,20 +61,17 @@ class StudentEventsController {
         echo json_encode($events);
     }
 
-    /**
-     * AJAX method to get all dates with events in a given month
-     */
     public function getEventDatesInMonth() {
         if (!isset($_GET['month']) || !isset($_GET['year'])) {
             echo json_encode(['error' => 'Month and year parameters are required']);
             return;
         }
-        
+    
         $month = (int)$_GET['month'];
         $year = (int)$_GET['year'];
-        
+    
         $dates = $this->eventModel->getEventDatesInMonth($month, $year, $this->studentId);
-        
+    
         header('Content-Type: application/json');
         echo json_encode($dates);
     }
