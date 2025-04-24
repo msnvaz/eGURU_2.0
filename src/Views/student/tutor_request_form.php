@@ -462,6 +462,7 @@ if (!isset($_SESSION['student_id'])) {
             const selectionInfo = document.getElementById('selection-info');
             const selectedTimeDisplay = document.getElementById('selected-time-display');
             const selectedDateDisplay = document.getElementById('selected-date-display');
+            const form = document.getElementById('tutorRequestForm');
             
             // Make sure form elements exist before trying to access them
             const timeSlotIdInput = document.getElementById('time_slot_id');
@@ -590,7 +591,7 @@ if (!isset($_SESSION['student_id'])) {
                         if (data.success) {
                             showSuccess(data.message || 'Request sent successfully!');
                             setTimeout(() => {
-                                window.location.href = '/student-session'; // Change this line from '/student-dashboard' to '/student-session'
+                                window.location.href = '/student-session'; // Changed from '/student-dashboard' to '/student-session'
                             }, 2000);
                         } else {
                             showError(data.message || 'An error occurred. Please try again.');
