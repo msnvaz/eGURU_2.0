@@ -218,7 +218,28 @@ $router->get('/tutor-outbox-message/{id}/{type}', TutorInboxController::class, '
 // Tutor Inbox(?)
 $router->get('/tutor-inbox', TutorInboxController::class, 'index'); // Show inbox
 $router->post('/tutor-inbox/send', TutorInboxController::class, 'sendMessage'); // Handle sending a message
-
+// tutor cashout
+if (isset($_GET['action'])) { 
+    $action = $_GET['action'];
+    $controller = new \App\Controllers\tutor\TutorCashoutController();
+    switch ($action) {
+        case 'cashout':
+            $controller->showCashout();
+            break;
+        case 'process_cashout':
+            $controller->processCashout();
+            break;
+        case 'cashout_success':
+            $controller->cashoutSuccess();
+            break;
+        case 'cashout_cancel':
+            $controller->cashoutCancel();
+            break;
+        default:
+            throw new \Exception("No route found for URI: /index.php?action=$action");
+    }
+    exit; // Ensure no further code is executed
+}
 
 
 //student profile for admin
