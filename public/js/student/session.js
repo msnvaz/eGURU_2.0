@@ -20,7 +20,7 @@ let activeTab = 'pending';
         function loadRequests() {
             const container = document.getElementById(`${activeTab}-${activeTab === 'pending' ? 'requests' : 'sessions'}-body`);
             
-            const colSpan = '4';
+            const colSpan = '5';
             container.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Loading...</td></tr>`;
             
             const endpoint = activeTab === 'pending' ? '/student-pending-requests' : '/student-request-results';
@@ -60,6 +60,7 @@ let activeTab = 'pending';
                             : `<button onclick="viewSessionDetails(${request.session_id})" class="view-btn">View</button>`;
                             
                         row.innerHTML = `
+                        <td>${request.session_id}</td> <!-- Display Request ID -->
                             <td>${request.tutor_name}</td>
                             <td>${request.subject}</td>
                             <td><span class="status-badge ${request.session_status}">${request.session_status}</span></td>
@@ -136,6 +137,7 @@ let activeTab = 'pending';
                     
                     detailsContent.innerHTML = `
                         ${tutorPhotoHtml}
+                        <p><strong>Request ID:</strong> ${data.session_id}</p> <!-- Display session_id -->
                         <p><strong>Tutor:</strong> ${data.tutor_name}</p>
                         <p><strong>Subject:</strong> ${data.subject}</p>
                         <p><strong>Status:</strong> <span class="status-badge ${data.session_status}">${data.session_status}</span></p>

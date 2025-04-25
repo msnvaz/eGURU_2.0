@@ -97,6 +97,7 @@ $router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginP
 $router->get('/student-signup', StudentSignupController::class, 'ShowStudentSignupPage');
 $router->post('/student_signup', StudentSignupController::class, 'student_signup');
 $router->post('/student-login', StudentLoginController::class, 'login');
+$router->get('/student-logout', StudentLoginController::class, 'logout');
 $router->get('/student-dashboard', StudentDashboardController::class, 'showStudentDashboardPage');
 $router->get('/student-events/get-event-dates-in-month', StudentEventsController::class, 'getEventDatesInMonth');
 
@@ -339,6 +340,10 @@ $router->post('/tutor-delete-profile/{id}', adminTutorController::class, 'delete
 $router->post('/admin-restore-tutor/{id}', adminTutorController::class, 'restoreTutorProfile');
 // GET route for displaying the blocked tutors page
 $router->get('/admin-blocked-tutors', adminTutorController::class, 'showBlockedTutors');
+
+$router->post('/admin-update-tutor-advertisement', adminTutorController::class,'updateTutorAdvertisement');
+$router->post('/admin-delete-tutor-advertisement', adminTutorController::class,'deleteTutorAdvertisement');
+$router->post('/admin-select-tutor-advertisement', adminTutorController::class,'selectTutorAdvertisement');
 
 // POST route for handling search/filter submissions on the blocked tutors page
 $router->post('/admin-blocked-tutors',  adminTutorController::class, 'searchTutors');

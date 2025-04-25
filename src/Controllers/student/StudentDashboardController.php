@@ -42,8 +42,11 @@ class StudentDashboardController {
     
         $studentId = $_SESSION['student_id'];
     
-        // Fetch total purchased points
-        $totalPurchasedPoints = $this->model->getTotalPurchasedPoints($studentId);
+        // Fetch student points from the database
+        $studentPoints = $this->model->getStudentPoints($studentId);
+    
+        // Store the points in the session for use in the view
+        $_SESSION['student_points'] = $studentPoints;
     
         // Include the dashboard view
         include __DIR__ . '/../../Views/student/dashboard.php';

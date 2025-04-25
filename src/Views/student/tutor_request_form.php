@@ -21,290 +21,14 @@ if (!isset($_SESSION['student_id'])) {
     <link rel="stylesheet" href="/css/student/sidebar.css">
     <link rel="stylesheet" href="/css/student/nav.css">
     <link rel="stylesheet" href="/css/student/findtutor.css">
-    <style>
-        /* Additional custom styles for the request form */
-        .tutor-profile {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .tutor-profile-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #E14177;
-        }
-
-        .tutor-info {
-            flex: 1;
-        }
-
-        .tutor-info h2 {
-            margin-top: 0;
-            margin-bottom: 0.5rem;
-            color: #2d3748;
-            font-size: 1.5rem;
-        }
-
-        .tutor-level-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .tutor-info p {
-            margin: 0.5rem 0;
-            color: #4a5568;
-        }
-
-        .session-info {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .session-info h3 {
-            margin-top: 0;
-            color: #2d3748;
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .session-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .session-form {
-                grid-template-columns: 1fr;
-            }
-            
-            .tutor-profile {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #4a5568;
-        }
-
-        .time-slots-section {
-            background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .time-slots-section h3 {
-            margin-top: 0;
-            color: #2d3748;
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .day-section {
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 1.5rem;
-        }
-
-        .day-section:last-child {
-            border-bottom: none;
-        }
-
-        .day-heading {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 1rem;
-            padding-left: 0.5rem;
-            border-left: 4px solid #E14177;
-        }
-
-        .time-slot-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .time-slot-item {
-            background: #f7fafc;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            border: 1px solid #e2e8f0;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .time-slot-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .time-slot-item.selected {
-            background: #ebf8ff;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 2px #4299e1;
-        }
-
-        .time-slot-item p {
-            margin: 0;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .time-slot-date {
-            font-size: 0.875rem;
-            color: #718096;
-            margin-top: 0.5rem !important;
-        }
-
-        .fee-calculation {
-            background: #f0fff4;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border: 1px solid #c6f6d5;
-        }
-
-        .fee-calculation h4 {
-            margin-top: 0;
-            margin-bottom: 1rem;
-            color: #2d3748;
-        }
-
-        .fee-details {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 0.75rem;
-        }
-
-        .fee-total {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px dashed #c6f6d5;
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            color: #2d3748;
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 1rem;
-            background: #E14177;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 1.5rem;
-        }
-
-        .submit-button:hover {
-            background: #e02362;
-        }
-
-        .no-slots-message {
-            text-align: center;
-            padding: 2rem;
-            color: #718096;
-        }
-
-        .instruction-note {
-            background: #ebf8ff;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid #4299e1;
-            color: #2c5282;
-        }
-        
-        /* Make the instruction note stand out more for required time slot */
-        .instruction-note.required {
-            background: #fefcdd;
-            border-left: 4px solid #eab308;
-            color: #854d0e;
-        }
-        
-        /* Style for success and error messages */
-        .success-message,
-        .error-message {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-            display: none;
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        .success-message {
-            background-color: #c6f6d5;
-            color: #276749;
-            border: 1px solid #9ae6b4;
-        }
-        
-        .error-message {
-            background-color: #fed7d7;
-            color: #c53030;
-            border: 1px solid #feb2b2;
-        }
-        
-        .success-message.active,
-        .error-message.active {
-            display: block;
-        }
-        
-        .selection-info {
-            background: #ebf8ff;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-top: 1.5rem;
-            display: none;
-            border: 1px solid #bee3f8;
-        }
-        
-        .selection-info.active {
-            display: block;
-        }
-        
-        .selection-info p {
-            margin: 0.25rem 0;
-            color: #2b6cb0;
-        }
-        
-        .selection-info strong {
-            color: #2c5282;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/student/requestform.css" >
 </head>
 <body>
+
+<?php require '../src/Views/student/sidebar.php'; ?>
     <div class="main-content">
+    <?php //include 'header.php'; ?>
+
         <div class="container">
             <a href="/student-findtutor" class="back-button">
                 <i class="fas fa-arrow-left"></i>
@@ -312,7 +36,10 @@ if (!isset($_SESSION['student_id'])) {
             </a>
 
             <h1 class="page-title">Request Tutor</h1>
-            
+            <?php
+            //show working directory for debugging
+            //echo getcwd();
+            ?>
             <?php if (!empty($timeSlots)): ?>
                 <div class="tutor-profile">
                     <div class="tutor-info">
@@ -320,7 +47,7 @@ if (!isset($_SESSION['student_id'])) {
                         <span class="tutor-level-badge" style="background-color: #E14177; color: white;">
                             <?= htmlspecialchars($tutorLevel) ?>
                         </span>
-                        <p><strong>Hourly Rate:</strong> $<?= number_format($hourlyRate, 2) ?></p>
+                        <p><strong>Hourly Rate:</strong> Rs.<?= number_format($hourlyRate, 2) ?></p>
                         <p><strong>Subjects:</strong> <?= htmlspecialchars(implode(', ', $subjects)) ?></p>
                     </div>
                 </div>
@@ -412,13 +139,13 @@ if (!isset($_SESSION['student_id'])) {
                                 <h4>Session Fee Calculation</h4>
                                 <div class="fee-details">
                                     <div>Hourly Rate:</div>
-                                    <div>$<?= number_format($hourlyRate, 2) ?></div>
+                                    <div>Rs.<?= number_format($hourlyRate, 2) ?></div>
                                     <div>Session Duration:</div>
                                     <div>2 hours</div>
                                 </div>
                                 <div class="fee-total">
                                     <div>Estimated Total:</div>
-                                    <div>$<?= number_format($hourlyRate * 2, 2) ?></div>
+                                    <div>Rs.<?= number_format($hourlyRate * 2, 2) ?></div>
                                 </div>
                             </div>
 

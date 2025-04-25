@@ -135,4 +135,44 @@ class TutorAdvertisementController {
             exit;
         }
     }
+
+    public function updateTutorAdvertisement() {
+        if (isset($_POST['id']) && isset($_POST['description']) && isset($_POST['tutor_id'])) {
+            $tutorId = $_POST['tutor_id'];
+            $adId = $_POST['id'];
+            $description = $_POST['description'];
+            
+            $advertisementModel = new \App\Models\tutor\AdvertisementModel();
+            $advertisementModel->updateAdvertisementDescription($adId, $description);
+            
+            header("Location: /admin-tutor-profile/{$tutorId}?success=Advertisement updated successfully");
+            exit();
+        }
+    }
+    
+    public function deleteTutorAdvertisement() {
+        if (isset($_POST['id']) && isset($_POST['tutor_id'])) {
+            $tutorId = $_POST['tutor_id'];
+            $adId = $_POST['id'];
+            
+            $advertisementModel = new \App\Models\tutor\AdvertisementModel();
+            $advertisementModel->deleteAdvertisementById($adId);
+            
+            header("Location: /admin-tutor-profile/{$tutorId}?success=Advertisement deleted successfully");
+            exit();
+        }
+    }
+    
+    public function selectTutorAdvertisement() {
+        if (isset($_POST['ad_id']) && isset($_POST['tutor_id'])) {
+            $tutorId = $_POST['tutor_id'];
+            $adId = $_POST['ad_id'];
+            
+            $advertisementModel = new \App\Models\tutor\AdvertisementModel();
+            $advertisementModel->updateTutorAd($adId, $tutorId);
+            
+            header("Location: /admin-tutor-profile/{$tutorId}?success=Advertisement selected successfully");
+            exit();
+        }
+    }
 }

@@ -124,7 +124,7 @@ display: inline-block;
 
 
 .cancel-btn {
-background-color: #F44336;
+background-color:#E14177;
 color: white;
 border: none;
 padding: 6px 12px;
@@ -148,7 +148,7 @@ color: #757575;
 }
 
 .error {
-color: #D32F2F;
+color: #E14177;
 font-style: italic;
 }
 

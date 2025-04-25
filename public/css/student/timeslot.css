@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #1e3a8a;;
+    --primary-color: #2c3e50;
     --primary-hover:rgb(48, 75, 150);
     --secondary-color: #6c757d;
     --secondary-hover: #5a6268;
@@ -43,7 +43,7 @@ body {
 }
 
 h2 {
-    color: #1e3a8a;
+    color: #2c3e50;
     font-weight: 600;
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
@@ -113,7 +113,7 @@ h3 {
 }
 
 #editBtn {
-    background-color: var(--primary-color);
+    background-color:  #E14177;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -121,13 +121,15 @@ h3 {
     font-weight: 500;
     border-radius: var(--border-radius);
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-top: -50px;
+    margin-bottom: 30px;
+    margin-left: 900px;
     transition: background-color 0.3s, transform 0.2s;
     box-shadow: var(--box-shadow);
 }
 
 #editBtn:hover {
-    background-color: var(--primary-hover);
+    background-color: #e02362;
 }
 
 #editBtn:active {

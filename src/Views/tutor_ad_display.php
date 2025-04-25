@@ -1,32 +1,45 @@
-<!-- <div class="color-section" >
-            <br><br><br><br>
-            <h2 class="section-title">Meet Some of Our Best Tutors</h2>
-            <br>
-            <div class="slider-container">
-                <button class="slider-btn prev">&lt;</button>
-                <div class="slider-wrapper">
-                    <div class="slider">
-                        <img src="uploads/ad_1.jpeg" alt="Tuition Classes">
-                        <img src="uploads/ad_2.jpeg" alt="Home Tuition">
-                        <img src="uploads/ad_3.jpeg" alt="Online Tutoring">
-                    </div>
-                </div>
-                <button class="slider-btn next">&gt;</button>
-            </div>
-</div> -->
+<?php
+use App\Controllers\TutorAdDisplayController;
+
+if (!isset($ads)) {
+    require_once __DIR__ . '/../Controllers/TutorAdDisplayController.php';
+
+    $controller = new TutorAdDisplayController();
+    $ads = $controller->getAds(); // This should return the ads without rendering the view
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Tutor Ads</title>
 </head>
+<style>
+    ul {
+        display: flex;
+        gap: 15px;
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+        img {
+            border-radius: 6px;
+        }
+</style>
+
 <body>
     <h2>Unique Tutor Ads</h2>
     <?php if (!empty($ads) && is_array($ads)): ?>
         <ul>
             <?php foreach ($ads as $ad): ?>
                 <li>
-                    Tutor ID: <?= esc($ad['tutor_id']) ?> <br>
-                    <img src="<?= base_url($ad['ad_display_pic']) ?>" width="100" alt="Ad Pic">                    
+                    <img src="<?= htmlspecialchars($ad['ad_display_pic']) ?>" width="300" height="300" alt="Ad Pic">
                 </li>
             <?php endforeach; ?>
         </ul>

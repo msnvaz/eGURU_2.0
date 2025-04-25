@@ -133,7 +133,7 @@ function viewEventDetails(event) {
 
     let tutorPhotoHtml = '';
     if (event.tutor_profile_photo) {
-        tutorPhotoHtml = `<img src="/images/tutor_uploads/tutor_profile_photos/${event.tutor_profile_photo}" alt="${event.tutor_name}" class="tutor-photo">`;
+        tutorPhotoHtml = `<img src="/images/tutor_uploads//tutor_profile_photos/${event.tutor_profile_photo}" alt="${event.tutor_name}" class="tutor-photo">`;
     }
 
     let meetingLinkHtml = '';
@@ -142,7 +142,8 @@ function viewEventDetails(event) {
     }
 
     detailsContent.innerHTML = `
-        ${tutorPhotoHtml}
+    ${tutorPhotoHtml}
+        <p><strong>Session ID:</strong> ${event.session_id}</p> <!-- Display Session ID -->
         <p><strong>Subject:</strong> ${event.subject_name}</p>
         <p><strong>Instructor:</strong> ${event.tutor_name}</p>
         <p><strong>Grade:</strong> ${event.grade || 'N/A'}</p>

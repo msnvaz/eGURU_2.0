@@ -26,7 +26,7 @@ class SessionRequestModel {
             JOIN subject sub ON s.subject_id = sub.subject_id
             WHERE s.student_id = ? 
             AND s.session_status = 'requested'
-            ORDER BY s.scheduled_date ASC, s.schedule_time ASC
+            ORDER BY s.session_id DESC
         ";
     
         try {
@@ -38,7 +38,7 @@ class SessionRequestModel {
             return [];
         }
     }
-    
+    //this is for rejected and cancelled requests
     public function getRequestResults($studentId) {
         $query = "
             SELECT 
@@ -48,21 +48,13 @@ class SessionRequestModel {
                 sub.subject_name as subject,
                 s.session_status,
                 s.scheduled_date,
-                s.schedule_time,
-                s.meeting_link
+                s.schedule_time
             FROM session s
             JOIN tutor t ON s.tutor_id = t.tutor_id
             JOIN subject sub ON s.subject_id = sub.subject_id
             WHERE s.student_id = ? 
-            AND s.session_status IN ('scheduled', 'completed', 'cancelled', 'rejected')
-            ORDER BY 
-                CASE 
-                    WHEN s.session_status = 'scheduled' THEN 1
-                    WHEN s.session_status = 'completed' THEN 2
-                    ELSE 3
-                END,
-                s.scheduled_date DESC, 
-                s.schedule_time DESC
+            AND s.session_status IN ('rejected', 'cancelled')
+            ORDER BY s.session_id DESC
         ";
     
         try {
@@ -101,8 +93,7 @@ class SessionRequestModel {
                 sub.subject_name as subject,
                 s.scheduled_date,
                 s.schedule_time,
-                s.session_status,
-                s.meeting_link
+                s.session_status
             FROM session s
             JOIN tutor t ON s.tutor_id = t.tutor_id
             JOIN subject sub ON s.subject_id = sub.subject_id

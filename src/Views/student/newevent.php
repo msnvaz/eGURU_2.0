@@ -97,6 +97,7 @@ include __DIR__ . '/header.php';
                 <table>
                     <thead>
                         <tr>
+                        <th>Session ID</th>
                             <th>Subject</th>
                             <th>Grade</th>
                             <th>Instructor</th>
@@ -115,7 +116,8 @@ include __DIR__ . '/header.php';
                                 $isHighlighted = ($selectedDate === $event['scheduled_date']);
                         ?>
                             <tr class="event-row <?php echo $isHighlighted ? 'highlight' : ''; ?>" onclick="viewEventDetails(<?php echo htmlspecialchars(json_encode($event)); ?>)">
-                                <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
+                            <td><?php echo htmlspecialchars($event['session_id']); ?></td> <!-- Display Session ID -->
+                            <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
                                 <td><?php echo htmlspecialchars($event['grade'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($event['tutor_name'] ?? 'N/A'); ?></td>
                                 <td><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></td>
@@ -137,6 +139,7 @@ include __DIR__ . '/header.php';
                 <table>
                     <thead>
                         <tr>
+                        <th>Session ID</th>
                             <th>Subject</th>
                             <th>Grade</th>
                             <th>Instructor</th>
@@ -148,7 +151,8 @@ include __DIR__ . '/header.php';
                         <?php if (!empty($previousEvents)): ?>
                             <?php foreach ($previousEvents as $event): ?>
                             <tr class="event-row" onclick="viewEventDetails(<?php echo htmlspecialchars(json_encode($event)); ?>)">
-                                <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
+                            <td><?php echo htmlspecialchars($event['session_id']); ?></td> <!-- Display Session ID -->
+                            <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
                                 <td><?php echo htmlspecialchars($event['grade'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($event['tutor_name'] ?? 'N/A'); ?></td>
                                 <td><?php echo date('d M Y', strtotime($event['scheduled_date'])); ?></td>

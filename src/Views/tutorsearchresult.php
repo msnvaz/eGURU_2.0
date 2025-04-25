@@ -98,7 +98,7 @@
                 <img src="images/tutor_2.jpeg" alt="Tutor Image">
                 <div class="tutor-info">
                     <h2><?= htmlspecialchars($tutor['tutor_first_name']) . ' ' . htmlspecialchars($tutor['tutor_last_name']) ?></h2>
-                    <p><?= htmlspecialchars($tutor['tutor_level_id']) ?></p>
+                    <p><strong>Level:</strong> <?= htmlspecialchars($tutor['tutor_level_qualification']) ?></p>
                     <p class="rating">Rating:
                         <?php
                         $rating = round($tutor['average_rating'] ?? 0);
