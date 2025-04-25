@@ -3,12 +3,15 @@
     padding: 2rem;
     min-height: 100vh;
     background: #f7fafc;
+    z-index: 1;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
+    width: 70%;
+    margin-left: 20%;
 }
 
 /* Back Button */
