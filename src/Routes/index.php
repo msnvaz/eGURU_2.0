@@ -58,7 +58,7 @@ use App\Controllers\tutor\TutorDashboardController;
 use App\Controllers\tutor\TutorEventController;
 use App\Controllers\tutor\TutorRequestController;
 use App\Controllers\tutor\TutorPublicProfileController;
-use App\Controllers\tutor\TutorPaymentController;
+//use App\Controllers\tutor\TutorPaymentController;
 use App\Controllers\tutor\TutorFeedbackController;
 use App\Controllers\tutor\TutorAdvertisementController;
 use App\Controllers\tutor\TutorLogoutController;
@@ -181,7 +181,7 @@ $router->get('/tutor-public-profile', TutorPublicProfileController::class, 'show
 $router->post('/tutor-profile-updated', TutorPublicProfileController::class, 'ShowUpdatedprofile');
 $router->get('/tutor-profile-edit', TutorPublicProfileController::class, 'ShowEditprofile');
 $router->post('/tutor-profile-delete', TutorPublicProfileController::class,'DeleteProfile'); 
-$router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
+//$router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
 $router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); // Route to show feedback page
 $router->post('/submit-reply', TutorFeedbackController::class, 'submitReply'); // Route for submitting reply
 $router->post('/update-reply', TutorFeedbackController::class, 'updateReply');
@@ -218,7 +218,28 @@ $router->get('/tutor-outbox-message/{id}/{type}', TutorInboxController::class, '
 // Tutor Inbox(?)
 $router->get('/tutor-inbox', TutorInboxController::class, 'index'); // Show inbox
 $router->post('/tutor-inbox/send', TutorInboxController::class, 'sendMessage'); // Handle sending a message
-
+// tutor cashout
+if (isset($_GET['action'])) { 
+    $action = $_GET['action'];
+    $controller = new \App\Controllers\tutor\TutorCashoutController();
+    switch ($action) {
+        case 'cashout':
+            $controller->showCashout();
+            break;
+        case 'process_cashout':
+            $controller->processCashout();
+            break;
+        case 'cashout_success':
+            $controller->cashoutSuccess();
+            break;
+        case 'cashout_cancel':
+            $controller->cashoutCancel();
+            break;
+        default:
+            throw new \Exception("No route found for URI: /index.php?action=$action");
+    }
+    exit; // Ensure no further code is executed
+}
 
 
 //student profile for admin

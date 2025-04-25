@@ -21,10 +21,10 @@
                 <li> <a class= "<?php echo ($page== "feedback") ? 'active' : ''; ?>"href="/tutor-feedback"><i class="fa-solid fa-star"></i>     <b style="font-weight: 500;">Student Feedback</b></a></li>
                 <li><a class= "<?php echo ($page== "profile") ? 'active' : ''; ?>"href="/tutor-public-profile"><i class="fa-solid fa-user"></i>     <b style="font-weight: 500;">Public Profile</b></a></li>
                 <li> <a class= "<?php echo ($page== "advertisement") ? 'active' : ''; ?>"href="/tutor-advertisement"><i class="fa-solid fa-rectangle-ad"></i>     <b style="font-weight: 500;">Advertisement </b></a></li>
-                <li> <a class= "<?php echo ($page== "payment") ? 'active' : ''; ?>"href="/tutor-payment"><i class="fa-solid fa-money-bill"></i>    <b style="font-weight: 500;">Payments</a></b></li>
+                <li> <a class= "<?php echo ($page== "cashout") ? 'active' : ''; ?>"href="index.php?action=cashout"><i class="fa-solid fa-money-bill"></i>    <b style="font-weight: 500;">Cashout</a></b></li>
                 <li> <a class= "<?php echo ($page== "timeslot") ? 'active' : ''; ?>"href="/tutor-timeslot"><i class="fa fa-calendar-alt fa-2x"></i>    <b style="font-weight: 500;">Timeslots </b></a></li>
                 <li><a class= "<?php echo ($page== "upload") ? 'active' : ''; ?>"href="/tutor-uploads"><i class="fa-solid fa-upload">     </i> <b style="font-weight: 500;">Study Materials</b></a></li>
-                <li> <a class= "<?php echo ($page== "fee-request") ? 'active' : ''; ?>"href="/tutor-fee-request"><i class="fa-solid fa-comment"></i>    <b style="font-weight: 500;">Tutor Fee Requests</b></a></li>
+                <li> <a class= "<?php echo ($page== "fee-request") ? 'active' : ''; ?>"href="/tutor-fee-request"><i class="fa-solid fa-comment"></i>    <b style="font-weight: 500;">Fee Requests</b></a></li>
                 <li> <a class= "<?php echo ($page== "inbox") ? 'active' : ''; ?>"href="/tutor-inbox"><i class="fa-solid fa-envelope"></i>    <b style="font-weight: 500;">Tutor Inbox</b></a></li>
 
                 </ul>

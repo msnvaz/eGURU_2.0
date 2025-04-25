@@ -144,7 +144,20 @@ function validatePhone(input) {
 
 function validateForm() {
     const phoneValid = validatePhone(document.getElementById('phonenumber'));
-    
+
+    // Validate age is at least 18 years
+    const dobInput = document.getElementById('dateofbirth').value;
+    if (dobInput) {
+        const dob = new Date(dobInput);
+        const today = new Date();
+        const ageDiff = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (ageDiff < 18 || (ageDiff === 18 && m < 0) || (ageDiff === 18 && m === 0 && today.getDate() < dob.getDate())) {
+            alert('Tutor must be at least 18 years old.');
+            return false;
+        }
+    }
+
     if (!phoneValid) {
         alert('Please enter a valid 10-digit phone number');
         return false;
