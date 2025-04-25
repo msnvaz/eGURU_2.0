@@ -21,7 +21,7 @@
 <?php include 'sidebar.php'; ?>
 
     <div class="main">
-        <br>
+        <br><br>
         <div class="student-dashboard">
         
             <div class="inbox-tabs">

@@ -41,5 +41,21 @@ class StudentLoginController {
             exit();
         }
     }
+
+    public function logout() {
+        if (isset($_SESSION['student_id'])) {
+            $student_id = $_SESSION['student_id'];
+    
+            // Update student_log to 'offline'
+            $query = $this->model->updateStudentLog($student_id, 'offline');
+    
+            // Clear session
+            session_unset();
+            session_destroy();
+    
+            header("Location: /student-login");
+            exit();
+        }
+    }
     
 }

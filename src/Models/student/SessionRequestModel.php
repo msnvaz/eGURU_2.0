@@ -15,7 +15,7 @@ class SessionRequestModel {
     public function getPendingRequests($studentId) {
         $query = "
             SELECT 
-                s.session_id,
+                s.session_id AS request_id,
                 CONCAT(t.tutor_first_name, ' ', t.tutor_last_name) as tutor_name,
                 sub.subject_name as subject,
                 s.session_status,
@@ -42,7 +42,7 @@ class SessionRequestModel {
     public function getRequestResults($studentId) {
         $query = "
             SELECT 
-                s.session_id,
+                s.session_id AS request_id,
                 CONCAT(t.tutor_first_name, ' ', t.tutor_last_name) as tutor_name,
                 t.tutor_profile_photo,
                 sub.subject_name as subject,
@@ -87,7 +87,7 @@ class SessionRequestModel {
     public function getSessionDetails($sessionId, $studentId) {
         $query = "
             SELECT 
-                s.session_id,
+                s.session_id AS request_id,
                 CONCAT(t.tutor_first_name, ' ', t.tutor_last_name) as tutor_name,
                 t.tutor_profile_photo,
                 sub.subject_name as subject,
