@@ -188,7 +188,7 @@
     <a href="/subject?subject=Geography"><div class="subject"><img src="images/subjects/Geography.jpg" alt="Geography"><br>Geography</div></a>
     <a href="/subject?subject=Information Technology"><div class="subject"><img src="images/subjects/IT.jpg" alt="IT"><br>Information Technology</div></a>
     <a href="/subject?subject=Sinhala"><div class="subject"><img src="images/subjects/Sinhala.jpg" alt="Sinhala"><br>Sinhala</div></a>
-    <a href="/subject?subject=Tamil"><div class="subject"><img src="images/tamil.png" alt="Tamil"><br>Tamil</div></a>
+    <a href="/subject?subject=Tamil"><div class="subject"><img src="images/subjects/Tamil.svg" alt="Tamil"><br>Tamil</div></a>
     <a href="/subject?subject=Chemistry"><div class="subject"><img src="images/subjects/Chemistry.jpg" alt="Chemistry"><br>Chemistry</div></a>
     <a href="/subject?subject=Physics"><div class="subject"><img src="images/subjects/Chemistry.jpg" alt="Physics"><br>Physics</div></a>
     <a href="/subject?subject=Biology"><div class="subject"><img src="images/subjects/Biology.jpg" alt="Biology"><br>Biology</div></a>

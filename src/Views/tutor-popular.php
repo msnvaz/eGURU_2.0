@@ -80,8 +80,9 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
                 }
 
                 // Display tutor profile photo if available
+                $photoPath = 'images/tutor_uploads/tutor_profile_photos/';
                 $profilePhoto = !empty($tutor['tutor_profile_photo']) ? htmlspecialchars($tutor['tutor_profile_photo']) : 'default-profile.png';
-                echo '<img src="' . $profilePhoto . '" alt="Tutor Photo">';
+                echo '<img src="' . $photoPath . $profilePhoto . '" alt="Tutor Photo">';
 
                 // Display Tutor Name and Scheduled Sessions
                 $fullName = htmlspecialchars($tutor['tutor_first_name']) . ' ' . htmlspecialchars($tutor['tutor_last_name']);
