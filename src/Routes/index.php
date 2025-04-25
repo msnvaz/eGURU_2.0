@@ -58,7 +58,7 @@ use App\Controllers\tutor\TutorDashboardController;
 use App\Controllers\tutor\TutorEventController;
 use App\Controllers\tutor\TutorRequestController;
 use App\Controllers\tutor\TutorPublicProfileController;
-use App\Controllers\tutor\TutorPaymentController;
+//use App\Controllers\tutor\TutorPaymentController;
 use App\Controllers\tutor\TutorFeedbackController;
 use App\Controllers\tutor\TutorAdvertisementController;
 use App\Controllers\tutor\TutorLogoutController;
@@ -181,7 +181,7 @@ $router->get('/tutor-public-profile', TutorPublicProfileController::class, 'show
 $router->post('/tutor-profile-updated', TutorPublicProfileController::class, 'ShowUpdatedprofile');
 $router->get('/tutor-profile-edit', TutorPublicProfileController::class, 'ShowEditprofile');
 $router->post('/tutor-profile-delete', TutorPublicProfileController::class,'DeleteProfile'); 
-$router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
+//$router->get('/tutor-payment', TutorPaymentController::class, 'showPaymentPage');
 $router->get('/tutor-feedback', TutorFeedbackController::class, 'showFeedbackPage'); // Route to show feedback page
 $router->post('/submit-reply', TutorFeedbackController::class, 'submitReply'); // Route for submitting reply
 $router->post('/update-reply', TutorFeedbackController::class, 'updateReply');
