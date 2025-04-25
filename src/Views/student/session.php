@@ -35,6 +35,7 @@ include __DIR__ . '/header.php';
             <table>
                 <thead>
                     <tr>
+                    <th>Request ID</th>
                         <th>Tutor</th>
                         <th>Subject</th>
                         <th>Status</th>
@@ -51,6 +52,7 @@ include __DIR__ . '/header.php';
             <table>
                 <thead>
                     <tr>
+                    <th>Request ID</th>
                         <th>Tutor</th>
                         <th>Subject</th>
                         <th>Status</th>
@@ -67,6 +69,7 @@ include __DIR__ . '/header.php';
             <table>
                 <thead>
                     <tr>
+                    <th>Request ID</th>
                         <th>Tutor</th>
                         <th>Subject</th>
                         <th>Status</th>

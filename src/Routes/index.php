@@ -95,6 +95,7 @@ $router->get('/student-login', StudentLoginController::class, 'ShowStudentLoginP
 $router->get('/student-signup', StudentSignupController::class, 'ShowStudentSignupPage');
 $router->post('/student_signup', StudentSignupController::class, 'student_signup');
 $router->post('/student-login', StudentLoginController::class, 'login');
+$router->get('/student-logout', StudentLoginController::class, 'logout');
 $router->get('/student-dashboard', StudentDashboardController::class, 'showStudentDashboardPage');
 $router->get('/student-events/get-event-dates-in-month', StudentEventsController::class, 'getEventDatesInMonth');
 

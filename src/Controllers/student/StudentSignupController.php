@@ -29,6 +29,17 @@ class StudentSignupController {
             $student_DOB = $_POST['date'];  // Changed from student_DOB to date
             $student_phonenumber = $_POST['tel'];  // Changed from student_phonenumber to tel
     
+            // Validate date of birth (must be above 10 years old)
+            $dob = new \DateTime($student_DOB);
+            $currentDate = new \DateTime();
+            $age = $currentDate->diff($dob)->y;
+    
+            if ($age < 10) {
+                $_SESSION['signup_error'] = "You must be at least 10 years old to register.";
+                header("Location: /student-signup");
+                exit();
+            }
+    
             // Check if email already exists
             if ($this->model->check_email($student_email)) {
                 $_SESSION['signup_error'] = "Email already exists";
