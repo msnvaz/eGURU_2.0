@@ -186,14 +186,14 @@
     <a href="/subject?subject=English"><div class="subject"><img src="images/English.png" alt="English"><br>English</div></a>
     <a href="/subject?subject=History"><div class="subject"><img src="images/History.png" alt="History"><br>History</div></a>
     <a href="/subject?subject=Geography"><div class="subject"><img src="images/Geography.png" alt="Geography"><br>Geography</div></a>
-    <a href="/subject?subject=Information Technology"><div class="subject"><img src="images/IT.jpg" alt="IT"><br>Information Technology</div></a>
-    <a href="/subject?subject=Sinhala"><div class="subject"><img src="images/Sinhala.jpg" alt="Sinhala"><br>Sinhala</div></a>
-    <a href="/subject?subject=Tamil"><div class="subject"><img src="images/Tamil.svg" alt="Tamil"><br>Tamil</div></a>
-    <a href="/subject?subject=Chemistry"><div class="subject"><img src="images/Chemistry.jpg" alt="Chemistry"><br>Chemistry</div></a>
-    <a href="/subject?subject=Physics"><div class="subject"><img src="images/Physics.jpg" alt="Physics"><br>Physics</div></a>
-    <a href="/subject?subject=Biology"><div class="subject"><img src="images/Biology.jpg" alt="Biology"><br>Biology</div></a>
+    <a href="/subject?subject=Information Technology"><div class="subject"><img src="images/it.png" alt="IT"><br>Information Technology</div></a>
+    <a href="/subject?subject=Sinhala"><div class="subject"><img src="images/Sinhala.png" alt="Sinhala"><br>Sinhala</div></a>
+    <a href="/subject?subject=Tamil"><div class="subject"><img src="images/tamil.png" alt="Tamil"><br>Tamil</div></a>
+    <a href="/subject?subject=Chemistry"><div class="subject"><img src="images/chemistry.png" alt="Chemistry"><br>Chemistry</div></a>
+    <a href="/subject?subject=Physics"><div class="subject"><img src="images/physics.png" alt="Physics"><br>Physics</div></a>
+    <a href="/subject?subject=Biology"><div class="subject"><img src="images/biology.png" alt="Biology"><br>Biology</div></a>
     <a href="/subject?subject=Mathematics"><div class="subject"><img src="images/Maths.png" alt="Mathematics"><br>Mathematics</div></a>
-    <a href="/subject?subject=Buddhism"><div class="subject"><img src="images/Buddhism.jpeg" alt="Buddhism"><br>Buddhism</div></a>
+    <a href="/subject?subject=Buddhism"><div class="subject"><img src="images/buddhism.png" alt="Buddhism"><br>Buddhism</div></a>
 </div>
 
     </section>
