@@ -18,9 +18,13 @@ if (!isset($_SESSION['student_id'])) {
     <title>Find Tutor</title>
     <link rel="stylesheet" href="css/student/findtutor.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/student/payment.css">
+    <link rel="stylesheet" href="css/student/nav.css">
+    <link rel="stylesheet" href="css/student/sidebar.css">
 </head>
 <body>
-    
+<?php include '../src/Views/student/header.php'; ?>
+<?php include 'sidebar.php'; ?>
 
     <div class="main-content">
         <div class="container">
