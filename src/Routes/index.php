@@ -340,6 +340,10 @@ $router->post('/admin-restore-tutor/{id}', adminTutorController::class, 'restore
 // GET route for displaying the blocked tutors page
 $router->get('/admin-blocked-tutors', adminTutorController::class, 'showBlockedTutors');
 
+$router->post('/admin-update-tutor-advertisement', adminTutorController::class,'updateTutorAdvertisement');
+$router->post('/admin-delete-tutor-advertisement', adminTutorController::class,'deleteTutorAdvertisement');
+$router->post('/admin-select-tutor-advertisement', adminTutorController::class,'selectTutorAdvertisement');
+
 // POST route for handling search/filter submissions on the blocked tutors page
 $router->post('/admin-blocked-tutors',  adminTutorController::class, 'searchTutors');
 

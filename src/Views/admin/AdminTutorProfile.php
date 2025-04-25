@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="/images/eGURU_6.png">
     <link rel="stylesheet" href="/css/admin/AdminHeader.css">
     <link rel="stylesheet" href="/css/admin/Admin.css">
-    <link rel="stylesheet" href="/css/admin/AdminStudentProfile.css">
+    <link rel="stylesheet" href="/css/admin/AdminTutorProfile.css">
     <style>
         .success-message {
             color: green;

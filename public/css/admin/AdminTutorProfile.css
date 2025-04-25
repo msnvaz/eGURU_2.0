@@ -1,4 +1,3 @@
-/* Reuse the same styles as AdminStudentProfile.css */
 .viewprofile-content {
     max-width: 800px;
     margin: 0 auto;
@@ -71,6 +70,8 @@
 
 .viewprofile-sections {
     margin-top: 30px;
+    justify-content: center;
+    align-items: center;
 }
 
 .section-container {
@@ -79,6 +80,8 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 20px;
     margin-bottom: 25px;
+    width:80%;
+    margin-left: 10%;
 }
 
 .section-container h2 {
@@ -89,90 +92,143 @@
     border-bottom: 1px solid #e0e0e0;
 }
 
-/* Advertisement Grid */
-.ad-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* For exactly 3 columns */
-    gap: 20px;
-    width: 100%;
-    margin-top: 20px;
-    height: auto;
-    padding: 0 20px;
-}
-
 .ad-card {
-    border: 1px solid #e0e0e0;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-.ad-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.ad-image {
-    height: 180px;
-    width: auto;
-    overflow: hidden;
-    background-color: #f5f5f5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.ad-card.selected {
+    background-color: #CBF1F9;
+    border: 2px solid #1e3a8a;
 }
 
 .ad-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.no-image {
-    color: #888;
-    font-style: italic;
-}
-
-.ad-details {
-    padding: 15px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .ad-description {
-    font-size: 0.95rem;
     margin-bottom: 10px;
-    line-height: 1.4;
+    font-size: 14px;
 }
 
 .ad-meta {
     display: flex;
     justify-content: space-between;
-    font-size: 0.85rem;
+    font-size: 12px;
     color: #666;
-}
-
-.ad-status {
-    padding: 3px 8px;
-    border-radius: 4px;
-    font-weight: 500;
+    margin-bottom: 10px;
 }
 
 .ad-status.active {
-    background-color: #e6f7e6;
-    color: #2e7d32;
+    color: green;
+    font-weight: bold;
 }
 
 .ad-status.inactive {
-    background-color: #ffebee;
-    color: #c62828;
+    color: red;
+}
+
+.ad-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.ad-actions button {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.confirm-button, .modal-cancel-button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confirm-button {
+    background-color: #ff4081;
+    color: white;
+}
+
+.modal-cancel-button {
+    background-color: #ddd;
+    color: #333;
 }
 
 /* Study Materials Table */
 .materials-table-container {
     overflow-x: auto;
+    width:90%;
 }
 
 .materials-table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
 }
 
