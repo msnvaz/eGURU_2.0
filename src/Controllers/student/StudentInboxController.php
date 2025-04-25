@@ -1,6 +1,11 @@
 <?php
+
 namespace App\Controllers\student;
 use App\Models\student\StudentInboxModel;
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 class StudentInboxController {
     private $model;
@@ -13,9 +18,9 @@ class StudentInboxController {
     public function showInbox() {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
 
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -53,9 +58,9 @@ class StudentInboxController {
     public function showMessage($inboxId) {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
         
         $studentId = $_SESSION['student_id']; // Get current student's ID
@@ -99,9 +104,9 @@ class StudentInboxController {
     public function archiveMessage($inboxId) {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
         
         $studentId = $_SESSION['student_id'];
@@ -120,11 +125,11 @@ class StudentInboxController {
     
     // Unarchive a message
     public function unarchiveMessage($inboxId) {
-        session_start(); // Ensure session is started
+        
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
         
         $studentId = $_SESSION['student_id'];
@@ -144,9 +149,9 @@ class StudentInboxController {
     public function replyToMessage($inboxId) {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
         
         if (!isset($_POST['reply_message']) || empty($_POST['reply_message'])) {
@@ -175,9 +180,9 @@ class StudentInboxController {
     public function showComposeForm() {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
 
         $studentId = $_SESSION['student_id']; // Get current student's ID
@@ -196,9 +201,9 @@ class StudentInboxController {
     public function sendMessage() {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
         
         // Check if form is submitted
@@ -254,9 +259,9 @@ class StudentInboxController {
     public function showOutbox() {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
         
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -286,9 +291,9 @@ class StudentInboxController {
     public function showSentMessage($messageId, $recipientType) {
         
 
-        if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !== true) {
+        if (!isset($_SESSION['student_id'])) {
             header("Location: /student-login");
-            exit;
+            exit();
         }
         
         $studentId = $_SESSION['student_id'];

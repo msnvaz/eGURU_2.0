@@ -54,8 +54,7 @@ class StudentDownloadsController {
         echo '</ul>';
     }
 
-    
-    
+
     public function downloadMaterial() {
         $studentId = $this->getStudentId();
         $materialId = isset($_GET['material_id']) ? intval($_GET['material_id']) : null;
@@ -82,10 +81,11 @@ class StudentDownloadsController {
             return;
         }
     
-        $filePath = '../uploads/' . $material['material_path']; // Use the correct column
+        // Construct the correct file path
+        $filePath = __DIR__ . '/../../../public/uploads/tutor_study_materials/' . $material['material_path'];
         if (!file_exists($filePath)) {
             http_response_code(404);
-            echo "File not found.";
+            echo "File not found: " . htmlspecialchars($filePath);
             return;
         }
     
