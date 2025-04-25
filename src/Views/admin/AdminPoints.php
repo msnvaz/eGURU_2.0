@@ -188,7 +188,7 @@
                             <td>Rs.<?= number_format($record['cash_value'], 2) ?></td>
                             <td><?= htmlspecialchars($record['bank_transaction_id']) ?></td>
                             <td><?= htmlspecialchars($record['transaction_date']) ?></td>
-                            <td><?= htmlspecialchars($record['transaction_time']) ?></td>
+                            <td><?= date('H:i:s', strtotime($record['transaction_time'])) ?></td>
                         </tr>
                         <tr class="details-row">
                             <td colspan="8">
@@ -201,7 +201,7 @@
                                             <p><strong>Points Amount:</strong> <?= htmlspecialchars($record['point_amount']) ?></p>
                                             <p><strong>Cash Value:</strong> Rs.<?= number_format($record['cash_value'], 2) ?></p>
                                             <p><strong>Bank Transaction ID:</strong> <?= htmlspecialchars($record['bank_transaction_id']) ?></p>
-                                            <p><strong>Transaction Date &Time:</strong> <?= htmlspecialchars($record['transaction_time']) ?></p>
+                                            <p><strong>Transaction Date &Time:</strong><?= date('H:i:s', strtotime($record['transaction_time'])) ?></p>
                                             <p><strong>Points to Cash Ratio:</strong> 
                                                 <?= $record['point_amount'] ? (number_format($record['cash_value'] / $record['point_amount'], 2)) : 'N/A' ?> : 1
                                             </p>

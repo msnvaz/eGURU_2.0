@@ -66,7 +66,7 @@ class adminPointsModel {
             } 
             else {
                 // If no specific transaction type, get both with UNION
-                $sql = $purchaseQuery . " UNION ALL " . $cashoutQuery . " ORDER BY transaction_id DESC";
+                $sql = $purchaseQuery . " UNION ALL " . $cashoutQuery . " ORDER BY transaction_date DESC";
                 $stmt = $this->conn->prepare($sql);
                 $stmt->execute();
             }
