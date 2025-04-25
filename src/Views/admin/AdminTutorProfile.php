@@ -32,11 +32,18 @@
         <div class="viewprofile-content">
             <div class="viewprofile-header">
                 <div class="profile-photo-container">
-                    <img 
-                        src="\images\tutor_uploads\tutor_profile_photos\<?php echo htmlspecialchars($tutor['tutor_profile_photo'] ?? 'default.jpg'); ?>" 
-                        class="viewprofile-img"
-                        alt="Profile Photo"
-                    >
+                <img
+                    src="<?php
+                        $profilePicPath = '\images\tutor_uploads\tutor_profile_photos\\' . htmlspecialchars($tutor['tutor_profile_photo'] ?? '');
+                        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $profilePicPath) && !empty($tutor['tutor_profile_photo'])) {
+                            echo $profilePicPath;
+                        } else {
+                            echo '\images\tutor_uploads\tutor_profile_photos\default.jpg';
+                        }
+                    ?>"
+                    class="viewprofile-img"
+                    alt="Profile Photo"
+                >
                 </div>
                 <div class="profile-info">
                     <h1>

@@ -120,8 +120,19 @@
                         <?php foreach ($paginatedTutors as $row): ?>
                             <div class="tutor-card blocked">
                                 <a href="/admin-tutor-profile/<?= isset($row['tutor_id']) ? htmlspecialchars($row['tutor_id']) : ''; ?>" class="tutor-card-link">
-                                    <img src="\images\tutor_uploads\tutor_profile_photos\<?= !empty($row['tutor_profile_photo']) ? htmlspecialchars($row['tutor_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="tutor-photo">
-                                    <div class="tutor-card-content">
+                                <img
+                                    src="<?php
+                                        $profilePicPath = '\images\tutor_uploads\tutor_profile_photos\\' . htmlspecialchars($row['tutor_profile_photo'] ?? '');
+                                        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $profilePicPath) && !empty($row['tutor_profile_photo'])) {
+                                            echo $profilePicPath;
+                                        } else {
+                                            echo '\images\tutor_uploads\tutor_profile_photos\default.jpg';
+                                        }
+                                    ?>"
+                                    class="viewprofile-img"
+                                    alt="Profile Photo"
+                                >                                    
+                                <div class="tutor-card-content">
                                         <p class="tutor-name"><?= htmlspecialchars($row['tutor_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['tutor_last_name'] ?? 'Last Name'); ?></p>
                                         <p class="tutor-email"><?= htmlspecialchars($row['tutor_email'] ?? 'Email not available'); ?></p>
                                         <p class="tutor-registration">ID: <?= htmlspecialchars($row['tutor_id'] ?? 'Not Found'); ?></p>
@@ -150,8 +161,19 @@
                         <?php foreach ($paginatedTutors as $row): ?>
                             <div class="tutor-card deleted">
                                 <a href="/admin-tutor-profile/<?= isset($row['tutor_id']) ? htmlspecialchars($row['tutor_id']) : ''; ?>" class="tutor-card-link">
-                                    <img src="\images\tutor_uploads\tutor_profile_photos\<?= !empty($row['tutor_profile_photo']) ? htmlspecialchars($row['tutor_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="tutor-photo">
-                                    <div class="tutor-card-content">
+                                <img
+                                    src="<?php
+                                        $profilePicPath = '\images\tutor_uploads\tutor_profile_photos\\' . htmlspecialchars($row['tutor_profile_photo'] ?? '');
+                                        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $profilePicPath) && !empty($row['tutor_profile_photo'])) {
+                                            echo $profilePicPath;
+                                        } else {
+                                            echo '\images\tutor_uploads\tutor_profile_photos\default.jpg';
+                                        }
+                                    ?>"
+                                    class="viewprofile-img"
+                                    alt="Profile Photo"
+                                >                                    
+                                <div class="tutor-card-content">
                                         <p class="tutor-name"><?= htmlspecialchars($row['tutor_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['tutor_last_name'] ?? 'Last Name'); ?></p>
                                         <p class="tutor-email"><?= htmlspecialchars($row['tutor_email'] ?? 'Email not available'); ?></p>
                                         <p class="tutor-registration">ID: <?= htmlspecialchars($row['tutor_id'] ?? 'Not Found'); ?></p>
@@ -178,7 +200,18 @@
                     <?php foreach ($paginatedTutors as $row): ?>
                         <div class="tutor-card <?= $row['tutor_log'] === 'online' ? 'online' : '' ?>">
                             <a href="/admin-tutor-profile/<?= htmlspecialchars($row['tutor_id'] ?? ''); ?>" class="tutor-card-link">
-                                <img src="\images\tutor_uploads\tutor_profile_photos\<?= !empty($row['tutor_profile_photo']) ? htmlspecialchars($row['tutor_profile_photo']) : 'default.jpg'; ?>" alt="Profile Photo" class="tutor-photo">
+                            <img
+                                    src="<?php
+                                        $profilePicPath = '\images\tutor_uploads\tutor_profile_photos\\' . htmlspecialchars($row['tutor_profile_photo'] ?? '');
+                                        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $profilePicPath) && !empty($row['tutor_profile_photo'])) {
+                                            echo $profilePicPath;
+                                        } else {
+                                            echo '\images\tutor_uploads\tutor_profile_photos\default.jpg';
+                                        }
+                                    ?>"
+                                    class="viewprofile-img"
+                                    alt="Profile Photo"
+                                >                                
                                 <div class="tutor-card-content">
                                     <p class="tutor-name"><?= htmlspecialchars($row['tutor_first_name'] ?? 'First Name') . ' ' . htmlspecialchars($row['tutor_last_name'] ?? 'Last Name'); ?></p>
                                     <p class="tutor-email"><?= htmlspecialchars($row['tutor_email'] ?? 'Email not available'); ?></p>
