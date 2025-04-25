@@ -41,6 +41,10 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
     object-fit: cover;
 }
 
+.tutors::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
 /* Rank Styles */
 .tutor.rank-1 img {
     border: 4px solid gold;
@@ -89,15 +93,20 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
 .subjects ul {
     list-style-type: none;
     padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* allow items to wrap to the next line */
+    justify-content: center;
+    gap: 5px; /* spacing between subjects */
 }
+
 .subjects li {
-    display: inline-block;
     background: #e0e0e0;
-    margin: 2px;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 12px;
+    white-space: nowrap; /* prevents text from breaking into two lines */
 }
+
 
 .gallery-btn {
     font-size: 20px;
