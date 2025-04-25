@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eGURU Student - Inbox</title>
-    <link rel="icon" type="image/png" href="/images/eGURU_6.png">
+    <link rel="icon" type="image/png" href="/images/eGURU_3.png">
     <link rel="stylesheet" href="/css/student/sidebar.css">
     <link rel="stylesheet" href="/css/student/nav.css">
+    <link rel="stylesheet" href="/css/student/header.css">
     <link rel="stylesheet" href="/css/student/StudentInbox.css">
     <link rel="stylesheet" href="/css/student/StudentComposeMessage.css">
     <link rel="stylesheet" href="/css/student/StudentOutbox.css">
@@ -16,12 +17,9 @@
    
 <?php $page="inbox"; ?>
 
-<!-- Sidebar -->
+<?php include '../src/Views/student/header.php'; ?>
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
-<?php include '../src/Views/student/header.php'; ?>
-    
     <div class="main">
         <br>
         <div class="student-dashboard">
