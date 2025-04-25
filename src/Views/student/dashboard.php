@@ -55,7 +55,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
         <div class="header-container">
             <div class="profile-section">
                 <div class="welcome-text">
-                    <h1>Welcome <?= htmlspecialchars(explode(' ', $student_name)[0]) ?>👋</h1>
+                    <h1>Welcome <?= htmlspecialchars(explode(' ', $student_name)[0]) ?></h1>
                     <p>Keep up the good work!</p>
                 </div>
                 <div class="user-info">
@@ -67,13 +67,13 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                         </h2>
                         <p><?= isset($_SESSION['student_email']) ? htmlspecialchars($_SESSION['student_email']) : 'test@example.com' ?>
                         </p>
-                        <p class="points">Total Purchased Points: <?= htmlspecialchars($totalPurchasedPoints ?? 0) ?></p>
-    
+                        <p class="points">Points: <?= htmlspecialchars($student_points) ?></p> <!-- Updated -->
+                        
 
                         <button class="find-tutor-btn">
     <a style="text-decoration:none; color:white;" href="/student-findtutor">Find Tutor</a>
 </button>
-                                <img src="images/student-uploads/welcome.png" alt="welcome" class="welcome_img">
+                        <img src="images/student-uploads/welcome.png" alt="welcome" class="welcome_img">
                     </div>
                 </div>
             </div>
