@@ -1,0 +1,328 @@
+:root {
+    --primary-color: #1e3a8a;;
+    --primary-hover:rgb(48, 75, 150);
+    --secondary-color: #6c757d;
+    --secondary-hover: #5a6268;
+    --success-color: #E14177;
+    --success-hover: #e02362;
+    --danger-color: #e63946;
+    --danger-hover: #d32636;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+}
+
+body { 
+    font-family: 'Poppins', sans-serif; 
+    padding: 0;
+    margin:0;
+    background-color: #f7f9fc;
+    color: var(--gray-800);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: calc(100vh - 4rem);
+    margin-left: 285px;
+    margin-top: 55px;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    border-radius: var(--border-radius);
+}
+
+h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1.0rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+    font-size: 1.75rem;
+}
+
+
+
+.day-section { 
+    margin-bottom: 30px;
+    background-color: var(--gray-100);
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease;
+}
+
+
+h3 { 
+    margin-bottom: 15px;
+    color: var(--gray-800);
+    font-weight: 500;
+    font-size: 1.2rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--gray-300);
+}
+
+.slot {
+    display: inline-block; 
+    margin: 8px 10px;
+    transition: all 0.3s ease;
+}
+
+.slot label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 6px 12px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.slot label:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--gray-200);
+}
+
+.slot input[type="checkbox"] {
+    margin-right: 6px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+    width: 16px;
+    height: 16px;
+}
+
+#editBtn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: var(--box-shadow);
+}
+
+#editBtn:hover {
+    background-color: var(--primary-hover);
+}
+
+#editBtn:active {
+    transform: translateY(0);
+}
+
+#saveBtn {
+    display: none;
+    margin-top: 25px;
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: var(--box-shadow);
+}
+
+#saveBtn:hover {
+    background-color: var(--success-hover);
+}
+
+#saveBtn:active {
+    transform: translateY(0);
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    position: relative;
+    text-align: center;
+    animation: modalFadeIn 0.4s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        
+    }
+    to {
+        opacity: 1;
+        
+    }
+}
+
+.close-modal {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--gray-500);
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--gray-800);
+}
+
+.modal-title {
+    margin-top: 0;
+    color: var(--gray-800);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.success-modal .modal-content {
+    border-top: 6px solid var(--success-color);
+}
+
+.error-modal .modal-content {
+    border-top: 6px solid var(--danger-color);
+}
+
+.confirm-modal .modal-content {
+    border-top: 6px solid var(--primary-color);
+}
+
+.modal-icon {
+    font-size: 55px;
+    margin-bottom: 20px;
+    animation: iconPulse 1s ease-in-out;
+}
+
+
+
+.success-modal .modal-icon {
+    color: var(--success-color);
+}
+
+.error-modal .modal-icon {
+    color: var(--danger-color);
+}
+
+.confirm-modal .modal-icon {
+    color: var(--primary-color);
+}
+
+.modal-message {
+    margin-bottom: 25px;
+    font-size: 1rem;
+    color: var(--gray-700);
+    line-height: 1.5;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.modal-btn {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-btn:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.modal-btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-hover);
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: var(--success-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .container {
+        margin-left: 0;
+        margin-top: 100px;
+    }
+    
+    .day-section {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .slot {
+        margin: 6px 8px;
+    }
+    
+    .slot label {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+}

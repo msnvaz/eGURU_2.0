@@ -52,6 +52,8 @@ class StudentPublicProfileController {
                 } else {
                     $_SESSION['error'] = 'File upload failed';
                 }
+            } else {
+                $data['student_profile_photo'] = $_SESSION['profile_picture']; // Use existing profile picture
             }
     
             try {
@@ -61,6 +63,9 @@ class StudentPublicProfileController {
                 } else {
                     $this->model->createProfile($data);
                 }
+    
+                // Update the student_grade in the student table
+                $this->model->updateStudentGrade($data['student_id'], $data['grade']);
     
                 header('Location: /student-publicprofile');
                 exit();

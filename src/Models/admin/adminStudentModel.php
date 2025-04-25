@@ -209,6 +209,11 @@ class adminStudentModel {
         return $this->getAllStudents('unset');
     }
 
+    // Get all blocked students
+    public function getBlockedStudents() {
+        return $this->getAllStudents('blocked');
+    }
+
     // Restore student profile
     public function restoreStudentProfile($studentId) {
         $query = "UPDATE student SET student_status = 'set' WHERE student_id = :studentId";
@@ -217,6 +222,19 @@ class adminStudentModel {
         
         if ($stmt->execute()) {
             return $stmt->rowCount() > 0; // Ensure at least one row was updated
+        }
+        return false;
+    }
+
+    // Update student status (e.g., block, unblock)
+    public function updateStudentStatus($studentId, $status) {
+        $query = "UPDATE student SET student_status = :status WHERE student_id = :studentId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return $stmt->rowCount() > 0;
         }
         return false;
     }

@@ -5,22 +5,12 @@ body {
   background-color: #f5faff;
   margin: 0;
   padding: 0;
-}
-
-.event-bodyform-container {
-    
-    width: 100%;
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    height:180%;
+  max-width: 1150px;
+    height:100%;
     margin-left: 300px;
     margin-top:90px;
 }
+
 
 .calendars {
     display: flex;
@@ -28,23 +18,118 @@ body {
     justify-content: center; /* Centering the calendars */
 }
 
+.day.upcoming-event {
+  background-color: #2c3e50;
+  color: white;
+  font-weight: bold;
+}
+
+.day.previous-event {
+  background-color: #90bae4;
+  color: white;
+  font-weight: bold;
+}
+
+.event-row.highlight {
+  background-color: #B8E3E9; /* Yellow background for highlighting */
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+/* Calendar Styles */
+.header-container {
+  display: flex;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  padding: 30px;
+  height:60vh;
+  margin:-1px;
+  margin-left:260px;
+  margin-top:50px;
+}
 .calendar {
-    width: 200px;
-    background-color: #b2ebf2;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    padding: 10px;
+  width: 300px;
+  background-color: #CBF1F9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  padding: 25px;
+  margin-right: 10px;
 }
 
 .calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    font-weight: bold;
-    color: #00796b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-weight: bold;
+  color: black;
 }
+
+.calender-nav-button {
+  background: none;
+  border: none;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.calendar-body {
+  text-align: center;
+}
+
+.day-names {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 12px;
+  color: black;
+  margin-bottom: 5px;
+}
+
+/* Prevent hover effect for marked dates */
+.day.upcoming-event:hover{
+  background-color: #2c3e50; /* Keep the original background color */
+  
+}
+.day.previous-event:hover{
+  background-color: #90bae4;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  font-size: 12px;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: black;
+}
+
+.day:hover {
+  background-color: white; /* Hover effect for non-selected dates */
+  cursor: pointer;
+}
+
+.day.current-date {
+  background-color: #4dd0e1; /* Fixed color for the current date */
+  color: white;
+}
+
+.day.selected {
+  background-color: #4dd0e1; /* Selected color for the current date */
+  color: white;
+}
+
+
 
 .nav-button {
     background: none;
@@ -54,43 +139,6 @@ body {
     cursor: pointer;
 }
 
-.calendar-body {
-    text-align: center;
-}
-
-.day-names {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    font-size: 12px;
-    color: #00796b;
-    margin-bottom: 5px;
-}
-
-.days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    font-size: 12px;
-}
-
-.day, .empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    cursor: pointer;
-    border-radius: 5px;
-    color: #00796b;
-}
-
-.day:hover {
-    background-color: #4dd0e1;
-}
-
-.selected {
-    background-color: #0288d1;
-    color: #fff;
-}
 
 
 
@@ -99,7 +147,6 @@ body {
 .event-table-container {
   width: 100%;
   margin: 20px auto;
-  background: white;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -177,4 +224,58 @@ table tbody tr:hover {
 
 .details-row ul li {
   margin-bottom: 5px;
+}
+
+.tutor-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+.meeting-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #E14177;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 4px;
+  transition: background-color 0.3s ease;
+}
+.meeting-link:hover {
+  background-color: #e02362;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  width: 50%;
+  max-width: 500px;
+  border-radius: 8px;
+}
+.close-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  background-color: #E14177;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.event-row {
+  cursor: pointer;
+}
+.event-row:hover {
+  background-color: #f5f5f5;
 }

@@ -125,66 +125,12 @@
 
     <!-- testimonial-section - We Value Our Students Let's Hear from them -->
 
-    <section  id="reviews">
-        <div class="testimonial-section" >
-            <br><br><br>
-            <div class="color-section">
-                <h2 class="section-title">We Value Our Students, Let's Hear from them</h2>
-                <div class="testimonial-slider">
-                    <button class="slider-btn prev">&lt;</button>
-                    <div class="testimonial active">
-                        <div class="testimonial-content">
-                            <img src="images/profile_img.jpeg" alt="James Anderson" class="testimonial-img">
-                            <div class="testimonial-text">
-                                <h3>Find the right tutor for you!</h3>
-                                <p>"This platform transformed my learning journey! Engaging courses, expert tutors, and a supportive community helped me achieve my goals."</p>
-                                <span>- James Anderson -</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add more testimonials as needed -->
-                    <button class="slider-btn next">&gt;</button>
-                </div>
-            </div>
-            <div class="features-columns">
-                <button class="arrow-btn prev">&lt;</button>
-                <div class="column">
-                    <p>Whenever I think of quality education now, I think of them instantly. I’ve done so many courses in my free time and learned so much! Thank you for redefining online education for me!</p>
-                    <span>- Ellison Morkel -</span>
-                </div>
-                <div class="column">
-                    <p>Whenever I think of quality education now, I think of them instantly. I’ve done so many courses in my free time and learned so much! Thank you for redefining online education for me!</p>
-                    <span>- Ellison Morkel -</span>
-                </div>
-                <div class="column">
-                    <p>Whenever I think of quality education now, I think of them instantly. I’ve done so many courses in my free time and learned so much! Thank you for redefining online education for me!</p>
-                    <span>- Ellison Morkel -</span>
-                </div>
-                <button class="arrow-btn next">&gt;</button>
-            </div>
-        </div>
-    </section>
+    <?php include 'studentreview.php'?>
 
     <!-- Advertisement-section - Meet Some of Our Best Tutors -->
 
     <section  id="tutors">
-        <div class="color-section" >
-            <br><br><br><br>
-            <h2 class="section-title">Meet Some of Our Best Tutors</h2>
-            <br>
-            <div class="slider-container">
-                <button class="slider-btn prev">&lt;</button>
-                <div class="slider-wrapper">
-                    <div class="slider">
-                        <img src="uploads/ad_1.jpeg" alt="Tuition Classes">
-                        <img src="uploads/ad_2.jpeg" alt="Home Tuition">
-                        <img src="uploads/ad_3.jpeg" alt="Online Tutoring">
-                        <!-- Add more images as needed -->
-                    </div>
-                </div>
-                <button class="slider-btn next">&gt;</button>
-            </div>
-        </div>
+        <?php include 'tutor_ad_display.php';?>
         
         <br>
         <?php include 'announcement.php'; ?>
@@ -240,14 +186,14 @@
     <a href="/subject?subject=English"><div class="subject"><img src="images/English.png" alt="English"><br>English</div></a>
     <a href="/subject?subject=History"><div class="subject"><img src="images/History.png" alt="History"><br>History</div></a>
     <a href="/subject?subject=Geography"><div class="subject"><img src="images/Geography.png" alt="Geography"><br>Geography</div></a>
-    <a href="/subject?subject=Information Technology"><div class="subject"><img src="images/IT.jpg" alt="IT"><br>Information Technology</div></a>
-    <a href="/subject?subject=Sinhala"><div class="subject"><img src="images/Sinhala.jpg" alt="Sinhala"><br>Sinhala</div></a>
-    <a href="/subject?subject=Tamil"><div class="subject"><img src="images/Tamil.svg" alt="Tamil"><br>Tamil</div></a>
-    <a href="/subject?subject=Chemistry"><div class="subject"><img src="images/Chemistry.jpg" alt="Chemistry"><br>Chemistry</div></a>
-    <a href="/subject?subject=Physics"><div class="subject"><img src="images/Physics.jpg" alt="Physics"><br>Physics</div></a>
-    <a href="/subject?subject=Biology"><div class="subject"><img src="images/Biology.jpg" alt="Biology"><br>Biology</div></a>
+    <a href="/subject?subject=Information Technology"><div class="subject"><img src="images/it.png" alt="IT"><br>Information Technology</div></a>
+    <a href="/subject?subject=Sinhala"><div class="subject"><img src="images/Sinhala.png" alt="Sinhala"><br>Sinhala</div></a>
+    <a href="/subject?subject=Tamil"><div class="subject"><img src="images/tamil.png" alt="Tamil"><br>Tamil</div></a>
+    <a href="/subject?subject=Chemistry"><div class="subject"><img src="images/chemistry.png" alt="Chemistry"><br>Chemistry</div></a>
+    <a href="/subject?subject=Physics"><div class="subject"><img src="images/physics.png" alt="Physics"><br>Physics</div></a>
+    <a href="/subject?subject=Biology"><div class="subject"><img src="images/biology.png" alt="Biology"><br>Biology</div></a>
     <a href="/subject?subject=Mathematics"><div class="subject"><img src="images/Maths.png" alt="Mathematics"><br>Mathematics</div></a>
-    <a href="/subject?subject=Buddhism"><div class="subject"><img src="images/Buddhism.jpeg" alt="Buddhism"><br>Buddhism</div></a>
+    <a href="/subject?subject=Buddhism"><div class="subject"><img src="images/buddhism.png" alt="Buddhism"><br>Buddhism</div></a>
 </div>
 
     </section>
@@ -287,6 +233,7 @@
         </div>
     </section>
     <!-- php code line for visitor-query should be here -->
+     <br>
     <!-- FAQ Section-->
 
     <section id="faq">

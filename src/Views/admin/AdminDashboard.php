@@ -23,42 +23,42 @@
                 <div class="stat-card">
                     <h3>Total Students</h3>
                     <p class="stat-number"><?= $totalStudents ?></p>
-                    <span class="stat-trend positive">+12% ↑</span>
+                    
                 </div>
                 <div class="stat-card">
                     <h3>Total Tutors</h3>
                     <p class="stat-number"><?= $totalTutors ?></p>
-                    <span class="stat-trend positive">+5% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Sessions</h3>
-                    <p class="stat-number"><?= $totalSessions ?></p>
-                    <span class="stat-trend positive">+10% ↑</span>
+                    
                 </div>
                 <div class="stat-card">
                     <h3>Completed Sessions</h3>
                     <p class="stat-number"><?= $completedSessions ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Revenue</h3>
-                    <p class="stat-number"><?= number_format($totalRevenue, 2) ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Recievables</h3>
-                    <p class="stat-number"><?= number_format($expectedRevenue,2) ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Total points in Student wallets</h3>
-                    <p class="stat-number"><?= $totalStudentPoints ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
+                    
                 </div>
                 <div class="stat-card">
                     <h3>Total points in Tutor wallets</h3>
                     <p class="stat-number"><?= $totalTutorPoints ?></p>
-                    <span class="stat-trend positive">+8% ↑</span>
+                    
+                </div>
+                <div class="stat-card">
+                    <h3>Recievables</h3>
+                    <p class="stat-number">Rs<?= number_format($recievables) ?></p>
+                    <span class="stat-trend positive"><?= number_format($recievables,2) ?></span>
+                </div>
+                <div class="stat-card">
+                    <h3>Payables</h3>
+                    <p class="stat-number"><?= number_format($payables,2) ?></p>
+                    <span class="stat-trend positive"><?= number_format($payables,2) ?></span>
+                </div>
+                <div class="stat-card">
+                    <h3>Total points in Student wallets</h3>
+                    <p class="stat-number"><?= $totalStudentPoints ?></p>
+                    
+                </div>
+                <div class="stat-card">
+                    <h3>Cash in hand</h3>
+                    <p class="stat-number">Rs.<?= number_format($cashInHand,0) ?></p>
+                    <span class="stat-trend positive"><?= number_format($cashInHand,2) ?></span>
                 </div>
         </div>
         <div class="container mt-4">
@@ -92,10 +92,10 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="chart-container">
-                        <h3>Teacher Performance</h3>
-                        <canvas id="teacherPerformanceChart"></canvas>
-                    </div>
+                <div class="chart-container">
+                    <h3>Monthly Revenue</h3>
+                    <canvas id="monthlyRevenueChart"></canvas>
+                </div>
                 </div>
                 <div class="col-md-4">
                     <div class="chart-container">
@@ -113,21 +113,25 @@
         new Chart(studentRegistrationsCtx, {
             type: 'line',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                datasets: [{
-                    label: 'Student Registrations',
-                    data: <?= json_encode($studentRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
-                    borderColor: '#293241',
-                    backgroundColor: 'rgba(74, 144, 226, 0.2)',
-                    borderWidth: 2,
-                    tension: 0.3
-                }]
+                labels: ['January', 'February', 'March', 'April', 'May', 'June',
+                        'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [
+                    {
+                        label: 'Student Registrations',
+                        data: <?= json_encode($studentRegistrationsByMonth ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
+                        borderColor: 'rgba(60, 108, 164, 0.86)',
+                        backgroundColor: 'rgb(0, 119, 255)',
+                        borderWidth: 1.5,
+                        tension: 0.3
+                    }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false
             }
         });
+
     
         // Teacher Registrations Over Time
         const teacherRegistrationsCtx = document.getElementById('teacherRegistrationsChart').getContext('2d');
@@ -195,25 +199,40 @@
             }
         });
     
-        // Teacher Performance (Using sample data for now)
-        const teacherPerformanceCtx = document.getElementById('teacherPerformanceChart').getContext('2d');
-        new Chart(teacherPerformanceCtx, {
-            type: 'polarArea',
+        // Revenue Trend
+        const revenueCtx = document.getElementById('monthlyRevenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
             data: {
-                labels: ['Teacher A', 'Teacher B', 'Teacher C', 'Teacher D'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [{
-                    data: [80, 90, 70, 85], // Replace with real data when available
-                    backgroundColor: [
-                        'rgba(142, 202, 230, 0.7)',
-                        'rgba(2, 48, 71, 0.7)',
-                        'rgba(255, 183, 3, 0.7)',
-                        'rgba(253, 133, 0, 0.7)'
-                    ]
+                    label: 'Monthly Revenue (Rs)',
+                    data: <?= json_encode($monthlyCashoutsData ?? [0,0,0,0,0,0,0,0,0,0,0,0]) ?>,
+                    borderColor: '#ee6c4d',
+                    backgroundColor: 'rgba(77, 238, 93, 0.2)',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: false,
+                        text: 'Monthly Revenue Trend'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: false,
+                            text: 'Revenue (Rs)'
+                        }
+                    }
+                }
             }
         });
     
@@ -257,7 +276,7 @@
                 maintainAspectRatio: false,
                 plugins: {
                     title: {
-                        display: true,
+                        display: false,
                         text: 'Session Rating Distribution'
                     },
                     legend: {

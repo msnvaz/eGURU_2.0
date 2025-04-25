@@ -1,3 +1,12 @@
+<?php
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$page = "profile";
+include __DIR__ . '/header.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,59 +18,11 @@
     <link rel="stylesheet" href="css/student/nav.css">
     <link rel="stylesheet" href="css/student/sidebar.css">
 
-    <style>
-    .profile-picture {
-        width: 25%;
-        height: auto;
-        margin-top: 1%;
-        margin-right: 5%;
-    }
-
-    .profile-picture img {
-        height: 15rem;
-        width: auto;
-        border-radius: 10%;
-    }
-
-    .edit-profile-picture {
-        position: relative;
-        overflow: hidden;
-        width: 25%
-    }
-
-    .edit-profile-picture img {
-        object-fit: cover;
-        width: 75%;
-    }
-
-    .edit-change-photo-btn {
-        width: 75%;
-        display: block;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.6);
-        color: white;
-        text-align: center;
-        padding: 10px;
-        font-size: 14px;
-        cursor: pointer;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .edit-profile-picture:hover .edit-change-photo-btn {
-        opacity: 1;
-    }
-
-    .edit-profile-picture #file-input {
-        display: none;
-    }
-    </style>
 </head>
-<?php $page="profile"; ?>
+
 
 <body>
-<?php include '../src/Views/student/header.php'; ?>
+
     <!-- header part here -->
     <div class="container">
         <!-- Sidebar -->
@@ -144,20 +105,8 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="profile.js"></script>
-    <script>
-    document.getElementById('file-input').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const profileImage = document.getElementById('profile-image');
-                profileImage.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-    </script>
+    
+    <script src="js/student/profile.js"></script>
 </body>
 
 </html>

@@ -125,15 +125,34 @@ if (!isset($_SESSION['student_id'])) {
                 </button>
             </form>
 
+            <?php if (empty($student_availability)): ?>
+                <div class="availability-warning">
+                    <p><strong>Note:</strong> You have not set your availability yet. Please set your availability to see matching tutor time slots.</p>
+                    <a href="/student-timeslot" class="set-availability-link">Set Availability</a>
+                </div>
+            <?php endif; ?>
+
             <div class="tutor-results">
                 <?php if (!empty($tutors)): ?>
                     <div class="tutors-grid">
                         <?php foreach ($tutors as $tutor): ?>
-                            <div class="tutor-card">
+                            <?php
+                                // Extract first subject ID from subjects string (assuming comma-separated subject names)
+                                $subjectNames = explode(',', $tutor['subjects']);
+                                $firstSubjectName = trim($subjectNames[0]);
+                                $subjectId = null;
+                                foreach ($subjects as $subject) {
+                                    if (strcasecmp($subject['subject_name'], $firstSubjectName) === 0) {
+                                        $subjectId = $subject['subject_id'];
+                                        break;
+                                    }
+                                }
+                            ?>
+                            <div class="tutor-card" data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>" data-subject-id="<?= htmlspecialchars($subjectId) ?>">
                                 <div class="tutor-header">
                                     <img class="tutor-profile-photo" 
-                                         src="images/student-uploads/<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>" 
-                                         alt="<?= htmlspecialchars($tutor['tutor_first_name']) ?>'s photo">
+                                        src="/images/tutor_uploads/tutor_profile_photos/<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>" 
+                                        alt="<?= htmlspecialchars($tutor['tutor_first_name']) ?>'s photo">
                                     <h2><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h2>
                                     <span class="tutor-level" style="background-color: <?= htmlspecialchars($tutor['tutor_level_color']) ?>">
                                         <?= htmlspecialchars($tutor['tutor_level']) ?>
@@ -146,27 +165,11 @@ if (!isset($_SESSION['student_id'])) {
                                     <p><strong>Grades:</strong> <?= htmlspecialchars($tutor['grades']) ?></p>
                                 </div>
                                 
-                                <div class="availability">
-                                    <h3>Available Times</h3>
-                                    <ul class="availability-list">
-                                        <?php 
-                                        $times = explode(',', $tutor['available_times']);
-                                        foreach ($times as $time): 
-                                            if (!empty(trim($time))):
-                                        ?>
-                                            <li class="availability-item"><?= htmlspecialchars(trim($time)) ?></li>
-                                        <?php 
-                                            endif;
-                                        endforeach; 
-                                        ?>
-                                    </ul>
-                                </div>
-
-                                <button class="request-button" 
-                                        onclick="showRequestModal('<?= htmlspecialchars($tutor['tutor_id']) ?>', 
-                                                                '<?= htmlspecialchars($tutor['tutor_first_name']) ?>')">
-                                    Request Tutor
-                                </button>
+                                <a href="/student-request-tutor/<?= htmlspecialchars($tutor['tutor_id']) ?>" 
+                                class="request-button" 
+                                data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>">
+                                    See Available Time Slots
+                                </a>
                             </div>
                         <?php endforeach; ?>
                     </div>

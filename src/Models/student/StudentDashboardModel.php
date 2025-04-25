@@ -40,9 +40,24 @@ class StudentDashboardModel {
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             error_log("Database Error: " . $e->getMessage());
             return [];
+        }
+    }
+
+
+    public function getStudentPoints($studentId) {
+        try {
+            $query = "SELECT student_points FROM student WHERE student_id = :studentId";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':studentId', $studentId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['student_points'] ?? 0;
+        } catch (\PDOException $e) {
+            error_log("Error fetching student points: " . $e->getMessage());
+            return 0;
         }
     }
 }

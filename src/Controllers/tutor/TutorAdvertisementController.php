@@ -78,7 +78,7 @@ class TutorAdvertisementController {
                     }
                     
                     // Redirect back to the gallery page
-                    header('Location: /tutor-advertisement');
+                    header('Location: /tutor-advertisement?success=Upload Successful');
                     exit();
                 } else {
                     echo "Failed to upload the image. Please try again.";
@@ -88,7 +88,7 @@ class TutorAdvertisementController {
             }
         } else {
             // If not a POST request, show the upload form
-            require_once __DIR__ . '/../../views/tutor/upload_advertisement.php';
+            require_once __DIR__ . '/../../views/tutor/upload_advertisement.php?error=Upload Failed';
         }
     }
 
@@ -97,7 +97,7 @@ class TutorAdvertisementController {
         if (isset($_POST['id'])) {
             $model = new AdvertisementModel();
             $model->deleteAdvertisementById($_POST['id']);
-            header("Location: /tutor-advertisement"); // Redirect back to gallery
+            header("Location: /tutor-advertisement?success=Delete Successful"); // Redirect back to gallery
         }
     }
 
@@ -106,7 +106,7 @@ class TutorAdvertisementController {
         if (isset($_POST['id']) && isset($_POST['description'])) {
             $model = new AdvertisementModel();
             $model->updateAdvertisementDescription($_POST['id'], $_POST['description']);
-            header("Location: /tutor-advertisement"); // Redirect back to gallery
+            header("Location: /tutor-advertisement?success=Update Successful"); // Redirect back to gallery
         }
     }
 
@@ -131,7 +131,7 @@ class TutorAdvertisementController {
                 $_SESSION['selected_ad_id'] = $adId;
             }
 
-            header("Location: /tutor-advertisement");
+            header("Location: /tutor-advertisement?success=Change Successful");
             exit;
         }
     }

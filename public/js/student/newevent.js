@@ -37,17 +37,17 @@ function renderCalendar(calendarId, monthYearId, date) {
         const dayCell = document.createElement("div");
         dayCell.classList.add("day");
         dayCell.textContent = day;
-        dayCell.addEventListener("click", () => selectDate(dayCell));
 
-        // Highlight today's date
+        // Highlight today's date and add a special class
         if (
             day === currentDate.getDate() &&
             month === new Date().getMonth() &&
             year === new Date().getFullYear()
         ) {
-            dayCell.classList.add("selected");
+            dayCell.classList.add("selected", "current-date");
         }
 
+        dayCell.addEventListener("click", () => selectDate(dayCell));
         calendarId.appendChild(dayCell);
     }
 }
@@ -62,13 +62,36 @@ function updateCalendars() {
     renderCalendar(prevDaysContainer, prevMonthYear, prevMonthDate);
     renderCalendar(currentDaysContainer, currentMonthYear, currentDate);
     renderCalendar(nextDaysContainer, nextMonthYear, nextMonthDate);
+
+    fetchAndMarkEvents(prevDaysContainer, prevMonthDate.getMonth() + 1, prevMonthDate.getFullYear());
+    fetchAndMarkEvents(currentDaysContainer, currentDate.getMonth() + 1, currentDate.getFullYear());
+    fetchAndMarkEvents(nextDaysContainer, nextMonthDate.getMonth() + 1, nextMonthDate.getFullYear());
+
+    // Add click listeners to marked dates
+    addClickListenersToMarkedDates();
 }
 
 function selectDate(dayCell) {
-    // Remove 'selected' class from previously selected date
-    document.querySelectorAll(".day").forEach(day => day.classList.remove("selected"));
-    // Add 'selected' class to clicked date
-    dayCell.classList.add("selected");
+    // Check if the clicked date is the current date
+    const today = new Date();
+    const isToday =
+        parseInt(dayCell.textContent) === today.getDate() &&
+        currentDate.getMonth() === today.getMonth() &&
+        currentDate.getFullYear() === today.getFullYear();
+
+    // If the clicked date is not the current date, do nothing
+    if (!isToday) {
+        return;
+    }
+
+    // Ensure the current date remains selected
+    document.querySelectorAll(".day").forEach(day => {
+        if (day.classList.contains("current-date")) {
+            day.classList.add("selected");
+        } else {
+            day.classList.remove("selected");
+        }
+    });
 }
 
 prevButton.addEventListener("click", () => {
@@ -84,29 +107,139 @@ nextButton.addEventListener("click", () => {
 // Initial render
 updateCalendars();
 
+function toggleDetails(row) {
+    const detailsRow = row.nextElementSibling;
+    if (detailsRow && detailsRow.classList.contains('details-row')) {
+        detailsRow.style.display = detailsRow.style.display === 'table-row' ? 'none' : 'table-row';
+    }
+}
 
-
-// JavaScript to toggle between tabs
 function showUpcoming() {
     document.getElementById('upcoming-events').style.display = 'block';
     document.getElementById('previous-events').style.display = 'none';
-
     document.getElementById('upcoming-tab').classList.add('active');
     document.getElementById('previous-tab').classList.remove('active');
-  }
+}
 
-  function showPrevious() {
+function showPrevious() {
     document.getElementById('upcoming-events').style.display = 'none';
     document.getElementById('previous-events').style.display = 'block';
-
     document.getElementById('upcoming-tab').classList.remove('active');
     document.getElementById('previous-tab').classList.add('active');
-  }
+}
 
-  // JavaScript to toggle event details
-  function toggleDetails(row) {
-    const detailsRow = row.nextElementSibling;
-    if (detailsRow && detailsRow.classList.contains('details-row')) {
-      detailsRow.style.display = detailsRow.style.display === 'table-row' ? 'none' : 'table-row';
+function viewEventDetails(event) {
+    const detailsContent = document.getElementById('event-details-content');
+
+    let tutorPhotoHtml = '';
+    if (event.tutor_profile_photo) {
+        tutorPhotoHtml = `<img src="/images/tutor_uploads/tutor_profile_photos/${event.tutor_profile_photo}" alt="${event.tutor_name}" class="tutor-photo">`;
     }
-  }
+
+    let meetingLinkHtml = '';
+    if (event.meeting_link) {
+        meetingLinkHtml = `<p><strong>Meeting Link:</strong> <a href="${event.meeting_link}" target="_blank" class="meeting-link">Join Meeting</a></p>`;
+    }
+
+    detailsContent.innerHTML = `
+        ${tutorPhotoHtml}
+        <p><strong>Subject:</strong> ${event.subject_name}</p>
+        <p><strong>Instructor:</strong> ${event.tutor_name}</p>
+        <p><strong>Grade:</strong> ${event.grade || 'N/A'}</p>
+        <p><strong>Date:</strong> ${new Date(event.scheduled_date).toLocaleDateString()}</p>
+        <p><strong>Time:</strong> ${event.schedule_time}</p>
+        ${meetingLinkHtml}
+    `;
+
+    document.getElementById('event-details-modal').style.display = 'block';
+}
+
+function closeEventDetails() {
+    document.getElementById('event-details-modal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('event-details-modal');
+    if (event.target === modal) {
+        closeEventDetails();
+    }
+}
+
+function fetchAndMarkEvents(calendarId, month, year) {
+    fetch(`/student-events/get-event-dates-in-month?month=${month}&year=${year}`)
+        .then(response => response.json())
+        .then(data => {
+            markEventDates(calendarId, data);
+        })
+        .catch(error => console.error('Error fetching event dates:', error));
+}
+
+function markEventDates(calendarId, dates) {
+    const calendarDays = calendarId.querySelectorAll('.day');
+    dates.forEach(event => {
+        const eventDate = new Date(event.scheduled_date);
+        const day = eventDate.getDate();
+
+        calendarDays.forEach(dayElement => {
+            if (parseInt(dayElement.textContent) === day) {
+                dayElement.dataset.date = eventDate.toISOString().split('T')[0]; // Add data-date attribute
+                if (event.session_status === 'scheduled') {
+                    dayElement.classList.add('upcoming-event');
+                } else if (event.session_status === 'completed') {
+                    dayElement.classList.add('previous-event');
+                }
+            }
+        });
+    });
+}
+
+function addClickListenersToMarkedDates() {
+    const markedDays = document.querySelectorAll('.day.upcoming-event, .day.previous-event');
+    markedDays.forEach(day => {
+        day.addEventListener('click', () => {
+            const selectedDate = day.dataset.date;
+            highlightRowsForDate(selectedDate);
+        });
+    });
+}
+
+function highlightRowsForDate(selectedDate) {
+    // Remove existing highlights
+    document.querySelectorAll('.event-row').forEach(row => row.classList.remove('highlight'));
+
+    // Format the selected date for comparison
+    const formattedSelectedDate = formatDate(selectedDate);
+    console.log('Selected Date:', formattedSelectedDate);
+
+    // Highlight rows in the upcoming events table
+    const upcomingRows = document.querySelectorAll('#upcoming-events tbody tr');
+    let rowFound = false;
+    upcomingRows.forEach(row => {
+        const eventDate = row.querySelector('td:nth-child(3)').textContent.trim();
+        console.log('Upcoming Event Date:', eventDate);
+        if (eventDate === formattedSelectedDate) {
+            row.classList.add('highlight');
+            row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            rowFound = true;
+        }
+    });
+
+    // If not found in upcoming events, check previous events
+    if (!rowFound) {
+        const previousRows = document.querySelectorAll('#previous-events tbody tr');
+        previousRows.forEach(row => {
+            const eventDate = row.querySelector('td:nth-child(4)').textContent.trim();
+            console.log('Previous Event Date:', eventDate);
+            if (eventDate === formattedSelectedDate) {
+                row.classList.add('highlight');
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    }
+}
+
+  
+function formatDate(dateString) {
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+}

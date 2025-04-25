@@ -69,64 +69,77 @@
         .current-page {
             color: white !important;
             background-color:rgba(41, 50, 65, 0.2);
+            text-shadow: 3px 5px 10px rgba(53, 58, 85, 0.56);
         }
 
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <?php $current_path = $_SERVER['REQUEST_URI']; ?>
-
 <div class="sidebar">
    <h2></h2>
    <br><br>
-   <a href="/admin-dashboard" class="<?= $current_path == '/admin-dashboard' ? 'current-page' : '' ?>">
+   <a href="/admin-dashboard" data-path="/admin-dashboard">
        <i class="fa-solid fa-table-columns"></i>Dashboard
    </a>
    <hr>
-   <a href="/admin-students" class="<?= $current_path == '/admin-students' ? 'current-page' : '' ?>">
+   <a href="/admin-students" data-path="/admin-students">
        <i class="fa-solid fa-graduation-cap"></i>Students
    </a>
    <hr>
-   <a href="/admin-tutors" class="<?= $current_path == '/admin-tutors' ? 'current-page' : '' ?>">
+   <a href="/admin-tutors" data-path="/admin-tutors">
        <i class="fa-solid fa-chalkboard-user"></i>Tutors
    </a>
-   <a href="/admin-tutor-requests" class="<?= $current_path == '/admin-tutor-requests' ? 'current-page' : '' ?>">
+   <a href="/admin-tutor-requests" data-path="/admin-tutor-requests">
        <i class="fa-solid fa-bell"></i>Tutor Requests
    </a>
-   <a href="/admin-tutor-grading" class="<?= $current_path == '/admin-tutor-grading' ? 'current-page' : '' ?>">
+   <a href="/admin-tutor-grading" data-path="/admin-tutor-grading">
        <i class="fa-solid fa-stairs"></i>Tutor Grading
    </a>
-   <a href="/admin-fee-requests" class="<?= $current_path == '/admin-fee-requests' ? 'current-page' : '' ?>">
+   <a href="/admin-tutor-upgrade-requests" data-path="/admin-tutor-upgrade-requests">
        <i class="fa-solid fa-money-bill-1"></i>Fee Requests
-   </a>
-   <a href="/admin-ads" class="<?= $current_path == '/admin-ads' ? 'current-page' : '' ?>">
-       <i class="fa-solid fa-star"></i>Ads
    </a>
    <hr>
    <div class="active">
-       <a href="/admin-inbox" class="<?= $current_path == '/admin-inbox' ? 'current-page' : '' ?>">
+       <a href="/admin-inbox" data-path="/admin-inbox">
            <i class="fa-solid fa-envelope"></i>Inbox
-           <i class="fa-solid fa-circle-exclamation" style="color:var(--dark-pink);"></i>
        </a>
    </div>
-   <a href="/admin-subjects" class="<?= $current_path == '/admin-subjects' ? 'current-page' : '' ?>">
+   <a href="/admin-subjects" data-path="/admin-subjects">
        <i class="fa-solid fa-book"></i>Subjects
    </a>
-   <a href="/admin-announcement" class="<?= $current_path == '/admin-announcement' ? 'current-page' : '' ?>">
+   <a href="/admin-announcement" data-path="/admin-announcement">
        <i class="fa-solid fa-bullhorn"></i>Announcement
    </a>
-   <a href="/admin-sessions" class="<?= $current_path == '/admin-sessions' ? 'current-page' : '' ?>">
+   <a href="/admin-sessions" data-path="/admin-sessions">
        <i class="fa-solid fa-calendar-days"></i>Sessions
    </a>
     <!--transactions-->
-    <a href="/admin-transactions" class="<?= $current_path == '/admin-transactions'? 'current-page' : '' ?>">
-        <i class="fa-solid fa-credit-card"></i>Transactions
+    <a href="/admin-points" data-path="/admin-points">
+        <i class="fa-solid fa-credit-card"></i>Points
     </a>
-   <hr>
-   <a href="/admin-settings" class="<?= $current_path == '/admin-settings' ? 'current-page' : '' ?>">
-       <i class="fa-solid fa-gear"></i>Settings
-   </a>
+    <a href="/admin-transactions" data-path="/admin-transactions">
+        <i class="fa-solid fa-hand-holding-dollar"></i>Session Refund
+    </a>
+    <hr>
+    <a href="/admin-settings" data-path="/admin-settings">
+        <i class="fa-solid fa-gear"></i>Settings
+    </a>
 </div>
+
+<script>
+    // Get the current path from the URL
+    const currentPath = window.location.pathname;
+    
+    // Find all sidebar links
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+    
+    // Loop through each link and check if its data-path matches the current path
+    sidebarLinks.forEach(link => {
+        const linkPath = link.getAttribute('data-path');
+        if (linkPath === currentPath) {
+            link.classList.add('current-page');
+        }
+    });
+</script>
 </body>
 </html>

@@ -110,6 +110,36 @@ class adminStudentController {
         require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
     }
 
+    public function showBlockedStudents() {
+        $studentModel = new adminStudentModel();
+        $grades = $studentModel->getStudentGrades();
+        $blockedStudents = [];
+        
+        // Handle search and filter for blocked students
+        if (isset($_POST['search']) || isset($_GET['search'])) {
+            // Get filter values
+            $searchTerm = $_POST['search_term'] ?? $_GET['search_term'] ?? '';
+            $grade = $_POST['grade'] ?? $_GET['grade'] ?? '';
+            $startDate = $_POST['start_date'] ?? $_GET['start_date'] ?? '';
+            $endDate = $_POST['end_date'] ?? $_GET['end_date'] ?? '';
+            
+            // Get filtered blocked students
+            $blockedStudents = $studentModel->searchStudents(
+                $searchTerm,
+                $grade,
+                $startDate,
+                $endDate,
+                'blocked'  // Blocked students
+            );
+        } else {
+            // Get all blocked students if no search/filter
+            $blockedStudents = $studentModel->getBlockedStudents();
+        }
+        
+        // Load the view
+        require_once __DIR__ . '/../../Views/admin/AdminStudents.php';
+    }
+
     // Rest of your existing methods
     public function showStudentProfile($studentId) {
         $studentModel = new adminStudentModel();
@@ -189,7 +219,7 @@ class adminStudentController {
     
         // Handle profile photo upload if provided
         if (isset($_FILES['profile_photo']) && !empty($_FILES['profile_photo']['name']) && $_FILES['profile_photo']['error'] == 0) {
-            $uploadDir = __DIR__ . '/../../../public/uploads/Student_Profiles/';
+            $uploadDir = __DIR__ . '/../../../public/images/student-uploads/profilePhotos/';
             
             // Ensure upload directory exists
             if (!file_exists($uploadDir)) {
@@ -267,6 +297,46 @@ class adminStudentController {
             header("Location: /admin-students?success=Student profile restored");
         } else {
             header("Location: /admin-students?error=Failed to restore student");
+        }
+        exit();
+    }
+
+    public function blockStudentProfile($studentId) {
+        $studentModel = new adminStudentModel();
+        
+        // Check if the student exists
+        $student = $studentModel->getStudentProfile($studentId);
+        if (!$student) {
+            header("Location: /admin-students?error=Student not found");
+            exit();
+        }
+    
+        // Attempt to block the student
+        $blocked = $studentModel->updateStudentStatus($studentId, 'blocked');
+        if ($blocked) {
+            header("Location: /admin-student-profile/$studentId?success=Student profile blocked");
+        } else {
+            header("Location: /admin-student-profile/$studentId?error=Failed to block student");
+        }
+        exit();
+    }
+
+    public function unblockStudentProfile($studentId) {
+        $studentModel = new adminStudentModel();
+        
+        // Check if the student exists
+        $student = $studentModel->getStudentProfile($studentId);
+        if (!$student) {
+            header("Location: /admin-students?error=Student not found");
+            exit();
+        }
+    
+        // Attempt to unblock the student
+        $unblocked = $studentModel->updateStudentStatus($studentId, 'set');
+        if ($unblocked) {
+            header("Location: /admin-student-profile/$studentId?success=Student profile unblocked");
+        } else {
+            header("Location: /admin-student-profile/$studentId?error=Failed to unblock student");
         }
         exit();
     }

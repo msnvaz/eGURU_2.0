@@ -25,9 +25,9 @@ $tutor = $tutorData ?? [];
                     <div class="viewprofile-header">
                         <div class="profile-photo-container">
                             <?php if (!empty($tutor['tutor_profile_photo'])): ?>
-                                <img src="/uploads/Tutor_Profiles/<?php echo htmlspecialchars($tutor['tutor_profile_photo']); ?>" class="viewprofile-img" alt="Profile Photo">
+                                <img src="\images\tutor_uploads\tutor_profile_photos\<?php echo htmlspecialchars($tutor['tutor_profile_photo']); ?>" class="viewprofile-img" alt="Profile Photo">
                             <?php else: ?>
-                                <img src="/uploads/Tutor_Profiles/default.jpg" class="viewprofile-img" alt="Default Profile Photo">
+                                <img src="\images\tutor_uploads\tutor_profile_photos\default.jpg" class="viewprofile-img" alt="Default Profile Photo">
                             <?php endif; ?>
                         </div>
                         <div class="profile-info">

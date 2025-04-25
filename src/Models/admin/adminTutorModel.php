@@ -53,7 +53,7 @@ class adminTutorModel {
                 $params[':endDate'] = $registrationEndDate;
             }
             
-            if (!empty($onlineStatus)) {
+            if (!empty($onlineStatus) && $status != 'blocked' && $status != 'unset') {
                 $query .= " AND tutor_log = :onlineStatus";
                 $params[':onlineStatus'] = $onlineStatus;
             }
@@ -70,10 +70,14 @@ class adminTutorModel {
 
     public function getTutorGrades() {
         try {
-            $query = "SELECT DISTINCT tutor_level_id FROM tutor 
-                     WHERE tutor_level_id IS NOT NULL 
-                     ORDER BY tutor_level_id";
-            $stmt = $this->conn->prepare($query);
+            //join tutor_level table to get the tutor_level_name only distinct values for tutor levels
+            $query = "SELECT DISTINCT tl.tutor_level_id, tl.tutor_level, tl.tutor_level_qualification, tl.tutor_pay_per_hour, tl.tutor_level_color 
+                      FROM tutor_level tl
+                      JOIN tutor t ON tl.tutor_level_id = t.tutor_level_id
+                      WHERE t.tutor_status = 'set'
+                      ORDER BY tl.tutor_level_id";
+            $stmt = $this->conn->prepare($query);   
+            
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -142,5 +146,236 @@ class adminTutorModel {
         $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
         return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+
+    public function blockTutorProfile($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'blocked' WHERE tutor_id = :tutorId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+    
+    public function unblockTutorProfile($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'set' WHERE tutor_id = :tutorId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+    
+    public function getBlockedTutors() {
+        try {
+            $query = "SELECT * FROM tutor WHERE tutor_status = 'blocked'";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching blocked tutors: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getPendingTutors() {
+        try {
+            $query = "SELECT * FROM tutor WHERE tutor_status = 'requested' ORDER BY tutor_registration_date DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching pending tutors: ' . $e->getMessage());
+            return [];
+        }
+    }
+    
+    public function approveTutorRequest($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'set' WHERE tutor_id = :tutorId AND tutor_status = 'requested'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+    
+    public function rejectTutorRequest($tutorId) {
+        $query = "UPDATE tutor SET tutor_status = 'unset' WHERE tutor_id = :tutorId AND tutor_status = 'requested'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+        return $stmt->execute() && $stmt->rowCount() > 0;
+    }
+
+    public function getTutorUpgradeRequests($status = 'pending') {
+        try {
+            $query = "SELECT u.*, t.tutor_first_name, t.tutor_last_name, t.tutor_email, t.tutor_profile_photo, 
+                    t.tutor_level_id as current_level_id 
+                    FROM tutor_level_upgrade u
+                    JOIN tutor t ON u.tutor_id = t.tutor_id
+                    WHERE u.status = :status
+                    ORDER BY u.request_date DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([':status' => $status]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutor upgrade requests: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function searchTutorUpgradeRequests($searchTerm = '', $level = '', $startDate = '', $endDate = '', $status = 'pending') {
+        try {
+            $query = "SELECT u.*, t.tutor_first_name, t.tutor_last_name, t.tutor_email, t.tutor_profile_photo, 
+                    t.tutor_level_id as current_level_id 
+                    FROM tutor_level_upgrade u
+                    JOIN tutor t ON u.tutor_id = t.tutor_id
+                    WHERE u.status = :status";
+            $params = [':status' => $status];
+            
+            if (!empty($searchTerm)) {
+                $query .= " AND (t.tutor_first_name LIKE :searchTerm 
+                        OR t.tutor_last_name LIKE :searchTerm 
+                        OR t.tutor_email LIKE :searchTerm 
+                        OR CAST(t.tutor_id AS CHAR) LIKE :searchTerm)";
+                $params[':searchTerm'] = "%$searchTerm%";
+            }
+            
+            if (!empty($level)) {
+                $query .= " AND u.requested_level_id = :level";
+                $params[':level'] = $level;
+            }
+            
+            if (!empty($startDate)) {
+                $query .= " AND u.request_date >= :startDate";
+                $params[':startDate'] = $startDate;
+            }
+            
+            if (!empty($endDate)) {
+                $query .= " AND u.request_date <= :endDate";
+                $params[':endDate'] = $endDate;
+            }
+            
+            $query .= " ORDER BY u.request_date DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error searching tutor upgrade requests: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getTutorUpgradeRequest($requestId) {
+        try {
+            $query = "SELECT u.*, t.tutor_first_name, t.tutor_last_name, t.tutor_email, t.tutor_profile_photo, 
+                    t.tutor_level_id as current_level_id 
+                    FROM tutor_level_upgrade u
+                    JOIN tutor t ON u.tutor_id = t.tutor_id
+                    WHERE u.request_id = :requestId";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':requestId', $requestId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutor upgrade request: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    public function approveUpgradeRequest($requestId, $newLevel = null) {
+        try {
+            $this->conn->beginTransaction();
+            
+            // First, get the request details
+            $request = $this->getTutorUpgradeRequest($requestId);
+            if (!$request) {
+                $this->conn->rollBack();
+                return false;
+            }
+            
+            // Update the level in the tutor table
+            $levelToApply = $newLevel ?? $request['requested_level_id'];
+            $tutorUpdateQuery = "UPDATE tutor SET tutor_level_id = :level_id WHERE tutor_id = :tutor_id";
+            $tutorStmt = $this->conn->prepare($tutorUpdateQuery);
+            $tutorStmt->bindValue(':level_id', $levelToApply, PDO::PARAM_STR);
+            $tutorStmt->bindValue(':tutor_id', $request['tutor_id'], PDO::PARAM_INT);
+            $tutorStmt->execute();
+            
+            // Update the request status
+            $requestUpdateQuery = "UPDATE tutor_level_upgrade SET status = 'accepted', status_updated_date = CURDATE() WHERE request_id = :request_id";
+            $requestStmt = $this->conn->prepare($requestUpdateQuery);
+            $requestStmt->bindValue(':request_id', $requestId, PDO::PARAM_INT);
+            $requestStmt->execute();
+            
+            $this->conn->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log('Error approving tutor upgrade request: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function rejectUpgradeRequest($requestId) {
+        try {
+            $query = "UPDATE tutor_level_upgrade SET status = 'rejected', status_updated_date = CURDATE() WHERE request_id = :request_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':request_id', $requestId, PDO::PARAM_INT);
+            return $stmt->execute() && $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log('Error rejecting tutor upgrade request: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getAllTutorLevels() {
+        try {
+            $query = "SELECT * FROM tutor_level ORDER BY tutor_level_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutor levels: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getTutorAdvertisements($tutorId) {
+        try {
+            $query = "SELECT * FROM tutor_advertisement 
+                      WHERE tutor_id = :tutorId 
+                      ORDER BY ad_created_at DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutor advertisements: ' . $e->getMessage());
+            return [];
+        }
+    }
+    
+    public function getTutorStudyMaterials($tutorId) {
+        try {
+            $query = "SELECT m.*, s.subject_name 
+                      FROM tutor_study_material m
+                      LEFT JOIN subject s ON m.subject_id = s.subject_id
+                      WHERE m.tutor_id = :tutorId 
+                      ORDER BY m.material_id DESC";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching tutor study materials: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getStudyMaterial($materialId) {
+        try {
+            $query = "SELECT * FROM tutor_study_material WHERE material_id = :materialId";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindValue(':materialId', $materialId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Error fetching study material: ' . $e->getMessage());
+            return null;
+        }
     }
 }

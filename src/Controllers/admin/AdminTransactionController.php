@@ -41,7 +41,7 @@ class AdminTransactionController extends Controller
             $_SESSION['refund_error'] = "Refund failed. Please check if tutor has enough points or if payment was already refunded.";
         }
         
-        header('Location: /admin/transactions'); // Redirect back to transactions page
+        header('Location: /admin-transactions'); // Redirect back to transactions page
         exit();
     }
 }
