@@ -338,6 +338,7 @@ class adminTutorModel {
         try {
             $query = "SELECT * FROM tutor_advertisement 
                       WHERE tutor_id = :tutorId 
+                      AND ad_status = 'set'
                       ORDER BY ad_created_at DESC";
             $stmt = $this->conn->prepare($query);
             $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
