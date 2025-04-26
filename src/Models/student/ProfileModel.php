@@ -13,30 +13,46 @@ class ProfileModel {
     }
 
     public function updateProfile($data) {
-        $sql = "UPDATE student_profile 
-                SET bio = :bio, 
-                    education = :education, 
-                    interests = :interests, 
-                    country = :country, 
-                    city_town = :city_town,
-                    student_grade = :student_grade,
-                    student_profile_photo = :student_profile_photo
-                WHERE student_id = :student_id";
-    
-        $stmt = $this->db->prepare($sql);
+        // First update the student_profile table with all fields except photo
+        $sqlProfile = "UPDATE student_profile 
+                    SET bio = :bio, 
+                        education = :education, 
+                        interests = :interests, 
+                        country = :country, 
+                        city_town = :city_town,
+                        student_grade = :student_grade
+                    WHERE student_id = :student_id";
         
-        $params = [
+        $stmtProfile = $this->db->prepare($sqlProfile);
+        
+        $paramsProfile = [
             ':bio' => $data['bio'],
             ':education' => $data['education'],
             ':interests' => $data['interests'],
             ':country' => $data['country'],
             ':city_town' => $data['city_town'],
             ':student_grade' => $data['student_grade'],
+            ':student_id' => $data['student_id']
+        ];
+        
+        $profileUpdated = $stmtProfile->execute($paramsProfile);
+        
+        // Then update the photo in the student table
+        $sqlStudent = "UPDATE student
+                    SET student_profile_photo = :student_profile_photo
+                    WHERE student_id = :student_id";
+        
+        $stmtStudent = $this->db->prepare($sqlStudent);
+        
+        $paramsStudent = [
             ':student_profile_photo' => $data['student_profile_photo'],
             ':student_id' => $data['student_id']
         ];
-    
-        return $stmt->execute($params);
+        
+        $photoUpdated = $stmtStudent->execute($paramsStudent);
+        
+        // Return true only if both updates succeeded
+        return $profileUpdated && $photoUpdated;
     }
     
     public function getStudentProfilePhoto($studentId) {
@@ -52,7 +68,7 @@ class ProfileModel {
             return null;
         }
     }
-    
+
     public function createProfile($data) {
         $fields = [
             'student_id', 'bio', 'education', 'interests', 'country', 'city_town', 'student_grade', 'student_profile_photo'
