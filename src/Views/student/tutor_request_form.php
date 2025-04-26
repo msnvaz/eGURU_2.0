@@ -22,12 +22,13 @@ if (!isset($_SESSION['student_id'])) {
     <link rel="stylesheet" href="/css/student/nav.css">
     <link rel="stylesheet" href="/css/student/findtutor.css">
     <link rel="stylesheet" href="/css/student/requestform.css" >
+    <link rel="stylesheet" href="/css/student/header.css" class="css">
 </head>
 <body>
 
 <?php require '../src/Views/student/sidebar.php'; ?>
     <div class="main-content">
-    <?php //include 'header.php'; ?>
+    <?php include 'header.php'; ?>
 
         <div class="container">
             <a href="/student-findtutor" class="back-button">

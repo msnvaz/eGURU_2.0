@@ -39,6 +39,20 @@ class ProfileModel {
         return $stmt->execute($params);
     }
     
+    public function getStudentProfilePhoto($studentId) {
+        try {
+            $query = "SELECT student_profile_photo FROM student WHERE student_id = :student_id";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':student_id', $studentId, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['student_profile_photo'];
+        } catch (\PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            return null;
+        }
+    }
+    
     public function createProfile($data) {
         $fields = [
             'student_id', 'bio', 'education', 'interests', 'country', 'city_town', 'student_grade', 'student_profile_photo'
