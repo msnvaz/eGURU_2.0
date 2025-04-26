@@ -314,7 +314,7 @@
         </div>
     </div>
 
-
+        <h2>Discussion Platform</h2>
     
     <?php include 'forum.php'; ?> <!-- Include the forum-->
 

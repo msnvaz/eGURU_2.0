@@ -121,9 +121,9 @@
     <div class="profile-container">
         <div class="profile-header">
             <!-- Optional: Profile Image -->
-            <!-- <img src="<?= htmlspecialchars($tutor['profile_image'] ?? '') ?>" 
+            <img src="<?='images/tutor_uploads/tutor_profile_photos/'. htmlspecialchars($tutor['tutor_profile_photo'] ?? '') ?>" 
                  alt="<?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?>" 
-                 class="profile-image"> -->
+                 class="profile-image">
             
             <div class="profile-info">
                 <h1><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h1>

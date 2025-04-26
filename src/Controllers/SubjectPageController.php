@@ -7,8 +7,6 @@ use App\Controller;
 
 class SubjectPageController extends Controller {
     private $model;
-    private $uploadPath = 'public/images/tutor_profile/';
-    private $defaultImage = 'public/images/tutor_profile/default_image.jpeg';
 
     public function __construct() {
         $this->model = new SubjectPageModel();
@@ -33,14 +31,10 @@ class SubjectPageController extends Controller {
             error_log("Filtering tutors for subject: $subject, grade: $gradeFilter, available: " . ($availableOnly ? 'true' : 'false'));
 
             foreach ($tutors as &$tutor) {
-                // Profile photo path
-                $tutor['tutor_profile_photo'] = $this->getProfileImagePath($tutor['tutor_profile_photo'] ?? '');
-
                 // Convert hour_fees to tutor_pay_per_hour with formatting
                 $tutor['tutor_pay_per_hour'] = isset($tutor['tutor_pay_per_hour'])
                     ? number_format($tutor['tutor_pay_per_hour'], 2)
-                        : 'N/A';
-
+                    : 'N/A';
 
                 // Average rating fallback
                 $tutor['average_rating'] = isset($tutor['avg_rating']) && $tutor['avg_rating'] !== null
@@ -83,22 +77,5 @@ class SubjectPageController extends Controller {
         } else {
             die("<h2>Error</h2><p>$message</p>");
         }
-    }
-
-    private function getProfileImagePath($profileImage) {
-        if (empty($profileImage)) {
-            return '/' . $this->defaultImage;
-        }
-
-        $baseName = basename($profileImage);
-        $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/eGURU_2.0/' . $this->uploadPath . $baseName;
-
-        error_log("Checking file existence: " . $fullPath);
-
-        if (file_exists($fullPath)) {
-            return '/eGURU_2.0/' . $this->uploadPath . $baseName;
-        }
-
-        return '/eGURU_2.0/' . $this->defaultImage;
     }
 }
