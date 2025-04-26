@@ -33,9 +33,9 @@ include __DIR__ . '/header.php';
             <div class="profile-content">
                 <!-- Profile Form -->
                 <form action="/student-profile-updated" method="POST" enctype="multipart/form-data">
-                    <div class="profile-picture edit-profile-picture">
+                    <div class="profile-picture edit-profile-picture" style="display: flex; flex-direction:column; align-items: center;margin-left:32%;">
                         <img id="profile-image"
-                            src="images/student-uploads/profilePhotos/<?php echo isset($profileData['student_profile_photo']) ? $profileData['student_profile_photo'] : 'profile1.jpg'; ?>"
+                            src="images/student-uploads/profilePhotos/<?php echo $studentProfilePhoto; ?>"
                             alt="Profile Picture">
                         <label class="edit-change-photo-btn" for="file-input">Change Profile Photo</label>
                         <input type="file" id="file-input" name="profile-image" accept="image/*">

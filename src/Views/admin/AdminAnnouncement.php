@@ -78,7 +78,9 @@ $errorMessage = $_GET['error'] ?? "";
                         <td><?= htmlspecialchars($row['status'] ?? 'inactive') ?></td>
                         <td>
                             <button class="btn edit-btn" onclick="editAnnouncement('<?= $row['announce_id'] ?>', '<?= htmlspecialchars($row['title'], ENT_QUOTES) ?>', '<?= htmlspecialchars($row['announcement'], ENT_QUOTES) ?>')">Edit</button>
-                            <a href="/admin-announcement/delete/<?= $row['announce_id'] ?>" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+                            <button class="btn edit-btn" style ="background-color:red;color:white">
+                            <a style ="background-color:red;color:white" href="/admin-announcement/delete/<?= $row['announce_id'] ?>" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+                            </button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

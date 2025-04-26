@@ -1,13 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eGURU Student - Outbox</title>
-    <link rel="icon" type="image/png" href="/images/eGURU_6.png">
+    <link rel="icon" type="image/png" href="/images/eGURU_3.png">
     <link rel="stylesheet" href="/css/student/sidebar.css">
     <link rel="stylesheet" href="/css/student/nav.css">
+    <link rel="stylesheet" href="/css/student/header.css">
     <link rel="stylesheet" href="/css/student/StudentInbox.css">
     <link rel="stylesheet" href="/css/student/StudentComposeMessage.css">
     <link rel="stylesheet" href="/css/student/StudentOutbox.css">
@@ -16,11 +16,8 @@
 <body>
 <?php $page="inbox"; ?>
 
-<!-- Sidebar -->
-<?php include 'sidebar.php'; ?>
-
-<!-- Header -->
 <?php include '../src/Views/student/header.php'; ?>
+<?php include 'sidebar.php'; ?>
 
     <div class="main">
         <br>

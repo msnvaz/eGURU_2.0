@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eGURU Student - Compose Message</title>
-    <link rel="icon" type="image/png" href="/images/eGURU_6.png">
+    <link rel="icon" type="image/png" href="/images/eGURU_3.png">
     <link rel="stylesheet" href="/css/student/sidebar.css">
     <link rel="stylesheet" href="/css/student/nav.css">
+    <link rel="stylesheet" href="/css/student/header.css">
     <link rel="stylesheet" href="/css/student/StudentInbox.css">
     <link rel="stylesheet" href="/css/student/StudentComposeMessage.css">
     <link rel="stylesheet" href="/css/student/StudentOutbox.css">
@@ -16,11 +17,8 @@
 <body>
 <?php $page="inbox"; ?>
 
-<!-- Sidebar -->
-<?php include 'sidebar.php'; ?>
-
-<!-- Header -->
 <?php include '../src/Views/student/header.php'; ?>
+<?php include 'sidebar.php'; ?>
     
     <div class="main">
         <br>
@@ -52,9 +50,11 @@
                         <option value="tutor">Tutor</option>
                     </select>
                     
+                    <input type="hidden" id="message_type" name="message_type" value="admin"> <!-- Add this hidden input -->
+
                     <div id="tutor-select" style="display: none;">
                         <label for="tutor_id">Select Tutor:</label>
-                        <select id="tutor_id" name="tutor_id">
+                        <select id="tutor_id" name="tutors[]" multiple required>
                             <?php foreach ($tutors as $tutor): ?>
                                 <option value="<?= $tutor['tutor_id'] ?>">
                                     <?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?> (#<?= $tutor['tutor_id'] ?>)
@@ -78,10 +78,32 @@
         </div>
     </div>
     <script>
-        document.getElementById('recipient_type').addEventListener('change', function() {
-            const tutorSelect = document.getElementById('tutor-select');
-            tutorSelect.style.display = this.value === 'tutor' ? 'block' : 'none';
-        });
+        // Update your existing script at the bottom of StudentComposeMessage.php
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial state based on default selected value
+    const recipientType = document.getElementById('recipient_type');
+    const tutorSelect = document.getElementById('tutor-select');
+    const tutorField = document.getElementById('tutor_id');
+    
+    // Set initial state
+    if (recipientType.value === 'admin') {
+        tutorSelect.style.display = 'none';
+        tutorField.required = false;
+    }
+    
+    // Add your existing event listener
+    recipientType.addEventListener('change', function() {
+        if (this.value === 'tutor') {
+            tutorSelect.style.display = 'block';
+            tutorField.required = true;
+            document.getElementById('message_type').value = 'tutor';
+        } else {
+            tutorSelect.style.display = 'none';
+            tutorField.required = false;
+            document.getElementById('message_type').value = 'admin';
+        }
+    });
+});
     </script>
 </body>
 </html>

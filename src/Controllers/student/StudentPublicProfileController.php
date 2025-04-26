@@ -14,6 +14,9 @@ class StudentPublicProfileController {
     public function ShowPublicprofile() {
         $profileData = $this->model->getProfileByStudentId($_SESSION['student_id']);
         $contactInfo = $this->model->getStudentContactInfo($_SESSION['student_id']);
+
+        $studentProfilePhoto = $this->model->getStudentProfilePhoto($_SESSION['student_id']);
+
         $profileData = array_merge($profileData, $contactInfo);
 
         include '../src/views/student/viewprofile.php';
@@ -22,6 +25,9 @@ class StudentPublicProfileController {
     public function ShowEditprofile() {
         $profileData = $this->model->getProfileByStudentId($_SESSION['student_id']);
         $contactInfo = $this->model->getStudentContactInfo($_SESSION['student_id']);
+
+        $studentProfilePhoto = $this->model->getStudentProfilePhoto($_SESSION['student_id']);
+
         $profileData = array_merge($profileData, $contactInfo);
     
         include '../src/views/student/profile.php';

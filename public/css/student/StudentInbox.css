@@ -23,7 +23,8 @@
     max-width: 1000px;
     display: flex;
     margin-top: 20px;
-    margin-left: 390px;
+    margin-left: 380px;
+    margin-right: 100px;
     gap: 20px;
     max-height: calc(100vh - 200px);
     
