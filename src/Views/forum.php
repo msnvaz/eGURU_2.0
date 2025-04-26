@@ -68,7 +68,8 @@ function renderReplies($parentId, $model, $level = 1) {
             width: 100%;
         }
         .forum-reply-btn {
-            background: orange;
+            background-color: #E14177;
+            border-radius:5px;
             color: white;
             border: none;
             cursor: pointer;

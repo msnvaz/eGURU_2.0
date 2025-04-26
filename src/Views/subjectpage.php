@@ -70,7 +70,6 @@
         }
         .available-status {
             background-color: #E14177;
-            ;
             color: white;
         }
         .busy-status {
