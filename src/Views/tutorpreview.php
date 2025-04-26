@@ -147,8 +147,8 @@
             <h2>Join Our Community</h2>
             <p>Please login or sign up to connect with this tutor</p>
             <div class="modal-buttons">
-                <a href="/login.php" class="modal-btn login-btn">Login</a>
-                <a href="/signup.php" class="modal-btn signup-btn">Sign Up</a>
+                <a href="/student-login" class="modal-btn login-btn">Login</a>
+                <a href="/student-signup" class="modal-btn signup-btn">Sign Up</a>
             </div>
         </div>
     </div>
