@@ -20,8 +20,8 @@ if (!isset($testimonials)) {
                     <?php foreach ($testimonials as $row) : ?>
                         <div class="testimonial">
                             <div class="testimonial-content">
-                                <img src="<?php echo htmlspecialchars($row['student_profile_photo']); ?>" alt="<?php echo htmlspecialchars($row['student_first_name'] . ' ' . $row['student_last_name']); ?>" class="testimonial-img">
-                                <div class="testimonial-text">
+                            <img src="images/student-uploads/profilePhotos/<?php echo htmlspecialchars($row['student_profile_photo']); ?>" alt="<?php echo htmlspecialchars($row['student_first_name'] . ' ' . $row['student_last_name']); ?>" class="testimonial-img">
+                            <div class="testimonial-text">
                                     <h3>Find the right tutor for you!</h3>
                                     <p>"<?php echo htmlspecialchars($row['student_feedback']); ?>"</p>
                                     <span>- <?php echo htmlspecialchars($row['student_first_name'] . ' ' . $row['student_last_name']); ?> -</span>
