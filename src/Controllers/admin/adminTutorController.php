@@ -103,7 +103,117 @@ class adminTutorController {
 
     public function editTutorProfile($tutorId) {
         $tutorData = $this->model->getTutorProfile($tutorId);
+        $tutorAdvertisements = $this->model->getTutorAdvertisements($tutorId);
         require_once __DIR__ . '/../../Views/admin/AdminTutorProfileEdit.php';
+    }
+
+    public function updateAdvertisement($adId) {
+        // Validate the existence of the advertisement
+        $advertisement = $this->model->getAdvertisementById($adId);
+        if (!$advertisement) {
+            header("Location: /admin-edit-tutor-profile/{$_POST['tutor_id']}?error=Advertisement not found");
+            exit();
+        }
+        
+        $data = [];
+        
+        // Update description if provided
+        if (!empty($_POST['ad_description'])) {
+            $data['ad_description'] = htmlspecialchars($_POST['ad_description']);
+        }
+        
+        // Update status if provided
+        if (isset($_POST['ad_status'])) {
+            $data['ad_status'] = htmlspecialchars($_POST['ad_status']);
+        }
+        
+        // Handle image upload if provided
+        if (isset($_FILES['ad_image']) && !empty($_FILES['ad_image']['name']) && $_FILES['ad_image']['error'] == 0) {
+            $uploadDir = __DIR__ . '/../../../public/uploads/tutor_ads/';
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            $fileName = time() . '_' . basename($_FILES['ad_image']['name']);
+            $uploadFile = $uploadDir . $fileName;
+            
+            if (move_uploaded_file($_FILES['ad_image']['tmp_name'], $uploadFile)) {
+                $data['ad_display_pic'] = $fileName;
+            }
+        }
+        
+        // Process the update
+        if ($this->model->updateAdvertisement($adId, $data)) {
+            header("Location: /admin-edit-tutor-profile/{$_POST['tutor_id']}?success=1");
+        } else {
+            header("Location: /admin-edit-tutor-profile/{$_POST['tutor_id']}?error=Failed to update advertisement");
+        }
+        exit();
+    }
+
+    public function deleteAdvertisement($adId) {
+        // Get the tutor ID from query parameters
+        $tutorId = $_GET['tutor_id'] ?? null;
+        
+        if (!$tutorId) {
+            header("Location: /admin-tutors?error=Invalid request");
+            exit();
+        }
+        
+        // Validate the existence of the advertisement
+        $advertisement = $this->model->getAdvertisementById($adId);
+        if (!$advertisement) {
+            header("Location: /admin-edit-tutor-profile/{$tutorId}?error=Advertisement not found");
+            exit();
+        }
+        
+        // Process the deletion (set status to 'unset')
+        if ($this->model->deleteAdvertisement($adId)) {
+            header("Location: /admin-edit-tutor-profile/{$tutorId}?success=Advertisement deleted");
+        } else {
+            header("Location: /admin-edit-tutor-profile/{$tutorId}?error=Failed to delete advertisement");
+        }
+        exit();
+    }
+
+    public function addAdvertisement() {
+        // Get the tutor ID from POST data
+        $tutorId = $_POST['tutor_id'] ?? null;
+        
+        if (!$tutorId) {
+            header("Location: /admin-tutors?error=Invalid request");
+            exit();
+        }
+        
+        // Validate and process the new advertisement
+        if (empty($_POST['ad_description']) || !isset($_FILES['ad_image']) || $_FILES['ad_image']['error'] != 0) {
+            header("Location: /admin-edit-tutor-profile/{$tutorId}?error=Invalid advertisement data");
+            exit();
+        }
+        
+        // Handle image upload
+        $uploadDir = __DIR__ . '/../../../public/uploads/tutor_ads/';
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        
+        $fileName = time() . '_' . basename($_FILES['ad_image']['name']);
+        $uploadFile = $uploadDir . $fileName;
+        
+        if (!move_uploaded_file($_FILES['ad_image']['tmp_name'], $uploadFile)) {
+            header("Location: /admin-edit-tutor-profile/{$tutorId}?error=Failed to upload image");
+            exit();
+        }
+        
+        // Create the new advertisement
+        $description = htmlspecialchars($_POST['ad_description']);
+        
+        if ($this->model->addAdvertisement($fileName, $description, $tutorId)) {
+            header("Location: /admin-edit-tutor-profile/{$tutorId}?success=Advertisement added");
+        } else {
+            header("Location: /admin-edit-tutor-profile/{$tutorId}?error=Failed to add advertisement");
+        }
+        exit();
     }
 
     public function updateTutorProfile($tutorId) {

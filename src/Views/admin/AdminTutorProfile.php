@@ -21,6 +21,110 @@
             font-weight: bold;
             padding-left: 20px;
         }
+        .ads-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #f9f9f900;
+        }
+        
+        .ad-card1 {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .ad-card1:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+        
+        .ad-image {
+            height: 180px;
+            background-color: #eaeef2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .ad-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .no-image {
+            color: #8a94a6;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .ad-details {
+            padding: 16px;
+        }
+        
+        .ad-description {
+            margin: 0 0 16px 0;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.5;
+            max-height: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        
+        .ad-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #7a8599;
+        }
+        
+        .ad-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .ad-date::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237a8599' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        
+        .ad-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .active {
+            background-color: #e6f7ed;
+            color: #0d6832;
+        }
+        
+        .inactive {
+            background-color: #f7e6e6;
+            color: #983535;
+        }
+        
+        @media (max-width: 600px) {
+            .ads-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -178,45 +282,48 @@
         </div>
         <div class="viewprofile-sections">
                     <!-- Tutor Advertisements Section -->
-                    <div class="section-container">
+                    <div class="section-container" style="background-color:#00000000;">
                         <h3>Advertisements</h3>
                         <?php if (empty($advertisements)): ?>
                             <p>No advertisements found for this tutor.</p>
                         <?php else: ?>
-                            <div class="ad-grid">
-                                <?php foreach ($advertisements as $ad): ?>
-                                    <div class="ad-card">
-                                        <div class="ad-image">
-                                            <?php if (!empty($ad['ad_display_pic'])): ?>
-                                                <img src="/uploads/tutor_ads/<?= htmlspecialchars($ad['ad_display_pic']); ?>" alt="Advertisement">
-                                            <?php else: ?>
-                                                <div class="no-image">No Image</div>
-                                            <?php endif; ?>
-                                        </div>
-                                        <div class="ad-details">
-                                            <p class="ad-description"><?= htmlspecialchars($ad['ad_description']); ?></p>
-                                            <div class="ad-meta">
-                                                <span class="ad-date">Posted: <?= date('M d, Y', strtotime($ad['ad_created_at'])); ?></span>
-                                                <span class="ad-status <?= $ad['ad_status'] === 'set' ? 'active' : 'inactive'; ?>">
-                                                    Status: <?= $ad['ad_status'] === 'set' ? 'Active' : 'Inactive'; ?>
-                                                </span>
-                                            </div>
+                            <div class="ads-container">
+                            <?php foreach ($advertisements as $ad): ?>
+                                <div class="ad-card1">
+                                    <div class="ad-image">
+                                        <?php if (!empty($ad['ad_display_pic'])): ?>
+                                            <img src="/uploads/tutor_ads/<?= htmlspecialchars($ad['ad_display_pic']); ?>" alt="Advertisement">
+                                        <?php else: ?>
+                                            <div class="no-image">No Image Available</div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="ad-details">
+                                        <p class="ad-description"><?= htmlspecialchars($ad['ad_description']); ?></p>
+                                        <div class="ad-meta">
+                                            <span class="ad-date"><?= date('M d, Y', strtotime($ad['ad_created_at'])); ?></span>
+                                            <span class="ad-status <?= $ad['ad_status'] === 'set' ? 'active' : 'inactive'; ?>">
+                                                <?= $ad['ad_status'] === 'set' ? 'Active' : 'Inactive'; ?>
+                                            </span>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
-                            </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                         <?php endif; ?>
                     </div>
 
                     <!-- Tutor Study Materials Section -->
-                    <div class="section-container">
+                    <div class="section-container" style="background-color:#00000000;">
                         <h3>Study Materials</h3>
                         <?php if (empty($studyMaterials)): ?>
                             <p>No study materials found for this tutor.</p>
                         <?php else: ?>
                             <div class="materials-table-container">
-                                <table class="materials-table">
+                                <table>
                                     <thead>
+                                    <tr>
+                                        <th colspan="6" style="text-align: center;border-radius: 20px 20px 0 0;font-size:14px;margin:0;">Study Materials</th>
+                                    </tr>
                                         <tr>
                                             <th>ID</th>
                                             <th>Subject</th>

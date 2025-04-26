@@ -379,4 +379,52 @@ class adminTutorModel {
             return null;
         }
     }
+
+    // Add these methods to the adminTutorModel class
+
+    public function getAdvertisementById($adId) {
+        $query = "SELECT * FROM tutor_advertisement WHERE ad_id = :ad_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':ad_id', $adId);
+        $stmt->execute();
+        
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function updateAdvertisement($adId, $data) {
+        if (empty($data)) {
+            return false;
+        }
+        
+        $setClauses = [];
+        $params = [':ad_id' => $adId];
+        
+        foreach ($data as $key => $value) {
+            $setClauses[] = "$key = :$key";
+            $params[":$key"] = $value;
+        }
+        
+        $setClause = implode(', ', $setClauses);
+        $query = "UPDATE tutor_advertisement SET $setClause WHERE ad_id = :ad_id";
+        
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute($params);
+    }
+
+    public function deleteAdvertisement($adId) {
+        $query = "UPDATE tutor_advertisement SET ad_status = 'unset' WHERE ad_id = :ad_id";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([':ad_id' => $adId]);
+    }
+
+    public function addAdvertisement($imagePath, $description, $tutorId) {
+        $query = "INSERT INTO tutor_advertisement (tutor_id, ad_display_pic, ad_description, ad_status) 
+                VALUES (:tutor_id, :image_path, :description, 'set')";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([
+            ':tutor_id' => $tutorId,
+            ':image_path' => $imagePath,
+            ':description' => $description
+        ]);
+    }
 }
