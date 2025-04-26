@@ -175,6 +175,7 @@ $router->post('/tutor-signup-action', TutorSignupController::class, 'handleSignu
 $router->get('/tutor-logout', TutorLogoutController::class, 'logout');
 $router->get('/tutor-dashboard', TutorDashboardController::class, 'ShowTutorDashboardPage'); // Redirect only if logged in
 $router->get('/tutor-event', TutorEventController::class, 'showEventPage'); 
+$router->get('/tutor-session-cancel/{sessionId}', TutorEventController::class, 'cancelSession');
 $router->get('/tutor-request', TutorRequestController::class, 'showRequestPage'); 
 $router->post('/handle-session-request', TutorRequestController::class, 'handleSessionRequest');
 $router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage');
