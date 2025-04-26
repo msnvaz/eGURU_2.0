@@ -394,6 +394,15 @@ $router->post('/admin-reject-upgrade/{id}', adminTutorController::class, 'reject
 //tutor study materials /download-material/38
 $router->get('/download-material/{id}', adminTutorController::class, 'downloadStudyMaterial');
 
+// Update advertisement
+$router->post('/admin-update-advertisement/{id}', adminTutorController::class,'updateAdvertisement');
+
+// Delete advertisement
+$router->get('/admin-delete-advertisement/{id}', adminTutorController::class,'deleteAdvertisement');
+
+// Add new advertisement
+$router->post('/admin-add-advertisement', adminTutorController::class,'addAdvertisement');
+
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');
 $router->post('/manager-login', ManagerLoginController::class, 'checkManagerLogin');
