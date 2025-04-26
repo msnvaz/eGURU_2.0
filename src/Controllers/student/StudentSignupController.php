@@ -35,6 +35,12 @@ class StudentSignupController {
                 exit();
             }
 
+            if (strlen($student_phonenumber) !== 10 || !ctype_digit($student_phonenumber)) {
+                $_SESSION['signup_error'] = "Phone number must be exactly 10 digits.";
+                header("Location: /student-signup");
+                exit();
+            }
+
             // Validate date of birth (must be above 10 years old)
             $dob = new \DateTime($student_DOB);
             $currentDate = new \DateTime();
