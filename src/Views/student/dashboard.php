@@ -55,12 +55,13 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
         <div class="header-container">
             <div class="profile-section">
                 <div class="welcome-text">
-                    <h1>Welcome <?= htmlspecialchars(explode(' ', $student_name)[0]) ?></h1>
+                    <h1>Welcome Back...! </h1>
                     <p>Keep up the good work!</p>
                 </div>
                 <div class="user-info">
-                <img src="/images/student-uploads/profilePhotos/<?php echo isset($_SESSION['profile_picture']) && file_exists('images/student-uploads/profilePhotos/' . $_SESSION['profile_picture']) ? htmlspecialchars($_SESSION['profile_picture']) : 'profile1.jpg'; ?>" 
-    alt="Profile" class="user-avatar">
+                    <?php //var_dump($_SESSION['student_profile_photo']); ?>
+                <img src="/images/student-uploads/profilePhotos/<?php echo $studentProfilePhoto; ?>" 
+                    alt="Profile" class="user-avatar">
                     <div class="user-details">
 
                         <h2><?= isset($_SESSION['student_name']) ? htmlspecialchars($_SESSION['student_name']) : 'Student Name' ?>

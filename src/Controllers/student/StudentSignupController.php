@@ -29,6 +29,18 @@ class StudentSignupController {
             $student_DOB = $_POST['date'];  // Changed from student_DOB to date
             $student_phonenumber = $_POST['tel'];  // Changed from student_phonenumber to tel
     
+            if (!preg_match('/^(?=.*[a-z])(?=.*[@$!%*?&])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/', $student_password)) {
+                $_SESSION['signup_error'] = "Password must be strong.";
+                header("Location: /student-signup");
+                exit();
+            }
+
+            if (strlen($student_phonenumber) !== 10 || !ctype_digit($student_phonenumber)) {
+                $_SESSION['signup_error'] = "Phone number must be exactly 10 digits.";
+                header("Location: /student-signup");
+                exit();
+            }
+
             // Validate date of birth (must be above 10 years old)
             $dob = new \DateTime($student_DOB);
             $currentDate = new \DateTime();

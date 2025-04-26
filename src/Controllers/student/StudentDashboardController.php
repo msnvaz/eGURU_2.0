@@ -44,9 +44,11 @@ class StudentDashboardController {
     
         // Fetch student points from the database
         $studentPoints = $this->model->getStudentPoints($studentId);
+        $studentProfilePhoto = $this->model->getStudentProfilePhoto($studentId);
     
         // Store the points in the session for use in the view
         $_SESSION['student_points'] = $studentPoints;
+        $_SESSION['student_profile_photo'] = $studentProfilePhoto;
     
         // Include the dashboard view
         include __DIR__ . '/../../Views/student/dashboard.php';
