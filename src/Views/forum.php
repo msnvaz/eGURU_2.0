@@ -131,6 +131,8 @@ function renderReplies($parentId, $model, $level = 1) {
             form.reset();
             document.getElementById('reply_id').value = 0;
             document.getElementById('title').innerText = "Leave a Comment";
+            // Show success popup
+            alert("Comment submitted successfully!");
         })
         .catch(err => {
             alert("Error submitting comment.");
