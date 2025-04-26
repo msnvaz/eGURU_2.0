@@ -224,15 +224,24 @@ class StudentInboxModel {
     }
     
     // Send a message to a tutor
-    public function sendMessageToTutor($tutorId, $studentId, $subject, $message) {
+    public function sendMessageToTutor($studentId, $tutorIds, $subject, $message) {
         $query = "INSERT INTO tutor_inbox (tutor_id, sender_type, sender_id, subject, message) 
-                 VALUES (:tutorId, 'student', :studentId, :subject, :message)";
+                  VALUES (:tutorId, 'student', :studentId, :subject, :message)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
-        $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
-        $stmt->bindValue(':subject', $subject, PDO::PARAM_STR);
-        $stmt->bindValue(':message', $message, PDO::PARAM_STR);
-        return $stmt->execute();
+    
+        foreach ($tutorIds as $tutorId) {
+            $stmt->bindValue(':tutorId', $tutorId, PDO::PARAM_INT);
+            $stmt->bindValue(':studentId', $studentId, PDO::PARAM_INT);
+            $stmt->bindValue(':subject', $subject, PDO::PARAM_STR);
+            $stmt->bindValue(':message', $message, PDO::PARAM_STR);
+    
+            // Execute the query for each tutor ID
+            if (!$stmt->execute()) {
+                return false; // Return false if any insertion fails
+            }
+        }
+    
+        return true; // Return true if all insertions succeed
     }
     
     // Send a message to admin

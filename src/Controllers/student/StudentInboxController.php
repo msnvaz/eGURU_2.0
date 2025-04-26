@@ -65,6 +65,7 @@ class StudentInboxController {
         
         $studentId = $_SESSION['student_id']; // Get current student's ID
         
+        
         // Get the active message
         $activeMessage = $this->model->getMessage($inboxId, $studentId);
         

@@ -52,9 +52,11 @@
                         <option value="tutor">Tutor</option>
                     </select>
                     
+                    <input type="hidden" id="message_type" name="message_type" value="admin"> <!-- Add this hidden input -->
+
                     <div id="tutor-select" style="display: none;">
                         <label for="tutor_id">Select Tutor:</label>
-                        <select id="tutor_id" name="tutor_id">
+                        <select id="tutor_id" name="tutors[]" multiple required>
                             <?php foreach ($tutors as $tutor): ?>
                                 <option value="<?= $tutor['tutor_id'] ?>">
                                     <?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?> (#<?= $tutor['tutor_id'] ?>)
@@ -79,9 +81,19 @@
     </div>
     <script>
         document.getElementById('recipient_type').addEventListener('change', function() {
-            const tutorSelect = document.getElementById('tutor-select');
-            tutorSelect.style.display = this.value === 'tutor' ? 'block' : 'none';
-        });
+        const tutorSelect = document.getElementById('tutor-select');
+        const tutorField = document.getElementById('tutor_id');
+        const messageType = document.getElementById('message_type');
+        if (this.value === 'tutor') {
+            tutorSelect.style.display = 'block';
+            tutorField.required = true; // Make tutor field required
+            messageType.value = 'tutor';
+        } else {
+            tutorSelect.style.display = 'none';
+            tutorField.required = false; // Remove required attribute
+            messageType.value = 'admin';
+        }
+    });
     </script>
 </body>
 </html>
