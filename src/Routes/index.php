@@ -161,6 +161,29 @@ $router->get('/student-outbox-message/{id}/{type}', StudentInboxController::clas
 $router->get('/student-inbox', StudentInboxController::class, 'index'); // Show inbox
 $router->post('/student-inbox/send', StudentInboxController::class, 'sendMessage'); // Handle sending a message
 
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+    $controller = new \App\Controllers\student\StudentPaymentController();
+
+    switch ($action) {
+        case 'payment_success':
+            $controller->paymentSuccess();
+            break;
+        case 'payment_cancel':
+            $controller->paymentCancel();
+            break;
+        case 'checkout':
+            $controller->checkout(); // This should redirect to the checkout page
+            break;
+        case 'payment':
+            $controller->showPayment();
+            break;
+        default:
+            throw new \Exception("No route found for URI: /index.php?action=$action");
+    }
+    exit; // Ensure no further code is executed
+}
+
 // Tutor routes
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
 $router->post('/tutor-login-action', TutorLoginController::class, 'handleLogin'); // Handle login form submission
