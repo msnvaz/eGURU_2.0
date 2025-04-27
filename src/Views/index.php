@@ -40,7 +40,7 @@
     </section>
 
     <section  id="howitworks">
-        <div class="how_it_works_pg">
+        <div class="how_it_works_pg" style="background-color:rgba(249, 249, 249, 0.44);">
 
             <!-- How e-Guru Works Section -->
             <div class="eguru-works">
