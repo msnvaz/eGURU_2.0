@@ -11,38 +11,8 @@
 
 <footer class="footer">
     <div class="footer-container">
-        <!-- Navigation columns -->
-        <div class="footer-nav-columns">
-            <div class="footer-nav-column">
-                <a href="#home"><i class="fas fa-home"></i> Home</a>
-                <a href="#how-it-works"><i class="fas fa-cogs"></i> How it Works</a>
-                <a href="#why"><i class="fas fa-question-circle"></i> Why Choose Us</a>
-                <a href="#reviews"><i class="fas fa-star"></i> Reviews</a>
-            </div>
-            
-            <div class="footer-nav-column">
-                <a href="#tutors"><i class="fas fa-chalkboard-teacher"></i> Tutors</a>
-                <a href="#subjects"><i class="fas fa-book"></i> Subjects</a>
-                <a href="#search"><i class="fas fa-search"></i> Search</a>
-                <a href="#forum"><i class="fas fa-comments"></i> Forum</a>
-            </div>
-            
-            <div class="footer-nav-column">
-                <a href="#about"><i class="fas fa-info-circle"></i> About</a>
-                <a href="#faq"><i class="fas fa-question"></i> FAQ</a>
-                <a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
-                <a href="#terms"><i class="fas fa-file-contract"></i> Terms of Service</a>
-            </div>
-        </div>
-        
-        <!-- Contact section -->
-        <div class="footer-contact-section">
-            <h3 class="connect-heading">Connect With Us</h3>
-            <ul class="contact-list">
-                <li><i class="fas fa-envelope"></i> support@eguru.com</li>
-                <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
-                <li><i class="fas fa-map-marker-alt"></i> 1234 Tutor Lane, Education City</li>
-            </ul>
+        <!-- Top row with heading and social icons -->
+        <div class="footer-top-row">
             
             <div class="social-icons">
                 <a href="#" class="social-icon" aria-label="Facebook">
@@ -61,6 +31,15 @@
                     <i class="fab fa-linkedin-in"></i>
                 </a>
             </div>
+        </div>
+        
+        <!-- Bottom row with contact info -->
+        <div class="footer-bottom-row">
+            <ul class="contact-list">
+                <li><i class="fas fa-envelope"></i> support@eguru.com</li>
+                <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                <li><i class="fas fa-map-marker-alt"></i> 1234 Tutor Lane, Education City</li>
+            </ul>
         </div>
     </div>
     
