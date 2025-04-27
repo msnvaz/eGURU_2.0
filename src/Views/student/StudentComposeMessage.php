@@ -21,7 +21,7 @@
 <?php include 'sidebar.php'; ?>
     
     <div class="main">
-        <br>
+        <br><br>
         <div class="student-dashboard">
             <div class="inbox-tabs">
                 <a href="/student-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox</a>

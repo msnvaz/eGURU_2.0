@@ -1,7 +1,9 @@
-
+* {
+  font-family: 'Poppins', sans-serif;
+}
 /* General styling */
 body {
-  font-family: Arial, sans-serif;
+  
   background-color: #f5faff;
   margin: 0;
   padding: 0;

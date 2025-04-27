@@ -1,4 +1,7 @@
-/* Main Layout */
+* {
+    font-family: 'Poppins', sans-serif;
+  }
+  /* Main Layout */
 .main-content {
     padding: 2rem;
     min-height: 100vh;
