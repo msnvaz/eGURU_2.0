@@ -223,7 +223,7 @@
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Amount Paid</div>
-                            <div class="detail-value">₹<?php echo $paymentInfo['amount'] ?? 0; ?></div>
+                            <div class="detail-value">Rs.<?php echo $paymentInfo['amount'] ?? 0; ?></div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Date & Time</div>
