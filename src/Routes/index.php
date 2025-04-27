@@ -184,6 +184,23 @@ if (isset($_GET['action'])) {
         case 'payment':
             $controller->showPayment();
             break;
+        case 'cashout':
+            $controller = new \App\Controllers\tutor\TutorCashoutController();
+            $controller->showCashout();
+            break;
+        case 'process_cashout':
+            $controller = new \App\Controllers\tutor\TutorCashoutController();
+            $controller->processCashout();
+            break;
+
+        case 'cashout_success':
+            $controller = new \App\Controllers\tutor\TutorCashoutController();
+            $controller->cashoutSuccess();
+            break;
+        case 'cashout_cancel':
+            $controller = new \App\Controllers\tutor\TutorCashoutController();
+            $controller->cashoutCancel();
+            break;
         default:
             throw new \Exception("No route found for URI: /index.php?action=$action");
     }
@@ -245,7 +262,7 @@ $router->get('/tutor-outbox-message/{id}/{type}', TutorInboxController::class, '
 $router->get('/tutor-inbox', TutorInboxController::class, 'index'); // Show inbox
 $router->post('/tutor-inbox/send', TutorInboxController::class, 'sendMessage'); // Handle sending a message
 // tutor cashout
-if (isset($_GET['action'])) { 
+/**if (isset($_GET['action'])) { 
     $action = $_GET['action'];
     $controller = new \App\Controllers\tutor\TutorCashoutController();
     switch ($action) {
@@ -265,7 +282,7 @@ if (isset($_GET['action'])) {
             throw new \Exception("No route found for URI: /index.php?action=$action");
     }
     exit; // Ensure no further code is executed
-}
+}**/
 
 
 //student profile for admin
