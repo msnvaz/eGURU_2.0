@@ -5,7 +5,9 @@
     margin-right: 50px;
 
 }
-
+* {
+    font-family: 'Poppins', sans-serif;
+  }
 /* Dropdown and button styles */
 .download-bodyform {
     width: 100%;
@@ -15,7 +17,7 @@
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+    
     
     max-height: fit-content;
     margin-top: 100px;
