@@ -13,6 +13,7 @@
             align-items: center;
             gap: 20px;
             margin-bottom: 20px;
+            background-color: #f8f8f800;
         }
         .availability-filter, .checkbox-wrapper {
             display: flex;
