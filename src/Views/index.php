@@ -182,6 +182,14 @@
             <h2 class="subject-heading" >CHOOSE YOUR SUBJECT</h2>
 
             <div class="subject-container">
+            <style>
+                .subject{
+                    border: 2px solid var(--dark-blue);
+                    border-left: 4px solid var(--dark-blue);
+                    padding-left:20px;
+                    border-radius:12px;
+                }
+            </style>
     <a href="/subject?subject=Science"><div class="subject"><img src="images/subjects/Agri.png" alt="Science"><br>Science</div></a>
     <a href="/subject?subject=English"><div class="subject"><img src="images/subjects/English.jpg" alt="English"><br>English</div></a>
     <a href="/subject?subject=History"><div class="subject"><img src="images/subjects/History.png" alt="History"><br>History</div></a>

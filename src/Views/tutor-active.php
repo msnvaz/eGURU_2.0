@@ -15,6 +15,7 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+    background-color: #f0f0f000;
 }
 
 .tutors {
@@ -133,7 +134,14 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
             
             echo '<div class="tutor ' . $rankClass . '">';
             echo '<div class="rank-badge">' . $rank . '</div>';
-            echo '<img src="images/tutor_uploads/tutor_profile_photos/' . htmlspecialchars($tutor['tutor_profile_photo']) . '" alt="' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '">';
+            $photoPath = 'images/tutor_uploads/tutor_profile_photos/';
+            $defaultPhoto = 'default.jpg';
+            $profilePhoto = !empty($tutor['tutor_profile_photo']) ? htmlspecialchars($tutor['tutor_profile_photo']) : $defaultPhoto;
+            $photoFullPath = __DIR__ . '/../../public/' . $photoPath . $profilePhoto;
+            if (!file_exists($photoFullPath)) {
+                $profilePhoto = $defaultPhoto;
+            }
+            echo '<img src="' . $photoPath . $profilePhoto . '" alt="' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '">';
             echo '<h3>' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '</h3>';
             
             // Display subjects
