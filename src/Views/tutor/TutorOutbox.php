@@ -9,6 +9,22 @@
     <link rel="stylesheet" href="/css/tutor/inbox.css">
     <link rel="stylesheet" href="/css/tutor/outbox.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notification-badge {
+            display: inline-block;
+            background-color: #ff5869;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 7px;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            text-align: center;
+            min-width: 20px;
+            height: 20px;
+        }
+
+    </style>
 </head>
 <body>
 <?php $page="inbox"; ?>
@@ -23,7 +39,7 @@
         <br>
         <div class="tutor-dashboard">
             <div class="inbox-tabs">
-                <a href="/tutor-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox
+                <a href="/tutor-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox <span class="notification-badge"><?= htmlspecialchars($unreadCount)?></span>
                 </a>
                 <a href="/tutor-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
                 <a href="/tutor-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
