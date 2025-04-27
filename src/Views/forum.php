@@ -68,7 +68,8 @@ function renderReplies($parentId, $model, $level = 1) {
             width: 100%;
         }
         .forum-reply-btn {
-            background: orange;
+            background-color: #E14177;
+            border-radius:5px;
             color: white;
             border: none;
             cursor: pointer;
@@ -130,6 +131,8 @@ function renderReplies($parentId, $model, $level = 1) {
             form.reset();
             document.getElementById('reply_id').value = 0;
             document.getElementById('title').innerText = "Leave a Comment";
+            // Show success popup
+            alert("Comment submitted successfully!");
         })
         .catch(err => {
             alert("Error submitting comment.");

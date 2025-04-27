@@ -48,7 +48,7 @@ $announcements = $controller->displayAnnouncements();
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
         .announcement-card h3 {
-            color: #007bff;
+            color: #E14177;
             margin: 0;
         }
         .announcement-card p {

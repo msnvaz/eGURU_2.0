@@ -24,6 +24,7 @@ class TutorPreviewModel {
                           t.tutor_id,
                           t.tutor_first_name,
                           t.tutor_last_name,
+                          t.tutor_profile_photo,
                           l.tutor_level_qualification
                       FROM tutor t
                       JOIN tutor_level l ON t.tutor_level_id = l.tutor_level_id
@@ -86,6 +87,7 @@ class TutorPreviewModel {
                           t.tutor_id,
                           t.tutor_first_name,
                           t.tutor_last_name,
+                            t.tutor_profile_photo,
                           l.tutor_level_qualification
                       FROM tutor t
                       JOIN tutor_level l ON t.tutor_level_id = l.tutor_level_id

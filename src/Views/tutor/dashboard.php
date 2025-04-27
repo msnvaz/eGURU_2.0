@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="user-info">
-                    <img src="/images/tutor_uploads/tutor_profile_photos/<?= $tutorData['tutor_profile_photo'] ?>" alt="tutor profile photo">
+                    <img src="/images/tutor_uploads/tutor_profile_photos/<?= $tutorData['tutor_profile_photo']  ?>" alt="tutor profile photo" onerror="this.onerror=null; this.src='/images/tutor_uploads/tutor_profile_photos/default_tutor.png';">
 
                         <div class="user-info-text">
                             <p><?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?></p>
@@ -188,7 +188,6 @@
                         </ul>
 
                         <h2>Previous Events</h2>
-                        <a href="/tutor-event" class="view-all">View All</a>
                         <ul class="event-list">
                             <?php if (!empty($previousEvents)): ?>
                                 <?php foreach (array_slice($previousEvents, 0, 3) as $event): ?>
@@ -213,9 +212,10 @@
                     <a href="/tutor-feedback" class="view-all">View All</a>
                     <ul class="feedback-list">
                         <?php if (!empty($tutorFeedback)): ?>
-                            <?php foreach (array_slice($tutorFeedback, 0, 4) as $feedback): ?>
+                            <?php foreach (array_slice($tutorFeedback, 0, 3) as $feedback): ?>
                                 <li>
-                                    <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img">
+                                    <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img" onerror="this.onerror=null; this.src='/images/student-uploads/profilePhotos/default.jpg';">
+                                    <?= htmlspecialchars($feedback['student_name']); ?><br>
                                     <?= htmlspecialchars($feedback['student_feedback']); ?><br>
                                     <?= date('d M Y - h:i A', strtotime($feedback['time_created'])); ?>
                                 </li>

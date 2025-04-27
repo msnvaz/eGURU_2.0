@@ -167,6 +167,29 @@ $router->get('/student-outbox-message/{id}/{type}', StudentInboxController::clas
 $router->get('/student-inbox', StudentInboxController::class, 'index'); // Show inbox
 $router->post('/student-inbox/send', StudentInboxController::class, 'sendMessage'); // Handle sending a message
 
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+    $controller = new \App\Controllers\student\StudentPaymentController();
+
+    switch ($action) {
+        case 'payment_success':
+            $controller->paymentSuccess();
+            break;
+        case 'payment_cancel':
+            $controller->paymentCancel();
+            break;
+        case 'checkout':
+            $controller->checkout(); // This should redirect to the checkout page
+            break;
+        case 'payment':
+            $controller->showPayment();
+            break;
+        default:
+            throw new \Exception("No route found for URI: /index.php?action=$action");
+    }
+    exit; // Ensure no further code is executed
+}
+
 // Tutor routes
 $router->get('/tutor-login', TutorLoginController::class, 'showLogin'); // Show login page
 $router->post('/tutor-login-action', TutorLoginController::class, 'handleLogin'); // Handle login form submission
@@ -175,7 +198,10 @@ $router->post('/tutor-signup-action', TutorSignupController::class, 'handleSignu
 $router->get('/tutor-logout', TutorLogoutController::class, 'logout');
 $router->get('/tutor-dashboard', TutorDashboardController::class, 'ShowTutorDashboardPage'); // Redirect only if logged in
 $router->get('/tutor-event', TutorEventController::class, 'showEventPage'); 
+$router->get('/tutor-event/get-event-dates-in-month', TutorEventController::class, 'getEventDatesInMonth');
+$router->get('/tutor-event/get-events-by-date', TutorEventController::class, 'getEventsByDate');
 $router->get('/tutor-request', TutorRequestController::class, 'showRequestPage'); 
+$router->get('/tutor-session-cancel/{sessionId}', TutorEventController::class, 'cancelSession');
 $router->post('/handle-session-request', TutorRequestController::class, 'handleSessionRequest');
 $router->get('/tutor-public-profile', TutorPublicProfileController::class, 'showPublicProfilePage');
 $router->post('/tutor-profile-updated', TutorPublicProfileController::class, 'ShowUpdatedprofile');
@@ -392,7 +418,16 @@ $router->post('/admin-approve-upgrade/{id}', adminTutorController::class, 'appro
 $router->post('/admin-reject-upgrade/{id}', adminTutorController::class, 'rejectUpgradeRequest');
 
 //tutor study materials /download-material/38
-$router->post('download-material/{id}', adminTutorController::class, 'downloadStudyMaterial');
+$router->get('/download-material/{id}', adminTutorController::class, 'downloadStudyMaterial');
+
+// Update advertisement
+$router->post('/admin-update-advertisement/{id}', adminTutorController::class,'updateAdvertisement');
+
+// Delete advertisement
+$router->get('/admin-delete-advertisement/{id}', adminTutorController::class,'deleteAdvertisement');
+
+// Add new advertisement
+$router->post('/admin-add-advertisement', adminTutorController::class,'addAdvertisement');
 
 //manager routes
 $router->get('/manager-login', ManagerLoginController::class, 'showLoginPage');

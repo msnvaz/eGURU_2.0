@@ -2,6 +2,7 @@
 html{
     
     scroll-behavior: smooth;
+    scroll-padding: 0px 0px 0px 0px;
   }
 
 body{
@@ -37,7 +38,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .main_pg{
-    margin-top: 55px;
+    margin-top: 0px;
     padding: 0 !important;
     background-image: url('../images/main_bg5.png'); /* Path to your image */
     background-size: cover; /* Ensures the image covers the entire page */

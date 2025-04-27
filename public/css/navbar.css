@@ -1,40 +1,230 @@
-/* public/css/navbar.css */
+/* Updated navbar.css */
 
-nav{
-    overflow-x: hidden;
+:root {
+    --dark-blue: rgba(41, 50, 65, 1);
+    --dark-pink: #ff5869;
+    --powder-blue: #B8E3E9;
+    --off-white: #f5f5f5;
+    --login-bg: rgba(205, 199, 199, 0.4);
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300,400,500,600&display=swap');
+  
+  /* General Styles */
+  body, html {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  nav {
     position: fixed;
     top: 0;
-    width: 100%;
-    z-index: 1000; /* Ensures the nav bar is above other content */
-}
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding-left: 15%;
-    overflow: hidden;
+    width: 101%;
+    z-index: 1000;
     background-color: #ffffff;
-}
-
-nav ul li {
-    float: left;
-}
-
-nav ul li a {
-    display: block;
-    color: rgba(41, 50, 65,1);
-    text-align: center;
-    padding: 16px 18px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    padding-left: -3%;
+    margin-left: -2%;
+  }
+  
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 103%;
+    margin: 0 auto;
+    padding: 10px 5px;
+    padding-left: -3%;
+    padding-right:-3% ;
+    max-height: 75px;
+  }
+  
+  .logo-link {
+    display: flex;
+    align-items: center;
     text-decoration: none;
-}
-
-/* Style for hovered link */
-nav ul li a:hover {
-    color: rgb(229, 34, 115);
-}
-
-/* Style for active link (can be manually set) */
-nav ul li a.active {
-    border-bottom: 8px solid rgb(229, 34, 115); /* Pink underline for active link */
-}
-
+  }
+  
+  .logo {
+    height: 40px;
+    padding-top: 5px;
+    transition: transform 0.3s ease;
+  }
+  
+  .logo:hover {
+    transform: scale(1.05);
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap: 15px;
+  }
+  
+  .nav-links li {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .nav-link {
+    display: block;
+    text-decoration: none;
+    color: var(--dark-blue);
+    font-weight: 500;
+    font-size: 15px;
+    padding: 0px 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    width: 0;
+    height: 3px;
+    background-color: var(--dark-pink);
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    color: var(--dark-pink);
+  }
+  
+  .nav-link:hover::after {
+    width: 70%;
+  }
+  
+  .nav-link.active {
+    color: var(--dark-pink);
+    font-weight: 600;
+  }
+  
+  .nav-link.active::after {
+    width: 70%;
+  }
+  
+  /* Login buttons styling */
+  .login-btn {
+    background-color: var(--login-bg);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .login-btn:hover {
+    background-color: rgba(255, 88, 105, 0.1);
+  }
+  
+  .login-btn .nav-link {
+    font-weight: 500;
+  }
+  
+  .tutor-login {
+    margin-left: 10px;
+  }
+  
+  /* Hamburger Menu */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .menu-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--dark-blue);
+    transition: all 0.3s ease;
+  }
+  
+  .menu-toggle.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .menu-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-toggle.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 992px) {
+    .nav-links {
+      gap: 5px;
+    }
+    
+    .nav-link {
+      padding: 12px 10px;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-container {
+      padding: 10px 15px;
+    }
+    
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      background-color: #ffffff;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 10px 0;
+      align-items: flex-start;
+    }
+    
+    .nav-links li {
+      width: 90%;
+      margin: 0 auto;
+    }
+    
+    .nav-link {
+      padding: 15px;
+      border-radius: 5px;
+      width: 100%;
+    }
+    
+    .nav-link::after {
+      display: none;
+    }
+    
+    .nav-links.active {
+      display: flex;
+    }
+    
+    .menu-toggle {
+      display: flex;
+    }
+    
+    .login-btn {
+      margin: 5px auto;
+      width: 90%;
+    }
+    
+    .tutor-login {
+      margin-left: 0;
+    }
+  }

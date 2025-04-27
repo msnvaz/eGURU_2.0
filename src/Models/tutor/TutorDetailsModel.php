@@ -70,6 +70,14 @@ class TutorDetailsModel
         }
     }
 
+    public function getTutorByEmail($email) {
+        $stmt = $this->conn->prepare("SELECT * FROM tutor WHERE tutor_email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+
     public function updateTutorLogStatus($tutorId, $status) {
         try {
             $query = "UPDATE tutor SET tutor_log = :status WHERE tutor_id = :tutor_id";

@@ -140,7 +140,7 @@
 
         <!-- Most-Populat-tutor-section - Meet Some of Our Best Tutors -->
 
-        <h3 class="category-title">Most Active</h3>
+        <h3 class="category-title">Most Active Tutors</h3>
         
         <?php include 'tutor-active.php'; ?>
 
@@ -157,7 +157,7 @@
 
         <br>
 
-        <h3 class="category-title">Most Popular</h3>
+        <h3 class="category-title">Most Popular Tutors</h3>
 
         <?php include 'tutor-popular.php'; ?>
 
@@ -314,7 +314,7 @@
         </div>
     </div>
 
-
+        <h2>Discussion Platform</h2>
     
     <?php include 'forum.php'; ?> <!-- Include the forum-->
 
