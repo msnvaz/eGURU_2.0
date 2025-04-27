@@ -14,12 +14,9 @@ class TutorPreviewModel {
         $this->db = $database->connect();
     }
 
-    /**
-     * Get a tutor's details by ID
-     */
+    
     public function getTutorById($tutor_id) {
         try {
-            // Step 1: Fetch tutor details and their level qualification
             $query = "SELECT 
                           t.tutor_id,
                           t.tutor_first_name,
@@ -38,7 +35,6 @@ class TutorPreviewModel {
                 return null;
             }
 
-            // Step 2: Fetch all subjects for the tutor
             $subjectQuery = "SELECT s.subject_name
                              FROM tutor_subject ts
                              JOIN subject s ON ts.subject_id = s.subject_id
@@ -49,7 +45,6 @@ class TutorPreviewModel {
             $subjects = $subjectStmt->fetchAll(PDO::FETCH_COLUMN);
             $tutor['subjects'] = implode(', ', $subjects);
 
-            // Step 3: Fetch availability details
             $availabilityQuery = "SELECT 
                                      ta.day,
                                      ts.starting_time,
@@ -62,7 +57,6 @@ class TutorPreviewModel {
             $availabilityStmt->execute([$tutor_id]);
             $availability = $availabilityStmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Format availability as readable strings
             $formattedAvailability = array_map(function ($slot) {
                 return "{$slot['day']} ({$slot['starting_time']} - {$slot['ending_time']})";
             }, $availability);
@@ -77,12 +71,9 @@ class TutorPreviewModel {
         }
     }
 
-    /**
-     * Get tutors by subject name
-     */
+    
     public function getTutorsBySubject($subjectName) {
         try {
-            // Step 1: Fetch tutors matching the subject
             $query = "SELECT DISTINCT
                           t.tutor_id,
                           t.tutor_first_name,
@@ -99,9 +90,7 @@ class TutorPreviewModel {
             $stmt->execute([$subjectName]);
             $tutors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Step 2: For each tutor, fetch subjects and availability
             foreach ($tutors as &$tutor) {
-                // Subjects
                 $subjectStmt = $this->db->prepare(
                     "SELECT s.subject_name
                      FROM tutor_subject ts
@@ -112,7 +101,6 @@ class TutorPreviewModel {
                 $subjects = $subjectStmt->fetchAll(PDO::FETCH_COLUMN);
                 $tutor['subjects'] = implode(', ', $subjects);
 
-                // Availability
                 $availabilityStmt = $this->db->prepare(
                     "SELECT 
                         ta.day,

@@ -10,6 +10,6 @@ class StudentReviewController
     {
         $model = new StudentReviewModel();
         $testimonials = $model->getTopTestimonials();
-        return $testimonials; // <<< Just return, do NOT require view here
+        return $testimonials; 
     }
 }

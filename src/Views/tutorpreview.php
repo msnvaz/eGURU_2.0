@@ -120,7 +120,6 @@
 
     <div class="profile-container">
         <div class="profile-header">
-            <!-- Optional: Profile Image -->
             <img src="<?='images/tutor_uploads/tutor_profile_photos/'. htmlspecialchars($tutor['tutor_profile_photo'] ?? '') ?>" 
                  alt="<?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?>" 
                  class="profile-image">
@@ -167,7 +166,6 @@
             <?php endif; ?>
         }
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             const modal = document.getElementById('authModal');
             if (event.target == modal) {
