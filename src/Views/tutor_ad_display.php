@@ -34,18 +34,20 @@ if (!isset($ads)) {
 </style>
 
 <body>
-    <h2>Unique Tutor Ads</h2>
+    <h2>Tutor Advertisements</h2><center>
     <?php if (!empty($ads) && is_array($ads)): ?>
+        
         <ul>
             <?php foreach ($ads as $ad): ?>
                 <li>
-                <img src="images/<?= htmlspecialchars($ad['ad_display_pic']) ?>" width="300" height="300" alt="Ad Pic">
+                <img src="images/<?= htmlspecialchars($ad['ad_display_pic']) ?>" width="255" height="250" alt="Ad Pic">
 
                 </li>
             <?php endforeach; ?>
         </ul>
+        
     <?php else: ?>
         <p>No ads found.</p>
-    <?php endif; ?>
+    <?php endif; ?></center>
 </body>
 </html>

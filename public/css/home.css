@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300,400,600&display=swap');
+:root {
+    --dark-blue: rgba(41, 50, 65,1);    /* Blue */
+    --dark-pink: #ff5869;  /* Green */
+    --powder-blue: #B8E3E9; /* Powder Blue */
+    --off-white: #f5f5f5; /* Off White */
+  }
+
 html{
     
     scroll-behavior: smooth;
@@ -125,14 +132,14 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #f9f9f98c;
     color: #333;
     text-align: center;
 }
 
 .eguru-works {
     padding: 60px 20px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.466);
 }
 
 .eguru-works h2 {
@@ -156,7 +163,8 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border-radius: 15px;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.29);
     padding: 20px;
-    
+    border: 2px solid var(--dark-blue);
+    border-left: 4px solid var(--dark-blue);
 }
 
 .step h3 {
@@ -242,9 +250,10 @@ h3{
 .feature {
     flex: 1 1 300px; /* Flex-grow and min size for responsiveness */
     max-width: 350px;
-    padding: 20px;
+    padding: 10px;
     background-color: #ffffffcc; /* Slight white background with transparency */
-    border: 2px solid #ddd;
+    border: 2px solid var(--dark-blue);
+    border-left: 4px solid var(--dark-blue);
     border-radius: 16px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -308,6 +317,8 @@ h3{
     text-align: center;
     width: 20%;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.29);
+    border: 2px solid var(--dark-blue);
+    border-left: 4px solid var(--dark-blue);
 }
 
 .column h3 {
@@ -378,8 +389,11 @@ h3{
     border-radius: 8px;
     background: white;
     color: black;
-    max-width: 500px;
+    width: 500px;
     position: relative;
+    height: 150px;
+    align-items: center;
+    justify-content: center;
 }
 
 .testimonial.active {
@@ -390,6 +404,7 @@ h3{
     display: flex;
     align-items: center;
     gap: 20px;
+    
 }
 
 .testimonial-img {
@@ -469,7 +484,7 @@ h3{
     align-items: center;
     justify-content: center;
     position: relative;
-    max-width: 1050px;
+    max-width: 100%;
     margin: 20px auto;
     overflow: hidden;
 }
@@ -485,8 +500,8 @@ h3{
 }
 
 .slider img {
-    width: 250px;
-    height: 300px;
+    width: 200px;
+    height: 255px;
     object-fit: cover;
     border-radius: 10px;
     margin: 0 10px;

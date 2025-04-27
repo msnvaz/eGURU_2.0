@@ -13,6 +13,10 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
     position: relative;
     text-align: center;
     margin: 10px;
+    border: 2px solid var(--dark-blue);
+    border-left: 4px solid var(--dark-blue);
+    padding-left:20px;
+    border-radius:12px;
 }
 
 .tutor img {
@@ -79,9 +83,14 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
                     echo '<div class="rank-badge">' . $rank . '</div>';
                 }
 
-                // Display tutor profile photo if available
+                // Display tutor profile photo if available and file exists, else show default image
                 $photoPath = 'images/tutor_uploads/tutor_profile_photos/';
-                $profilePhoto = !empty($tutor['tutor_profile_photo']) ? htmlspecialchars($tutor['tutor_profile_photo']) : 'default-profile.png';
+                $defaultPhoto = 'default.jpg';
+                $profilePhoto = !empty($tutor['tutor_profile_photo']) ? htmlspecialchars($tutor['tutor_profile_photo']) : $defaultPhoto;
+                $photoFullPath = __DIR__ . '/../../public/' . $photoPath . $profilePhoto;
+                if (!file_exists($photoFullPath)) {
+                    $profilePhoto = $defaultPhoto;
+                }
                 echo '<img src="' . $photoPath . $profilePhoto . '" alt="Tutor Photo">';
 
                 // Display Tutor Name and Scheduled Sessions

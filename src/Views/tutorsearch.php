@@ -1,4 +1,4 @@
-<h2 class="choose-tutor-heading">CHOOSE YOUR TUTOR</h2>
+<h2 class="choose-tutor-heading">SEARCH FOR A TUTOR</h2>
 <style>
     .choose-tutor-heading {
     text-align: center;
