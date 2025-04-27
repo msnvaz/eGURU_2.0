@@ -129,12 +129,7 @@ body {
         <img src="/images/eGURU_3.png" alt="Your Logo" class="logo-image">
     </a>
 
-    <div class="profile-container">
-        <div class="notification">
-            <i class="fas fa-bell"></i>
-            <div class="notification-badge">1</div>
-        </div>
-    </div>
+
     <div class="logout">
         <a href="/tutor-logout" class="logout">Logout<i
                 class="fa-solid fa-right-from-bracket"></i></a>

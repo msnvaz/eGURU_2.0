@@ -47,6 +47,15 @@ class TutorSignupController {
         $registrationDate = date('Y-m-d H:i:s');
         $highest_qualification = null;
 
+        //  Check if tutor registration is enabled
+        $registrationStatus = $this->model->getAdminSettingValue('tutor_registration');
+
+        if ($registrationStatus !== '1') { // if '0' or anything else
+            $_SESSION['error'] = "Tutor Signup is Closed Temporarily. Try again later.";
+            header("Location: /tutor-signup");
+            exit;
+        }
+
         // Validate first name and last name (only letters allowed)
         if (!preg_match("/^[a-zA-Z]+$/", $firstName) || !preg_match("/^[a-zA-Z]+$/", $lastName)) {
             $_SESSION['error'] = "First name and last name can only contain letters (A-Z or a-z).";
@@ -65,14 +74,14 @@ class TutorSignupController {
             exit;
         }
 
-        // Check if email already exists
+        //  Check if email already exists
         if ($this->model->checkEmailExists($email)) {
             $_SESSION['error'] = "An account with this email already exists. Please try logging in or use a different email.";
             header("Location: /tutor-signup");
             exit;
         }
 
-        // Handle file upload
+        //  Handle file upload
         if (isset($_FILES['highest-qualification']) && $_FILES['highest-qualification']['error'] == 0) {
             $uploadDir = './uploads/tutor_qualification_proof/';
             if (!is_dir($uploadDir)) {
@@ -87,7 +96,7 @@ class TutorSignupController {
         }
 
         try {
-            // Hash the password before storing
+            //  Hash the password before storing
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             $this->model->createTutor(

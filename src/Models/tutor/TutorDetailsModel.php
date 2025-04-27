@@ -77,6 +77,17 @@ class TutorDetailsModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
+        // Inside your model (maybe TutorModel.php)
+    public function getAdminSettingValue($settingName)
+    {
+        $query = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = :settingName LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':settingName', $settingName);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['admin_setting_value'] : null;
+    }
+
 
     public function updateTutorLogStatus($tutorId, $status) {
         try {

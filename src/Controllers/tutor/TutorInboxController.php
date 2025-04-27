@@ -62,6 +62,7 @@ class TutorInboxController {
         
         // Get the active message
         $activeMessage = $this->model->getMessage($inboxId, $tutorId);
+        $unreadCount = $this->model->getUnreadMessageCount($tutorId);
         
         if (!$activeMessage) {
             header('Location: /tutor-inbox');
@@ -139,6 +140,7 @@ class TutorInboxController {
         $students = $this->model->getAllStudents();
         $admins =$this->model->getAllAdmins();
         $activeTab = 'compose';
+        $unreadCount = $this->model->getUnreadMessageCount($tutorId);
         
         // Pre-selected recipient (from student profiles)
         $selectedRecipient = isset($_GET['recipient']) ? $_GET['recipient'] : null;
@@ -227,6 +229,7 @@ class TutorInboxController {
         $messages = $this->model->getAllSentMessages($tutorId, $page, null, $filter, $searchTerm);
         
         // Get total messages for pagination
+        $unreadCount = $this->model->getUnreadMessageCount($tutorId);
         $totalMessages = $this->model->getTotalSentMessages($tutorId, $filter, $searchTerm);
         $perPage = 10; // Should match the value in the model
         $totalPages = ceil($totalMessages / $perPage);
@@ -248,6 +251,7 @@ class TutorInboxController {
         
         // Get the active message
         $activeMessage = $this->model->getSentMessage($messageId, $recipientType);
+        $unreadCount = $this->model->getUnreadMessageCount($tutorId);
         
         if (!$activeMessage) {
             header('Location: /tutor-outbox');
