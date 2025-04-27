@@ -7,8 +7,13 @@
     <link rel="stylesheet" href="/css/tutor/dashboard.css">
     <link rel="stylesheet" href="/css/tutor/sidebar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
-
+<style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 <body>
 
 <?php $page="dashboard"; ?>
@@ -27,7 +32,7 @@
 
             <!-- Profile Info, User Info, and Calendar on the Same Level -->
             <div class="profile-info-container">
-                <div class="profile-info">
+                <div class="profile-info" style="background-color: #CBF1F9; padding: 20px; border-radius: 8px;">
                     <div class="welcome">
                         <?php if ($tutorData): ?>
                             <h2>Welcome, <?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?>!</h2>
