@@ -41,8 +41,9 @@ $announcements = $controller->displayAnnouncements();
         }
         .announcement-card {
             background: #f9f9f9;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding-top:5px;
+            padding-left:30px;
+            margin-bottom: 5px;
             border-left: 5px solid #007bff;
             border-radius: 5px;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
@@ -90,7 +91,7 @@ $announcements = $controller->displayAnnouncements();
         <div id="announcement-list">
             <?php foreach ($announcements as $announcement): ?>
                 <div class="announcement-card">
-                    <h3><?= htmlspecialchars($announcement['title']) ?></h3>
+                    <h4><?= htmlspecialchars($announcement['title']) ?></h4>
                     <p><?= nl2br(htmlspecialchars($announcement['announcement'])) ?></p>
                     <p class="updated-at">🕒 Updated on: <?= htmlspecialchars($announcement['updated_at']) ?></p>
                 </div>
