@@ -1,4 +1,4 @@
-/*styling rating*/
+
 
 .rating-container {
     max-width: 900px;
@@ -15,7 +15,7 @@
   
 
 
-/* Scrollable tutor cards container */
+
 .tutor-cards-container {
     display: flex;
     justify-content: center;
@@ -28,7 +28,7 @@
 }
 
 .tutor-cards-container::-webkit-scrollbar {
-    display: none;  /* Hide scrollbar */
+    display: none; 
 }
 
 .tutor-card {
