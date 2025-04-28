@@ -65,7 +65,7 @@ class StudentDownloadsController {
             return;
         }
     
-        // Check if the student has access to the material
+        
         $hasAccess = $this->studyMaterialModel->canStudentAccessMaterial($studentId, $materialId);
         if (!$hasAccess) {
             http_response_code(403);
@@ -73,7 +73,7 @@ class StudentDownloadsController {
             return;
         }
     
-        // Retrieve the material details
+        
         $material = $this->studyMaterialModel->getMaterialById($materialId);
         if (!$material) {
             http_response_code(404);
@@ -81,7 +81,7 @@ class StudentDownloadsController {
             return;
         }
     
-        // Construct the correct file path
+        
         $filePath = __DIR__ . '/../../../public/uploads/tutor_study_materials/' . $material['material_path'];
         if (!file_exists($filePath)) {
             http_response_code(404);
@@ -89,7 +89,7 @@ class StudentDownloadsController {
             return;
         }
     
-        // Serve the file for download
+        
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');

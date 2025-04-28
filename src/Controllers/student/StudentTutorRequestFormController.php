@@ -11,11 +11,7 @@ class StudentTutorRequestFormController {
         $this->model = new StudentTutorRequestFormModel();
     }
 
-    /**
-     * Display the tutor request form page.
-     *
-     * @param int|null $id Tutor ID from URL parameter or GET parameter.
-     */
+    
     public function showTutorRequestForm($id = null) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -28,10 +24,10 @@ class StudentTutorRequestFormController {
 
         $student_id = $_SESSION['student_id'];
         
-        // Explicitly debug the incoming ID parameter
+        
         error_log("URL parameter id: " . var_export($id, true));
         
-        // Get tutor ID from URL parameter, then try GET parameter as fallback
+        
         $tutor_id = null;
         
         if ($id !== null && is_numeric($id)) {
@@ -40,7 +36,7 @@ class StudentTutorRequestFormController {
             $tutor_id = intval($_GET['tutor_id']);
         }
 
-        // Debug log to check the processed tutor_id
+        
         error_log("Processed tutor_id: " . var_export($tutor_id, true));
 
         if (!$tutor_id) {
@@ -49,23 +45,23 @@ class StudentTutorRequestFormController {
             exit();
         }
 
-        // Fetch tutor details and available time slots
+        
         $timeSlots = $this->model->getAvailableTimeSlots($tutor_id, $student_id);
         $tutorSubjects = $this->model->getTutorSubjects($tutor_id);
 
-        // Debug log for data fetched from the database
+        
         error_log("Time slots fetched: " . count($timeSlots));
         error_log("Tutor subjects fetched: " . count($tutorSubjects));
 
-        // Check if tutor data exists
+        
         if (empty($tutorSubjects)) {
-            // No data found for this tutor
+            
             error_log("No tutor subject data found. Redirecting to findtutor.");
             header("Location: /student-findtutor");
             exit();
         }
 
-        // Organize time slots by day for easier display
+        
         $timeSlotsByDay = [];
         if (!empty($timeSlots)) {
             foreach ($timeSlots as $slot) {
@@ -76,14 +72,14 @@ class StudentTutorRequestFormController {
                 $timeSlotsByDay[$day][] = $slot;
             }
             
-            // Extract tutor information from the time slots
+            
             $tutorInfo = [
                 'tutor_id' => $timeSlots[0]['tutor_id'],
                 'tutor_first_name' => $timeSlots[0]['tutor_first_name'],
                 'tutor_last_name' => $timeSlots[0]['tutor_last_name']
             ];
         } else {
-            // If no time slots, extract tutor info from subjects data
+            
             $tutorInfo = [
                 'tutor_id' => $tutorSubjects[0]['tutor_id'],
                 'tutor_first_name' => $tutorSubjects[0]['tutor_first_name'],
@@ -91,25 +87,23 @@ class StudentTutorRequestFormController {
             ];
         }
 
-        // Extract unique subjects from the tutor data
+       
         $subjects = [];
         $tutorLevel = '';
         $hourlyRate = 0;
 
         foreach ($tutorSubjects as $subjectData) {
-            // Store subject_id as key and subject_name as value
+           
             $subjects[$subjectData['subject_id']] = $subjectData['subject_name'];
             $tutorLevel = $subjectData['tutor_level']; 
             $hourlyRate = $subjectData['tutor_pay_per_hour']; 
         }
 
-        // Pass tutor details to the view
+        
         include '../src/Views/student/tutor_request_form.php';
     }
 
-    /**
-     * Process the tutor request form submission.
-     */
+    
     public function processTutorRequest() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -121,7 +115,7 @@ class StudentTutorRequestFormController {
             exit();
         }
 
-        // Check if request is POST and has the required data
+       
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
@@ -129,7 +123,7 @@ class StudentTutorRequestFormController {
         }
 
         try {
-            // Get form data
+            
             $student_id = $_SESSION['student_id'];
             $tutor_id = $_POST['tutor_id'] ?? null;
             $subject_id = $_POST['subject_id'] ?? null;
@@ -138,20 +132,20 @@ class StudentTutorRequestFormController {
             $scheduled_date = $_POST['scheduled_date'] ?? null;
             $schedule_time = $_POST['schedule_time'] ?? null;
 
-            // Log received data for debugging
+            
             error_log("Received form data for tutor request: " . json_encode($_POST));
 
-            // Validate required fields
+            
             if (!$tutor_id || !$subject_id || !$time_slot_id) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'message' => 'Please select a subject and time slot.']);
                 exit();
             }
 
-            // Always set status to requested as required
+            
             $session_status = 'requested';
 
-            // Insert the session request into the database
+            
             $result = $this->model->insertSession(
                 $student_id,
                 $tutor_id,
@@ -161,7 +155,7 @@ class StudentTutorRequestFormController {
                 $subject_id
             );
 
-            // Return appropriate response
+            
             header('Content-Type: application/json');
             if ($result) {
                 echo json_encode(['success' => true, 'message' => 'Tutor request sent successfully!']);

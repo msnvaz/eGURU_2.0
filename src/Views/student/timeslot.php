@@ -1,5 +1,5 @@
 <?php
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -26,7 +26,7 @@ include __DIR__ . '/header.php';
     <div class="container">
     <h2>Select Your Available Time Slots by Day</h2>
 
-    <!-- Edit button -->
+    
     <button type="button" id="editBtn">
         <i class="fas fa-edit"></i> Edit Time Slots
     </button>
@@ -62,13 +62,11 @@ include __DIR__ . '/header.php';
     </form>
 </div>
 
-<!-- Success Modal -->
+
 <div id="successModal" class="modal success-modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
-        <!--<div class="modal-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>-->
+        
         <h3 class="modal-title">Success!</h3>
         <p class="modal-message">Your time slots have been saved successfully.</p>
         <div class="modal-buttons">
@@ -77,13 +75,11 @@ include __DIR__ . '/header.php';
     </div>
 </div>
 
-<!-- Error Modal -->
+
 <div id="errorModal" class="modal error-modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
-        <!--<div class="modal-icon">
-            <i class="fas fa-exclamation-circle"></i>
-        </div>-->
+        
         <h3 class="modal-title">Error</h3>
         <p class="modal-message" id="errorMessage">There was an error saving your time slots.</p>
         <div class="modal-buttons">
@@ -92,13 +88,11 @@ include __DIR__ . '/header.php';
     </div>
 </div>
 
-<!-- Confirmation Modal -->
+
 <div id="confirmModal" class="modal confirm-modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
-        <!--<div class="modal-icon">
-            <i class="fas fa-question-circle"></i>
-        </div>-->
+        
         <h3 class="modal-title">Confirm Changes</h3>
         <p class="modal-message">Are you sure you want to save these time slots? This will update your availability for tutors to schedule sessions.</p>
         <div class="modal-buttons">

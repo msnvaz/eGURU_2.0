@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Ensure student is logged in
+
 if (!isset($_SESSION['student_id'])) {
     header("Location: /student-login");
     exit();
@@ -38,8 +38,7 @@ if (!isset($_SESSION['student_id'])) {
 
             <h1 class="page-title">Request Tutor</h1>
             <?php
-            //show working directory for debugging
-            //echo getcwd();
+            
             ?>
             <?php if (!empty($timeSlots)): ?>
                 <div class="tutor-profile">
@@ -90,7 +89,7 @@ if (!isset($_SESSION['student_id'])) {
                                     <div class="time-slot-list">
                                         <?php foreach ($slots as $slot): ?>
                                             <?php 
-                                                // Handle the case where getNextSessionDate might return a boolean or invalid value
+                                                
                                                 try {
                                                     $nextSession = $this->model->getNextSessionDate(
                                                         $slot['time_slot_id'] ?? 0, 
@@ -99,14 +98,14 @@ if (!isset($_SESSION['student_id'])) {
                                                             : 0
                                                     );
                                                     
-                                                    // Default date if the function returns false or invalid data
+                                                    
                                                     $sessionDate = is_array($nextSession) && isset($nextSession['next_session_date']) 
                                                         ? $nextSession['next_session_date'] 
                                                         : date('Y-m-d', strtotime('next ' . $day));
                                                         
                                                     $formattedDate = date('F j, Y', strtotime($sessionDate));
                                                 } catch (Exception $e) {
-                                                    // If any errors occur, use a default date (next occurrence of the day)
+                                                    
                                                     $sessionDate = date('Y-m-d', strtotime('next ' . $day));
                                                     $formattedDate = date('F j, Y', strtotime($sessionDate));
                                                 }
@@ -124,13 +123,13 @@ if (!isset($_SESSION['student_id'])) {
                                 </div>
                             <?php endforeach; ?>
 
-                            <!-- Hidden fields to store selected time slot info -->
+                            
                             <input type="hidden" name="time_slot_id" id="time_slot_id">
                             <input type="hidden" name="day" id="selected_day">
                             <input type="hidden" name="scheduled_date" id="scheduled_date">
                             <input type="hidden" name="schedule_time" id="schedule_time">
                             
-                            <!-- Selection info display -->
+                           
                             <div class="selection-info" id="selection-info">
                                 <p><strong>Selected Time:</strong> <span id="selected-time-display">None selected</span></p>
                                 <p><strong>Selected Date:</strong> <span id="selected-date-display">None selected</span></p>
@@ -171,28 +170,29 @@ if (!isset($_SESSION['student_id'])) {
                 </div>
             <?php endif; ?>
 
-            <!-- Success Message -->
+            
             <div id="successMessage" class="success-message">
                 Request sent successfully!
             </div>
 
-            <!-- Error Message -->
+            
             <div id="errorMessage" class="error-message">
-                <!-- Error message will be inserted here -->
+                
+
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Direct selection for time slots without tab navigation
+            
             const timeSlots = document.querySelectorAll('.time-slot-item');
             const selectionInfo = document.getElementById('selection-info');
             const selectedTimeDisplay = document.getElementById('selected-time-display');
             const selectedDateDisplay = document.getElementById('selected-date-display');
             const form = document.getElementById('tutorRequestForm');
             
-            // Make sure form elements exist before trying to access them
+            
             const timeSlotIdInput = document.getElementById('time_slot_id');
             const selectedDayInput = document.getElementById('selected_day');
             const scheduledDateInput = document.getElementById('scheduled_date');
@@ -201,32 +201,32 @@ if (!isset($_SESSION['student_id'])) {
             if (timeSlots.length > 0) {
                 timeSlots.forEach(slot => {
                     slot.addEventListener('click', function() {
-                        // First, remove selected class from all time slots
+                        
                         timeSlots.forEach(s => s.classList.remove('selected'));
                         
-                        // Then apply selected class to the clicked time slot
+                        
                         this.classList.add('selected');
                         
-                        // Get data attributes
+                        
                         const timeSlotId = this.getAttribute('data-time-slot-id');
                         const day = this.getAttribute('data-day');
                         const date = this.getAttribute('data-date');
                         const time = this.getAttribute('data-time');
                         
-                        // Update hidden inputs
+                        
                         if (timeSlotIdInput) timeSlotIdInput.value = timeSlotId || '';
                         if (selectedDayInput) selectedDayInput.value = day || '';
                         if (scheduledDateInput) scheduledDateInput.value = date || '';
                         if (scheduleTimeInput) scheduleTimeInput.value = time || '';
                         
-                        // Update display
+                        
                         if (selectedTimeDisplay) selectedTimeDisplay.textContent = time || 'None selected';
                         if (selectedDateDisplay) selectedDateDisplay.textContent = day + ', ' + (date ? new Date(date).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) : '');
                         
-                        // Show selection info
+                        
                         if (selectionInfo) selectionInfo.classList.add('active');
                         
-                        // Log to console for debugging
+                        
                         console.log('Selected time slot:', {
                             id: timeSlotId,
                             day: day,
@@ -235,7 +235,7 @@ if (!isset($_SESSION['student_id'])) {
                         });
                     });
                     
-                    // Add keyboard support
+                    
                     slot.setAttribute('tabindex', '0');
                     slot.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter' || e.key === ' ') {
@@ -246,28 +246,28 @@ if (!isset($_SESSION['student_id'])) {
                 });
             }
             
-            // Form submission handling
+            
             if (form) {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
                     console.log("Form submission started");
                     
-                    // Basic validation
+                    
                     const subjectId = document.getElementById('subject_id').value;
                     if (!subjectId) {
                         showError('Please select a subject.');
                         return;
                     }
                     
-                    // Direct DOM validation for time slot selection
+                    
                     const selectedSlot = document.querySelector('.time-slot-item.selected');
                     if (!selectedSlot) {
                         showError('Please select a time slot to continue.');
                         return;
                     }
                     
-                    // Verify all needed data attributes are present
+                    
                     const timeSlotId = selectedSlot.getAttribute('data-time-slot-id');
                     const day = selectedSlot.getAttribute('data-day');
                     const date = selectedSlot.getAttribute('data-date');
@@ -285,21 +285,21 @@ if (!isset($_SESSION['student_id'])) {
                         return;
                     }
                     
-                    // Set the form field values directly from the selected slot
+                    
                     document.getElementById('time_slot_id').value = timeSlotId;
                     document.getElementById('selected_day').value = day;
                     document.getElementById('scheduled_date').value = date;
                     
-                    // Format the time - extract just the starting time for the database
+                    
                     const startTime = time.split(' - ')[0].trim();
                     document.getElementById('schedule_time').value = startTime;
                     
                     console.log("Formatted start time:", startTime);
                     
-                    // All validation passed, submit form
+                    
                     const formData = new FormData(form);
                     
-                    // Console log for debugging
+                    
                     console.log('Form submission data:');
                     for (const pair of formData.entries()) {
                         console.log(pair[0] + ': ' + pair[1]);
@@ -319,7 +319,7 @@ if (!isset($_SESSION['student_id'])) {
                         if (data.success) {
                             showSuccess(data.message || 'Request sent successfully!');
                             setTimeout(() => {
-                                window.location.href = '/student-session'; // Changed from '/student-dashboard' to '/student-session'
+                                window.location.href = '/student-session'; 
                             }, 2000);
                         } else {
                             showError(data.message || 'An error occurred. Please try again.');
@@ -332,7 +332,7 @@ if (!isset($_SESSION['student_id'])) {
                 });
             }
             
-            // Helper functions
+            
             function showSuccess(message) {
                 const successMessage = document.getElementById('successMessage');
                 if (successMessage) {
@@ -350,7 +350,7 @@ if (!isset($_SESSION['student_id'])) {
                     errorMessage.textContent = message;
                     errorMessage.classList.add('active');
                     
-                    // Scroll to error message
+                    
                     errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     
                     setTimeout(() => {

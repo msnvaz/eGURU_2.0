@@ -11,7 +11,7 @@
 <body>
 <?php include '../src/Views/navbar.php'; ?>
 <div class="container">
-        <!-- Sidebar -->
+        
         <?php include 'sidebar.php'; ?>
 <div class="logout-container">
     <h2>Are you sure you want to log out?</h2>

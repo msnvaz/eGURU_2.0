@@ -12,7 +12,7 @@ class StudentFeedbackController {
     public function __construct() {
         $this->model = new FeedbackModel();
         
-        // Get student ID from session
+        
         $this->student_id = $_SESSION['student_id'] ?? null;
         
         if ($this->student_id) {
@@ -54,21 +54,21 @@ class StudentFeedbackController {
             exit;
         }
         
-        // Verify session ownership
+        
         if (!$this->model->verify_session_ownership($session_id, $this->student_id)) {
             $_SESSION['error'] = "You can only provide feedback for your own sessions.";
             header("Location: /student-feedback");
             exit;
         }
         
-        // Check if feedback already exists
+        
         if ($this->model->check_existing_feedback($session_id)) {
             $_SESSION['error'] = "You have already provided feedback for this session.";
             header("Location: /student-feedback");
             exit;
         }
         
-        // Save feedback
+        
         $success = $this->model->save_comment(
             $this->student_id,
             $session_id,
@@ -108,14 +108,14 @@ class StudentFeedbackController {
             exit;
         }
         
-        // Verify feedback ownership
+        
         if (!$this->model->verify_feedback_ownership($feedback_id, $this->student_id)) {
             $_SESSION['error'] = "You can only modify your own feedback.";
             header("Location: /student-feedback");
             exit;
         }
         
-        // Update feedback
+        
         $success = $this->model->update_comment(
             $feedback_id,
             $student_feedback,
@@ -152,14 +152,14 @@ class StudentFeedbackController {
             exit;
         }
         
-        // Verify feedback ownership
+        
         if (!$this->model->verify_feedback_ownership($feedback_id, $this->student_id)) {
             $_SESSION['error'] = "You can only delete your own feedback.";
             header("Location: /student-feedback");
             exit;
         }
         
-        // Delete feedback
+        
         $success = $this->model->delete_comment($feedback_id);
         
         if ($success) {

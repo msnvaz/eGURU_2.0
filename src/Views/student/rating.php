@@ -12,14 +12,14 @@
 <body>
 <?php include '../src/Views/navbar.php'; ?>
 <div class="container">
-        <!-- Sidebar -->
+        
         <?php include 'sidebar.php'; ?>
         <div class="bodyform">
         <div id="reviews" class="rating-content-section">
             <div class="rating-container">
                 <h2>Rate Your Tutor</h2><br>
 
-                <!-- Tutor Cards with arrows -->
+                
                 <div class="tutor-cards-container">
                     <div class="arrow arrow-left" onclick="scrollTutorCards('left')"></div>
                     <i class="fas fa-chevron-left"></i>
@@ -58,10 +58,12 @@
                 </form>
 
                 <div id="review-list" class="review-list">
-                    <!-- Reviews will be displayed here dynamically -->
+                    
+
+
                 </div>
 
-                <!-- Clear History Button -->
+                
                 <button class="clear-history-btn" onclick="clearHistory()">Clear History</button>
             </div>
         </div>

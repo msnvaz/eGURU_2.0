@@ -1,5 +1,5 @@
 <?php
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -107,16 +107,16 @@ include __DIR__ . '/header.php';
                     </thead>
                     <tbody>
                         <?php 
-                        // Get the selected date from the query parameter
+                        
                         $selectedDate = isset($_GET['date']) ? $_GET['date'] : null;
 
                         if (!empty($upcomingEvents)): 
                             foreach ($upcomingEvents as $event): 
-                                // Check if the event date matches the selected date
+                                
                                 $isHighlighted = ($selectedDate === $event['scheduled_date']);
                         ?>
                             <tr class="event-row <?php echo $isHighlighted ? 'highlight' : ''; ?>" onclick="viewEventDetails(<?php echo htmlspecialchars(json_encode($event)); ?>)">
-                            <td><?php echo htmlspecialchars($event['session_id']); ?></td> <!-- Display Session ID -->
+                            <td><?php echo htmlspecialchars($event['session_id']); ?></td> 
                             <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
                                 <td><?php echo htmlspecialchars($event['grade'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($event['tutor_name'] ?? 'N/A'); ?></td>
@@ -151,7 +151,7 @@ include __DIR__ . '/header.php';
                         <?php if (!empty($previousEvents)): ?>
                             <?php foreach ($previousEvents as $event): ?>
                             <tr class="event-row" onclick="viewEventDetails(<?php echo htmlspecialchars(json_encode($event)); ?>)">
-                            <td><?php echo htmlspecialchars($event['session_id']); ?></td> <!-- Display Session ID -->
+                            <td><?php echo htmlspecialchars($event['session_id']); ?></td> 
                             <td><?php echo htmlspecialchars($event['subject_name']); ?></td>
                                 <td><?php echo htmlspecialchars($event['grade'] ?? 'N/A'); ?></td>
                                 <td><?php echo htmlspecialchars($event['tutor_name'] ?? 'N/A'); ?></td>
@@ -170,7 +170,7 @@ include __DIR__ . '/header.php';
         </div>
     </div>
 
-    <!-- Event Details Modal -->
+    
     <div id="event-details-modal" class="modal">
         <div class="modal-content">
             <h2>Event Details</h2>

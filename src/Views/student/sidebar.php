@@ -6,11 +6,11 @@ use App\Models\student\StudentInboxModel;
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// Create model object
+
 $studentInboxModel = new StudentInboxModel();
 
-// Get tutor ID from session
-$studentId = $_SESSION['student_id'] ?? null; // Adjust if you store it differently
+
+$studentId = $_SESSION['student_id'] ?? null; 
 
 if ($studentId) {
     $unreadCount = $studentInboxModel->getUnreadMessageCount($studentId);
@@ -46,7 +46,7 @@ if ($studentId) {
 </head>
 <body>
 
-<!-- Sidebar -->
+
 <div class="sidebar">
             <h2></h2>
             <ul>

@@ -7,7 +7,7 @@ class StudentLogoutController{
     private $model;
 
     public function _construct(){
-        // $this-> model = new StudentLogoutModel();
+        
     }
 
    public function ShowLogout(){

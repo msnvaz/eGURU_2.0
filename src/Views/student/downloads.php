@@ -1,5 +1,5 @@
 <?php
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -59,7 +59,8 @@ include __DIR__ . '/header.php';
             </div>
 
             <div id="materialContainer" class="materials-container">
-                <!-- Materials will be loaded here after clicking the button -->
+                
+            
             </div>
         </div>
     </div>
