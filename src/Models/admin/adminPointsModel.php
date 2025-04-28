@@ -17,10 +17,8 @@ class adminPointsModel {
         }
     }
 
-    // Fetch all point transactions (both student purchases and tutor cashouts)
     public function getAllPointTransactions($transactionType = '') {
         try {
-            // Base queries for each transaction type
             $purchaseQuery = "SELECT 
                 'purchase' AS transaction_type,
                 p.payment_id AS transaction_id,
@@ -53,7 +51,6 @@ class adminPointsModel {
             FROM tutor_point_cashout c
             LEFT JOIN tutor t ON c.tutor_id = t.tutor_id";
             
-            // Choose which query to execute based on transaction_type
             if ($transactionType === 'purchase') {
                 $sql = $purchaseQuery . " ORDER BY payment_id DESC";
                 $stmt = $this->conn->prepare($sql);
@@ -65,7 +62,6 @@ class adminPointsModel {
                 $stmt->execute();
             } 
             else {
-                // If no specific transaction type, get both with UNION
                 $sql = $purchaseQuery . " UNION ALL " . $cashoutQuery . " ORDER BY transaction_date DESC";
                 $stmt = $this->conn->prepare($sql);
                 $stmt->execute();
@@ -74,7 +70,6 @@ class adminPointsModel {
             $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             error_log('Model: getAllPointTransactions fetched ' . count($records) . ' records');
             
-            // Debug output to check for missing tutor IDs
             foreach ($records as $record) {
                 if ($record['transaction_type'] === 'cashout' && empty($record['user_id'])) {
                     error_log('Warning: Cashout transaction #' . $record['transaction_id'] . ' has empty tutor_id');
@@ -88,13 +83,11 @@ class adminPointsModel {
         }
     }
 
-    // Filter transactions based on various criteria
     public function filterPointTransactions($startDate, $endDate, $tutorId, $studentId, $transactionType, $pointsMin, $pointsMax) {
         try {
             $conditions = [];
             $params = [];
             
-            // Base purchase query with conditions placeholder
             $purchaseQuery = "SELECT 
                 'purchase' AS transaction_type,
                 p.payment_id AS transaction_id,
@@ -112,7 +105,6 @@ class adminPointsModel {
             LEFT JOIN student s ON p.student_id = s.student_id
             WHERE 1=1";
             
-            // Base cashout query with conditions placeholder
             $cashoutQuery = "SELECT 
                 'cashout' AS transaction_type,
                 c.cashout_id AS transaction_id,
@@ -130,7 +122,6 @@ class adminPointsModel {
             LEFT JOIN tutor t ON c.tutor_id = t.tutor_id
             WHERE 1=1";
             
-            // Build conditions for student purchase
             $purchaseConditions = [];
             if ($studentId) {
                 $purchaseConditions[] = "p.student_id = :student_id";
@@ -146,7 +137,6 @@ class adminPointsModel {
             }
             $purchaseConditionsStr = !empty($purchaseConditions) ? " AND " . implode(" AND ", $purchaseConditions) : "";
             
-            // Build conditions for tutor cashout
             $cashoutConditions = [];
             if ($tutorId) {
                 $cashoutConditions[] = "c.tutor_id = :tutor_id";
@@ -162,11 +152,9 @@ class adminPointsModel {
             }
             $cashoutConditionsStr = !empty($cashoutConditions) ? " AND " . implode(" AND ", $cashoutConditions) : "";
             
-            // Finalize queries with conditions
             $purchaseQuery .= $purchaseConditionsStr;
             $cashoutQuery .= $cashoutConditionsStr;
             
-            // Execute appropriate query based on transaction type
             if ($transactionType === 'purchase') {
                 $sql = $purchaseQuery . " ORDER BY payment_id DESC";
                 $stmt = $this->conn->prepare($sql);
@@ -184,7 +172,6 @@ class adminPointsModel {
                 $stmt->execute();
             } 
             else {
-                // If no specific type, get both with UNION
                 $sql = $purchaseQuery . " UNION ALL " . $cashoutQuery . " ORDER BY transaction_id DESC";
                 $stmt = $this->conn->prepare($sql);
                 foreach ($params as $key => $value) {
@@ -196,7 +183,6 @@ class adminPointsModel {
             $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             error_log('Model: filterPointTransactions fetched ' . count($records) . ' records');
             
-            // Debug output to check for missing tutor IDs
             foreach ($records as $record) {
                 if ($record['transaction_type'] === 'cashout' && empty($record['user_id'])) {
                     error_log('Warning: Filtered cashout transaction #' . $record['transaction_id'] . ' has empty tutor_id');
@@ -210,10 +196,8 @@ class adminPointsModel {
         }
     }
 
-    // Search for transactions by user name, email, or transaction ID
     public function searchPointTransactions($searchTerm, $transactionType = '') {
         try {
-            // Base purchase search query
             $purchaseQuery = "SELECT 
                 'purchase' AS transaction_type,
                 p.payment_id AS transaction_id,
@@ -256,7 +240,6 @@ class adminPointsModel {
                 OR CAST(c.cashout_id AS CHAR) LIKE :search
                 OR LOWER(c.bank_transaction_id) LIKE LOWER(:search)) ";
             
-            // Base cashout search query
             $cashoutQuery = "SELECT 
                 'cashout' AS transaction_type,
                 c.cashout_id AS transaction_id,
@@ -278,9 +261,8 @@ class adminPointsModel {
                 OR CAST(c.cashout_id AS CHAR) LIKE :search
                 OR LOWER(c.bank_transaction_id) LIKE LOWER(:search));";
                         
-            $searchParam = "%$searchTerm%"; // Wrap search term for LIKE query
+            $searchParam = "%$searchTerm%"; 
             
-            // Execute appropriate query based on transaction type
             if ($transactionType === 'purchase') {
                 $sql = $purchaseQuery . " ORDER BY payment_id DESC";
                 $stmt = $this->conn->prepare($sql);
@@ -294,7 +276,6 @@ class adminPointsModel {
                 $stmt->execute();
             } 
             else {
-                // If no specific type, get both with UNION
                 $sql = $purchaseQuery . " UNION ALL " . $cashoutQuery . " ORDER BY transaction_id DESC";
                 $stmt = $this->conn->prepare($sql);
                 $stmt->bindParam(':search', $searchParam);
@@ -304,7 +285,6 @@ class adminPointsModel {
             $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
             error_log('Model: searchPointTransactions found ' . count($records) . ' matching records');
             
-            // Debug output to check for missing tutor IDs
             foreach ($records as $record) {
                 if ($record['transaction_type'] === 'cashout' && empty($record['user_id'])) {
                     error_log('Warning: Search result cashout transaction #' . $record['transaction_id'] . ' has empty tutor_id');
@@ -318,7 +298,6 @@ class adminPointsModel {
         }
     }
 
-    // Get all tutors for dropdown
     public function getAllTutors() {
         try {
             $sql = "SELECT tutor_id, 
@@ -336,7 +315,6 @@ class adminPointsModel {
         }
     }
 
-    // Get all students for dropdown
     public function getAllStudents() {
         try {
             $sql = "SELECT student_id, 
@@ -358,7 +336,7 @@ class adminPointsModel {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? (float)$result['admin_setting_value'] : 0; // or (int) if always integer
+        return $result ? (float)$result['admin_setting_value'] : 0;
     }
 }
 ?>

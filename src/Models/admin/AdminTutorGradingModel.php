@@ -9,7 +9,6 @@ class adminTutorGradingModel {
     private $conn;
 
     public function __construct() {
-        // Initialize the Database class and get the connection
         $db = new Database();
         $this->conn = $db->connect();
 
@@ -18,7 +17,7 @@ class adminTutorGradingModel {
         }
     }
 
-    // Fetch    
+        
     public function getAllGrades(){
         $query = "SELECT * FROM tutor_level";
         $stmt = $this->conn->prepare($query);
@@ -27,9 +26,7 @@ class adminTutorGradingModel {
         return $result;
     }
 
-    // Update a tutor_level with duplicate check 
     public function updateGrade($tutor_level_id, $tutor_level, $tutor_level_qualification, $tutor_pay_per_hour) {
-        // Check if the tutor_level name already exists
         $query = "SELECT COUNT(*) FROM tutor_level WHERE tutor_level = :tutor_level AND tutor_level_id != :tutor_level_id"; 
         $stmt = $this->conn->prepare($query); 
         $stmt->bindParam(':tutor_level', $tutor_level); 
@@ -40,7 +37,7 @@ class adminTutorGradingModel {
             <script>
                 alert('Grade name already exists');
                 window.location.href='/admin-tutor-grading';"; 
-            return false; } // Proceed with the update if no duplicates found
+            return false; } 
         $query = "UPDATE tutor_level SET tutor_level = :tutor_level, tutor_level_qualification = :tutor_level_qualification, tutor_pay_per_hour = :tutor_pay_per_hour WHERE tutor_level_id = :tutor_level_id"; 
         $stmt = $this->conn->prepare($query); 
         $stmt->bindParam(':tutor_level_id', $tutor_level_id); 

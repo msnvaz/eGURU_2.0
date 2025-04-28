@@ -191,8 +191,7 @@
         button.innerHTML = '<i class="fas fa-plus" style="padding-right:0;margin-right:0;border-radius:50%"></i>';
     });
 
-    // Remove tab click event handlers since we're now using direct links
-    // with proper page reloads to maintain state correctly
+    
 });
 </script>
 </html>

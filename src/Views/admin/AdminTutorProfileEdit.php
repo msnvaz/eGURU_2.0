@@ -351,7 +351,6 @@ function validatePhone(input) {
 function validateForm() {
     const phoneValid = validatePhone(document.getElementById('phonenumber'));
 
-    // Validate age is at least 18 years
     const dobInput = document.getElementById('dateofbirth').value;
     if (dobInput) {
         const dob = new Date(dobInput);

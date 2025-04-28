@@ -421,11 +421,9 @@
     </div>
     
     <script>
-        // Add client-side validation and confirmation
         document.getElementById('settings-form').addEventListener('submit', function(e) {
             // You could add validation here if needed
             
-            // Ensure multiple select values are properly selected
             var fileTypesSelect = document.querySelector('select[name="allowed_file_types[]"]');
             if (fileTypesSelect.selectedOptions.length === 0) {
                 e.preventDefault();

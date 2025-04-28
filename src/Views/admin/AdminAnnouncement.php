@@ -1,19 +1,15 @@
 <?php
-// Ensure session is started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check admin login
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: /admin-login.php");
     exit();
 }
 
-// Create model instance
 $model = new \App\Models\admin\AdminAnnouncementModel();
 
-// Get announcements with pagination (default to first page)
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $limit = 10;    
 $result = $model->getActiveAnnouncements($page, $limit);
@@ -21,7 +17,6 @@ $announcements = $result['announcements'];
 $totalAnnouncements = $result['total'];
 $totalPages = ceil($totalAnnouncements / $limit);
 
-// Handle success and error messages
 $successMessage = $_GET['success'] ?? "";
 $errorMessage = $_GET['error'] ?? "";
 ?>

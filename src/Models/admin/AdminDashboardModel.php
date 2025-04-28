@@ -82,7 +82,7 @@ class AdminDashboardModel {
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result['total_points'] ?? 0; // Return the value or 0 if null
+        return $result['total_points'] ?? 0; 
     }
 
     public function getTotalTutorpoints(){
@@ -91,7 +91,7 @@ class AdminDashboardModel {
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result['total_points'] ?? 0; // Return the value or 0 if null
+        return $result['total_points'] ?? 0; 
     }
 
     public function getPointValue() {
@@ -99,7 +99,6 @@ class AdminDashboardModel {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? (float)$result['admin_setting_value']:0; // Return 0 if result is null
     }
 
     public function getPlatformFee() {
@@ -107,12 +106,12 @@ class AdminDashboardModel {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? (float)$result['admin_setting_value'] : 0; // or (int) if always integer
+        return $result ? (float)$result['admin_setting_value'] : 0; 
     }
     
     
     public function getSessionFeedbackRatings() {
-        $ratings = [0, 0, 0, 0, 0]; // Initialize array for 1-5 star ratings
+        $ratings = [0, 0, 0, 0, 0]; 
         
         $query = "SELECT session_rating, COUNT(*) as count 
                   FROM session_feedback 
@@ -139,33 +138,30 @@ class AdminDashboardModel {
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        // If no feedback data exists, return default value
         if (!$result || !$result['average_rating']) {
-            return 4.2; // Default average rating
+            return 4.2; 
         }
         
         return (float)$result['average_rating'];
     }
     
 
-    //get the total ofall cashouts from tutor point cashout table
     public function getTotalCashouts() {
         $query = "SELECT SUM(cash_value) as total_cashouts FROM tutor_point_cashout";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return (float)$result['total_cashouts'] ?? 0; // Return the value or 0 if null
+        return (float)$result['total_cashouts'] ?? 0; 
     }
 
-    //get the total ofall purchases from student point purchase table
     public function getTotalPurchases() {
         $query = "SELECT SUM(cash_value) as total_purchases FROM student_point_purchase";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return (float)$result['total_purchases'] ?? 0; // Return the value or 0 if null
+        return (float)$result['total_purchases'] ?? 0; 
     }
 
     public function getMonthlyCashouts() {

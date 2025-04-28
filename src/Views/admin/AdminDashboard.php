@@ -304,7 +304,7 @@
     </script>
     
     <style>
-        /* Copy and paste the CSS provided in the artifact above */
+       
     </style>
 </body>
 </html>
