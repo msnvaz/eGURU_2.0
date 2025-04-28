@@ -1,7 +1,7 @@
 * {
     font-family: 'Poppins', sans-serif;
   }
-/* Layout */
+
 .welcome_img{
     width: 400px;
     height: 400px;
@@ -20,7 +20,7 @@
     overflow-y: auto;
 }
 
-/* Header Section */
+
 .header-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -92,7 +92,7 @@
 }
 
 
-/* Calendar Section */
+
 .calendar-section {
     background: #CBF1F9;
     border-radius: 1rem;
@@ -150,7 +150,7 @@
     font-weight: 600;
 }
 
-/* Events and Feedback Section */
+
 .content-container {
     display: grid;
     grid-template-columns: 2fr 1fr;

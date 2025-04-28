@@ -1,4 +1,4 @@
-/* Content area styles */
+
 #download-content {
     margin-left: 50px;
     padding: 40px 20px;
@@ -8,7 +8,7 @@
 * {
     font-family: 'Poppins', sans-serif;
   }
-/* Dropdown and button styles */
+
 .download-bodyform {
     width: 100%;
     max-width: 1080px;
@@ -65,7 +65,7 @@ select,
     background-color: #e02362;
 }
 
-/* Study material list styles */
+
 .materials-container {
     padding: 20px;
     min-height: 200px;

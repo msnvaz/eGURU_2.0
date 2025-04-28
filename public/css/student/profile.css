@@ -1,7 +1,7 @@
 * {
   font-family: 'Poppins', sans-serif;
 }
-/*edit profile*/
+
 .profile-picture {
   width: 25%;
   height: auto;
@@ -56,7 +56,7 @@
     margin-top: 100px;
 }
 
-/* edit Profile Details */
+
 .profile-details {
     display: flex;
     margin-top: 30px;
@@ -88,7 +88,7 @@ h3 {
     border-radius: 8px;
   }
   
-  /* Section Row and Box Layout */
+  
   .section-row {
     display: flex;
     flex-wrap: wrap;
@@ -109,7 +109,7 @@ h3 {
     color: #333;
   }
   
-  /* Input and Textarea styles */
+  
   textarea,
   input[type="text"],
   input[type="number"],
@@ -128,7 +128,7 @@ h3 {
     height: 80px;
   }
   
-  /* Button Styles */
+  
   .savechanges-btn {
     background-color: #E14177;
     color: white;

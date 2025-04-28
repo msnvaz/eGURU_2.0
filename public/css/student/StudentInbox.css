@@ -8,7 +8,7 @@
     --font-family: 'poppins', sans-serif;
 }
 
-/* Main Container */
+
 .student-dashboard {
     font-family: var(--font-family);
     max-width: 100%;
@@ -18,7 +18,7 @@
 }
 
 
-/* Inbox Container */
+
 .inbox-container {
     max-width: 1000px;
     display: flex;
@@ -52,7 +52,7 @@
     border: 1px solid #e0e0e0;
 }
 
-/* Tabs */
+
 .inbox-tabs {
     display: flex;
     justify-content: center;
@@ -88,7 +88,7 @@
     font-weight: 600;
 }
 
-/* Search Form */
+
 .search-form {
     margin: 0 auto 20px;
     display: flex;
@@ -128,7 +128,7 @@
     background-color: #e02362;
 }
 
-/* Filter */
+
 .status-filter {
     display: flex;
     align-items: center;
@@ -149,7 +149,7 @@
     background-color: white;
 }
 
-/* Messages */
+
 .message-item {
     background-color: white;
     padding: 15px;
@@ -186,7 +186,7 @@
     border-radius: 50%;
 }
 
-/* Message Details */
+
 .message-subject {
     font-size: 14px;
     font-weight: 600;
@@ -245,7 +245,7 @@
     line-height: 1.6;
 }
 
-/* Replies */
+
 .previous-replies {
     margin: 20px 0;
 }
@@ -326,7 +326,7 @@
     background-color: var(--dark-blue);
 }
 
-/* Empty State */
+
 .empty-state {
     text-align: center;
     padding: 50px 0;
@@ -344,7 +344,7 @@
     font-weight: 500;
 }
 
-/* Action Buttons */
+
 .action-buttons {
     display: flex;
     justify-content: flex-end;
@@ -374,7 +374,7 @@
     transform: translateY(-2px);
 }
 
-/* Pagination */
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -401,7 +401,7 @@
     color: white;
 }
 
-/* Alert Messages */
+
 .alert {
     padding: 15px;
     margin-bottom: 20px;
@@ -421,7 +421,7 @@
     color: #721c24;
 }
 
-/* Media Query for Responsiveness */
+
 @media (max-width: 992px) {
     .inbox-container {
         flex-direction: column;

@@ -50,7 +50,7 @@ body {
     position: relative;
 }
 
-/* Progress Stepper */
+
 .stepper {
     display: flex;
     justify-content: space-between;
@@ -116,7 +116,7 @@ body {
     transition: width 0.4s ease;
 }
 
-/* Form Sections */
+
 .form-section {
     padding: 2.5rem;
     display: none;
@@ -169,7 +169,7 @@ input:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
 }
 
-/* Payment Method Selection */
+
 .payment-methods {
     display: flex;
     flex-wrap: wrap;
@@ -207,7 +207,7 @@ input:focus, select:focus {
     display: none;
 }
 
-/* Points Package Selection */
+
 .points-packages {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -269,7 +269,7 @@ input:focus, select:focus {
 
 
 
-/* Review Section */
+
 .review-details {
     background: #f8f9fb;
     border-radius: 10px;
@@ -309,7 +309,7 @@ input:focus, select:focus {
     color: var(--primary-dark);
 }
 
-/* Success Section */
+
 .success-container {
     text-align: center;
     padding: 3rem 2rem;
@@ -347,7 +347,7 @@ input:focus, select:focus {
     max-width: 400px;
 }
 
-/* Buttons */
+
 .btn-container {
     display: flex;
     justify-content: space-between;
@@ -384,7 +384,7 @@ input:focus, select:focus {
     box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
 }
 
-/* Payment History */
+
 .payment-history {
     margin-top: 3rem;
     background: white;
@@ -424,7 +424,7 @@ input:focus, select:focus {
     border-bottom: none;
 }
 
-/* Modal */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -484,7 +484,7 @@ input:focus, select:focus {
     min-width: 120px;
 }
 
-/* Loading indicator */
+
 .loading-spinner {
     width: 40px;
     height: 40px;
@@ -500,7 +500,7 @@ input:focus, select:focus {
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive Styles */
+
 @media (max-width: 768px) {
     .stepper {
         padding: 1rem;

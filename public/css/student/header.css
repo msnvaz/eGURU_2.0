@@ -50,7 +50,7 @@ i {
     display: flex;
     align-items: center;
     gap: 20px;
-    /* Increased gap between bell and profile picture */
+    
     flex-shrink: 0;
     margin-left: 1150px;
     padding-right: 10px;
