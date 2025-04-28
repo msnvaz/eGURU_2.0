@@ -13,9 +13,6 @@ class StudentFindtutorController
         $this->model = new FindTutorModel();
     }
 
-    /**
-     * Display the "Find Tutor" page.
-     */
     
     public function ShowFindtutor()
     {
@@ -30,25 +27,23 @@ class StudentFindtutorController
 
         $student_id = $_SESSION['student_id'];
 
-        // Fetch filters
+        
         $grades = $this->model->getGrades();
         $subjects = $this->model->getSubjects();
         $experiences = $this->model->getExperiences();
 
-        // Fetch student availability
+        
         $conn = $this->model->getConnection();
         $query = "SELECT time_slot_id, day FROM student_availability WHERE student_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->execute([$student_id]);
         $student_availability = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        // Pass student availability to the view
+        
         include '../src/Views/student/findtutor.php';
     }
 
-    /**
-     * Handle the tutor search based on filters.
-     */
+    
     
     public function searchTutors()
     {
@@ -66,27 +61,25 @@ class StudentFindtutorController
         $subject_id = $_POST['subject'];
         $experience = $_POST['experience'];
     
-        // Debugging: Log the filter values
+        
         error_log("Grade: $grade, Subject: $subject_id, Experience: $experience");
     
-        // Fetch tutors matching the filters
+        
         $tutors = $this->model->searchTutors($grade, $subject_id, $experience, $student_id);
     
-        // Debugging: Log the result
+        
         error_log("Tutors: " . print_r($tutors, true));
     
-        // Fetch filters
+        
         $grades = $this->model->getGrades();
         $subjects = $this->model->getSubjects();
         $experiences = $this->model->getExperiences();
     
-        // Pass data to the view
+        
         include '../src/Views/student/findtutor.php';
     }
 
-    /**
-     * Handle tutor request submission.
-     */
+    
     public function requestTutor()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -112,12 +105,12 @@ class StudentFindtutorController
         $tutorId = $data['tutorId'];
         $subjectId = $data['subjectId'];
         
-        // Check if we have selected date and time
+        
         $scheduledDate = isset($data['scheduledDate']) ? $data['scheduledDate'] : null;
         $scheduleTime = isset($data['scheduleTime']) ? $data['scheduleTime'] : null;
         $sessionStatus = ($scheduledDate && $scheduleTime) ? 'scheduled' : 'requested';
 
-        // Save the request in the session table
+        
         $conn = $this->model->getConnection();
         $query = "INSERT INTO session (student_id, tutor_id, scheduled_date, schedule_time, session_status, subject_id) 
                 VALUES (?, ?, ?, ?, ?, ?)";

@@ -18,11 +18,11 @@ class StudentLoginController {
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-            // Use the correct names as per the HTML form field names
-            $student_email = $_POST['email']; // 'email' from the view form
-            $student_password = $_POST['password']; // 'password' from the view form
+            
+            $student_email = $_POST['email']; 
+            $student_password = $_POST['password']; 
     
-            // Attempt login
+            
             $success = $this->model->student_login($student_email, $student_password);
             
             if($success){
@@ -46,10 +46,10 @@ class StudentLoginController {
         if (isset($_SESSION['student_id'])) {
             $student_id = $_SESSION['student_id'];
     
-            // Update student_log to 'offline'
+           
             $query = $this->model->updateStudentLog($student_id, 'offline');
     
-            // Clear session
+            
             session_unset();
             session_destroy();
     
