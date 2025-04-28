@@ -86,6 +86,8 @@ public function paymentSuccess() {
             $paymentInfo['amount'],
             $transactionId
         );
+
+        $this->model->updateStudentPoints($studentId, $paymentInfo['points']);
         
         if (!$result) {
             

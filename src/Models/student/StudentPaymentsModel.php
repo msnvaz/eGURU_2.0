@@ -33,6 +33,21 @@ public function storePayment($studentId, $pointAmount, $cashValue, $transactionI
     }
 }
 
+    public function updateStudentPoints($studentId, $points) {
+        try {
+            $sql = "UPDATE student SET student_points = student_points + :points WHERE student_id = :studentId";
+            
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':points', $points, PDO::PARAM_INT);
+            $stmt->bindParam(':studentId', $studentId, PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            
+            error_log("Error updating student points: " . $e->getMessage());
+            return false;
+        }
+    }
     
     public function getPaymentHistory($studentId) {
         try {
