@@ -11,11 +11,9 @@ class TutorStudyMaterialsController {
         $this->model = new TutorStudyMaterialModel();
     }
 
-    /**
-     * Displays the study material gallery page.
-     */
+    
     public function showStudyMaterialsPage() {
-        //session_start();
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -33,11 +31,9 @@ class TutorStudyMaterialsController {
         require_once __DIR__ . '/../../Views/tutor/study_materials.php';
     }
 
-    /**
-     * Handles uploading study material.
-     */
+    
     public function uploadStudyMaterial() {
-        //session_start();
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -62,7 +58,7 @@ class TutorStudyMaterialsController {
                     if (isset($_SESSION['tutor_id'])) {
                         $tutorId = $_SESSION['tutor_id'];
         
-                        // pass all 5 arguments
+                        
                         $this->model->addStudyMaterial($fileName, $description, $tutorId, $subjectId, $grade);
                     }
         

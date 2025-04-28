@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-<?php include '../src/Views/navbar.php'; ?> <!-- Include the navbar -->    
+<?php include '../src/Views/navbar.php'; ?>    
 
     <main>
         
@@ -71,7 +71,7 @@
         echo '<div class="error-message">' . 
              htmlspecialchars($_SESSION['login_error']) . 
              '</div>';
-        // Clear the error message after displaying
+        
         unset($_SESSION['login_error']);
     }
     ?>

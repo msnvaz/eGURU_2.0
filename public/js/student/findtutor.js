@@ -1,25 +1,25 @@
-// Global variables
+
 let currentTutorId = null;
 let currentSubjectId = null;
 let availableSlots = [];
 
-// Function to show the request modal
+
 function showRequestModal(tutorId, tutorName) {
     currentTutorId = tutorId;
     
-    // Get the default subject ID (first subject of the tutor)
+   
     const tutorCard = document.querySelector(`.tutor-card[data-tutor-id="${tutorId}"]`);
     currentSubjectId = tutorCard.dataset.subjectId;
     
-    // Update modal content with basic info
+    
     document.getElementById('tutorName').textContent = tutorName;
     document.getElementById('requestModal').classList.add('active');
     
-    // Fetch available time slots
+    
     fetchAvailableTimeSlots(tutorId);
 }
 
-// Function to fetch available time slots
+
 function fetchAvailableTimeSlots(tutorId) {
     console.log('Fetching slots for tutor ID:', tutorId);
     
@@ -41,7 +41,7 @@ function fetchAvailableTimeSlots(tutorId) {
             return;
         }
         
-        // Save and display available slots
+        
         availableSlots = data.availableSlots;
         displayAvailableSlots(data.availableSlots);
     })
@@ -51,7 +51,7 @@ function fetchAvailableTimeSlots(tutorId) {
     });
 }
 
-// Function to display available time slots
+
 function displayAvailableSlots(slots) {
     const modalContent = document.querySelector('.modal-content');
     
@@ -66,7 +66,7 @@ function displayAvailableSlots(slots) {
         return;
     }
     
-    // Group slots by day
+    
     const slotsByDay = {};
     slots.forEach(slot => {
         if (!slotsByDay[slot.day]) {
@@ -75,7 +75,7 @@ function displayAvailableSlots(slots) {
         slotsByDay[slot.day].push(slot);
     });
     
-    // Build HTML for slots
+    
     let slotsHtml = '<h2>Select a Time Slot</h2>';
     slotsHtml += '<div class="time-slots-container">';
     
@@ -108,19 +108,19 @@ function displayAvailableSlots(slots) {
     modalContent.innerHTML = slotsHtml;
 }
 
-// Function to select a time slot
+
 function selectTimeSlot(date, time) {
     sendRequest(currentTutorId, currentSubjectId, date, time);
 }
 
-// Function to send a request
+
 function sendRequest(tutorId, subjectId, scheduledDate = null, scheduleTime = null) {
     const requestData = {
         tutorId: tutorId,
         subjectId: subjectId
     };
     
-    // Add scheduled date and time if provided
+    
     if (scheduledDate && scheduleTime) {
         requestData.scheduledDate = scheduledDate;
         requestData.scheduleTime = scheduleTime;
@@ -148,7 +148,7 @@ function sendRequest(tutorId, subjectId, scheduledDate = null, scheduleTime = nu
     });
 }
 
-// Function to confirm the request (without selecting a time slot)
+
 function confirmRequest() {
     if (!currentTutorId || !currentSubjectId) {
         showError('Missing tutor or subject information');
@@ -158,7 +158,7 @@ function confirmRequest() {
     sendRequest(currentTutorId, currentSubjectId);
 }
 
-// Function to hide the request modal
+
 function hideRequestModal() {
     document.getElementById('requestModal').classList.remove('active');
     currentTutorId = null;
@@ -166,7 +166,7 @@ function hideRequestModal() {
     availableSlots = [];
 }
 
-// Function to show success message
+
 function showSuccessMessage() {
     const successMessage = document.getElementById('successMessage');
     successMessage.classList.add('active');
@@ -175,7 +175,7 @@ function showSuccessMessage() {
     }, 3000);
 }
 
-// Function to show error message
+
 function showError(message) {
     const errorMessage = document.getElementById('errorMessage');
     errorMessage.textContent = message;
@@ -185,7 +185,7 @@ function showError(message) {
     }, 3000);
 }
 
-// Helper function to convert time format (24h to 12h)
+
 function convertTime(time) {
     const [hours, minutes] = time.split(':');
     const hour = parseInt(hours, 10);
@@ -194,23 +194,23 @@ function convertTime(time) {
     return `${hour12}:${minutes} ${period}`;
 }
 
-// Helper function to format date (YYYY-MM-DD to readable format)
+
 function formatDate(dateStr) {
     const date = new Date(dateStr);
     const options = { weekday: 'short', month: 'short', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
 }
 
-// Initialize on page load
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Add tutor ID and subject ID as data attributes to tutor cards
+    
     document.querySelectorAll('.tutor-card').forEach(card => {
         const tutorSubjects = card.querySelector('.tutor-details p:nth-child(2)').textContent;
         const firstSubject = tutorSubjects.split(':')[1].trim().split(',')[0].trim();
         
-        // Find subject ID from the subjects list
+        
         const subjectSelect = document.getElementById('subject');
-        let subjectId = 1; // Default
+        let subjectId = 1; 
         
         if (subjectSelect) {
             Array.from(subjectSelect.options).forEach(option => {
@@ -220,11 +220,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Set data attributes
+        
         card.dataset.subjectId = subjectId;
     });
     
-    // Add event listener to close modal when clicking outside
+    
     window.addEventListener('click', (event) => {
         const modal = document.getElementById('requestModal');
         if (event.target === modal) {

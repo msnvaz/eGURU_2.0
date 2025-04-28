@@ -11,15 +11,15 @@
 </head>
 
 <body>
-    <!-- Sidebar -->
+    
     <?php include 'sidebar.php'; ?>
 
-    <!-- Header -->
+   
     <?php include '../src/Views/tutor/header.php'; ?>
 
 
     <div class="bodyform">
-        <!-- Profile Content -->
+        
         <div class="profile-content">
             <div class="viewprofile-header">
                 <div class="profile-picture">

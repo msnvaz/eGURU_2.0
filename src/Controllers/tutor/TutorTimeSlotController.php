@@ -12,7 +12,7 @@ class TutorTimeSlotController {
     }
 
     public function showTutorTimeSlotPage() {
-        //session_start();
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -27,7 +27,7 @@ class TutorTimeSlotController {
     }
 
     public function saveTutorTimeSlots() {
-        //session_start();
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -37,7 +37,7 @@ class TutorTimeSlotController {
         $tutorId = $_SESSION['tutor_id'];
         $slotSelections = [];
 
-        // Loop through days and extract selections
+        
         $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
         foreach ($days as $day) {
             if (!empty($_POST[$day])) {

@@ -12,7 +12,7 @@ body {
     align-items: center;
     background: url('../../images/student-uploads/bg.jpeg') no-repeat center center fixed;
     background-size: cover;
-    padding: 0 20px;  /* Add padding to avoid edge cut-off */
+    padding: 0 20px;  
     
 }
 
@@ -28,11 +28,11 @@ body {
     background: rgba(255, 255, 255, 0.2);
     padding: 20px;
     border-radius: 15px;
-    backdrop-filter: blur(10px);  /* Try increasing this if blur is weak */
+    backdrop-filter: blur(10px);  
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     width: 400px;
-    height: auto;  /* Set height to auto for dynamic adjustment */
-    min-height: 600px;  /* Set a minimum height */
+    height: auto;  
+    min-height: 600px;  
     text-align: center; 
     margin-top:100px; 
     margin-bottom:80px;

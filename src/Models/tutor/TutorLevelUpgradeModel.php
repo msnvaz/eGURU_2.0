@@ -23,14 +23,14 @@ class TutorLevelUpgradeModel {
     }
     
 
-    // Get tutor's current level from tutor table
+    
     public function getTutorCurrentLevel($tutorId) {
         $stmt = $this->conn->prepare("SELECT tutor_level_id FROM tutor WHERE tutor_id = ?");
         $stmt->execute([$tutorId]);
         return $stmt->fetch(PDO::FETCH_ASSOC)['tutor_level_id'];
     }
 
-    // Insert upgrade request
+    
     public function submitUpgradeRequest($tutorId, $currentLevel, $requestedLevel, $requestBody) {
         $stmt = $this->conn->prepare("
             INSERT INTO tutor_level_upgrade (

@@ -7,14 +7,14 @@ use PDOException;
 use App\Config\Database;
 
 class FeedbackModel {
-    private $conn;  // Correctly storing DB connection
+    private $conn;  
 
     public function __construct() {
         $db = new Database();
-        $this->conn = $db->connect();  // Assigning connection to $conn
+        $this->conn = $db->connect();  
     }
 
-    // Fetch feedbacks by tutor ID
+   
     public function getFeedbacksByTutor($tutorId) {
         $query = "SELECT 
                     sf.feedback_id, 
@@ -41,7 +41,7 @@ class FeedbackModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Fetch rating by tutor ID
+    
     public function getRatingByTutor($tutorId) {
         $query = "SELECT ROUND(AVG(session_rating), 1) 
               FROM session_feedback 
@@ -56,9 +56,9 @@ class FeedbackModel {
     }
     
 
-   // Save a tutor's reply to a feedback
+  
     public function saveReply($feedbackId, $replyMessage) {
-        // Check if a reply already exists for this feedback
+        
         $query = "SELECT * FROM session_feedback WHERE feedback_id = :feedbackId AND tutor_reply IS NOT NULL";
         
         $stmt = $this->conn->prepare($query);
@@ -66,10 +66,10 @@ class FeedbackModel {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return false; // A reply already exists for this feedback
+            return false; 
         }
 
-        // Save the tutor's reply to the feedback
+        
         $query = "UPDATE session_feedback SET tutor_reply = :replyMessage WHERE feedback_id = :feedbackId";
         
         $stmt = $this->conn->prepare($query);
@@ -80,7 +80,7 @@ class FeedbackModel {
     }
 
     public function updateReply($feedbackId, $replyMessage) {
-        // Ensure that the feedback exists and has a reply
+        
         $query = "SELECT feedback_id FROM session_feedback WHERE feedback_id = :feedbackId AND tutor_reply IS NOT NULL";
         
         $stmt = $this->conn->prepare($query);
@@ -88,10 +88,10 @@ class FeedbackModel {
         $stmt->execute();
 
         if ($stmt->rowCount() === 0) {
-            return false; // Reply not found or doesn't exist
+            return false; 
         }
 
-        // Update the reply
+        
         $query = "UPDATE session_feedback SET tutor_reply = :replyMessage WHERE feedback_id = :feedbackId";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':replyMessage', $replyMessage);

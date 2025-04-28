@@ -1,6 +1,6 @@
 :root {
-    --primary: #1e3a8a;;
-    --primary-dark: #1e3a8a;;
+    --primary: rgba(41, 50, 65,1);
+    --primary-dark: rgba(41, 50, 65,1);
     --secondary: #7209b7;
     --success: #4CAF50;
     --danger: #f72585;
@@ -47,7 +47,7 @@ body {
 }
 
 .cashout-header {
-    background: #1e3a8a;;
+    background: rgba(41, 50, 65,1);
     color: white;
     padding: 1.5rem;
     text-align: center;
@@ -194,7 +194,7 @@ input[type="number"] {
     border-bottom: 1px solid #e9ecef;
 }
 
-/* Responsive styles */
+
 @media (max-width: 768px) {
     .bodyform {
         padding: 1rem;

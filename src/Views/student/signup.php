@@ -69,7 +69,7 @@
                     echo '<div class="alert alert-danger">' .
                         htmlspecialchars( $_SESSION['signup_error']) .
                         '</div>';
-                    // Clear the error message after displaying
+                   
                     unset( $_SESSION['signup_error']);
                 }
                 ?>

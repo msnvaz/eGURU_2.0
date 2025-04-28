@@ -1,7 +1,7 @@
 * {
   font-family: 'Poppins', sans-serif;
 }
-/* General styling */
+
 body {
   
   background-color: #f5faff;
@@ -16,8 +16,8 @@ body {
 
 .calendars {
     display: flex;
-    gap: 40px; /* Reduced gap to bring calendars closer together */
-    justify-content: center; /* Centering the calendars */
+    gap: 40px; 
+    justify-content: center; 
 }
 
 .day.upcoming-event {
@@ -33,12 +33,12 @@ body {
 }
 
 .event-row.highlight {
-  background-color: #B8E3E9; /* Yellow background for highlighting */
+  background-color: #B8E3E9; 
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
 
-/* Calendar Styles */
+
 .header-container {
   display: flex;
   background-color: #fff;
@@ -90,9 +90,9 @@ body {
   margin-bottom: 5px;
 }
 
-/* Prevent hover effect for marked dates */
+
 .day.upcoming-event:hover{
-  background-color: #2c3e50; /* Keep the original background color */
+  background-color: #2c3e50; 
   
 }
 .day.previous-event:hover{
@@ -117,17 +117,17 @@ body {
 }
 
 .day:hover {
-  background-color: white; /* Hover effect for non-selected dates */
+  background-color: white; 
   cursor: pointer;
 }
 
 .day.current-date {
-  background-color: #4dd0e1; /* Fixed color for the current date */
+  background-color: #4dd0e1; 
   color: white;
 }
 
 .day.selected {
-  background-color: #4dd0e1; /* Selected color for the current date */
+  background-color: #4dd0e1; 
   color: white;
 }
 
@@ -145,7 +145,7 @@ body {
 
 
 
-/*upcoming previous events table*/
+
 .event-table-container {
   width: 100%;
   margin: 20px auto;
@@ -155,7 +155,7 @@ body {
 
 }
 
-/* Tabs styling */
+
 .tabs {
   display: flex;
   justify-content: space-between;
@@ -177,7 +177,7 @@ body {
   background: #b3e5fc;
 }
 
-/* Table styling */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -203,7 +203,7 @@ table tbody tr:hover {
   background: #b3e5fc;
 }
 
-/* Hidden row for event details */
+
 .details-row {
   display: none;
   background: #f5faff;

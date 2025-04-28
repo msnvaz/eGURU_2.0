@@ -1,3 +1,4 @@
+<section id="/tutor/search">
 <h2 class="choose-tutor-heading">SEARCH FOR A TUTOR</h2>
 <style>
     .choose-tutor-heading {
@@ -76,3 +77,4 @@
         <button class="tutor-search-button" type="submit">Search</button>
     </div>
 </form>
+</section>

@@ -54,8 +54,8 @@
     background-color: white;
 }
 
-/* css styling for icons */
+
 .sidebar ul li i {
-    font-size: 14px;           /* Adjust icon size as needed */
-    color: black;               /* Optional: match icon color with text */
+    font-size: 14px;          
+    color: black;               
 }

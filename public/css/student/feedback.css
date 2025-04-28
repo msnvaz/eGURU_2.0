@@ -31,7 +31,7 @@
     opacity: 0.9;
 }
 
-/* Main Content */
+
 .main-content {
     display: grid;
     grid-template-columns: 1fr;
@@ -44,7 +44,7 @@
     }
 }
 
-/* Tutors Section */
+
 .tutors-section, .feedback-section {
     background: white;
     padding: 2.5rem;
@@ -129,7 +129,7 @@ button {
 button:hover {
     background-color:  #e02362;
 }
-/* Modal Styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -166,7 +166,7 @@ button:hover {
     color: #666;
 }
 
-/* Form Styles */
+
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -184,7 +184,7 @@ textarea {
     border-radius: 6px;
     resize: vertical;
 }
-/* Add this to css/student/feedback.css */
+
 .rating {
     display: flex;
     flex-direction: row-reverse;
@@ -238,7 +238,7 @@ textarea {
     text-align: center;
     color: #777;
 }
-/* Star Rating */
+
 .star-rating {
     display: flex;
     gap: 0.5rem;
@@ -256,7 +256,7 @@ textarea {
     color: #fbbf24;
 }
 
-/* Feedback List */
+
 .feedback-list {
     margin-top: 1.5rem;
 }
@@ -292,7 +292,7 @@ textarea {
     margin-top: 0.5rem;
 }
 
-/* Action Buttons */
+
 .feedback-actions {
     display: flex;
     gap: 0.5rem;
@@ -322,7 +322,7 @@ textarea {
     opacity: 0.9;
 }
 
-/* Confirmation Dialog */
+
 .confirm-dialog {
     position: fixed;
     top: 50%;

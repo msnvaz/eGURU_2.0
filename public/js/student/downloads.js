@@ -3,7 +3,7 @@ function loadMaterials() {
     const subjectId = document.getElementById('subject').value;
     const materialContainer = document.getElementById('materialContainer');
 
-    // Show loading state
+    
     materialContainer.innerHTML = '<div class="loading">Loading materials...</div>';
 
     const xhr = new XMLHttpRequest();
@@ -12,7 +12,7 @@ function loadMaterials() {
     xhr.onload = function() {
         if (this.status === 200) {
             materialContainer.innerHTML = this.responseText;
-            // Smooth scroll to results
+            
             materialContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
             materialContainer.innerHTML = '<div class="error">Error loading materials. Please try again.</div>';

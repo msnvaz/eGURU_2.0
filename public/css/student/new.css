@@ -1,4 +1,4 @@
-/* Reset Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ h1{
     color:black;
 }
 
-/* Sidebar Styles */
+
 .sidebar {
     width: 250px;
     background-color:  #CBF1F9;
@@ -68,14 +68,14 @@ h1{
     background-color: white;
 }
 
-/* css styling for icons */
+
 .sidebar ul li i {
-    font-size: 14px;           /* Adjust icon size as needed */
-    color: black;               /* Optional: match icon color with text */
+    font-size: 14px;           
+    color: black;               
 }
 
 
-/* Main Content Styles */
+
 .main-content {
     flex: 1;
     padding: 40px;
@@ -84,7 +84,7 @@ h1{
     gap: 40px;
 }
 
-/* Profile Information */
+
 
 .profile-info {
     display: flex;
@@ -136,12 +136,12 @@ h1{
     margin-top: 15px;
   }
 
-  /*find tutor*/
+  
   .find-tutor-btn:hover {
     background:  #e02362;
   }
 
-  /* Search Section */
+  
   .search-container {
     text-align: center;
     padding: 20px;
@@ -221,7 +221,7 @@ select, button {
     background-color: red;
 }
 
-/* Popup styles */
+
 .findtutorpopup-overlay {
     position: fixed;
     top: 0;
@@ -293,7 +293,7 @@ select, button {
     margin-left:260px;
     margin-top:50px;
 }
-/* Calendar Styles */
+
 .calendar {
     width: 300px;
     background-color: #CBF1F9;
@@ -361,11 +361,11 @@ select, button {
 
 
 
-/* Events and Feedback */
+
 .event-feedback-container {
     display: flex;
     justify-content: space-between;
-    padding-top:70px;                   /*change created*/
+    padding-top:70px;                   
     background-color: #fff;
     
     border-radius: 8px;
@@ -438,10 +438,10 @@ select, button {
     border-bottom: 1px solid #bbb;
     display: flex;
     align-items: flex-start;
-    /*margin-bottom: 10px;*/
+    
 }
 
-/* view public Profile Section */
+
 
 .profile-bodyform{
     width: 1000px;

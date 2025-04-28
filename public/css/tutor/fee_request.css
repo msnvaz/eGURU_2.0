@@ -131,9 +131,9 @@ th, td {
     background-color: #e03570;
 }
 
-/* Modal Background */
+
 .modal {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -141,10 +141,10 @@ th, td {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* dark background */
+    background-color: rgba(0, 0, 0, 0.5); 
 }
 
-/* Modal Content Box */
+
 .modal-content {
     border-top: 6px solid #e03570;
     background-color: #fff;
@@ -158,7 +158,7 @@ th, td {
     align-items: center;
 }
 
-/* Close Button (X) */
+
 .close {
     position: absolute;
     top: 12px;
@@ -173,7 +173,7 @@ th, td {
     color: #000;
 }
 
-/* Modal Buttons */
+
 .modal-actions {
     display: flex;
     justify-content: space-between;
@@ -206,7 +206,7 @@ th, td {
     background-color: #bbb;
 }
 
-/* Animation */
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }

@@ -39,25 +39,25 @@ class Calendar {
         const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
         const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
     
-        // Clear existing calendar days except day names
+        
         while (calendarDays.children.length > 7) {
             calendarDays.removeChild(calendarDays.lastChild);
         }
     
-        // Add empty cells for days before the first day of the month
+        
         for (let i = 0; i < firstDay.getDay(); i++) {
             const emptyDay = document.createElement('div');
             emptyDay.className = 'calendar-day';
             calendarDays.appendChild(emptyDay);
         }
     
-        // Add days of the month
+        
         for (let day = 1; day <= lastDay.getDate(); day++) {
             const dayElement = document.createElement('div');
             dayElement.className = 'calendar-day';
             dayElement.textContent = day;
     
-            // Check if this is today's date
+            
             const today = new Date();
             if (day === today.getDate() &&
                 this.currentDate.getMonth() === today.getMonth() &&
@@ -89,10 +89,10 @@ class Calendar {
     
             calendarDays.forEach(dayElement => {
                 if (parseInt(dayElement.textContent) === day) {
-                    // Add the appropriate class for upcoming or previous events
+                    
                     dayElement.classList.add(event.session_status === 'scheduled' ? 'upcoming-event' : 'previous-event');
     
-                    // Add click event to redirect to newevent.php with the selected date
+                    
                     dayElement.addEventListener('click', () => {
                         const formattedDate = eventDate.toISOString().split('T')[0];
                         window.location.href = `/student-events?date=${formattedDate}`;
@@ -108,7 +108,7 @@ class Calendar {
     }
 }
 
-// Initialize calendar when the page loads
+
 document.addEventListener('DOMContentLoaded', () => {
     new Calendar();
 });

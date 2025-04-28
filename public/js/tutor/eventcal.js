@@ -15,30 +15,30 @@ function renderCalendar(calendarId, monthYearId, date) {
     const month = date.getMonth();
     const year = date.getFullYear();
 
-    // Set month and year in header
+    
     monthYearId.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
-    // Get the first day of the month
+    
     const firstDay = new Date(year, month, 1).getDay();
     const lastDate = new Date(year, month + 1, 0).getDate();
 
-    // Clear previous dates
+   
     calendarId.innerHTML = "";
 
-    // Add empty slots for days of previous month
+    
     for (let i = 0; i < firstDay; i++) {
         const emptyCell = document.createElement("div");
         emptyCell.classList.add("empty");
         calendarId.appendChild(emptyCell);
     }
 
-    // Add day cells for current month
+    
     for (let day = 1; day <= lastDate; day++) {
         const dayCell = document.createElement("div");
         dayCell.classList.add("day");
         dayCell.textContent = day;
 
-        // Highlight today's date and add a special class
+        
         if (
             day === currentDate.getDate() &&
             month === new Date().getMonth() &&
@@ -67,12 +67,12 @@ function updateCalendars() {
     fetchAndMarkEvents(currentDaysContainer, currentDate.getMonth() + 1, currentDate.getFullYear());
     fetchAndMarkEvents(nextDaysContainer, nextMonthDate.getMonth() + 1, nextMonthDate.getFullYear());
 
-    // Add click listeners to marked dates
+    
     addClickListenersToMarkedDates();
 }
 
 function selectDate(dayCell) {
-    // Check if the day has events (if it has upcoming-event or previous-event class)
+    
     if (dayCell.classList.contains("upcoming-event") || dayCell.classList.contains("previous-event")) {
         const selectedDate = dayCell.dataset.date;
         if (selectedDate) {
@@ -91,7 +91,7 @@ nextButton.addEventListener("click", () => {
     updateCalendars();
 });
 
-// Initial render
+
 updateCalendars();
 
 function fetchAndMarkEvents(calendarId, month, year) {
@@ -133,14 +133,14 @@ function addClickListenersToMarkedDates() {
 }
 
 function highlightRowsForDate(selectedDate) {
-    // Remove existing highlights
+   
     document.querySelectorAll('.event-row').forEach(row => row.classList.remove('highlight'));
 
-    // Format the selected date for comparison
+    
     const formattedSelectedDate = formatDate(selectedDate);
     console.log('Selected Date:', formattedSelectedDate);
 
-    // Check upcoming events first
+    
     const upcomingRows = document.querySelectorAll('#upcoming-events tbody tr');
     let upcomingFound = false;
     upcomingRows.forEach(row => {
@@ -152,7 +152,7 @@ function highlightRowsForDate(selectedDate) {
         }
     });
 
-    // Then check previous events
+   
     const previousRows = document.querySelectorAll('#previous-events tbody tr');
     let previousFound = false;
     previousRows.forEach(row => {
@@ -164,7 +164,7 @@ function highlightRowsForDate(selectedDate) {
         }
     });
 
-    // Switch to the appropriate tab and scroll to the highlighted row
+    
     if (upcomingFound) {
         showUpcoming();
         setTimeout(() => {
@@ -184,19 +184,19 @@ function highlightRowsForDate(selectedDate) {
     }
 }
 
-// Replace only this function in your code
+
 function formatDate(dateString) {
     const date = new Date(dateString);
     
-    // Format the day with leading zero if needed
+    
     const day = date.getDate().toString().padStart(2, '0');
     
-    // Get month abbreviation (Jan, Feb, etc.)
+    
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const month = monthNames[date.getMonth()];
     
     const year = date.getFullYear();
     
-    // Format as "DD MMM YYYY" (e.g., "26 Apr 2025")
+    
     return `${day} ${month} ${year}`;
 }

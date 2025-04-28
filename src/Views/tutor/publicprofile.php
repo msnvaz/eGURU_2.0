@@ -34,7 +34,7 @@
     text-align: center;
     font-weight: bold;
     margin-right: 10px;
-    color: #1e3a8a;
+    color: rgba(41, 50, 65,1);
     
   }
   
@@ -68,7 +68,7 @@
     text-align: center;
     margin-left: 2%;
     font-size: 22px;
-    color: #1e3a8a;
+    color: rgba(41, 50, 65,1);
     font-weight: bold;
   }
 
@@ -88,7 +88,7 @@
         margin-bottom: 10px;
     }
 
-    /* Modal Background */
+   
     .modal {
             display: none; /* Hidden by default */
             position: fixed;
@@ -101,7 +101,7 @@
             background-color: rgba(0, 0, 0, 0.59); /* dark background */
         }
 
-        /* Modal Content Box */
+        
         .modal-content {
             text-align:center;
             border-top: 6px solid #e03570;
@@ -116,7 +116,7 @@
             align-items: center;
         }
 
-        /* Close Button (X) */
+        
         .close {
             position: absolute;
             top: 12px;
@@ -131,7 +131,7 @@
             color: #000;
         }
 
-        /* Modal Buttons */
+        
         .modal-actions {
             display: flex;
             justify-content: space-between;
@@ -171,10 +171,10 @@
 
 <?php $page="profile"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
 <?php
@@ -245,29 +245,29 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                                     const maxStars = 5;
                                     const starContainer = document.getElementById("starContainer");
 
-                                    if (!starContainer) return; // Prevent errors if the element is missing
+                                    if (!starContainer) return; 
 
-                                    starContainer.innerHTML = ""; // Clear existing stars
+                                    starContainer.innerHTML = "";
 
                                     for (let i = 1; i <= maxStars; i++) {
                                         const star = document.createElement("span");
                                         star.classList.add("star");
 
                                         if (i <= Math.floor(rating)) {
-                                            star.classList.add("filled"); // Full star
+                                            star.classList.add("filled");
                                             star.innerHTML = "&#9733;";
                                         } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                                            star.classList.add("half-filled"); // Half-star
+                                            star.classList.add("half-filled");
                                             star.innerHTML = "&#9733;";
                                         } else {
-                                            star.innerHTML = "&#9733;"; // Empty star
+                                            star.innerHTML = "&#9733;"; 
                                         }
 
                                         starContainer.appendChild(star);
                                     }
                                 }
 
-                                // Get the rating from PHP and parse it to a number
+                                
                                 const tutorRating = parseFloat(
                                     document.querySelector(".rating-number").textContent
                                 );

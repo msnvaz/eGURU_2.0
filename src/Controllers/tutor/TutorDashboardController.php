@@ -18,12 +18,10 @@ class TutorDashboardController {
         $this->feedbackmodel = new FeedbackModel();
     }
 
-    /**
-     * Displays the student login page with a list of students.
-     */
+    
     public function showTutorDashboardPage() {
         
-    //session_start(); // Ensure session is started
+    
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -36,7 +34,7 @@ class TutorDashboardController {
     $tutorFeedback = [];
     $tutorRating = null;
 
-    // Fetch tutor details if tutor_id exists in session
+    
     if (isset($_SESSION['tutor_id'])) {
         $tutorId = $_SESSION['tutor_id'];
         $tutorData = $this->tutordetailsmodel->getTutorDetails($tutorId);
@@ -48,7 +46,7 @@ class TutorDashboardController {
 
     
 
-        // Pass data to the view
+        
         require_once __DIR__ . '/../../Views/tutor/dashboard.php';
     }
 

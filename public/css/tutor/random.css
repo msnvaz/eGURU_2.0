@@ -4,7 +4,7 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    display: flex; /* Align sidebar and main content side by side */
+    display: flex; 
 }
 
 .container {
@@ -62,9 +62,9 @@ th {
 
 .calendars {
     display: flex;
-    gap: 40px; /* Space between calendars */
-    justify-content: center; /* Centering the calendars */
-    margin-bottom: 20px; /* Space below calendars */
+    gap: 40px;
+    justify-content: center; 
+    margin-bottom: 20px; 
 }
 
 .calendar {
@@ -82,12 +82,12 @@ th {
     align-items: center;
     padding: 10px;
     font-weight: bold;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
 }
 
 .nav-button {
     background: none;
     border: none;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
     font-size: 16;
 }

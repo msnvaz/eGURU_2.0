@@ -43,17 +43,15 @@
 
 <?php $page="request"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
             
     <div id="body">
-    <?php
-       // include 'sidebar.php';
-    ?>
+    
     
     <div class="request_container">
     <div class="request-header">
@@ -80,7 +78,7 @@
                     <div><?= htmlspecialchars($request['scheduled_date'] ?? 'Not Scheduled') ?></div>
                     <div><?= htmlspecialchars($request['schedule_time'] ?? 'Not Scheduled') ?></div>
                     
-                    <!-- Make student name clickable -->
+                    
                     <div>
                         <a href="/tutor-student-profile/<?= $request['student_id'] ?>">
                             <?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?>
@@ -195,7 +193,7 @@
 
     </div>
 
-    <!-- Confirmation Modal -->
+    
 <div id="confirmationModal" class="modal-overlay" style="display: none;">
     <div class="modal-box">
         <p id="confirmationText">Are you sure?</p>
@@ -229,7 +227,6 @@
 
     confirmYes.addEventListener('click', () => {
         if (selectedForm) {
-            // Set the hidden action input
             selectedForm.querySelector('input[name="action"]').value = selectedAction;
             modal.style.display = 'none';
             selectedForm.submit();

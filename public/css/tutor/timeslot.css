@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #1e3a8a;;
+    --primary-color: rgba(41, 50, 65,1);
     --primary-hover:rgb(48, 75, 150);
     --secondary-color: #6c757d;
     --secondary-hover: #5a6268;
@@ -149,7 +149,7 @@ h3 {
     transform: translateY(0);
 }
 
-/* Modal styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -299,7 +299,7 @@ h3 {
     background-color: var(--success-hover);
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 992px) {
     .container {
         margin-left: 0;

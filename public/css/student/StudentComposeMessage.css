@@ -8,7 +8,7 @@
     --font-family: 'poppins', sans-serif;
 }
 
-/* Main Container */
+
 .student-dashboard {
     font-family: var(--font-family);
     max-width: 100%;
@@ -16,7 +16,7 @@
     padding: 20px;
 }
 
-/* Inbox Tabs */
+
 .inbox-tabs {
     display: flex;
     justify-content: center;
@@ -51,7 +51,7 @@
     font-weight: 600;
 }
 
-/* Compose Container */
+
 .compose-container {
     background-color: white;
     border-radius: var(--border-radius);
@@ -63,7 +63,7 @@
     border: 1px solid #e0e0e0;
 }
 
-/* Message Type Tabs */
+
 .message-type-tabs {
     display: flex;
     justify-content: center;
@@ -94,7 +94,7 @@
     color: var(--dark-pink);
 }
 
-/* Form Elements */
+
 .compose-form {
     margin-top: 20px;
 }
@@ -138,7 +138,7 @@
     background-color: white;
 }
 
-/* Form Buttons */
+
 .form-buttons {
     display: flex;
     justify-content: flex-end;
@@ -177,7 +177,7 @@
     transform: translateY(-2px);
 }
 
-/* Alert Messages */
+
 .alert {
     padding: 15px;
     margin-bottom: 20px;
@@ -198,7 +198,7 @@
     color: #721c24;
 }
 
-/* Responsive */
+
 @media screen and (max-width: 992px) {
     .compose-container {
         max-width: 90%;

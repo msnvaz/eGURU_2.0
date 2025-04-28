@@ -1,5 +1,5 @@
 <?php
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -30,7 +30,7 @@ include __DIR__ . '/header.php';
             <div id="cancelled-tab" onclick="toggleRequests('cancelled')">Cancelled Requests</div>
         </div>
 
-        <!-- Pending Requests Table -->
+        
         <div id="pending-requests" class="table-container">
             <table>
                 <thead>
@@ -49,7 +49,7 @@ include __DIR__ . '/header.php';
             </table>
         </div>
 
-        <!-- Rejected Sessions Table -->
+        
         <div id="rejected-sessions" class="table-container" style="display: none;">
             <table>
                 <thead>
@@ -68,7 +68,7 @@ include __DIR__ . '/header.php';
             </table>
         </div>
 
-        <!-- Cancelled Sessions Table -->
+        
         <div id="cancelled-sessions" class="table-container" style="display: none;">
             <table>
                 <thead>
@@ -88,7 +88,7 @@ include __DIR__ . '/header.php';
         </div>
     </div>
 
-    <!-- Session Details Modal -->
+    
     <div id="session-details-modal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
         <div class="modal-content" style="background-color: white; margin: 10% auto; padding: 20px; width: 50%; max-width: 500px; border-radius: 8px;">
             <h2>Session Details</h2>

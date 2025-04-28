@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Ensure student is logged in
+
 if (!isset($_SESSION['student_id'])) {
     header("Location: /student-login");
     exit();
@@ -181,7 +181,7 @@ if (!isset($_SESSION['student_id'])) {
 <?php endif; ?>
             </div>
 
-            <!-- Confirmation Modal -->
+            
             <div id="requestModal" class="modal">
                 <div class="modal-content">
                     <h2>Confirm Request</h2>
@@ -193,14 +193,14 @@ if (!isset($_SESSION['student_id'])) {
                 </div>
             </div>
 
-            <!-- Success Message -->
+            
             <div id="successMessage" class="success-message">
                 Request sent successfully!
             </div>
 
-            <!-- Error Message -->
+            
             <div id="errorMessage" class="error-message">
-                <!-- Error message will be inserted here -->
+                
             </div>
         </div>
     </div>
