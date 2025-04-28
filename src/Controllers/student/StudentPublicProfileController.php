@@ -35,18 +35,39 @@ class StudentPublicProfileController {
 
     public function ShowUpdatedprofile() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $existingProfileData = $this->model->getProfileByStudentId($_SESSION['student_id']);
+            $existingContactInfo = $this->model->getStudentContactInfo($_SESSION['student_id']);
+            $existingData = array_merge($existingProfileData ?: [], $existingContactInfo ?: []);
+            
             $data = [
                 'student_id' => htmlspecialchars($_SESSION['student_id']),
-                'bio' => htmlspecialchars($_POST['bio']),
-                'education' => htmlspecialchars($_POST['education']),
-                'interests' => htmlspecialchars($_POST['interests']),
-                'country' => htmlspecialchars($_POST['country']),
-                'city_town' => htmlspecialchars($_POST['city_town']),
-                'grade' => htmlspecialchars($_POST['grade']),
-                'student_grade' => htmlspecialchars($_POST['grade']),
-                'student_profile_photo' => htmlspecialchars($_POST['student_profile_photo'])
             ];
+            
+            if (isset($_POST['bio']) && (!isset($existingData['bio']) || $_POST['bio'] !== $existingData['bio'])) {
+                $data['bio'] = htmlspecialchars($_POST['bio']);
+            }
+            
+            if (isset($_POST['education']) && (!isset($existingData['education']) || $_POST['education'] !== $existingData['education'])) {
+                $data['education'] = htmlspecialchars($_POST['education']);
+            }
+            
+            if (isset($_POST['interests']) && (!isset($existingData['interests']) || $_POST['interests'] !== $existingData['interests'])) {
+                $data['interests'] = htmlspecialchars($_POST['interests']);
+            }
+            
+            if (isset($_POST['country']) && (!isset($existingData['country']) || $_POST['country'] !== $existingData['country'])) {
+                $data['country'] = htmlspecialchars($_POST['country']);
+            }
+            
+            if (isset($_POST['city_town']) && (!isset($existingData['city_town']) || $_POST['city_town'] !== $existingData['city_town'])) {
+                $data['city_town'] = htmlspecialchars($_POST['city_town']);
+            }
+            
+            if (isset($_POST['grade']) && (!isset($existingData['student_grade']) || $_POST['grade'] != $existingData['student_grade'])) {
+                $data['student_grade'] = htmlspecialchars($_POST['grade']);
+            }
     
+            $photoUpdated = false;
             if (isset($_FILES['profile-image']) && $_FILES['profile-image']['error'] == 0) {
                 $uploadDir = 'images/student-uploads/profilePhotos/';
                 $fileName = uniqid() . '_' . basename($_FILES['profile-image']['name']);
@@ -54,33 +75,33 @@ class StudentPublicProfileController {
     
                 if (move_uploaded_file($_FILES['profile-image']['tmp_name'], $uploadPath)) {
                     $data['student_profile_photo'] = $fileName;
-                    $_SESSION['profile_picture'] = $fileName; 
+                    $_SESSION['profile_picture'] = $fileName;
+                    $photoUpdated = true;
                 } else {
                     $_SESSION['error'] = 'File upload failed';
                 }
-            } else {
-                $data['student_profile_photo'] = $_SESSION['profile_picture']; 
             }
     
             try {
                 $exist = $this->model->checkid($data['student_id']);
                 if ($exist) {
-                    $this->model->updateProfile($data);
+                    $this->model->updateChangedFields($data, $photoUpdated);
                 } else {
                     $this->model->createProfile($data);
                 }
     
-                
-                $this->model->updateStudentGrade($data['student_id'], $data['grade']);
+                if (isset($data['student_grade'])) {
+                    $this->model->updateStudentGrade($data['student_id'], $data['student_grade']);
+                }
     
                 header('Location: /student-publicprofile');
                 exit();
     
             } catch (\Exception $e) {
-                echo "Error creating profile: " . $e->getMessage();
+                echo "Error updating profile: " . $e->getMessage();
             }
         } else {
-            echo "Invalid request method. Please use POST to create a profile.";
+            echo "Invalid request method. Please use POST to update a profile.";
         }
     }
 
