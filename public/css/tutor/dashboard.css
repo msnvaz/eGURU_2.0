@@ -159,7 +159,7 @@ h1 {
 
 a {
     text-decoration: none;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
     font-weight: bold;
 }
 
@@ -232,7 +232,7 @@ h2 {
 
 h3 {
     font-size: 20px;
-    color: #003399;
+    color: rgba(41, 50, 65,1);
 }
 
 .profile-section {
@@ -286,7 +286,7 @@ h3 {
   
   /* Button Styles */
   .save-btn {
-    background-color: #0099ff;
+    background-color: rgba(41, 50, 65,1);
     color: white;
     padding: 10px ;
     border: none;
@@ -299,7 +299,7 @@ h3 {
   }
   
   .save-btn:hover {
-    background-color: #0067ac;
+    background-color: rgba(41, 50, 65,1);
   }
   
   
@@ -339,13 +339,13 @@ h3 {
     align-items: center;
     padding: 10px;
     font-weight: bold;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
 }
 
 .nav-button {
     background: none;
     border: none;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
     font-size: 16px;
     cursor: pointer;
 }
@@ -360,7 +360,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     font-size: 12px;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
     margin-bottom: 5px;
 }
 
@@ -378,7 +378,7 @@ h3 {
     height: 30px;
     cursor: pointer;
     border-radius: 5px;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
 }
 
 .day:hover {
@@ -386,7 +386,7 @@ h3 {
 }
 
 .selected {
-    background-color: #0288d1;
+    background-color: rgba(41, 50, 65,1);
     color: #fff;
 }
 
@@ -396,7 +396,7 @@ h3 {
     align-items: center;
     padding: 10px;
     font-size: 12px;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
 }
 
 .event-feedback-container{
@@ -637,7 +637,7 @@ h3 {
     text-align: center;
     margin-left: 2%;
     font-size: 22px;
-    color: #000000;
+    color: rgba(41, 50, 65,1);
     font-weight: bold;
   }
 
