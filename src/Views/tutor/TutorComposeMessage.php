@@ -32,10 +32,10 @@
     
 <?php $page="inbox"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
     
@@ -51,7 +51,7 @@
             </div>
 
             <?php
-                $messageType = $_GET['type'] ?? 'student'; // fallback to student if nothing is selected
+                $messageType = $_GET['type'] ?? 'student'; 
             ?>
 
                     

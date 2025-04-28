@@ -14,12 +14,10 @@ class TutorEventController {
         $this->sessionsmodel = new SessionsModel();
     }
 
-    /**
-     * Displays the student login page with a list of students.
-     */
+   
     public function showEventPage()
 {
-    //session_start(); // Ensure session is started
+    
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         header("Location: /tutor-login");
@@ -34,7 +32,7 @@ class TutorEventController {
         $tutorId = $_SESSION['tutor_id'];
         $tutorData = $this->tutordetailsmodel->getTutorDetails($tutorId);
 
-        //Call the auto updater for sessions and payments
+        
         $this->sessionsmodel->updateCompletedSessionsAndPayments();
     }
 
@@ -46,7 +44,7 @@ class TutorEventController {
 
     public function getEventsByDate() {
 
-        //session_start(); // Ensure session is started
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -66,7 +64,7 @@ class TutorEventController {
 
     public function getEventDatesInMonth() {
 
-        //session_start(); // Ensure session is started
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -99,11 +97,11 @@ class TutorEventController {
             $result = $this->sessionsmodel->updateSessionStatus($sessionId, "cancelled");
     
         } catch (\Exception $e) {
-            header("Location: /tutor-event?error=Session Cancelation Failed"); // redirect back to events page
+            header("Location: /tutor-event?error=Session Cancelation Failed"); 
             exit;
         }
     
-        header("Location: /tutor-event?success=Session Cancelation Successful"); // redirect back to events page
+        header("Location: /tutor-event?success=Session Cancelation Successful"); 
         exit;
     }
     

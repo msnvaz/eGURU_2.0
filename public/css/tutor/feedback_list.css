@@ -16,7 +16,7 @@
 }
 
 
-/* Individual Feedback Item */
+
 .feedback-item {
     background-color: #f9f9f9;
     border-radius: 8px;
@@ -25,27 +25,27 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Feedback Header */
+
 .feedback-item h3 {
     font-size: 1.2em;
     font-weight: bold;
     color: rgba(41, 50, 65,1) !important;
 }
 
-/* Feedback Message */
+
 .feedback-item p {
     font-size: 1em;
     color: #333;
     line-height: 1.5;
 }
 
-/* Timestamp */
+
 .feedback-item small {
     font-size: 0.9em;
     color: #aaa;
 }
 
-/* Tutor's Reply Section */
+
 .tutor-reply {
     margin-top: 20px;
     background-color: #CBF1F9;
@@ -58,7 +58,7 @@
     color: #333;
 }
 
-/* Reply Input Section */
+
 .create-reply-container {
     margin-top: 20px;
 }
@@ -85,17 +85,17 @@
     background-color: #e03570;
 }
 
-/* Edit Reply Container */
+
 .edit-reply-container {
     margin-top: 10px;
     padding: 10px;
-    background-color: #f1f1f1; /* Light gray background */
+    background-color: #f1f1f1; 
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Textarea for editing reply */
+
 .edit-reply-container textarea {
     width: 100%;
     height: 80px;
@@ -106,9 +106,9 @@
     resize: vertical;
 }
 
-/* Save Changes Button */
+
 .btn-save {
-    background-color: #ff4081; /* Green */
+    background-color: #ff4081; 
     color: white;
     border: none;
     padding: 8px 12px;
@@ -120,12 +120,12 @@
 }
 
 .btn-save:hover {
-    background-color: #e03570; /* Darker green */
+    background-color: #e03570;
 }
 
-/* Cancel Button */
+
 .btn-cancel {
-    background-color: #d32f2f; /* Red */
+    background-color: #d32f2f; 
     color: white;
     border: none;
     padding: 8px 12px;
@@ -138,29 +138,29 @@
 }
 
 .btn-cancel:hover {
-    background-color: #b71c1c; /* Darker red */
+    background-color: #b71c1c;
 }
 
-/* Tutor Reply Container */
+
 .tutor-reply {
     margin-top: 10px;
     padding: 10px;
-    background-color: #CBF1F9; /* Light blue background */
+    background-color: #CBF1F9; 
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Reply Text */
+
 .tutor-reply p {
     margin: 5px 0;
     font-size: 1em;
     color: #333;
 }
 
-/* Edit Reply Button */
+
 .btn-edit {
-    background-color: #ff4081; /* Green */
+    background-color: #ff4081;
     color: white;
     border: none;
     padding: 8px 12px;
@@ -172,5 +172,5 @@
 }
 
 .btn-edit:hover {
-    background-color: #e03570; /* Darker green */
+    background-color: #e03570; 
 }

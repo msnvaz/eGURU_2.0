@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +17,7 @@ nav{
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000; /* Ensures the nav bar is above other content */
+    z-index: 1000; 
 }
 
 nav ul {
@@ -42,14 +42,14 @@ nav ul li a {
     text-decoration: none;
 }
 
-/* Style for hovered link */
+
 nav ul li a:hover {
     color: rgb(229, 34, 115);
 }
 
-/* Style for active link (can be manually set) */
+
 nav ul li a.active {
-    border-bottom: 8px solid rgb(229, 34, 115); /* Pink underline for active link */
+    border-bottom: 8px solid rgb(229, 34, 115); 
 }
 
 h1{

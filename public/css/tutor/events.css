@@ -1,8 +1,8 @@
 .calendars-events {
     display: flex;
-    gap: 40px; /* Space between calendars */
-    justify-content: center; /* Centering the calendars */
-    margin-bottom: 20px; /* Space below calendars */
+    gap: 40px; 
+    justify-content: center; 
+    margin-bottom: 20px;
     
 }
 
@@ -21,7 +21,7 @@
     align-items: center;
     padding: 10px;
     font-weight: bold;
-    color: #00796b;
+    color: rgba(41, 50, 65,1);
 
 }.day-names {
     display: flex;

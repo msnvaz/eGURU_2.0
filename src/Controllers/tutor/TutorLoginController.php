@@ -24,7 +24,7 @@ class TutorLoginController {
             $password = $_POST['password'];
     
             $tutorModel = new TutorDetailsModel();
-            $tutorData = $tutorModel->getTutorByEmail($email); // Updated method to fetch by email only
+            $tutorData = $tutorModel->getTutorByEmail($email); 
     
             if ($tutorData && password_verify($password, $tutorData['tutor_password'])) {
                 // Recreate session

@@ -7,11 +7,11 @@ use PDOException;
 use App\Config\Database;
 
 class SessionsModel {
-    private $conn;  // Correctly storing DB connection
+    private $conn;  
 
     public function __construct() {
         $db = new Database();
-        $this->conn = $db->connect();  // Assigning connection to $conn
+        $this->conn = $db->connect();  
     }
 
     public function getUpcomingEvents($tutorId) {
@@ -172,10 +172,10 @@ class SessionsModel {
 
     public function updateCompletedSessionsAndPayments()
 {
-    $now = date('Y-m-d H:i:s'); // current date and time
-    $today = date('Y-m-d'); // today's date
+    $now = date('Y-m-d H:i:s'); 
+    $today = date('Y-m-d'); 
 
-    // Step 1: Find sessions that should be completed
+    
     $query = "
         SELECT s.*, t.tutor_level_id, tl.tutor_pay_per_hour
         FROM session s
@@ -199,14 +199,14 @@ class SessionsModel {
         $tutorId = $session['tutor_id'];
         $payPerHour = $session['tutor_pay_per_hour'];
 
-        $paymentPointAmount = $payPerHour * 2; // Session is 2 hours
-        $paymentTime = date('Y-m-d H:i:s'); // current time
+        $paymentPointAmount = $payPerHour * 2; 
+        $paymentTime = date('Y-m-d H:i:s'); 
         $paymentStatus = 'okay'; 
 
-        $this->conn->beginTransaction(); // Begin transaction
+        $this->conn->beginTransaction(); 
 
         try {
-            // Step 2: Update session status to 'completed'
+            
             $updateSession = "
                 UPDATE session 
                 SET session_status = 'completed' 
@@ -216,7 +216,7 @@ class SessionsModel {
             $stmtUpdate->bindParam(':session_id', $sessionId, PDO::PARAM_INT);
             $stmtUpdate->execute();
 
-            // Step 3: Insert into session_payment table
+            
             $insertPayment = "
                 INSERT INTO session_payment 
                 (session_id, student_id, tutor_id, payment_point_amount, payment_status, payment_time)
@@ -232,7 +232,7 @@ class SessionsModel {
             $stmtInsert->bindParam(':payment_time', $paymentTime);
             $stmtInsert->execute();
 
-            // Step 4: Update tutor points (add)
+            
             $updateTutorPoints = "
                 UPDATE tutor 
                 SET tutor_points = tutor_points + :points 
@@ -243,7 +243,7 @@ class SessionsModel {
             $stmtTutorPoints->bindParam(':tutor_id', $tutorId, PDO::PARAM_INT);
             $stmtTutorPoints->execute();
 
-            // Step 5: Update student points (subtract)
+           
             $updateStudentPoints = "
                 UPDATE student 
                 SET student_points = student_points - :points 
@@ -254,10 +254,10 @@ class SessionsModel {
             $stmtStudentPoints->bindParam(':student_id', $studentId, PDO::PARAM_INT);
             $stmtStudentPoints->execute();
 
-            $this->conn->commit(); // Commit if all success
+            $this->conn->commit(); 
         } catch (Exception $e) {
-            $this->conn->rollBack(); // Rollback if any error
-            throw $e; // Optional: you can log error here
+            $this->conn->rollBack(); 
+            throw $e;
         }
     }
 }

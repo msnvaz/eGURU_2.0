@@ -16,10 +16,10 @@
 
 <?php $page="fee-request"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
 <?php
@@ -160,7 +160,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
                             <?php if ($status === 'pending'): ?>
                                 <td>
-                                    <!-- Cancel Button triggers modal -->
+                                    
                                     <button type="button" class="cancel-button" onclick="openModal('<?= $req['request_id'] ?>')">Cancel</button>
 
                                 </td>
@@ -175,7 +175,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
     </div>
 
-    <!-- Cancel Confirmation Modal -->
+   
 <div id="cancelModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -206,7 +206,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
         document.getElementById('cancelModal').style.display = 'none';
     }
 
-    // Optional: close modal when clicking outside
+    
     window.onclick = function(event) {
         const modal = document.getElementById('cancelModal');
         if (event.target === modal) {

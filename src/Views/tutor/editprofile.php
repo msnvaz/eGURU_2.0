@@ -57,7 +57,7 @@
         display: none;
     }
 
-           /* Modal Background */
+          
            .modal {
             display: none; /* Hidden by default */
             position: fixed;
@@ -70,7 +70,7 @@
             background-color: rgba(0, 0, 0, 0.59); /* dark background */
         }
 
-        /* Modal Content Box */
+        
         .modal-content {
             border-top: 6px solid #e03570;
             background-color: #fff;
@@ -84,7 +84,7 @@
             align-items: center;
         }
 
-        /* Close Button (X) */
+        
         .close {
             position: absolute;
             top: 12px;
@@ -99,7 +99,7 @@
             color: #000;
         }
 
-        /* Modal Buttons */
+        
         .modal-actions {
             display: flex;
             justify-content: space-between;
@@ -138,10 +138,10 @@
 
 <?php $page="profile"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
 <?php
@@ -179,9 +179,9 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
 <div class="container">
         <div class="bodyform">
-            <!-- Profile Content -->
+            
             <div class="profile-content">
-                <!-- Profile Form -->
+                
                 <form action="/tutor-profile-updated" method="POST" enctype="multipart/form-data">
                     <div class="viewprofile-header">
                         <div class="profile-picture edit-profile-picture">
@@ -264,23 +264,22 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                         </div>
 
                         <div class="section-row">
-                            <!-- Subjects -->
-            <!-- Subjects You Teach -->
+          
             <div class="section-box">
                 <h3>Subjects You Teach</h3>
                 <?php
-                // Map the profileData['subjects'] array to subject IDs (if it's using names)
+                
                 $profileSubjectIds = [];
                 if (!empty($profileData['subjects'])) {
-                    // Assuming profileData['subjects'] contains subject names, we map it to subject IDs
+                    
                     $profileSubjectIds = array_map(function ($subjectName) use ($allSubjects) {
-                        // Find subject ID by subject name
+                        
                         foreach ($allSubjects as $subject) {
                             if ($subject['subject_name'] === $subjectName) {
                                 return $subject['subject_id'];
                             }
                         }
-                        return null; // Return null if no match found
+                        return null; 
                     }, $profileData['subjects']);
                 }
                 ?>
@@ -333,7 +332,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
 
 
-                            <!-- Grades -->
+                            
                             <div class="section-box">
                                 <h3>Grades You Teach</h3>
                                 <?php for ($grade = 6; $grade <= 11; $grade++): ?>
@@ -357,7 +356,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
         </div>
     </div>
 
-    <!-- JavaScript -->
+    
     <script src="profile.js"></script>
     <script>
     document.getElementById('file-input').addEventListener('change', function(event) {

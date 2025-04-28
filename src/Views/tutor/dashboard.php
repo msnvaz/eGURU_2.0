@@ -18,19 +18,19 @@
 
 <?php $page="dashboard"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
     <div class="container">
 
-        <!-- Main Content -->
+        
         <div class="main-content">
             
 
-            <!-- Profile Info, User Info, and Calendar on the Same Level -->
+            
             <div class="profile-info-container">
                 <div class="profile-info" style="background-color: #CBF1F9; padding: 20px; border-radius: 8px;">
                     <div class="welcome">
@@ -96,16 +96,16 @@
                 </div>
                 -->
 
-            <!-- Below the Profile Info, User Info, and Calendar -->
+            
             <div id="notifications" class="notifications">
-                <!-- Notifications will be added here -->
+                
             </div>
 
            
             <div id="rating">
                 <span class="rating-text">Overall Rating </span>
                 <div class="stars" id="starContainer">
-                    <!-- Stars will be dynamically updated -->
+                    
                 </div>
                 <span class="rating-number"> <?= isset($tutorRating) && $tutorRating !== null ? $tutorRating : '0' ?></span>
 
@@ -117,29 +117,29 @@
                         const maxStars = 5;
                         const starContainer = document.getElementById("starContainer");
 
-                        if (!starContainer) return; // Prevent errors if the element is missing
+                        if (!starContainer) return;
 
-                        starContainer.innerHTML = ""; // Clear existing stars
+                        starContainer.innerHTML = ""; 
 
                         for (let i = 1; i <= maxStars; i++) {
                             const star = document.createElement("span");
                             star.classList.add("star");
 
                             if (i <= Math.floor(rating)) {
-                                star.classList.add("filled"); // Full star
+                                star.classList.add("filled"); 
                                 star.innerHTML = "&#9733;";
                             } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                                star.classList.add("half-filled"); // Half-star
+                                star.classList.add("half-filled");
                                 star.innerHTML = "&#9733;";
                             } else {
-                                star.innerHTML = "&#9733;"; // Empty star
+                                star.innerHTML = "&#9733;"; 
                             }
 
                             starContainer.appendChild(star);
                         }
                     }
 
-                    // Get the rating from PHP and parse it to a number
+                    
                     const tutorRating = parseFloat(
                         document.querySelector(".rating-number").textContent
                     );
@@ -172,7 +172,7 @@
             </div>
             <script src="carousel.js"></script>-->
 
-            <!-- Events and Feedback -->
+            
                 <div class="event-feedback-container">
                     <div class="events-section">
                         <h2>Upcoming Events</h2>

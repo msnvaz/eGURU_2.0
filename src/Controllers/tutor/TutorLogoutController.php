@@ -12,17 +12,17 @@ class TutorLogoutController {
     }
 
     public function logout() {
-        //session_start(); // Start the session
+        
 
         if (isset($_SESSION['tutor_id'])) {
             $tutorId = $_SESSION['tutor_id'];
-            // Update tutor_log to 'offline'
+            
             $this->model->updateTutorLogStatus($tutorId, 'offline');
         }
 
-        session_unset(); // Clear all session variables
-        session_destroy(); // Destroy the session
-        header("Location: /tutor-login"); // Redirect to the login page
+        session_unset(); 
+        session_destroy();
+        header("Location: /tutor-login");
         exit;
     }
 }

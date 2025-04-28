@@ -17,7 +17,7 @@ class TutorPublicProfileController {
 
     public function showPublicProfilePage() {
         
-        //session_start(); // Ensure session is started
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -37,13 +37,13 @@ class TutorPublicProfileController {
         $profileData['grades'] = $this->model->getTutorGrades($_SESSION['tutor_id']);
         }
 
-        // Pass data to the view
+        
         require_once __DIR__ . '/../../Views/tutor/publicprofile.php';
     }
 
     public function ShowEditprofile() {
 
-        //session_start(); // Ensure session is started
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -66,7 +66,7 @@ class TutorPublicProfileController {
     }
 
     public function ShowUpdatedprofile() {
-        //session_start(); // Ensure session is started
+        
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -90,7 +90,7 @@ class TutorPublicProfileController {
                 'tutor_NIC' => htmlspecialchars($_POST['tutor_NIC'] ?? '')
             ];
     
-            // Profile photo handling
+            
             $uploadDir = './images/tutor_uploads/tutor_profile_photos/';
             if (isset($_FILES['profile-image']) && $_FILES['profile-image']['error'] === UPLOAD_ERR_OK) {
                 $fileName = basename($_FILES['profile-image']['name']);
@@ -104,7 +104,7 @@ class TutorPublicProfileController {
                     $data['tutor_profile_photo'] = $_POST['existing_profile_photo'] ?? 'profile1.jpg';
                 }
             } else {
-                // Use the existing photo if no new image is uploaded
+                
                 $data['tutor_profile_photo'] = $_POST['existing_profile_photo'] ?? 'profile1.jpg';
             }
     
@@ -122,7 +122,7 @@ class TutorPublicProfileController {
                 $this->model->updateTutorSubjects($_SESSION['tutor_id'], $subjects);
                 $this->model->updateTutorGrades($_SESSION['tutor_id'], $grades);
     
-                // Redirect after successful update
+                
                 header('Location: /tutor-public-profile?success=Profile Update Successful');
                 exit();
     
@@ -137,7 +137,7 @@ class TutorPublicProfileController {
 
     public function DeleteProfile() {
 
-        //session_start(); // Ensure session is started
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");

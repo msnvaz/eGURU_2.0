@@ -70,7 +70,7 @@
 
 .material {
     width: 200px;
-    min-height: 350px; /* Ensures all cards are at least this tall */
+    min-height: 350px; 
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -114,9 +114,9 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.33);
 }
 
-       /* Modal Background */
+       
        .modal {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -124,10 +124,10 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.59); /* dark background */
+            background-color: rgba(0, 0, 0, 0.59); 
         }
 
-        /* Modal Content Box */
+        
         .modal-content {
             border-top: 6px solid #e03570;
             background-color: #fff;
@@ -141,7 +141,7 @@
             align-items: center;
         }
 
-        /* Close Button (X) */
+       
         .close {
             position: absolute;
             top: 12px;
@@ -156,7 +156,7 @@
             color: #000;
         }
 
-        /* Modal Buttons */
+      
         .modal-actions {
             display: flex;
             justify-content: space-between;
@@ -200,10 +200,10 @@
 
 <?php $page="upload"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
 <?php
@@ -311,9 +311,9 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
         });
 
         removeBtn.addEventListener('click', function() {
-            materialInput.value = '';       // Clear file input
-            preview.innerHTML = '';         // Clear preview
-            removeBtn.style.display = 'none'; // Hide button
+            materialInput.value = '';       
+            preview.innerHTML = '';         
+            removeBtn.style.display = 'none'; 
         });
     </script>
 
@@ -353,7 +353,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
     </div>
 </div>
 
-<!-- Update Popup -->
+
 <div id="updatePopup" class="update-popup" style="display: none;">
     <div class="update-popup-content">
         <form class="update-form" id="updateForm" action="/tutor-update-material" method="POST">
@@ -386,7 +386,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+
 <div id="deleteModal" class="del-popup" style="display: none; position: fixed; top:0; left:0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center;">
     <div class="del-popup-content" style="background-color: white; padding: 20px; border-radius: 8px;">
         <p>Are you sure you want to delete this study material?</p>

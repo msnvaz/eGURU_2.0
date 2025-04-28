@@ -28,8 +28,8 @@ h1 {
 }
 
 .main-content {
-    width: calc(100% - 220px); /* Adjust main content width */
-    margin-left: 220px; /* Adjust margin to make room for fixed sidebar */
+    width: calc(100% - 220px); 
+    margin-left: 220px; 
     padding: 20px;
     background-color: #fff;
     box-sizing: border-box;
@@ -178,7 +178,7 @@ h2 {
     align-items: center;
 }
 
-/* Profile Picture Section */
+
 .profile-picture {
     display: flex;
     flex-direction: column;
@@ -214,7 +214,7 @@ h2 {
     background-color: #0067ac;
 }
 
-/* Profile Details */
+
 .profile-details {
     display: flex;
     margin-top: 30px;
@@ -245,7 +245,7 @@ h3 {
     border-radius: 8px;
 }
 
-/* Section Row and Box Layout */
+
 .section-row {
     display: flex;
     flex-wrap: wrap;
@@ -265,7 +265,7 @@ h3 {
 }
 
   
-  /* Input and Textarea styles */
+  
   textarea,
   input[type="text"],
   input[type="number"],
@@ -284,7 +284,7 @@ h3 {
     height: 80px;
   }
   
-  /* Button Styles */
+  
   .save-btn {
     background-color: rgba(41, 50, 65,1);
     color: white;
@@ -316,7 +316,7 @@ h3 {
     display: block;
 }
 
-/*calendar css goes here*/
+
 
 
 
@@ -386,7 +386,7 @@ h3 {
 }
 
 .selected {
-    background-color: rgba(41, 50, 65,1);
+    background-color: rgba(41, 50, 65, 0.849);
     color: #fff;
 }
 
@@ -433,15 +433,15 @@ h3 {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
-    object-fit: cover; /* Ensures the image maintains aspect ratio and fills the space */
+    object-fit: cover; 
 }
 
 .carousel-container {
     position: relative;
-    width: 900px; /* Adjust width as needed */
-    height: 200px; /* Adjust height as needed */
+    width: 900px; 
+    height: 200px; 
     overflow: hidden;
-    margin: 0 auto; /* Centering */
+    margin: 0 auto; 
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin-top: 70px;
@@ -490,7 +490,7 @@ h3 {
 }
 
 
-/*performance*/
+
 .dashboard-container {
     display: flex;
     margin: 20px;
@@ -535,7 +535,7 @@ h3 {
     font-weight: bold;
   }
   
-  /*over-all ratings and payment*/
+  
  
   #payment {
     font-family: 'Arial', sans-serif;
@@ -578,7 +578,7 @@ h3 {
     }
   }
   
-  /*dashboard rating*/
+ 
   #rating {
     font-family: 'Arial', sans-serif;
     display: flex;
