@@ -74,11 +74,10 @@ if (!isset($ads)) {
         }
         
         .arrow-btn {
-            background-color:#E14177;;
-            color: white;
+            color:#E14177;;
             border: none;
-            width: 1px;
-            height: 1px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             font-size: 20px;
             cursor: pointer;
@@ -86,17 +85,16 @@ if (!isset($ads)) {
             align-items: center;
             justify-content: center;
             transition: background-color 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         
         
         .prev-btn {
-            margin-left: 10px;
+            margin-left: -20px;
         }
         
         .next-btn {
-            margin-right: 10px;
+            margin-right: -20px;
         }
         
         .carousel-dots {
