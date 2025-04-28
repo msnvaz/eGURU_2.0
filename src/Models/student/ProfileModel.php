@@ -13,7 +13,6 @@ class ProfileModel {
     }
 
     public function updateProfile($data) {
-        
         $sqlProfile = "UPDATE student_profile 
                     SET bio = :bio, 
                         education = :education, 
@@ -37,7 +36,6 @@ class ProfileModel {
         
         $profileUpdated = $stmtProfile->execute($paramsProfile);
         
-        
         $sqlStudent = "UPDATE student
                     SET student_profile_photo = :student_profile_photo
                     WHERE student_id = :student_id";
@@ -51,8 +49,47 @@ class ProfileModel {
         
         $photoUpdated = $stmtStudent->execute($paramsStudent);
         
-        
         return $profileUpdated && $photoUpdated;
+    }
+    
+    public function updateChangedFields($data, $photoUpdated = false) {
+        try {
+            $this->db->beginTransaction();
+            
+            // Update profile fields if there are any to update
+            $profileFields = ['bio', 'education', 'interests', 'country', 'city_town', 'student_grade'];
+            $updateProfileFields = array_intersect_key($data, array_flip($profileFields));
+            
+            if (!empty($updateProfileFields)) {
+                $sqlParts = [];
+                $params = [':student_id' => $data['student_id']];
+                
+                foreach ($updateProfileFields as $field => $value) {
+                    $sqlParts[] = "$field = :$field";
+                    $params[":$field"] = $value;
+                }
+                
+                $sqlProfile = "UPDATE student_profile SET " . implode(', ', $sqlParts) . " WHERE student_id = :student_id";
+                $stmtProfile = $this->db->prepare($sqlProfile);
+                $stmtProfile->execute($params);
+            }
+            
+            // Update photo if it was changed
+            if ($photoUpdated && isset($data['student_profile_photo'])) {
+                $sqlStudent = "UPDATE student SET student_profile_photo = :student_profile_photo WHERE student_id = :student_id";
+                $stmtStudent = $this->db->prepare($sqlStudent);
+                $stmtStudent->execute([
+                    ':student_profile_photo' => $data['student_profile_photo'],
+                    ':student_id' => $data['student_id']
+                ]);
+            }
+            
+            $this->db->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
     
     public function getStudentProfilePhoto($studentId) {
