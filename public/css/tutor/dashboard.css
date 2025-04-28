@@ -77,7 +77,8 @@ h1 {
     margin-left: 2%;
     width: 100px;
     height: 100px;
-    border-radius: 12px;
+    border-radius: 50%;
+    object-fit: cover;
     border: 2px solid var(--dark-blue);
 }
 
@@ -322,7 +323,7 @@ h3 {
 .calendar {
     width: 350px;
     height: 300px;
-    margin-top: -11.5%;
+    margin-top: -14.5%;
     background-color: #CBF1F9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -591,7 +592,7 @@ h3 {
     width: 300px;
     height: 75px;
     margin-left: 3%;
-    margin-top: -10%;
+    margin-top: -7%;
     margin-bottom: 3%;
     justify-content: center;
     position: relative;

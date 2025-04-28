@@ -24,11 +24,14 @@ class TutorRequestController {
     
         $active_requests = [];
         $rejected_requests = [];
+        $cancelled_requests = [];
     
         if (isset($_SESSION['tutor_id'])) {
             $tutorId = $_SESSION['tutor_id'];
             $active_requests = $this->sessionModel->getRequestedSessionsByTutor($tutorId);
             $rejected_requests = $this->sessionModel->getRejectedSessionsByTutor($tutorId);
+            $cancelled_requests = $this->sessionModel->getCancelledSessionsByTutor($tutorId);
+
         }
     
         require_once __DIR__ . '/../../Views/tutor/request.php';
