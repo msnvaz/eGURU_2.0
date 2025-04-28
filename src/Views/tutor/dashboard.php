@@ -46,7 +46,7 @@
                     <img src="/images/tutor_uploads/tutor_profile_photos/<?= $tutorData['tutor_profile_photo']  ?>" alt="tutor profile photo" onerror="this.onerror=null; this.src='/images/tutor_uploads/tutor_profile_photos/default_tutor.png';">
 
                         <div class="user-info-text">
-                            <p><?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?></p>
+                            <p><b><?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?></b></p>
                             <p><?php echo htmlspecialchars($tutorData['tutor_email'])?></p>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                             <?php foreach (array_slice($tutorFeedback, 0, 3) as $feedback): ?>
                                 <li>
                                     <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img" onerror="this.onerror=null; this.src='/images/student-uploads/profilePhotos/default.jpg';">
-                                    <?= htmlspecialchars($feedback['student_name']); ?><br>
+                                    -<?= htmlspecialchars($feedback['student_name']); ?>-<br>
                                     <?= htmlspecialchars($feedback['student_feedback']); ?><br>
                                     <?= date('d M Y - h:i A', strtotime($feedback['time_created'])); ?>
                                 </li>
