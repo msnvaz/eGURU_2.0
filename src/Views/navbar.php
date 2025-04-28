@@ -25,7 +25,7 @@
             <li><a href="/#reviews" class="nav-link"><i class="fas fa-star fa-fw"></i> Reviews</a></li>
             <li><a href="/#tutors" class="nav-link"><i class="fas fa-chalkboard-teacher fa-fw"></i> Tutors</a></li>
             <li><a href="/#subjects" class="nav-link"><i class="fas fa-book fa-fw"></i> Subjects</a></li>
-            <li><a href="/#search" class="nav-link"><i class="fas fa-search fa-fw"></i> Search</a></li>
+            <li><a href="/#/tutor/search" class="nav-link"><i class="fas fa-search fa-fw"></i> Search</a></li>
             <li><a href="/#forum" class="nav-link"><i class="fas fa-comments fa-fw"></i> Forum</a></li>
             <li class="login-btn tutor-login"><a href="/tutor-login" class="nav-link"><i class="fas fa-user-tie fa-fw"></i> Tutor Login</a></li>
             <li class="login-btn" style="margin-right:15px;">
