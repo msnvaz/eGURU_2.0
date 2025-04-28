@@ -108,7 +108,6 @@ class adminTutorController {
     }
 
     public function updateAdvertisement($adId) {
-        // Validate the existence of the advertisement
         $advertisement = $this->model->getAdvertisementById($adId);
         if (!$advertisement) {
             header("Location: /admin-edit-tutor-profile/{$_POST['tutor_id']}?error=Advertisement not found");
@@ -117,17 +116,14 @@ class adminTutorController {
         
         $data = [];
         
-        // Update description if provided
         if (!empty($_POST['ad_description'])) {
             $data['ad_description'] = htmlspecialchars($_POST['ad_description']);
         }
         
-        // Update status if provided
         if (isset($_POST['ad_status'])) {
             $data['ad_status'] = htmlspecialchars($_POST['ad_status']);
         }
         
-        // Handle image upload if provided
         if (isset($_FILES['ad_image']) && !empty($_FILES['ad_image']['name']) && $_FILES['ad_image']['error'] == 0) {
             $uploadDir = __DIR__ . '/../../../public/uploads/tutor_ads/';
             if (!file_exists($uploadDir)) {
@@ -142,7 +138,6 @@ class adminTutorController {
             }
         }
         
-        // Process the update
         if ($this->model->updateAdvertisement($adId, $data)) {
             header("Location: /admin-edit-tutor-profile/{$_POST['tutor_id']}?success=1");
         } else {
@@ -152,7 +147,6 @@ class adminTutorController {
     }
 
     public function deleteAdvertisement($adId) {
-        // Get the tutor ID from query parameters
         $tutorId = $_GET['tutor_id'] ?? null;
         
         if (!$tutorId) {
@@ -160,14 +154,12 @@ class adminTutorController {
             exit();
         }
         
-        // Validate the existence of the advertisement
         $advertisement = $this->model->getAdvertisementById($adId);
         if (!$advertisement) {
             header("Location: /admin-edit-tutor-profile/{$tutorId}?error=Advertisement not found");
             exit();
         }
         
-        // Process the deletion (set status to 'unset')
         if ($this->model->deleteAdvertisement($adId)) {
             header("Location: /admin-edit-tutor-profile/{$tutorId}?success=Advertisement deleted");
         } else {
@@ -177,7 +169,6 @@ class adminTutorController {
     }
 
     public function addAdvertisement() {
-        // Get the tutor ID from POST data
         $tutorId = $_POST['tutor_id'] ?? null;
         
         if (!$tutorId) {
@@ -185,13 +176,11 @@ class adminTutorController {
             exit();
         }
         
-        // Validate and process the new advertisement
         if (empty($_POST['ad_description']) || !isset($_FILES['ad_image']) || $_FILES['ad_image']['error'] != 0) {
             header("Location: /admin-edit-tutor-profile/{$tutorId}?error=Invalid advertisement data");
             exit();
         }
         
-        // Handle image upload
         $uploadDir = __DIR__ . '/../../../public/uploads/tutor_ads/';
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0777, true);
@@ -205,7 +194,6 @@ class adminTutorController {
             exit();
         }
         
-        // Create the new advertisement
         $description = htmlspecialchars($_POST['ad_description']);
         
         if ($this->model->addAdvertisement($fileName, $description, $tutorId)) {
@@ -431,7 +419,6 @@ class adminTutorController {
             exit();
         }
         
-        // Get file extension to determine mime type
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
         switch(strtolower($fileExtension)) {
             case 'pdf':
@@ -513,7 +500,6 @@ class adminTutorController {
             exit();
         }
         
-        // Check if a custom level was specified
         $customLevel = null;
         if (!empty($_POST['custom_level'])) {
             $customLevel = htmlspecialchars($_POST['custom_level']);
@@ -572,7 +558,6 @@ class adminTutorController {
             exit();
         }
         
-        // Get file extension to determine mime type
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
         switch(strtolower($fileExtension)) {
             case 'pdf':
