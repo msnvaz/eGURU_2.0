@@ -2,21 +2,42 @@
 
 use App\Models\TutorDisplayModel;
 
-
 $tutorModel = new TutorDisplayModel();
-
 
 $popularTutors = $tutorModel->getScheduledTutors(); 
 ?>
 <style>
+.tutor-gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    background-color: #f0f0f0;
+}
+
+.tutors {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 10px;
+    scroll-behavior: smooth;
+}
+
+.tutors::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
 .tutor {
     position: relative;
     text-align: center;
     margin: 10px;
     border: 2px solid var(--dark-blue);
     border-left: 4px solid var(--dark-blue);
-    padding-left:20px;
-    border-radius:12px;
+    padding-left: 20px;
+    border-radius: 12px;
+    background: #fff;
+    min-width: 220px; /* Important: To enable horizontal scrolling */
 }
 
 .tutor img {
@@ -65,12 +86,25 @@ $popularTutors = $tutorModel->getScheduledTutors();
 .rank-2 .rank-badge { background-color: silver; }
 .rank-3 .rank-badge { background-color: #CD7F32; }
 .rank-4 .rank-badge { background-color: #1E90FF; }
+
+.gallery-btn {
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background: #ddd;
+    padding: 10px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+.gallery-btn:hover {
+    background: #bbb;
+}
 </style>
 
 <div class="most-popular-section">
     <div class="tutor-gallery">
-        <button class="gallery-btn prev">&lt;</button>
-        <div class="tutors">
+        <button class="gallery-btn prev" onclick="scrollPopularTutors(-1)">&lt;</button>
+        <div class="tutors" id="popularTutors">
             <?php 
             foreach ($popularTutors as $index => $tutor) {
                 $rank = $index + 1;
@@ -104,6 +138,14 @@ $popularTutors = $tutorModel->getScheduledTutors();
             }
             ?>
         </div>
-        <button class="gallery-btn next">&gt;</button>
+        <button class="gallery-btn next" onclick="scrollPopularTutors(1)">&gt;</button>
     </div>
 </div>
+
+<script>
+function scrollPopularTutors(direction) {
+    const container = document.getElementById("popularTutors");
+    const scrollAmount = 220; // Same scroll amount as your other gallery
+    container.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+}
+</script>
