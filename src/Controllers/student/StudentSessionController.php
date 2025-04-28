@@ -36,7 +36,7 @@ class StudentSessionController {
 
         try {
             $requests = $this->model->getPendingRequests($_SESSION['student_id']);
-            error_log('Pending requests: ' . json_encode($requests)); // Debug log
+            error_log('Pending requests: ' . json_encode($requests)); 
             echo json_encode(['success' => true, 'requests' => $requests]);
         } catch (\Exception $e) {
             http_response_code(500);
@@ -58,7 +58,7 @@ class StudentSessionController {
 
         try {
             $results = $this->model->getRequestResults($_SESSION['student_id']);
-            error_log('Request results: ' . json_encode($results)); // Debug log
+            error_log('Request results: ' . json_encode($results)); 
             echo json_encode(['success' => true, 'requests' => $results]);
         } catch (\Exception $e) {
             http_response_code(500);

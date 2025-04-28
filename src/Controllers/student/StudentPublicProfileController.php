@@ -54,12 +54,12 @@ class StudentPublicProfileController {
     
                 if (move_uploaded_file($_FILES['profile-image']['tmp_name'], $uploadPath)) {
                     $data['student_profile_photo'] = $fileName;
-                    $_SESSION['profile_picture'] = $fileName; // Update session with new profile picture
+                    $_SESSION['profile_picture'] = $fileName; 
                 } else {
                     $_SESSION['error'] = 'File upload failed';
                 }
             } else {
-                $data['student_profile_photo'] = $_SESSION['profile_picture']; // Use existing profile picture
+                $data['student_profile_photo'] = $_SESSION['profile_picture']; 
             }
     
             try {
@@ -70,7 +70,7 @@ class StudentPublicProfileController {
                     $this->model->createProfile($data);
                 }
     
-                // Update the student_grade in the student table
+                
                 $this->model->updateStudentGrade($data['student_id'], $data['grade']);
     
                 header('Location: /student-publicprofile');
@@ -88,7 +88,7 @@ class StudentPublicProfileController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $this->model->deleteProfile($_SESSION['student_id']);
-                header('Location: /student-logout'); // Redirect to logout
+                header('Location: /student-logout'); 
                 exit();
             } catch (\Exception $e) {
                 echo "Error deleting profile: " . $e->getMessage();
