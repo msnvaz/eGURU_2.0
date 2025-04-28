@@ -31,7 +31,7 @@ if (!isset($_SESSION['student_id'])) {
     <?php include 'header.php'; ?>
 
         <div class="container">
-            <a href="/student-findtutor" class="back-button">
+            <a href="/student-findtutor" class="back-button" style="margin-top: 25px; border-radius:14px;">
                 <i class="fas fa-arrow-left"></i>
                 <span>Back to Find Tutors</span>
             </a>

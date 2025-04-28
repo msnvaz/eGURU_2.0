@@ -42,13 +42,13 @@
                 </div>
                 <div class="stat-card">
                     <h3>Recievables</h3>
-                    <p class="stat-number">Rs<?= number_format($recievables) ?></p>
-                    <span class="stat-trend positive"><?= number_format($recievables,2) ?></span>
+                    <p class="stat-number">Rs.<?= number_format($recievables) ?></p>
+                    <span class="stat-trend positive">Rs.<?= number_format($recievables,2) ?></span>
                 </div>
                 <div class="stat-card">
                     <h3>Payables</h3>
-                    <p class="stat-number"><?= number_format($payables,2) ?></p>
-                    <span class="stat-trend positive"><?= number_format($payables,2) ?></span>
+                    <p class="stat-number">Rs.<?= number_format($payables,0) ?></p>
+                    <span class="stat-trend positive">Rs.<?= number_format($payables,2) ?></span>
                 </div>
                 <div class="stat-card">
                     <h3>Total points in Student wallets</h3>
@@ -58,7 +58,7 @@
                 <div class="stat-card">
                     <h3>Cash in hand</h3>
                     <p class="stat-number">Rs.<?= number_format($cashInHand,0) ?></p>
-                    <span class="stat-trend positive"><?= number_format($cashInHand,2) ?></span>
+                    <span class="stat-trend positive">Rs.<?= number_format($cashInHand,2) ?></span>
                 </div>
         </div>
         <div class="container mt-4">
