@@ -38,6 +38,23 @@ $errorMessage = $_GET['error'] ?? "";
             margin-left: 200px;
             margin-top: 100px;
         }
+
+        .btn {
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+            font-weight:600;
+            border-radius: 12px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        .btn.add-btn {
+            background-color: var(--dark-blue); /* Blue */
+        }
     </style>
 </head>
 <body>

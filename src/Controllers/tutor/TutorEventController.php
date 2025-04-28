@@ -17,31 +17,32 @@ class TutorEventController {
     /**
      * Displays the student login page with a list of students.
      */
-    public function showEventPage() {
+    public function showEventPage()
+{
+    //session_start(); // Ensure session is started
 
-       // session_start(); // Ensure session is started
-
-        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            header("Location: /tutor-login");
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        header("Location: /tutor-login");
         exit;
     }
-    
-        $tutorData = null;
-    
-        $upcomingEvents = [];
-        $previousEvents = [];
-    
-        // Fetch tutor details if tutor_id exists in session
-        if (isset($_SESSION['tutor_id'])) {
-            $tutorId = $_SESSION['tutor_id'];
-            $tutorData = $this->tutordetailsmodel->getTutorDetails($tutorId);
-        }
-    
-        $upcomingEvents = $this->sessionsmodel->getUpcomingEvents($tutorId);
-        $previousEvents = $this->sessionsmodel->getPreviousEvents($tutorId);
-        // Pass data to the view
-        require_once __DIR__ . '/../../Views/tutor/events.php';
+
+    $tutorData = null;
+    $upcomingEvents = [];
+    $previousEvents = [];
+
+    if (isset($_SESSION['tutor_id'])) {
+        $tutorId = $_SESSION['tutor_id'];
+        $tutorData = $this->tutordetailsmodel->getTutorDetails($tutorId);
+
+        //Call the auto updater for sessions and payments
+        $this->sessionsmodel->updateCompletedSessionsAndPayments();
     }
+
+    $upcomingEvents = $this->sessionsmodel->getUpcomingEvents($tutorId);
+    $previousEvents = $this->sessionsmodel->getPreviousEvents($tutorId);
+
+    require_once __DIR__ . '/../../Views/tutor/events.php';
+}
 
     public function getEventsByDate() {
 

@@ -9,12 +9,10 @@ class TutorDisplayModel {
     private $conn;
 
     public function __construct() {
-        // Create a new database connection
         $db = new Database();
         $this->conn = $db->connect();
     }
 
-    // Fetch top 4 tutors with the highest number of completed sessions
     public function getSuccessfulTutors() {
         $query = $this->conn->prepare("        
             SELECT 
@@ -48,7 +46,6 @@ class TutorDisplayModel {
         return $tutors;
     }
 
-    // Fetch top 4 tutors with the highest number of scheduled sessions
     public function getScheduledTutors() {
         $query = $this->conn->prepare("        
             SELECT 

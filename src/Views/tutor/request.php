@@ -59,10 +59,12 @@
     <div class="request-header">
         <div id="active-tab" class="tab active" onclick="toggleRequests('active')">Active Student Requests</div>
         <div id="rejected-tab" class="tab" onclick="toggleRequests('rejected')">Rejected Student Requests</div>
+        <div id="cancelled-tab" class="tab" onclick="toggleRequests('cancelled')">Cancelled Student Sessions</div>
     </div>
     
     <div id="active-requests" class="requests">
         <div class="request">
+            <div><b>Session ID</b></div>
             <div><b>Subject</b></div>
             <div><b>Scheduled Date</b></div>
             <div><b>Scheduled Time</b></div>
@@ -73,6 +75,7 @@
         <?php if (!empty($active_requests)) : ?>
             <?php foreach ($active_requests as $request) : ?>
                 <div class="request">
+                    <div><?= htmlspecialchars($request['session_id']) ?></div>
                     <div><?= htmlspecialchars($request['subject_name']) ?></div>
                     <div><?= htmlspecialchars($request['scheduled_date'] ?? 'Not Scheduled') ?></div>
                     <div><?= htmlspecialchars($request['schedule_time'] ?? 'Not Scheduled') ?></div>
@@ -102,6 +105,7 @@
 
     <div id="rejected-requests" class="requests" style="display: none;">
         <div class="request">
+            <div><b>Session ID</b></div>
             <div><b>Subject</b></div>
             <div><b>Scheduled date</b></div>
             <div><b>Scheduled time</b></div>
@@ -110,6 +114,7 @@
 
         <?php foreach ($rejected_requests as $request): ?>
             <div class="request">
+                <div><?= htmlspecialchars($request['session_id']) ?></div>
                 <div><?= htmlspecialchars($request['subject_name']) ?></div>
                 <div><?= htmlspecialchars($request['scheduled_date'] ?? 'Not Scheduled') ?></div>
                 <div><?= htmlspecialchars($request['schedule_time'] ?? 'Not Scheduled') ?></div>
@@ -121,28 +126,73 @@
             </div>
         <?php endforeach; ?>
     </div>
+
+    <div id="cancelled-requests" class="requests" style="display: none;">
+        <div class="request">
+            <div><b>Session ID</b></div>
+            <div><b>Subject</b></div>
+            <div><b>Scheduled date</b></div>
+            <div><b>Scheduled time</b></div>
+            <div><b>Student Name</b></div>
+        </div>
+
+        <?php foreach ($cancelled_requests as $request): ?>
+            <div class="request">
+                <div><?= htmlspecialchars($request['session_id']) ?></div>
+                <div><?= htmlspecialchars($request['subject_name']) ?></div>
+                <div><?= htmlspecialchars($request['scheduled_date'] ?? 'Not Scheduled') ?></div>
+                <div><?= htmlspecialchars($request['schedule_time'] ?? 'Not Scheduled') ?></div>
+                <div>
+                    <a href="/tutor-student-profile/<?= $request['student_id'] ?>">
+                        <?= htmlspecialchars($request['student_first_name'] . ' ' . $request['student_last_name']) ?>
+                    </a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
 </div>
 
-    <script>
+<script>
     function toggleRequests(tab) {
-        const pastTab = document.getElementById('active-tab');
-        const newTab = document.getElementById('rejected-tab');
-        const pastRequests = document.getElementById('active-requests');
-        const newRequests = document.getElementById('rejected-requests');
+        const activeTab = document.getElementById('active-tab');
+        const rejectedTab = document.getElementById('rejected-tab');
+        const cancelledTab = document.getElementById('cancelled-tab');
+
+        const activeRequests = document.getElementById('active-requests');
+        const rejectedRequests = document.getElementById('rejected-requests');
+        const cancelledRequests = document.getElementById('cancelled-requests');
 
         if (tab === 'active') {
-            pastRequests.style.display = 'block';
-            newRequests.style.display = 'none';
-            pastTab.classList.add('active');
-            newTab.classList.remove('active');
-        } else {
-            pastRequests.style.display = 'none';
-            newRequests.style.display = 'block';
-            newTab.classList.add('active');
-            pastTab.classList.remove('active');
+            activeRequests.style.display = 'block';
+            rejectedRequests.style.display = 'none';
+            cancelledRequests.style.display = 'none';
+
+            activeTab.classList.add('active');
+            rejectedTab.classList.remove('active');
+            cancelledTab.classList.remove('active');
+
+        } else if (tab === 'rejected') {
+            activeRequests.style.display = 'none';
+            rejectedRequests.style.display = 'block';
+            cancelledRequests.style.display = 'none';
+
+            activeTab.classList.remove('active');
+            rejectedTab.classList.add('active');
+            cancelledTab.classList.remove('active');
+
+        } else if (tab === 'cancelled') {
+            activeRequests.style.display = 'none';
+            rejectedRequests.style.display = 'none';
+            cancelledRequests.style.display = 'block';
+
+            activeTab.classList.remove('active');
+            rejectedTab.classList.remove('active');
+            cancelledTab.classList.add('active');
         }
     }
 </script>
+
     </div>
 
     <!-- Confirmation Modal -->

@@ -38,6 +38,8 @@ include __DIR__ . '/header.php';
                     <th>Request ID</th>
                         <th>Tutor</th>
                         <th>Subject</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -55,6 +57,8 @@ include __DIR__ . '/header.php';
                     <th>Request ID</th>
                         <th>Tutor</th>
                         <th>Subject</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -72,6 +76,8 @@ include __DIR__ . '/header.php';
                     <th>Request ID</th>
                         <th>Tutor</th>
                         <th>Subject</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>

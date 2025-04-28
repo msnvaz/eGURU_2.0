@@ -12,25 +12,21 @@ class TutorSearchModel
         $whereClauses = [];
         $params = [];
 
-        // Grade filter
         if (!empty($filters['grade'])) {
             $whereClauses[] = "tg.grade = ?";
             $params[] = $filters['grade'];
         }
 
-        // Subject filter
         if (!empty($filters['subject'])) {
             $whereClauses[] = "sname.subject_name = ?";
             $params[] = $filters['subject'];
         }
 
-        // Level filter
         if (!empty($filters['level'])) {
             $whereClauses[] = "t.tutor_level_id = ?";
             $params[] = $filters['level'];
         }
 
-        // SQL Query
         $sql = "
     SELECT 
         t.tutor_id,

@@ -2,11 +2,11 @@
 
 use App\Models\TutorDisplayModel;
 
-// Instantiate the TutorDisplayModel class
+
 $tutorModel = new TutorDisplayModel();
 
-// Fetch the list of tutors with the highest scheduled sessions
-$popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetches data in descending order
+
+$popularTutors = $tutorModel->getScheduledTutors(); 
 ?>
 <style>
 .tutor {
@@ -26,7 +26,6 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
     object-fit: cover;
 }
 
-/* Top ranks styling */
 .tutor.rank-1 img {
     border: 4px solid gold;
     transform: scale(1.1);
@@ -39,12 +38,12 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
 }
 
 .tutor.rank-3 img {
-    border: 4px solid #CD7F32;  /* bronze */
+    border: 4px solid #CD7F32;  
     box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
 }
 
 .tutor.rank-4 img {
-    border: 4px solid #1E90FF;  /* blue */
+    border: 4px solid #1E90FF;  
     box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
 }
 
@@ -83,7 +82,6 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
                     echo '<div class="rank-badge">' . $rank . '</div>';
                 }
 
-                // Display tutor profile photo if available and file exists, else show default image
                 $photoPath = 'images/tutor_uploads/tutor_profile_photos/';
                 $defaultPhoto = 'default.jpg';
                 $profilePhoto = !empty($tutor['tutor_profile_photo']) ? htmlspecialchars($tutor['tutor_profile_photo']) : $defaultPhoto;
@@ -93,11 +91,9 @@ $popularTutors = $tutorModel->getScheduledTutors(); // Assumes this method fetch
                 }
                 echo '<img src="' . $photoPath . $profilePhoto . '" alt="Tutor Photo">';
 
-                // Display Tutor Name and Scheduled Sessions
                 $fullName = htmlspecialchars($tutor['tutor_first_name']) . ' ' . htmlspecialchars($tutor['tutor_last_name']);
                 echo '<span>' . $fullName . ' (' . htmlspecialchars($tutor['scheduled_sessions']) . ' Scheduled)</span>';
 
-                // Display Subjects
                 if (!empty($tutor['subjects'])) {
                     echo '<div class="tutor-subjects">' . implode(', ', array_map('htmlspecialchars', $tutor['subjects'])) . '</div>';
                 } else {

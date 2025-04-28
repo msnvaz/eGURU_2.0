@@ -1,9 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    font-family: 'Poppins', sans-serif;
 }
+
+:root {
+    --dark-blue: rgba(41, 50, 65,1);    /* Blue */
+    --dark-pink: #ff5869;  /* Green */
+    --powder-blue: #B8E3E9; /* Powder Blue */
+    --off-white: #f5f5f5; /* Off White */
+}
+
 
 .container {
     display: flex;
@@ -13,8 +24,8 @@ body {
 h1 {
     color: #0044cc;
     margin-top: -50px;
+    font-family: 'Poppins', sans-serif;
 }
-
 
 .main-content {
     width: calc(100% - 220px); /* Adjust main content width */
@@ -22,25 +33,27 @@ h1 {
     padding: 20px;
     background-color: #fff;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 .profile-info {
     display: flex;
     justify-content: space-between;
     margin-top:70px ;
+    width:55%;
+    margin-left: 5%;
+    font-family: 'Poppins', sans-serif;
 }
 
 .welcome {
-
     text-align: center;
     background-color: #CBF1F9;
     padding: 20px;
     border-radius: 10px;
-    width: 25%;
-    margin-right: -128px;
+    width: 40%;
+    margin-right: 0;
     height: 150px;
-    margin-left: 70px;
-    
+    margin-left: 10px;
 }
 
 .user-info {
@@ -49,21 +62,24 @@ h1 {
     background-color: #CBF1F9;
     justify-content: space-between;
     border-radius: 10px;
-    width: 23%;
+    width: 50%;
     padding: 10px;
-    margin-right: 42%;
     height: 150px;
 }
 
 .user-info-text{
-    margin-right: 10%
+    margin-right: 5px;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .user-info img {
     margin-left: 2%;
-    width: 80px;
-    height: 80px;
-    border-radius: 15%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--dark-blue);
 }
 
 .event-feedback-container {
@@ -307,7 +323,7 @@ h3 {
 .calendar {
     width: 350px;
     height: 300px;
-    margin-top: -11.5%;
+    margin-top: -14.5%;
     background-color: #CBF1F9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -576,7 +592,7 @@ h3 {
     width: 300px;
     height: 75px;
     margin-left: 3%;
-    margin-top: -10%;
+    margin-top: -7%;
     margin-bottom: 3%;
     justify-content: center;
     position: relative;
