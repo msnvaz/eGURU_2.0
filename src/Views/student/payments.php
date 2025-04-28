@@ -1,5 +1,5 @@
 <?php
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -23,11 +23,11 @@ include __DIR__ . '/header.php';
 <body>
     
     <div class="container">
-        <!-- Sidebar -->
+        
         <?php include 'sidebar.php'; ?>
         
         <div class="bodyform">
-            <!-- Display error message if any -->
+            
             <?php if (isset($_SESSION['payment_error'])): ?>
                 <div class="error-message">
                     <?php 
@@ -38,7 +38,7 @@ include __DIR__ . '/header.php';
             <?php endif; ?>
 
             <div class="payment-container">
-                <!-- Stepper -->
+                
                 <div class="stepper">
                     <div class="step step-1 active">
                         <div class="step-number">1</div>
@@ -57,7 +57,7 @@ include __DIR__ . '/header.php';
                     </div>
                 </div>
 
-                <!-- Step 1: Choose Plan -->
+                
                 <div class="form-section active" id="step-1">
                     <h3>Choose Your Points Package</h3>
                     <p>Select a points package that fits your tutoring needs:</p>
@@ -114,7 +114,7 @@ include __DIR__ . '/header.php';
                     </form>
                 </div>
                 
-                <!-- Payment History Section -->
+                
                 <?php if (!empty($paymentHistory)): ?>
                 <div class="payment-history">
                     <h3>Payment History</h3>
@@ -148,7 +148,7 @@ include __DIR__ . '/header.php';
     
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Package selection
+        
         const packageButtons = document.querySelectorAll('.package-select-btn');
         packageButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -162,14 +162,14 @@ include __DIR__ . '/header.php';
             });
         });
         
-        // Custom amount calculation
+        
         const customAmountInput = document.getElementById('custom-amount');
         const customPointsInput = document.getElementById('custom-points');
         const customPaymentBtn = document.getElementById('custom-payment-btn');
         
         customAmountInput.addEventListener('input', function() {
             const amount = parseInt(this.value) || 0;
-            // Calculate points (1 point = 10 currency units)
+            
             const points = Math.floor(amount / 10);
             customPointsInput.value = points > 0 ? points : '';
         });

@@ -1,4 +1,4 @@
-<!-- src/Views/navbar.php -->
+
 <html>
 
 <head>

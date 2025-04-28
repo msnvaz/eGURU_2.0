@@ -169,7 +169,7 @@
         
         
         
-        /* Responsive styles */
+        
         @media (max-width: 768px) {
             .bodyform {
                 padding: 1rem;
@@ -194,7 +194,7 @@
 <body>
     <?php include '../src/Views/student/header.php'; ?>
     <div class="container">
-        <!-- Sidebar -->
+        
         <?php include 'sidebar.php'; ?>
         
         <div class="bodyform">
@@ -240,16 +240,16 @@
                 </div>
             </div>
             
-            <!-- Confetti animation elements will be added by JS -->
+            
         </div>
     </div>
     
     <script>
-        // Create confetti animation
+        
         document.addEventListener('DOMContentLoaded', function() {
             createConfetti();
             
-            // Auto-remove confetti after 5 seconds
+            
             setTimeout(function() {
                 const confetti = document.querySelectorAll('.confetti');
                 confetti.forEach(c => c.remove());
@@ -264,14 +264,14 @@
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 
-                // Random positioning and styling
+                
                 confetti.style.left = Math.random() * 100 + 'vw';
                 confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 confetti.style.width = Math.random() * 10 + 5 + 'px';
                 confetti.style.height = Math.random() * 10 + 5 + 'px';
                 confetti.style.opacity = Math.random() + 0.5;
                 
-                // Random animation duration and delay
+                
                 confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
                 confetti.style.animationDelay = Math.random() * 5 + 's';
                 

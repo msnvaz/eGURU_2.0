@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="css/student/nav.css">
     <link rel="stylesheet" href="css/student/sidebar.css">
     <style>
-        /* Main layout */
+        
         .main-content {
-            margin-left: 250px; /* Adjust based on your sidebar width */
-            padding-top: 70px; /* Adjust based on your header height */
+            margin-left: 250px; 
+            padding-top: 70px; 
             min-height: 100vh;
             background: #f8f9fa;
         }
@@ -23,7 +23,7 @@
             padding: 2rem;
         }
 
-        /* Enhanced card styling */
+        
         .card {
             background: white;
             border-radius: 12px;
@@ -41,7 +41,7 @@
             padding-bottom: 1rem;
         }
 
-        /* Form styling */
+        
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -68,7 +68,7 @@
             outline: none;
         }
 
-        /* Button styling */
+        
         .btn {
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
@@ -89,7 +89,7 @@
             transform: translateY(-1px);
         }
 
-        /* Status badges */
+       
         .status-badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -108,7 +108,7 @@
             color: #721c24;
         }
 
-        /* Reports table */
+        
         .reports-table {
             width: 100%;
             border-collapse: separate;
@@ -134,7 +134,7 @@
             background: #f8f9fa;
         }
 
-        /* Responsive design */
+        
         @media (max-width: 1024px) {
             .main-content {
                 margin-left: 0;
@@ -148,6 +148,7 @@
         }
     </style>
 </head>
+<?php $page = "report"; ?>
 <body>
     <?php include '../src/Views/student/header.php'; ?>
     <?php include 'sidebar.php'; ?>
@@ -224,7 +225,7 @@
                 <?php endif; ?>
             </div>
 
-            <!-- Previous Reports Section -->
+            
             <div class="card">
                 <h2>Your Previous Reports</h2>
                 <?php if (!empty($previousReports)): ?>
@@ -261,7 +262,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('reportForm');
 
-            // Form validation
+            
             if (form) {
                 form.addEventListener('submit', function(event) {
                     if (!form.checkValidity()) {
