@@ -54,12 +54,12 @@ function updatePasswordStrength(password) {
     strengthBar.style.backgroundColor = colors[score];
 }
 
-// Form handling
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('signupForm');
     const inputs = form.querySelectorAll('input');
 
-    // Add validation listeners to all inputs
+    
     inputs.forEach(input => {
         input.addEventListener('input', function() {
             if (input.type === 'password' && input.id === 'password') {
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // Special check for confirm password
+            
             if (input.id === 'confirm-password') {
                 const password = document.getElementById('password').value;
                 if (input.value === password) {
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Toggle password visibility
+    
     window.togglePassword = function(fieldId) {
         const field = document.getElementById(fieldId);
         const type = field.type === 'password' ? 'text' : 'password';

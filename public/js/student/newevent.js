@@ -15,30 +15,30 @@ function renderCalendar(calendarId, monthYearId, date) {
     const month = date.getMonth();
     const year = date.getFullYear();
 
-    // Set month and year in header
+    
     monthYearId.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
-    // Get the first day of the month
+    
     const firstDay = new Date(year, month, 1).getDay();
     const lastDate = new Date(year, month + 1, 0).getDate();
 
-    // Clear previous dates
+    
     calendarId.innerHTML = "";
 
-    // Add empty slots for days of previous month
+    
     for (let i = 0; i < firstDay; i++) {
         const emptyCell = document.createElement("div");
         emptyCell.classList.add("empty");
         calendarId.appendChild(emptyCell);
     }
 
-    // Add day cells for current month
+    
     for (let day = 1; day <= lastDate; day++) {
         const dayCell = document.createElement("div");
         dayCell.classList.add("day");
         dayCell.textContent = day;
 
-        // Highlight today's date and add a special class
+        
         if (
             day === currentDate.getDate() &&
             month === new Date().getMonth() &&
@@ -67,24 +67,24 @@ function updateCalendars() {
     fetchAndMarkEvents(currentDaysContainer, currentDate.getMonth() + 1, currentDate.getFullYear());
     fetchAndMarkEvents(nextDaysContainer, nextMonthDate.getMonth() + 1, nextMonthDate.getFullYear());
 
-    // Add click listeners to marked dates
+    
     addClickListenersToMarkedDates();
 }
 
 function selectDate(dayCell) {
-    // Check if the clicked date is the current date
+    
     const today = new Date();
     const isToday =
         parseInt(dayCell.textContent) === today.getDate() &&
         currentDate.getMonth() === today.getMonth() &&
         currentDate.getFullYear() === today.getFullYear();
 
-    // If the clicked date is not the current date, do nothing
+    
     if (!isToday) {
         return;
     }
 
-    // Ensure the current date remains selected
+    
     document.querySelectorAll(".day").forEach(day => {
         if (day.classList.contains("current-date")) {
             day.classList.add("selected");
@@ -104,7 +104,7 @@ nextButton.addEventListener("click", () => {
     updateCalendars();
 });
 
-// Initial render
+
 updateCalendars();
 
 function toggleDetails(row) {
@@ -183,7 +183,7 @@ function markEventDates(calendarId, dates) {
 
         calendarDays.forEach(dayElement => {
             if (parseInt(dayElement.textContent) === day) {
-                dayElement.dataset.date = eventDate.toISOString().split('T')[0]; // Add data-date attribute
+                dayElement.dataset.date = eventDate.toISOString().split('T')[0]; 
                 if (event.session_status === 'scheduled') {
                     dayElement.classList.add('upcoming-event');
                 } else if (event.session_status === 'completed') {
@@ -205,14 +205,14 @@ function addClickListenersToMarkedDates() {
 }
 
 function highlightRowsForDate(selectedDate) {
-    // Remove existing highlights
+    
     document.querySelectorAll('.event-row').forEach(row => row.classList.remove('highlight'));
 
-    // Format the selected date for comparison
+    
     const formattedSelectedDate = formatDate(selectedDate);
     console.log('Selected Date:', formattedSelectedDate);
 
-    // Highlight rows in the upcoming events table
+    
     const upcomingRows = document.querySelectorAll('#upcoming-events tbody tr');
     let rowFound = false;
     upcomingRows.forEach(row => {
@@ -225,7 +225,7 @@ function highlightRowsForDate(selectedDate) {
         }
     });
 
-    // If not found in upcoming events, check previous events
+    
     if (!rowFound) {
         const previousRows = document.querySelectorAll('#previous-events tbody tr');
         previousRows.forEach(row => {
