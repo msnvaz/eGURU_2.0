@@ -13,7 +13,7 @@ class ProfileModel {
     }
 
     public function updateProfile($data) {
-        // First update the student_profile table with all fields except photo
+        
         $sqlProfile = "UPDATE student_profile 
                     SET bio = :bio, 
                         education = :education, 
@@ -37,7 +37,7 @@ class ProfileModel {
         
         $profileUpdated = $stmtProfile->execute($paramsProfile);
         
-        // Then update the photo in the student table
+        
         $sqlStudent = "UPDATE student
                     SET student_profile_photo = :student_profile_photo
                     WHERE student_id = :student_id";
@@ -51,7 +51,7 @@ class ProfileModel {
         
         $photoUpdated = $stmtStudent->execute($paramsStudent);
         
-        // Return true only if both updates succeeded
+        
         return $profileUpdated && $photoUpdated;
     }
     

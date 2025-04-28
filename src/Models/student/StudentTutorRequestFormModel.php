@@ -13,7 +13,7 @@ class StudentTutorRequestFormModel {
         $this->conn = $database->connect();
     }
 
-    //available time slots filtered with upcoming sessions
+    
     public function getAvailableTimeSlots($tutor_id,$student_id) {
         $query ="
        SELECT
@@ -66,8 +66,7 @@ class StudentTutorRequestFormModel {
         return $result;
     }
 
-    //get tutor subjects from tutor_subject table and subject table
-    //get tutor level id from tutor table and get the tutor level (name),tutor_pay_per_hour from level table
+    
     public function getTutorSubjects($tutor_id) {
         $query = "
         SELECT 
@@ -101,7 +100,7 @@ class StudentTutorRequestFormModel {
         return $result;
     }
 
-    //get the next possible session day and time slot for a given time slot id and day within the next 7 days
+    
     public function getNextSessionDate($time_slot_id, $day) {
         $query = "
         SELECT 
@@ -123,17 +122,17 @@ class StudentTutorRequestFormModel {
     }
 
     
-    //insert student_id,tutor_id,scheduled_date,schedule_time,session_status,subject_id to session table
+    
     public function insertSession($student_id, $tutor_id, $scheduled_date, $schedule_time, $session_status, $subject_id) {
         try {
-            // Format the time properly if needed
+            
             if (strpos($schedule_time, ' - ') !== false) {
                 $schedule_time = trim(explode(' - ', $schedule_time)[0]);
             }
             
-            // Make sure time is in proper format (HH:MM:SS)
+            
             if (strpos($schedule_time, ':') !== false && substr_count($schedule_time, ':') === 1) {
-                $schedule_time .= ':00';  // Add seconds if missing
+                $schedule_time .= ':00';  
             }
             
             $query = "
@@ -148,7 +147,7 @@ class StudentTutorRequestFormModel {
                 ':subject_id' => $subject_id
             ];
             
-            // For debugging
+            
             error_log("Inserting session with data: " . json_encode($params));
             
             $stmt = $this->conn->prepare($query);

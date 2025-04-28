@@ -38,7 +38,7 @@ class SessionRequestModel {
             return [];
         }
     }
-    //this is for rejected and cancelled requests
+    
     public function getRequestResults($studentId) {
         $query = "
             SELECT 

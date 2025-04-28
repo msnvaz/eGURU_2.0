@@ -9,17 +9,17 @@ class TutorModel {
 
     public function __construct() {
         $db = new Database();
-        $this->conn = $db->connect();  // Changed from getConnection() to connect()
+        $this->conn = $db->connect();  
     }
 
     public function fetchTutorById($tutor_id) {
         $stmt = $this->conn->prepare("SELECT * FROM tutor_new WHERE tutor_id = ?");
-        $stmt->execute([$tutor_id]);  // PDO style parameter binding
+        $stmt->execute([$tutor_id]);  
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function searchTutors($grade, $subject, $experience) {
-        // Debug received parameters
+        
         error_log(sprintf(
             "Search called with - Grade: '%s', Subject: '%s', Experience: '%s'",
             $grade, $subject, $experience
@@ -65,7 +65,7 @@ class TutorModel {
         try {
             
     
-            // Insert into tutor_requests
+            
             $sql1 = "INSERT INTO tutor_requests (student_id, tutor_id, preferred_time, message, status) 
                     VALUES (?, ?, ?, ?, ?)";
                     
@@ -78,7 +78,7 @@ class TutorModel {
                 $data['status']
             ]);
     
-            // Insert into session_requests
+            
             $sql2 = "INSERT INTO session_requests (student_id, tutor_id, requested_date, status) 
                     VALUES (?, ?, ?, 'pending')";
                     

@@ -7,12 +7,12 @@ class StudentDashboardModel {
     private $db;
 
     public function __construct() {
-        // Database connection
+        
         $this->db = new PDO("mysql:host=localhost;dbname=eguru", "root", "");
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    //get student profile photo from student table
+    
     public function getStudentProfilePhoto($studentId) {
         try {
             $query = "SELECT student_profile_photo FROM student WHERE student_id = :student_id";

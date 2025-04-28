@@ -30,7 +30,7 @@ class StudentReportModel {
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            // Log error
+            
             error_log("Database error in getTutorsWithCompletedSessions: " . $e->getMessage());
             return [];
         }

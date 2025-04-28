@@ -9,13 +9,13 @@ class FeedbackModel {
     private $hasSessionFeedbackStatus = false;
     
     public function __construct() {
-        // First, add the deleted_at column if it doesn't exist
+        
         $this->addDeletedAtColumn();
         
         $db = new Database();
         $this->conn = $db->connect();
         
-        // Check if session_feedback_status exists
+        
         $this->hasSessionFeedbackStatus = $this->checkColumnExists('session', 'session_feedback_status');
     }
 
@@ -29,7 +29,7 @@ class FeedbackModel {
 
     public function save_comment($student_id, $session_id, $student_feedback, $session_rating) {
         if ($this->hasSessionFeedbackStatus) {
-            // Update the session_feedback_status to 'set'
+            
             $statusQuery = $this->conn->prepare("
                 UPDATE session_feedback 
                 SET session_feedback_status = 'set'
@@ -38,7 +38,7 @@ class FeedbackModel {
             $statusQuery->execute(['session_id' => $session_id]);
         }
     
-        // Insert the feedback using the database's NOW() function for time_created and last_updated
+        
         $query = $this->conn->prepare("
             INSERT INTO session_feedback 
             (session_id, student_feedback, session_rating, last_updated, time_created) 
@@ -74,7 +74,7 @@ class FeedbackModel {
     }
     
     public function delete_comment($feedback_id) {
-        // First get the session_id
+        
         $getSessionQuery = $this->conn->prepare("
             SELECT session_id 
             FROM session_feedback 
@@ -85,11 +85,11 @@ class FeedbackModel {
         $session = $getSessionQuery->fetch(PDO::FETCH_ASSOC);
     
         if ($session) {
-            // Start a transaction to ensure both updates happen or neither does
+            
             $this->conn->beginTransaction();
     
             try {
-                // Update the session_feedback_status to 'unset' and set real-time values for last_updated
+                
                 $statusQuery = $this->conn->prepare("
                     UPDATE session_feedback 
                     SET session_feedback_status = 'unset', 
