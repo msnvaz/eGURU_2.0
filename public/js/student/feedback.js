@@ -1,4 +1,4 @@
-// Data
+
 const tutors = [
     {
         id: 1,
@@ -32,7 +32,7 @@ const tutors = [
     }
 ];
 
-// Feedback data stored in memory
+
 let feedbackData = [
     {
         id: 1,
@@ -54,7 +54,7 @@ let currentRating = 0;
 let selectedTutorId = null;
 let editingFeedbackId = null;
 
-// DOM Elements
+
 const tutorList = document.getElementById('tutorList');
 const feedbackList = document.getElementById('feedbackList');
 const modal = document.getElementById('feedbackModal');
@@ -62,14 +62,14 @@ const closeModal = document.getElementById('closeModal');
 const feedbackForm = document.getElementById('feedbackForm');
 const starRating = document.getElementById('starRating');
 
-// Initialize
+
 function init() {
     renderTutors();
     renderFeedback();
     setupEventListeners();
 }
 
-// Render Tutors
+
 function renderTutors() {
     tutorList.innerHTML = tutors.map(tutor => `
         <div class="tutor-card">
@@ -85,7 +85,7 @@ function renderTutors() {
     `).join('');
 }
 
-// Render Feedback
+
 function renderFeedback() {
     feedbackList.innerHTML = feedbackData.map(item => {
         const tutor = tutors.find(t => t.id === item.tutorId);
@@ -106,7 +106,7 @@ function renderFeedback() {
     }).join('');
 }
 
-// Edit Feedback
+
 function editFeedback(feedbackId) {
     console.log('hello')
     const feedback = feedbackData.find(f => f.id == feedbackId);
@@ -116,14 +116,14 @@ function editFeedback(feedbackId) {
     selectedTutorId = feedback.tutorId;
     currentRating = feedback.rating;
 
-    // Update form
+    
     feedbackForm.feedback.value = feedback.text;
-    // Show modal
+    
     modal.style.display = 'flex';
     document.querySelector('.modal-header h3').textContent = 'Edit Feedback';
 }
 
-// Delete Feedback
+
 function showDeleteConfirmation(feedbackId) {
     if (confirm('Are you sure you want to delete this feedback?')) {
         deleteFeedback(feedbackId);
@@ -142,9 +142,9 @@ function openfeedback(tutorid) {
     form.elements.tutor_name.value = tutor.name
 }
 
-// Event Listeners
+
 function setupEventListeners() {
-    // Open modal for new feedback
+    
     tutorList.addEventListener('click', (e) => {
         if (e.target.classList.contains('feedback-btn')) {
             editingFeedbackId = null;
@@ -154,13 +154,13 @@ function setupEventListeners() {
         }
     });
 
-    // Close modal
+    
     closeModal.addEventListener('click', () => {
         modal.style.display = 'none';
         resetForm();
     });
 
-    // Click outside modal
+    
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.style.display = 'none';
@@ -172,10 +172,10 @@ function setupEventListeners() {
 
 }
 
-// Update star rating display
 
 
-// Reset form
+
+
 function resetForm() {
     feedbackForm.reset();
     currentRating = 0;
@@ -184,5 +184,5 @@ function resetForm() {
     updateStarRating();
 }
 
-// Initialize the application
+
 document.addEventListener('DOMContentLoaded', init);
