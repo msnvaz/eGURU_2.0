@@ -120,10 +120,9 @@
 
     <div class="profile-container">
         <div class="profile-header">
-            <!-- Optional: Profile Image -->
-            <!-- <img src="<?= htmlspecialchars($tutor['profile_image'] ?? '') ?>" 
+            <img src="<?='images/tutor_uploads/tutor_profile_photos/'. htmlspecialchars($tutor['tutor_profile_photo'] ?? '') ?>" 
                  alt="<?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?>" 
-                 class="profile-image"> -->
+                 class="profile-image">
             
             <div class="profile-info">
                 <h1><?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?></h1>
@@ -147,8 +146,8 @@
             <h2>Join Our Community</h2>
             <p>Please login or sign up to connect with this tutor</p>
             <div class="modal-buttons">
-                <a href="/login.php" class="modal-btn login-btn">Login</a>
-                <a href="/signup.php" class="modal-btn signup-btn">Sign Up</a>
+                <a href="/student-login" class="modal-btn login-btn">Login</a>
+                <a href="/student-signup" class="modal-btn signup-btn">Sign Up</a>
             </div>
         </div>
     </div>
@@ -167,7 +166,6 @@
             <?php endif; ?>
         }
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             const modal = document.getElementById('authModal');
             if (event.target == modal) {

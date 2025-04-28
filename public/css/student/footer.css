@@ -1,12 +1,12 @@
-/* Footer styles */
+
 
 .footer {
     margin-top: 650px;
-    background-image: url('../images/main_bg5.png'); /* Path to your image */
-    background-size: cover; /* Ensures the image covers the entire page */
-    background-position: center; /* Centers the background image */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    background-attachment: fixed; /* Makes the background fixed while scrolling */
+    background-image: url('../images/main_bg5.png'); 
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
     padding: 40px 20px;
     box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -41,7 +41,7 @@
 }
 
 .footer-links a:hover {
-    color: #ff4081; /* Matches the theme's accent color */
+    color: #ff4081; 
 }
 
 .footer-heading{

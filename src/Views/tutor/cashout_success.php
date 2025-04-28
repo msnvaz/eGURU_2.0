@@ -1,12 +1,11 @@
 <?php
-// Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if cashout info exists in session
+
 if (!isset($_SESSION['cashout_info'])) {
-    // Redirect back to cashout page if no cashout info found
+    
     header('Location: index.php?action=cashout');
     exit;
 }
@@ -18,7 +17,7 @@ $feeAmount = $cashoutInfo['fee_amount'] ?? 0;
 $netValue = $cashoutInfo['net_value'] ?? 0;
 $feePercentage = $cashoutInfo['fee_percentage'] ?? 5;
 
-// Get transaction ID from session if available
+
 $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'] : 'TXN' . time();
 ?>
 
@@ -32,8 +31,8 @@ $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'
     <link rel="stylesheet" href="css/tutor/sidebar.css">
     <style>
         :root {
-            --primary: #1e3a8a;;
-            --primary-dark: #1e3a8a;
+            --primary:rgba(41, 50, 65,1);
+            --primary-dark:rgba(41, 50, 65,1);
             --secondary: #7209b7;
             --success: #4CAF50;
             --danger: #f72585;
@@ -185,13 +184,13 @@ $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'
         }
         
         .btn-primary {
-            background: #1e3a8a;
+            background: rgba(41, 50, 65,1);
             color: white;
             border: none;
         }
         
         .btn-primary:hover {
-            background:rgb(23, 46, 109);
+            background:rgba(41, 50, 65,1);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
         }
@@ -228,7 +227,7 @@ $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'
             }
         }
         
-        /* Responsive styles */
+        
         @media (max-width: 768px) {
             .bodyform {
                 padding: 1rem;
@@ -255,10 +254,10 @@ $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'
 
 <?php $page="cashout"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
     
     <div class="container">
@@ -317,44 +316,10 @@ $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'
                 </div>
             </div>
             
-            <!-- Confetti animation elements will be added by JS -->
+            
         </div>
     </div>
     
-    <script>
-        // Create confetti animation
-        document.addEventListener('DOMContentLoaded', function() {
-            createConfetti();
-            
-            // Auto-remove confetti after 5 seconds
-            setTimeout(function() {
-                const confetti = document.querySelectorAll('.confetti');
-                confetti.forEach(c => c.remove());
-            }, 5000);
-        });
-        
-        function createConfetti() {
-            const colors = ['#4361ee', '#4CAF50', '#ffc107', '#f72585', '#7209b7'];
-            const confettiCount = 100;
-            
-            for (let i = 0; i < confettiCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                
-                // Random positioning and styling
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.width = Math.random() * 10 + 5 + 'px';
-                confetti.style.height = Math.random() * 10 + 5 + 'px';
-                confetti.style.opacity = Math.random() + 0.5;
-                
-                // Random animation duration and delay
-                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-                confetti.style.animationDelay = Math.random() * 5 + 's';
-                
-                document.body.appendChild(confetti);
-            }
-        }
-    </script>
+    
 </body>
 </html>

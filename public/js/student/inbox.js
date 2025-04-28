@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sortFilter = document.querySelector('.filters select:last-child');
     const messageCards = document.querySelectorAll('.message-card');
 
-    // Search functionality
+    
     messageSearch.addEventListener('input', filterMessages);
     senderFilter.addEventListener('change', filterMessages);
     sortFilter.addEventListener('change', sortMessages);
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
         }
 
-        // Re-append sorted cards
+        
         cards.forEach(card => messagesGrid.appendChild(card));
     }
 });

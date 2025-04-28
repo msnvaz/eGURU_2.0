@@ -11,11 +11,11 @@ class TutorRequestController {
 
     public function __construct() {
         $this->model = new TutorDetailsModel();
-        $this->sessionModel = new SessionsModel(); // ✅ corrected property name
+        $this->sessionModel = new SessionsModel(); 
     }
 
     public function showRequestPage() {
-        //session_start();
+        
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -24,18 +24,24 @@ class TutorRequestController {
     
         $active_requests = [];
         $rejected_requests = [];
+        $cancelled_requests = [];
     
         if (isset($_SESSION['tutor_id'])) {
             $tutorId = $_SESSION['tutor_id'];
             $active_requests = $this->sessionModel->getRequestedSessionsByTutor($tutorId);
             $rejected_requests = $this->sessionModel->getRejectedSessionsByTutor($tutorId);
+            $cancelled_requests = $this->sessionModel->getCancelledSessionsByTutor($tutorId);
+
+            $this->sessionModel->updateCompletedSessionsAndPayments();
+            $this->sessionModel->cancelExpiredRequestedSessions();
+
         }
     
         require_once __DIR__ . '/../../Views/tutor/request.php';
     }
 
     public function handleSessionRequest() {
-        //session_start();
+        
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['session_id'], $_POST['action'])) {
             $sessionId = intval($_POST['session_id']);
@@ -48,7 +54,7 @@ class TutorRequestController {
             }
         }
     
-        // Redirect back to the request page
+        
         header("Location: /tutor-request");
         exit;
     }

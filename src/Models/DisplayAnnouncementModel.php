@@ -12,7 +12,6 @@ class DisplayAnnouncementModel {
         $this->db = $db;
     }
 
-    // Retrieve announcements with pagination
     public function getAnnouncements($offset = 0, $limit = 5) {
         try {
             $query = "SELECT title, announcement, updated_at FROM announcement 

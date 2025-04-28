@@ -1,4 +1,7 @@
-/* Main Layout */
+* {
+    font-family: 'Poppins', sans-serif;
+  }
+  
 .main-content {
     padding: 2rem;
     min-height: 100vh;
@@ -12,9 +15,12 @@
     position: relative;
     width: 70%;
     margin-left: 20%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
 }
 
-/* Back Button */
+
 .back-button {
     display: inline-flex;
     align-items: center;
@@ -44,7 +50,7 @@
     font-size: 1rem;
 }
 
-/* Page Title - Updated margin to accommodate back button */
+
 .page-title {
     font-size: 2.5rem;
     font-weight: bold;
@@ -55,7 +61,7 @@
     letter-spacing: 1px;
 }
 
-/* Welcome Section */
+
 .welcome-section {
     background: white;
     border-radius: 1.5rem;
@@ -78,7 +84,7 @@
     margin-bottom: 3rem;
 }
 
-/* Features Grid */
+
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -172,7 +178,7 @@
     font-size: 0.875rem;
 }
 
-/* Tutor Cards - Fixed Layout */
+
 .tutors-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -292,7 +298,7 @@
 }
 
 
-/* Modal */
+
 .modal {
     display: none;
     position: fixed;
@@ -351,7 +357,7 @@
     background: #cbd5e0;
 }
 
-/* Messages */
+
 .success-message,
 .error-message {
     position: fixed;
@@ -373,7 +379,7 @@
     background: #f56565;
 }
 
-/* No Results */
+
 .no-results {
     background: white;
     border-radius: 1rem;
@@ -418,7 +424,7 @@
     margin-bottom: 0.5rem;
 }
 
-/* Filter Form */
+
 .filter-form {
     background: white;
     padding: 2rem;
@@ -486,7 +492,7 @@
     font-size: 1.2rem;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .main-content {
         margin-left: 0;
@@ -511,7 +517,7 @@
     }
 }
 
-/* Time Slots Modal Styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -606,7 +612,7 @@
     background-color: #0b7dda;
 }
 
-/* Time slots container */
+
 .time-slots-container {
     display: flex;
     flex-direction: column;
@@ -646,7 +652,7 @@
     color: #666;
 }
 
-/* Loading spinner */
+
 .loading-spinner {
     width: 40px;
     height: 40px;
@@ -662,7 +668,7 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Success and error messages */
+
 .success-message,
 .error-message {
     position: fixed;

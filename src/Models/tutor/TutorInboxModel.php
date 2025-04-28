@@ -9,7 +9,7 @@ class TutorInboxModel {
     private $conn;
 
     public function __construct() {
-        // Initialize the Database class and get the connection
+        
         $db = new Database();
         $this->conn = $db->connect();
 
@@ -18,12 +18,12 @@ class TutorInboxModel {
         }
     }
     
-    // Get all messages with pagination and filtering
+    
     public function getAllMessages($tutorId, $page = 1, $status = null, $filter = null, $searchTerm = null) {
-        $perPage = 10; // Number of messages per page
+        $perPage = 10; 
         $offset = ($page - 1) * $perPage;
         
-        // Start with a base query that joins necessary tables
+        
         $query = "SELECT * FROM tutor_inbox ti ";
         
         
@@ -33,19 +33,19 @@ class TutorInboxModel {
             $query .= " LEFT JOIN admin a ON (ti.sender_type = 'admin' AND ti.sender_id = a.admin_id)";
         //}
         
-        $query .= " WHERE ti.tutor_id = :tutorId";  // ✅ This is now correctly placed
+        $query .= " WHERE ti.tutor_id = :tutorId";  
         $params = [];
         $params = [':tutorId' => $tutorId];
        
         
-        // Add status filter (archived or not)
+        
         if ($status === 'archived') {
             $query .= " AND ti.status = 'archived'";
         } else {
             $query .= " AND ti.status != 'archived'";
         }
         
-        // Additional filters
+       
         if ($filter === 'unread') {
             $query .= " AND ti.status = 'unread'";
         } elseif ($filter === 'read') {
@@ -56,7 +56,7 @@ class TutorInboxModel {
             $query .= " AND ti.sender_type = 'admin'";
         }
         
-        // Enhanced search functionality
+        
         if (!empty($searchTerm)) {
             $query .= " AND (ti.subject LIKE :searchTerm 
                         OR ti.message LIKE :searchTerm
@@ -67,19 +67,19 @@ class TutorInboxModel {
             $params[':searchTerm'] = "%$searchTerm%";
         }
         
-        // Order by newest first
+        
         $query .= " ORDER BY ti.sent_at DESC";
         
-        // Add limit and offset for pagination
+        
         $query .= " LIMIT :limit OFFSET :offset";
         $params[':limit'] = $perPage;
         $params[':offset'] = $offset;
         
         
-        // Prepare and execute the query
+        
         $stmt = $this->conn->prepare($query);
         
-        // Bind parameters
+        
         foreach ($params as $key => $value) {
             if ($key === ':limit' || $key === ':offset') {
                 $stmt->bindValue($key, $value, PDO::PARAM_INT);
@@ -92,20 +92,20 @@ class TutorInboxModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    // Get total count of messages for pagination
+    
     public function getTotalMessages($tutorId, $status = null, $filter = null, $searchTerm = null) {
         $query = "SELECT COUNT(*) FROM tutor_inbox WHERE tutor_id = :tutorId";
         $params = [];
         $params = [':tutorId' => $tutorId];
         
-        // Add status filter (archived or not)
+        
         if ($status === 'archived') {
             $query .= " AND status = 'archived'";
         } else {
             $query .= " AND status != 'archived'";
         }
         
-        // Additional filters
+        
         if ($filter === 'unread') {
             $query .= " AND status = 'unread'";
         } elseif ($filter === 'read') {
@@ -116,16 +116,16 @@ class TutorInboxModel {
             $query .= " AND sender_type = 'admin'";
         }
         
-        // Search term
+        
         if (!empty($searchTerm)) {
             $query .= " AND (subject LIKE :searchTerm OR message LIKE :searchTerm)";
             $params[':searchTerm'] = "%$searchTerm%";
         }
         
-        // Prepare and execute the query
+        
         $stmt = $this->conn->prepare($query);
         
-        // Bind parameters
+        
         foreach ($params as $key => $value) {
             $stmt->bindValue($key, $value, PDO::PARAM_STR);
         }
@@ -134,7 +134,7 @@ class TutorInboxModel {
         return $stmt->fetchColumn();
     }
     
-    // Get a specific message
+    
     public function getMessage($inboxId, $tutorId) {
         $query = "
             SELECT ti.*, s.student_first_name, s.student_last_name
@@ -150,7 +150,7 @@ class TutorInboxModel {
     }
     
 
-// Mark a message as read
+
 public function markAsRead($inboxId, $tutorId) {
     $query = "UPDATE tutor_inbox SET status = 'read' WHERE inbox_id = :inboxId AND tutor_id = :tutorId AND status = 'unread'";
     $stmt = $this->conn->prepare($query);
@@ -159,7 +159,7 @@ public function markAsRead($inboxId, $tutorId) {
     return $stmt->execute();
 }
 
-// Archive a message
+
 public function archiveMessage($inboxId) {
     $query = "UPDATE tutor_inbox SET status = 'archived' WHERE inbox_id = :inboxId";
     $stmt = $this->conn->prepare($query);
@@ -167,7 +167,7 @@ public function archiveMessage($inboxId) {
     return $stmt->execute();
 }
 
-// Unarchive a message
+
 public function unarchiveMessage($inboxId) {
     $query = "UPDATE tutor_inbox SET status = 'read' WHERE inbox_id = :inboxId AND status = 'archived'";
     $stmt = $this->conn->prepare($query);
@@ -175,7 +175,7 @@ public function unarchiveMessage($inboxId) {
     return $stmt->execute();
 }
 
-// Get all replies for a message
+
 public function getReplies($inboxId, $tutorId) {
     $query = "
         SELECT tir.*, t.* 
@@ -194,7 +194,7 @@ public function getReplies($inboxId, $tutorId) {
 
 
     
-    // Add a reply to a message
+    
     public function addReply($inboxId, $replyMessage) {
         $sender_type = "tutor";
         $query = "INSERT INTO tutor_inbox_reply (inbox_id, message, sender_type) VALUES (:inboxId,  :replyMessage, :sender_type)";
@@ -205,7 +205,7 @@ public function getReplies($inboxId, $tutorId) {
         return $stmt->execute();
     }
     
-    // New method to get all students for compose message form
+    
     public function getAllStudents() {
         $query = "SELECT student_id, student_first_name, student_last_name FROM student ORDER BY student_first_name ASC";
         $stmt = $this->conn->prepare($query);
@@ -213,7 +213,7 @@ public function getReplies($inboxId, $tutorId) {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    // New method to get all admins for compose message form
+    
     public function getAllAdmins() {
         $query = "SELECT admin_id, username FROM admin ORDER BY username ASC";
         $stmt = $this->conn->prepare($query);
@@ -221,7 +221,7 @@ public function getReplies($inboxId, $tutorId) {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    // New method to send a message to a student
+    
     public function sendMessageToStudent($studentId, $tutorId, $subject, $message) {
         $query = "INSERT INTO student_inbox (student_id, sender_type, sender_id, subject, message) 
                  VALUES (:studentId, 'tutor', :tutorId, :subject, :message)";
@@ -233,7 +233,7 @@ public function getReplies($inboxId, $tutorId) {
         return $stmt->execute();
     }
     
-    // New method to send a message to an admin
+    
     public function sendMessageToAdmin( $tutorId, $subject, $message) {
         $query = "INSERT INTO admin_inbox (sender_type, sender_id, subject, message) 
                  VALUES ('tutor', :tutorId, :subject, :message)";
@@ -275,7 +275,7 @@ public function getReplies($inboxId, $tutorId) {
     }
     
     
-    // New method to send a message to multiple admins
+    
     public function sendMessageToMultipleAdmins($adminIds, $tutorId, $subject, $message) {
         try {
             $this->conn->beginTransaction();
@@ -350,7 +350,7 @@ public function getReplies($inboxId, $tutorId) {
             }
     
         } else {
-            // Combined query
+            
             $query = "(
                         SELECT 
                             'student' as recipient_type,
@@ -484,7 +484,7 @@ public function getReplies($inboxId, $tutorId) {
     }
     
 
-    // Get a specific sent message
+    
     public function getSentMessage($messageId, $recipientType) {
         if ($recipientType === 'student') {
             $query = "SELECT 
@@ -522,7 +522,7 @@ public function getReplies($inboxId, $tutorId) {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    //check if there is unread messages
+    
     public function getUnreadMessageCount($tutorId) {
         $query = "SELECT COUNT(*) FROM tutor_inbox WHERE status = 'unread' AND tutor_id = :tutorId ";
         $stmt = $this->conn->prepare($query);
@@ -535,7 +535,7 @@ public function getReplies($inboxId, $tutorId) {
     
 
 
-    // Get student replies to tutor messages
+    
     public function getStudentReplies($inboxId) {
         $query = "SELECT sir.*, s.student_first_name, s.student_last_name 
                 FROM student_inbox_reply sir
@@ -549,7 +549,7 @@ public function getReplies($inboxId, $tutorId) {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Get admin replies to tutor messages
+    
     public function getAdminReplies($inboxId) {
         $query = "SELECT air.*, air.reply_message as message, air.replied_at as created_at, a.username
                 FROM admin_inbox_reply air

@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="/css/student/StudentOutbox.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
+
 <body>
 <?php $page="inbox"; ?>
 
@@ -21,10 +23,10 @@
 <?php include 'sidebar.php'; ?>
     
     <div class="main">
-        <br>
+        <br><br>
         <div class="student-dashboard">
             <div class="inbox-tabs">
-                <a href="/student-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox</a>
+                <a href="/student-inbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'inbox') ? 'active' : '' ?>">Inbox<span class="notification-badge"><?= htmlspecialchars($unreadCount) ?></span></a>
                 <a href="/student-inbox?status=archived" class="tab-link <?= (isset($activeTab) && $activeTab === 'archived') ? 'active' : '' ?>">Archived</a>
                 <a href="/student-compose-message" class="tab-link <?= (isset($activeTab) && $activeTab === 'compose') ? 'active' : '' ?>">Compose</a>
                 <a href="/student-outbox" class="tab-link <?= (isset($activeTab) && $activeTab === 'outbox') ? 'active' : '' ?>">Outbox</a>
@@ -50,7 +52,7 @@
                         <option value="tutor">Tutor</option>
                     </select>
                     
-                    <input type="hidden" id="message_type" name="message_type" value="admin"> <!-- Add this hidden input -->
+                    <input type="hidden" id="message_type" name="message_type" value="admin"> 
 
                     <div id="tutor-select" style="display: none;">
                         <label for="tutor_id">Select Tutor:</label>
@@ -78,20 +80,19 @@
         </div>
     </div>
     <script>
-        // Update your existing script at the bottom of StudentComposeMessage.php
+        
 document.addEventListener('DOMContentLoaded', function() {
-    // Set initial state based on default selected value
+    
     const recipientType = document.getElementById('recipient_type');
     const tutorSelect = document.getElementById('tutor-select');
     const tutorField = document.getElementById('tutor_id');
     
-    // Set initial state
     if (recipientType.value === 'admin') {
         tutorSelect.style.display = 'none';
         tutorField.required = false;
     }
     
-    // Add your existing event listener
+    
     recipientType.addEventListener('change', function() {
         if (this.value === 'tutor') {
             tutorSelect.style.display = 'block';

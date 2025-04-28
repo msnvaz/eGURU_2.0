@@ -13,6 +13,7 @@
             align-items: center;
             gap: 20px;
             margin-bottom: 20px;
+            background-color: #f8f8f800;
         }
         .availability-filter, .checkbox-wrapper {
             display: flex;
@@ -69,7 +70,7 @@
             border-radius: 8px;
         }
         .available-status {
-            background-color: #4CAF50;
+            background-color: #E14177;
             color: white;
         }
         .busy-status {
@@ -93,8 +94,8 @@
             background: #0056b3;
         }
         .profile-img {
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             border-radius: 50%;
             display: block;
@@ -133,7 +134,7 @@
         <?php else: ?>
             <?php foreach ($tutors as $tutor): ?>
                 <a href="/tutorpreview?tutor_id=<?= urlencode($tutor['tutor_id']) ?>" class="tutor-card">
-                    <img src="<?= htmlspecialchars($tutor['tutor_profile_photo']) ?>"
+                    <img src="<?='images/tutor_uploads/tutor_profile_photos/'. htmlspecialchars($tutor['tutor_profile_photo']) ?>"
                          alt="<?= htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) ?>'s Profile"
                          class="profile-img">
 

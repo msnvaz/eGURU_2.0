@@ -11,12 +11,9 @@ class TutorAdvertisementController {
         $this->model = new AdvertisementModel();
     }
 
-    /**
-     * Displays the advertisement gallery page with a list of ads.
-     */
+    
     public function showAdvertisementGalleryPage() {
 
-        //session_start(); // Ensure session is started
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -28,25 +25,23 @@ class TutorAdvertisementController {
         $ads = [];
         
     
-        // Fetch tutor details if tutor_id exists in session
+        
         if (isset($_SESSION['tutor_id'])) {
             $tutorId = $_SESSION['tutor_id'];
 
-            // Fetch all advertisements from the database
+            
             $ads = $this->model->getAllAdvertisements($tutorId);
 
         }
 
-        // Pass data to the view
+      
         require_once __DIR__ . '/../../Views/tutor/advertisement_gallery.php';
     }
 
-    /**
-     * Handles uploading an advertisement.
-     */
+    
     public function uploadAdvertisement() {
 
-        //session_start(); // Ensure session is started
+        
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -55,29 +50,29 @@ class TutorAdvertisementController {
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_FILES['image']) && isset($_POST['description'])) {
-                // Define upload directory
+                
                 $uploadDir = './uploads/tutor_ads/';
                 $file_name = basename($_FILES['image']['name']);
                 $uploadPath = $uploadDir . $file_name;
 
-                // Ensure uploads directory exists
+                
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
 
-                // Move uploaded file to the upload directory
+                
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath)) {
-                    // Sanitize description
+                   
                     $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
 
-                    // Save advertisement to the database
+                    
                     if (isset($_SESSION['tutor_id'])) {
                         $tutorId = $_SESSION['tutor_id'];
             
                         $this->model->addAdvertisement($file_name, $description, $tutorId);
                     }
                     
-                    // Redirect back to the gallery page
+                   
                     header('Location: /tutor-advertisement?success=Upload Successful');
                     exit();
                 } else {
@@ -87,7 +82,7 @@ class TutorAdvertisementController {
                 echo "Please fill all fields and select an image.";
             }
         } else {
-            // If not a POST request, show the upload form
+            
             require_once __DIR__ . '/../../views/tutor/upload_advertisement.php?error=Upload Failed';
         }
     }
@@ -111,7 +106,7 @@ class TutorAdvertisementController {
     }
 
     public function selectAd() {
-        //session_start();
+       
 
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -122,7 +117,7 @@ class TutorAdvertisementController {
             $adId = $_POST['ad_id'];
             $tutorId = $_SESSION['tutor_id'];
 
-            // If the same ad is clicked again, unselect it
+            
             if ($_SESSION['selected_ad_id'] == $adId) {
                 $this->model->updateTutorAd(null, $tutorId);
                 unset($_SESSION['selected_ad_id']);

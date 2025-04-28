@@ -1,5 +1,5 @@
 <?php
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -23,15 +23,15 @@ include __DIR__ . '/header.php';
 
 <body>
 
-    <!-- header part here -->
+    
     <div class="container">
-        <!-- Sidebar -->
+        
         <?php include 'sidebar.php'; ?>
 
         <div class="bodyform">
-            <!-- Profile Content -->
+            
             <div class="profile-content">
-                <!-- Profile Form -->
+                
                 <form action="/student-profile-updated" method="POST" enctype="multipart/form-data">
                     <div class="profile-picture edit-profile-picture" style="display: flex; flex-direction:column; align-items: center;margin-left:32%;">
                         <img id="profile-image"
@@ -60,10 +60,10 @@ include __DIR__ . '/header.php';
                             <div class="section-box">
                                 <h3>Contact Information</h3>
                                 <input type="text" name="phone" placeholder="Enter phone number"
-    value="<?php echo $profileData['student_phonenumber'] ?? ''; ?>">
-<input type="email" name="email" placeholder="Enter email"
-    value="<?php echo $profileData['student_email'] ?? ''; ?>">
-</div>
+                                   value="<?php echo $profileData['student_phonenumber'] ?? ''; ?>">
+                                <input type="email" name="email" placeholder="Enter email"
+                                   value="<?php echo $profileData['student_email'] ?? ''; ?>">
+                                </div>
                             <div class="section-box">
                                 <h3>Interests</h3>
                                 <textarea name="interests"
@@ -104,7 +104,7 @@ include __DIR__ . '/header.php';
         </div>
     </div>
 
-    <!-- JavaScript -->
+    
     
     <script src="js/student/profile.js"></script>
 </body>

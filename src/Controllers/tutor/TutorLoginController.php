@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers\tutor;
-
 use App\Models\tutor\TutorDetailsModel;
 
 class TutorLoginController {
@@ -20,22 +19,22 @@ class TutorLoginController {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
-
+    
             $email = $_POST['email'];
             $password = $_POST['password'];
-
+    
             $tutorModel = new TutorDetailsModel();
-            $tutorData = $tutorModel->validateTutor($email, $password);
-
-            if ($tutorData) {
+            $tutorData = $tutorModel->getTutorByEmail($email); 
+    
+            if ($tutorData && password_verify($password, $tutorData['tutor_password'])) {
                 // Recreate session
                 session_destroy();
                 session_start();
-
+    
                 $_SESSION['loggedin'] = true;
                 $_SESSION['tutor_id'] = $tutorData['tutor_id'];
                 $_SESSION['email'] = $email;
-
+    
                 header("Location: /tutor-dashboard");
                 exit;
             } else {
@@ -45,4 +44,6 @@ class TutorLoginController {
             }
         }
     }
+    
+    
 }

@@ -2,10 +2,8 @@
 
 use App\Models\TutorDisplayModel;
 
-// Instantiate the TutorDisplayModel class
 $tutorModel = new TutorDisplayModel();
 
-// Fetch the list of successful tutors
 $successfulTutors = $tutorModel->getSuccessfulTutors();
 ?>
 <style>
@@ -15,6 +13,7 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
+    background-color: #f0f0f000;
 }
 
 .tutors {
@@ -64,7 +63,6 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
     box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
 }
 
-/* Rank Badge */
 .rank-badge {
     position: absolute;
     top: -10px;
@@ -83,7 +81,6 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
 .rank-3 .rank-badge { background-color: #CD7F32; }
 .rank-4 .rank-badge { background-color: #1E90FF; }
 
-/* Subjects Styling */
 .subjects {
     font-size: 14px;
     margin-top: 5px;
@@ -94,9 +91,9 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
     list-style-type: none;
     padding: 0;
     display: flex;
-    flex-wrap: wrap; /* allow items to wrap to the next line */
+    flex-wrap: wrap; 
     justify-content: center;
-    gap: 5px; /* spacing between subjects */
+    gap: 5px; 
 }
 
 .subjects li {
@@ -104,7 +101,7 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 12px;
-    white-space: nowrap; /* prevents text from breaking into two lines */
+    white-space: nowrap; 
 }
 
 
@@ -126,14 +123,21 @@ $successfulTutors = $tutorModel->getSuccessfulTutors();
     <button class="gallery-btn prev" onclick="scrollTutors(-1)">&lt;</button>
     <div class="tutors">
         <?php 
-        $maxTutors = 4; // Show only the first four tutors
+        $maxTutors = 4; 
         foreach (array_slice($successfulTutors, 0, $maxTutors) as $index => $tutor) {
             $rank = $index + 1;
             $rankClass = "rank-$rank";
             
             echo '<div class="tutor ' . $rankClass . '">';
             echo '<div class="rank-badge">' . $rank . '</div>';
-            echo '<img src="images/tutor_uploads/tutor_profile_photos/' . htmlspecialchars($tutor['tutor_profile_photo']) . '" alt="' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '">';
+            $photoPath = 'images/tutor_uploads/tutor_profile_photos/';
+            $defaultPhoto = 'default.jpg';
+            $profilePhoto = !empty($tutor['tutor_profile_photo']) ? htmlspecialchars($tutor['tutor_profile_photo']) : $defaultPhoto;
+            $photoFullPath = __DIR__ . '/../../public/' . $photoPath . $profilePhoto;
+            if (!file_exists($photoFullPath)) {
+                $profilePhoto = $defaultPhoto;
+            }
+            echo '<img src="' . $photoPath . $profilePhoto . '" alt="' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '">';
             echo '<h3>' . htmlspecialchars($tutor['tutor_first_name'] . ' ' . $tutor['tutor_last_name']) . '</h3>';
             
             // Display subjects

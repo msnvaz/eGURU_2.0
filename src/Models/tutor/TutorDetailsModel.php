@@ -15,28 +15,28 @@ class TutorDetailsModel
         $this->conn = $db->connect();
     }
 
-    // Method to get tutor details by ID
+    
     public function getTutorDetails($tutorId)
     {
         try {
-            // Prepare SQL query to retrieve tutor details
+            
             $query = "SELECT * FROM tutor WHERE tutor_id = :tutorId";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':tutorId', $tutorId, PDO::PARAM_INT);
 
-            // Execute the query
+            
             $stmt->execute();
 
-            // Fetch tutor details
+            
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            // Handle any database connection errors
+            
             echo "Error: " . $e->getMessage();
             return false;
         }
     }
 
-    // Method to validate tutor credentials
+    
     public function validateTutor($email, $password) {
         try {
             $query = "SELECT tutor_id, tutor_password 
@@ -51,7 +51,7 @@ class TutorDetailsModel
 
     
             if ($tutor && ($password == $tutor['tutor_password'])) {
-                // Credentials valid, update last login and log status
+                
                 $updateQuery = "UPDATE tutor SET tutor_last_login = :last_login, tutor_log = 'online' WHERE tutor_id = :tutor_id";
                 $updateStmt = $this->conn->prepare($updateQuery);
                 $currentDateTime = date('Y-m-d H:i:s');
@@ -59,7 +59,7 @@ class TutorDetailsModel
                 $updateStmt->bindParam(':tutor_id', $tutor['tutor_id']);
                 $updateStmt->execute();
     
-                return $tutor; // Return tutor details including ID
+                return $tutor; 
             } else {
                 echo "Login failed: Incorrect email or password for " . $email;
                 return false;
@@ -69,6 +69,25 @@ class TutorDetailsModel
             return false;
         }
     }
+
+    public function getTutorByEmail($email) {
+        $stmt = $this->conn->prepare("SELECT * FROM tutor WHERE tutor_email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+       
+    public function getAdminSettingValue($settingName)
+    {
+        $query = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = :settingName LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':settingName', $settingName);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result['admin_setting_value'] : null;
+    }
+
 
     public function updateTutorLogStatus($tutorId, $status) {
         try {
@@ -87,7 +106,7 @@ class TutorDetailsModel
 
     public function createTutor($firstName, $lastName, $email, $birth_date, $password, $nic, $contactNumber, $highest_qualification) {
         try {
-            $registrationDate = date('Y-m-d H:i:s'); // Current timestamp
+            $registrationDate = date('Y-m-d H:i:s'); 
             $status = "requested";
             $prof_pic = "default_tutor.png";
             $query = "INSERT INTO tutor (

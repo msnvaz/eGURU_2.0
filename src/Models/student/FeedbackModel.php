@@ -9,13 +9,13 @@ class FeedbackModel {
     private $hasSessionFeedbackStatus = false;
     
     public function __construct() {
-        // First, add the deleted_at column if it doesn't exist
+        
         $this->addDeletedAtColumn();
         
         $db = new Database();
         $this->conn = $db->connect();
         
-        // Check if session_feedback_status exists
+        
         $this->hasSessionFeedbackStatus = $this->checkColumnExists('session', 'session_feedback_status');
     }
 
@@ -28,44 +28,38 @@ class FeedbackModel {
     }
 
     public function save_comment($student_id, $session_id, $student_feedback, $session_rating) {
-        $currentTime = date('Y-m-d H:i:s');
-        
         if ($this->hasSessionFeedbackStatus) {
-            // Update the session_feedback_status to 'set'
+            
             $statusQuery = $this->conn->prepare("
-                UPDATE session 
+                UPDATE session_feedback 
                 SET session_feedback_status = 'set'
                 WHERE session_id = :session_id
             ");
             $statusQuery->execute(['session_id' => $session_id]);
         }
+    
         
-        // Then insert the feedback
         $query = $this->conn->prepare("
             INSERT INTO session_feedback 
             (session_id, student_feedback, session_rating, last_updated, time_created) 
-            VALUES (:session_id, :student_feedback, :session_rating, :last_updated, :time_created)
+            VALUES (:session_id, :student_feedback, :session_rating, NOW(), NOW())
         ");
-        
+    
         $query->execute([
             'session_id' => $session_id,
             'student_feedback' => $student_feedback,
-            'session_rating' => $session_rating,
-            'last_updated' => $currentTime,
-            'time_created' => $currentTime
+            'session_rating' => $session_rating
         ]);
-        
+    
         return $this->conn->lastInsertId();
     }
-
     public function update_comment($feedback_id, $student_feedback, $session_rating) {
-        $currentTime = date('Y-m-d H:i:s');
         
         $query = $this->conn->prepare("
             UPDATE session_feedback 
             SET student_feedback = :student_feedback,
                 session_rating = :session_rating,
-                last_updated = :last_updated
+                last_updated = NOW()
             WHERE feedback_id = :feedback_id
             AND deleted_at IS NULL
         ");
@@ -73,7 +67,6 @@ class FeedbackModel {
         $query->execute([
             'student_feedback' => $student_feedback,
             'session_rating' => $session_rating,
-            'last_updated' => $currentTime,
             'feedback_id' => $feedback_id
         ]);
         
@@ -81,50 +74,44 @@ class FeedbackModel {
     }
     
     public function delete_comment($feedback_id) {
-        // First get the session_id
+        
         $getSessionQuery = $this->conn->prepare("
-            SELECT session_id FROM session_feedback 
+            SELECT session_id 
+            FROM session_feedback 
             WHERE feedback_id = :feedback_id
             AND deleted_at IS NULL
         ");
         $getSessionQuery->execute(['feedback_id' => $feedback_id]);
         $session = $getSessionQuery->fetch(PDO::FETCH_ASSOC);
-        
+    
         if ($session) {
-            // Start a transaction to ensure both updates happen or neither does
-            $this->conn->beginTransaction();
             
+            $this->conn->beginTransaction();
+    
             try {
-                if ($this->hasSessionFeedbackStatus) {
-                    // Update the session_feedback_status to 'unset'
-                    $statusQuery = $this->conn->prepare("
-                        UPDATE session 
-                        SET session_feedback_status = 'unset'
-                        WHERE session_id = :session_id
-                    ");
-                    $statusQuery->execute(['session_id' => $session['session_id']]);
-                }
                 
-                // Soft delete by setting deleted_at timestamp
-                $query = $this->conn->prepare("
+                $statusQuery = $this->conn->prepare("
                     UPDATE session_feedback 
-                    SET deleted_at = NOW()
+                    SET session_feedback_status = 'unset', 
+                        last_updated = NOW(), 
+                        deleted_at = NOW()
                     WHERE feedback_id = :feedback_id
                     AND deleted_at IS NULL
                 ");
-                $query->execute(['feedback_id' => $feedback_id]);
-                
+                $statusQuery->execute(['feedback_id' => $feedback_id]);
+    
                 $this->conn->commit();
                 return true;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->conn->rollBack();
+                error_log("Error deleting feedback: " . $e->getMessage());
                 return false;
             }
         }
-        
+    
         return false;
     }
-
+    
     public function get_student_feedback($student_id) {
         $query = $this->conn->prepare("
             SELECT sf.feedback_id, sf.session_id, sf.student_feedback, 

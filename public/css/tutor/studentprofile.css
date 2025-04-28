@@ -1,4 +1,4 @@
-/* Global Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +12,7 @@ body {
     line-height: 1.6;
 }
 
-/* Main Content Area */
+
 .bodyform {
     margin-top: 5%;
     margin-left: 20%; 
@@ -21,7 +21,7 @@ body {
     transition: margin-left 0.3s ease;
 }
 
-/* Profile Content */
+
 .profile-content {
     margin-left: 5%;
     margin-right: 5%;
@@ -40,7 +40,7 @@ body {
     align-items: center;
 }
 
-/* Profile Picture */
+
 .profile-picture {
     display: flex;
     justify-content: center;
@@ -62,7 +62,7 @@ body {
     transform: scale(1.05);
 }
 
-/* Profile Section */
+
 .profile-section {
     display: flex;
     flex-direction: column;
@@ -91,7 +91,7 @@ body {
 }
 
 .section-box h3 {
-    color: #003399;
+    color: rgba(41, 50, 65,1);
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 2px solid #e6e9ef;
@@ -112,7 +112,7 @@ body {
     font-weight: 600;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1100px) {
     .section-row {
         flex-direction: column;
@@ -139,7 +139,7 @@ body {
     }
 }
 
-/* Animation for page load */
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -154,7 +154,7 @@ body {
     animation-delay: calc(var(--i, 0) * 0.1s);
 }
 
-/* You might need to adjust these based on your sidebar dimensions */
+
 @media (min-width: 769px) {
     body.sidebar-collapsed .bodyform {
         margin-left: 70px;

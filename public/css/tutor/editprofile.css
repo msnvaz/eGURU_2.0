@@ -1,4 +1,4 @@
-/*edit profile*/
+
 
 
 .profile-content {
@@ -19,7 +19,7 @@
     margin-bottom: 20px;
   }
 
-/* Profile Picture Section */
+
 .profile-picture {
     display: flex;
     flex-direction: column;
@@ -43,7 +43,7 @@
     margin-bottom:30px;
     margin-left:10px;
 }
-.profile-header .btn {     /*change profile button*/
+.profile-header .btn {    
     margin-top: 50px;
     margin-left:-280px;
     background-color: #E14177 ;
@@ -59,7 +59,7 @@
     background-color:  #e02362;
 }
 
-/* edit Profile Details */
+
 .profile-details {
     display: flex;
     margin-top: 30px;
@@ -78,7 +78,7 @@
 
 h3 {
     font-size: 20px;
-    color: #003399;
+    color: rgba(41, 50, 65,1);
 }
 
 .profile-section {
@@ -91,7 +91,7 @@ h3 {
     border-radius: 8px;
   }
   
-  /* Section Row and Box Layout */
+  
   .section-row {
     display: flex;
     flex-wrap: wrap;
@@ -112,7 +112,7 @@ h3 {
     color: #333;
   }
   
-  /* Input and Textarea styles */
+  
   textarea,
   input[type="text"],
   input[type="number"],
@@ -131,7 +131,7 @@ h3 {
     height: 80px;
   }
   
-  /* Button Styles */
+  
   .savechanges-btn {
     background-color: #E14177;
     color: white;

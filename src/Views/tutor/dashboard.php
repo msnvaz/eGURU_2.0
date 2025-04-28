@@ -7,27 +7,32 @@
     <link rel="stylesheet" href="/css/tutor/dashboard.css">
     <link rel="stylesheet" href="/css/tutor/sidebar.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
-
+<style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
 <body>
 
 <?php $page="dashboard"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
     <div class="container">
 
-        <!-- Main Content -->
+        
         <div class="main-content">
             
 
-            <!-- Profile Info, User Info, and Calendar on the Same Level -->
+            
             <div class="profile-info-container">
-                <div class="profile-info">
+                <div class="profile-info" style="background-color: #CBF1F9; padding: 20px; border-radius: 8px;">
                     <div class="welcome">
                         <?php if ($tutorData): ?>
                             <h2>Welcome, <?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?>!</h2>
@@ -38,7 +43,7 @@
                     </div>
 
                     <div class="user-info">
-                    <img src="/images/tutor_uploads/tutor_profile_photos/<?= $tutorData['tutor_profile_photo'] ?>" alt="tutor profile photo">
+                    <img src="/images/tutor_uploads/tutor_profile_photos/<?= $tutorData['tutor_profile_photo']  ?>" alt="tutor profile photo" onerror="this.onerror=null; this.src='/images/tutor_uploads/tutor_profile_photos/default_tutor.png';">
 
                         <div class="user-info-text">
                             <p><?php echo htmlspecialchars($tutorData['tutor_first_name'] . ' ' . $tutorData['tutor_last_name']); ?></p>
@@ -91,16 +96,16 @@
                 </div>
                 -->
 
-            <!-- Below the Profile Info, User Info, and Calendar -->
+            
             <div id="notifications" class="notifications">
-                <!-- Notifications will be added here -->
+                
             </div>
 
            
             <div id="rating">
                 <span class="rating-text">Overall Rating </span>
                 <div class="stars" id="starContainer">
-                    <!-- Stars will be dynamically updated -->
+                    
                 </div>
                 <span class="rating-number"> <?= isset($tutorRating) && $tutorRating !== null ? $tutorRating : '0' ?></span>
 
@@ -112,29 +117,29 @@
                         const maxStars = 5;
                         const starContainer = document.getElementById("starContainer");
 
-                        if (!starContainer) return; // Prevent errors if the element is missing
+                        if (!starContainer) return;
 
-                        starContainer.innerHTML = ""; // Clear existing stars
+                        starContainer.innerHTML = ""; 
 
                         for (let i = 1; i <= maxStars; i++) {
                             const star = document.createElement("span");
                             star.classList.add("star");
 
                             if (i <= Math.floor(rating)) {
-                                star.classList.add("filled"); // Full star
+                                star.classList.add("filled"); 
                                 star.innerHTML = "&#9733;";
                             } else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                                star.classList.add("half-filled"); // Half-star
+                                star.classList.add("half-filled");
                                 star.innerHTML = "&#9733;";
                             } else {
-                                star.innerHTML = "&#9733;"; // Empty star
+                                star.innerHTML = "&#9733;"; 
                             }
 
                             starContainer.appendChild(star);
                         }
                     }
 
-                    // Get the rating from PHP and parse it to a number
+                    
                     const tutorRating = parseFloat(
                         document.querySelector(".rating-number").textContent
                     );
@@ -167,7 +172,7 @@
             </div>
             <script src="carousel.js"></script>-->
 
-            <!-- Events and Feedback -->
+            
                 <div class="event-feedback-container">
                     <div class="events-section">
                         <h2>Upcoming Events</h2>
@@ -188,7 +193,6 @@
                         </ul>
 
                         <h2>Previous Events</h2>
-                        <a href="/tutor-event" class="view-all">View All</a>
                         <ul class="event-list">
                             <?php if (!empty($previousEvents)): ?>
                                 <?php foreach (array_slice($previousEvents, 0, 3) as $event): ?>
@@ -213,9 +217,10 @@
                     <a href="/tutor-feedback" class="view-all">View All</a>
                     <ul class="feedback-list">
                         <?php if (!empty($tutorFeedback)): ?>
-                            <?php foreach (array_slice($tutorFeedback, 0, 4) as $feedback): ?>
+                            <?php foreach (array_slice($tutorFeedback, 0, 3) as $feedback): ?>
                                 <li>
-                                    <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img">
+                                    <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img" onerror="this.onerror=null; this.src='/images/student-uploads/profilePhotos/default.jpg';">
+                                    <?= htmlspecialchars($feedback['student_name']); ?><br>
                                     <?= htmlspecialchars($feedback['student_feedback']); ?><br>
                                     <?= date('d M Y - h:i A', strtotime($feedback['time_created'])); ?>
                                 </li>

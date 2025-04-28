@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config\config.php  '; // Assuming you have a separate file for database connection
+include 'config\config.php  '; 
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: index.php?action=login");

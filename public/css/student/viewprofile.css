@@ -1,4 +1,4 @@
-/* view public Profile Section */
+
 
 .profile-bodyform{
     width: 1000px;
@@ -6,7 +6,7 @@
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     height:100vh;
     margin-left:300px;
     margin-top:90px;

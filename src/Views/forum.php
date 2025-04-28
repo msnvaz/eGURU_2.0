@@ -25,7 +25,7 @@ function renderReplies($parentId, $model, $level = 1) {
 <head>
     <style>
         .forum-section {
-            font-family: Arial;
+            font-family: 'poppins',sans-serif;
         }
         .forum-container {
             background: white;
@@ -49,26 +49,34 @@ function renderReplies($parentId, $model, $level = 1) {
         }
         form {
             margin: 10px;
+            border: 2px solid var(--dark-blue);padding-left:20px;
+            border-radius:12px;
+            padding: 10px;
         }
         form h3 {
             margin-bottom: 5px;
+            margin-top: 5px;
         }
         form input,
         form textarea {
-            width: 100%;
+            border-radius:12px;
+            width: 95%;
             padding: 5px;
             margin-bottom: 10px;
+            border: 2px solid var(--dark-blue);padding-left:20px;
         }
         .forum-submit-btn {
-            background: #4CAF50;
+            background: var(--dark-pink);
             color: white;
             border: none;
             cursor: pointer;
             padding: 10px 20px;
+            border-radius: 12px;
             width: 100%;
         }
         .forum-reply-btn {
-            background: orange;
+            background-color: #E14177;
+            border-radius:5px;
             color: white;
             border: none;
             cursor: pointer;
@@ -78,15 +86,16 @@ function renderReplies($parentId, $model, $level = 1) {
     </style>
 </head>
 <body>
+<section id="forum">
 <div class="forum-section">
     <div class="forum-container" id="comments-section">
 
         <?php if (!empty($mainComments)) : ?>
             <?php foreach ($mainComments as $comment): ?>
-                <div class="comment">
+                <div class="comment" style="border: 2px solid var(--dark-blue);padding-left:20px;">
                     <h4><?= htmlspecialchars($comment['name']) ?></h4>
                     <p><?= htmlspecialchars($comment['date']) ?></p>
-                    <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
+                    <p style="font-weight:550;padding-left:20px;"><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
                     <button class="forum-reply-btn" onclick="reply(<?= $comment['forum_id'] ?>, '<?= addslashes(htmlspecialchars($comment['name'])) ?>')">Reply</button>
                     <?php renderReplies($comment['forum_id'], $model); ?>
                 </div>
@@ -98,12 +107,14 @@ function renderReplies($parentId, $model, $level = 1) {
         <form id="comment-form" action="/forum" method="post">
             <h3 id="title">Leave a Question</h3>
             <input type="hidden" name="reply_id" id="reply_id" value="0">
-            <input type="text" name="name" placeholder="Your name" required>
+            <input type="text" name="name" placeholder="Your name" required >
             <textarea name="comment" placeholder="Your comment" required></textarea>
             <button class="forum-submit-btn" type="submit" name="submit">Submit</button>
         </form>
     </div>
+    <br><br>
 </div>
+</section>
 
 <script>
     function reply(id, name) {
@@ -130,6 +141,8 @@ function renderReplies($parentId, $model, $level = 1) {
             form.reset();
             document.getElementById('reply_id').value = 0;
             document.getElementById('title').innerText = "Leave a Comment";
+            // Show success popup
+            alert("Comment submitted successfully!");
         })
         .catch(err => {
             alert("Error submitting comment.");

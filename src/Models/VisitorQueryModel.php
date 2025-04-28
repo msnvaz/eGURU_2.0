@@ -19,7 +19,6 @@ class VisitorQueryModel {
         }
     }
 
-    // Create a new visitor query (Insert data)
     public function createVisitorQuery($first_name, $last_name, $email, $district, $message) {
         try {
             $sql = "INSERT INTO visitor_query (first_name, last_name, email, district, message, created_at) 

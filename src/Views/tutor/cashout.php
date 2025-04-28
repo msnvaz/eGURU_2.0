@@ -1,5 +1,4 @@
 <?php
-// Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -21,10 +20,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <?php $page="cashout"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
     
     <div class="container">
@@ -37,7 +36,6 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
                 
                 <div class="cashout-body">
-                    <!-- Display error message if any -->
                     <?php if (isset($_SESSION['cashout_error'])): ?>
                         <div class="error-message">
                             <?php 
@@ -47,13 +45,12 @@ if (session_status() === PHP_SESSION_NONE) {
                         </div>
                     <?php endif; ?>
                     
-                    <!-- Points Balance -->
                     <div class="points-balance">
                         <div class="points-balance-label">Your Current Points Balance</div>
                         <div class="points-balance-value"><?php echo number_format($tutorInfo['tutor_points'] ?? 0); ?></div>
                     </div>
                     
-                    <!-- Cashout Form -->
+                   
                     <h3 class="section-title">Request Cashout</h3>
                     
                     <form class="cashout-form" action="index.php?action=process_cashout" method="POST" id="cashout-form">
@@ -93,7 +90,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Cash Out Now</button>
                     </form>
                     
-                    <!-- Cashout History -->
+                    
                     <?php if (!empty($cashoutHistory)): ?>
                     <h3 class="section-title">Cashout History</h3>
                     <div class="cashout-history">
@@ -142,7 +139,7 @@ if (session_status() === PHP_SESSION_NONE) {
         pointsInput.addEventListener('input', function() {
             const pointsToRedeem = parseInt(this.value) || 0;
             
-            // Validate points
+            
             if (pointsToRedeem < 100) {
                 submitBtn.disabled = true;
                 submitBtn.classList.add('btn-disabled');
@@ -162,21 +159,21 @@ if (session_status() === PHP_SESSION_NONE) {
         });
         
         function calculateValues(points) {
-            // Update display
+            
             displayPoints.textContent = points.toLocaleString();
             
-            // Calculate values
+            
             const gross = points * pointValue;
             const fee = gross * (platformFeePercentage / 100);
             const net = gross - fee;
             
-            // Update display
+            
             grossAmount.textContent = 'LKR ' + gross.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             platformFee.textContent = 'LKR ' + fee.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             netAmount.textContent = 'LKR ' + net.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
         
-        // Initialize with minimum value if available
+        
         if (maxPoints >= 100) {
             pointsInput.value = 100;
             calculateValues(100);

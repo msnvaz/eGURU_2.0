@@ -1,4 +1,4 @@
-/* Sidebar Styles */
+
 .sidebar {
     width: 250px;
     background-color:  #CBF1F9;
@@ -6,7 +6,7 @@
     padding: 40px 30px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     height:100vh;
-    font-family: 'Kalam', cursive;
+    font-family: 'Poppins', sans-serif;
     position:fixed;
     top:0;
     left:0;
@@ -54,8 +54,8 @@
     background-color: white;
 }
 
-/* css styling for icons */
+
 .sidebar ul li i {
-    font-size: 14px;           /* Adjust icon size as needed */
-    color: black;               /* Optional: match icon color with text */
+    font-size: 14px;           
+    color: black;               
 }

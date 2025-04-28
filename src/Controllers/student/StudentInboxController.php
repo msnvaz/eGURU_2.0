@@ -14,7 +14,7 @@ class StudentInboxController {
         $this->model = new StudentInboxModel();
     }
 
-    // Show inbox page with list of messages
+    
     public function showInbox() {
         
 
@@ -28,33 +28,33 @@ class StudentInboxController {
         $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
         $searchTerm = null;
         
-        // Set active tab based on status
+        
         if ($status === 'archived') {
             $activeTab = 'archived';
         } else {
             $activeTab = 'inbox';
         }
         
-        // Handle search form submission
+        
         if (isset($_POST['search']) && !empty($_POST['search_term'])) {
             $searchTerm = $_POST['search_term'];
         }
         
-        // Get messages based on filters
-        $studentId = $_SESSION['student_id']; // Get current student's ID
+        
+        $studentId = $_SESSION['student_id']; 
         $messages = $this->model->getAllMessages($studentId, $page, $status, $filter, $searchTerm);
         
-        // Get total messages for pagination
+        
         $totalMessages = $this->model->getTotalMessages($studentId, $status, $filter, $searchTerm);
         $unreadCount = $this->model->getUnreadMessageCount($studentId);
-        $perPage = 10; // Should match the value in the model
+        $perPage = 10; 
         $totalPages = ceil($totalMessages / $perPage);
         $currentPage = $page;
         
         require_once __DIR__ . '/../../Views/student/StudentInbox.php';
     }
     
-    // Show a specific message
+    
     public function showMessage($inboxId) {
         
 
@@ -63,10 +63,10 @@ class StudentInboxController {
             exit();
         }
         
-        $studentId = $_SESSION['student_id']; // Get current student's ID
+        $studentId = $_SESSION['student_id']; 
         
         
-        // Get the active message
+        
         $activeMessage = $this->model->getMessage($inboxId, $studentId);
         
         if (!$activeMessage) {
@@ -74,17 +74,17 @@ class StudentInboxController {
             exit();
         }
         
-        // Mark message as read if it was unread
+        
         if ($activeMessage['status'] === 'unread') {
             $this->model->markAsRead($inboxId, $studentId);
-            // Refresh the message data to get updated status
+            
             $activeMessage = $this->model->getMessage($inboxId, $studentId);
         }
         
-        // Get all replies for this message
+        
         $replies = $this->model->getReplies($inboxId, $studentId);
         
-        // Get all messages for the sidebar (with same filters as inbox page)
+        
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $status = isset($_GET['status']) ? $_GET['status'] : null;
         $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
@@ -92,16 +92,16 @@ class StudentInboxController {
         
         $messages = $this->model->getAllMessages($studentId, $page, $status, $filter, $searchTerm);
         
-        // Get total messages for pagination
+        
         $totalMessages = $this->model->getTotalMessages($studentId, $status, $filter, $searchTerm);
-        $perPage = 10; // Should match the value in the model
+        $perPage = 10; 
         $totalPages = ceil($totalMessages / $perPage);
         $currentPage = $page;
         
         require_once __DIR__ . '/../../Views/student/StudentInbox.php';
     }
     
-    // Archive a message
+    
     public function archiveMessage($inboxId) {
         
 
@@ -112,7 +112,7 @@ class StudentInboxController {
         
         $studentId = $_SESSION['student_id'];
         
-        // Verify the message belongs to this student before archiving
+        
         $message = $this->model->getMessage($inboxId, $studentId);
         if (!$message) {
             header('Location: /student-inbox');
@@ -124,7 +124,7 @@ class StudentInboxController {
         exit();
     }
     
-    // Unarchive a message
+    
     public function unarchiveMessage($inboxId) {
         
 
@@ -135,7 +135,7 @@ class StudentInboxController {
         
         $studentId = $_SESSION['student_id'];
         
-        // Verify the message belongs to this student before unarchiving
+        
         $message = $this->model->getMessage($inboxId, $studentId);
         if (!$message) {
             header('Location: /student-inbox');
@@ -163,7 +163,7 @@ class StudentInboxController {
         $studentId = $_SESSION['student_id'];
         $replyMessage = $_POST['reply_message'];
         
-        // Verify the message belongs to this student before replying
+        
         $message = $this->model->getMessage($inboxId, $studentId);
         if (!$message) {
             header('Location: /student-inbox');
@@ -186,19 +186,19 @@ class StudentInboxController {
             exit();
         }
 
-        $studentId = $_SESSION['student_id']; // Get current student's ID
+        $studentId = $_SESSION['student_id']; 
         
-        // Get tutors for the dropdown
+        
         $tutors = $this->model->getAllTutors();
         $activeTab = 'compose';
         
-        // Pre-selected recipient (e.g., from tutor profiles)
+ 
         $selectedRecipient = isset($_GET['recipient']) ? $_GET['recipient'] : null;
         
         require_once __DIR__ . '/../../Views/student/StudentComposeMessage.php';
     }
     
-    // Send a message to tutors and/or admin
+    
     public function sendMessage() {
         
 
@@ -207,28 +207,28 @@ class StudentInboxController {
             exit();
         }
         
-        // Check if form is submitted
+        
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /student-compose-message');
             exit();
         }
         
-        // Validate required fields
+        
         if (!isset($_POST['subject']) || empty($_POST['subject']) ||
             !isset($_POST['message']) || empty($_POST['message'])) {
             header('Location: /student-compose-message?error=Subject and message are required');
             exit();
         }
         
-        // Get form data
+        
         $subject = $_POST['subject'];
         $message = $_POST['message'];
         $messageType = $_POST['message_type'];
         $studentId = $_SESSION['student_id'];
         
-        // Process based on message type
+        
         if ($messageType === 'tutor') {
-            // Send to tutors
+            
             if (!isset($_POST['tutors']) || empty($_POST['tutors'])) {
                 header('Location: /student-compose-message?error=Please select at least one tutor');
                 exit();
@@ -243,7 +243,7 @@ class StudentInboxController {
                 header('Location: /student-compose-message?error=Failed to send message to tutors');
             }
         } elseif ($messageType === 'admin') {
-            // Send to admin
+            
             $result = $this->model->sendMessageToAdmin($studentId, $subject, $message);
             
             if ($result) {
@@ -256,7 +256,7 @@ class StudentInboxController {
         exit();
     }
 
-    // Show outbox page with list of sent messages
+    
     public function showOutbox() {
         
 
@@ -271,24 +271,24 @@ class StudentInboxController {
         $activeTab = 'outbox';
         $studentId = $_SESSION['student_id'];
         
-        // Handle search form submission
+       
         if (isset($_POST['search']) && !empty($_POST['search_term'])) {
             $searchTerm = $_POST['search_term'];
         }
         
-        // Get sent messages based on filters
+        
         $messages = $this->model->getAllSentMessages($studentId, $page, null, $filter, $searchTerm);
         
-        // Get total messages for pagination
+        
         $totalMessages = $this->model->getTotalSentMessages($studentId, $filter, $searchTerm);
-        $perPage = 10; // Should match the value in the model
+        $perPage = 10; 
         $totalPages = ceil($totalMessages / $perPage);
         $currentPage = $page;
         
         require_once __DIR__ . '/../../Views/student/StudentOutbox.php';
     }
 
-    // Show a specific sent message
+    
     public function showSentMessage($messageId, $recipientType) {
         
 
@@ -299,7 +299,7 @@ class StudentInboxController {
         
         $studentId = $_SESSION['student_id'];
         
-        // Get the active message
+        
         $activeMessage = $this->model->getSentMessage($messageId, $recipientType);
         
         if (!$activeMessage) {
@@ -307,7 +307,7 @@ class StudentInboxController {
             exit();
         }
         
-        // Get replies from tutors or admin
+       
         $recipientReplies = [];
         if ($recipientType === 'tutor') {
             $recipientReplies = $this->model->getTutorReplies($messageId);
@@ -315,16 +315,16 @@ class StudentInboxController {
             $recipientReplies = $this->model->getAdminReplies($messageId);
         }
         
-        // Get all sent messages for the sidebar (with same filters as outbox page)
+        
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
         $searchTerm = isset($_GET['search_term']) ? $_GET['search_term'] : null;
         
         $messages = $this->model->getAllSentMessages($studentId, $page, null, $filter, $searchTerm);
         
-        // Get total messages for pagination
+        
         $totalMessages = $this->model->getTotalSentMessages($studentId, $filter, $searchTerm);
-        $perPage = 10; // Should match the value in the model
+        $perPage = 10; 
         $totalPages = ceil($totalMessages / $perPage);
         $currentPage = $page;
         

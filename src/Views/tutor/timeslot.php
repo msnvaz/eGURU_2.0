@@ -25,7 +25,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <div class="container">
     <h2>Select Your Available Time Slots by Day</h2>
 
-    <!-- Edit button -->
+    
     <button type="button" id="editBtn">
         <i class="fas fa-edit"></i> Edit Time Slots
     </button>
@@ -61,7 +61,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </form>
 </div>
 
-<!-- Success Modal -->
+
 <div id="successModal" class="modal success-modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
@@ -76,7 +76,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
 </div>
 
-<!-- Error Modal -->
+
 <div id="errorModal" class="modal error-modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
@@ -91,7 +91,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </div>
 </div>
 
-<!-- Confirmation Modal -->
+
 <div id="confirmModal" class="modal confirm-modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
@@ -108,49 +108,49 @@ if (session_status() === PHP_SESSION_NONE) {
 </div>
 
 <script>
-    // Check if there's a success message in URL parameters
+    
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('success')) {
             showModal('successModal');
-            // Remove the parameter from URL without reloading the page
+            
             const newUrl = window.location.pathname;
             window.history.replaceState({}, document.title, newUrl);
         } else if (urlParams.has('error')) {
             const errorMsg = urlParams.get('error') || 'There was an error saving your time slots.';
             document.getElementById('errorMessage').textContent = errorMsg;
             showModal('errorModal');
-            // Remove the parameter from URL without reloading the page
+            
             const newUrl = window.location.pathname;
             window.history.replaceState({}, document.title, newUrl);
         }
     });
 
     document.getElementById('editBtn').addEventListener('click', function() {
-        // Enable all checkboxes
+        
         const checkboxes = document.querySelectorAll('#timeslotForm input[type="checkbox"]');
         checkboxes.forEach(cb => cb.disabled = false);
 
-        // Show the Save button
+        
         document.getElementById('saveBtn').style.display = 'inline-block';
 
-        // Hide the Edit button
+        
         this.style.display = 'none';
     });
 
-    // Show confirmation modal before submitting form
+    
     document.getElementById('timeslotForm').addEventListener('submit', function(e) {
         e.preventDefault();
         showModal('confirmModal');
     });
 
-    // When user confirms in the modal, submit the form
+    
     document.getElementById('confirmSave').addEventListener('click', function() {
         document.getElementById('timeslotForm').submit();
         hideModal('confirmModal');
     });
 
-    // Modal functions
+    
     function showModal(modalId) {
         document.getElementById(modalId).style.display = 'block';
     }
@@ -159,7 +159,7 @@ if (session_status() === PHP_SESSION_NONE) {
         document.getElementById(modalId).style.display = 'none';
     }
 
-    // Event listeners for modal close buttons
+    
     const closeButtons = document.querySelectorAll('.close-modal, .close-modal-btn');
     closeButtons.forEach(function(button) {
         button.addEventListener('click', function() {
@@ -168,7 +168,7 @@ if (session_status() === PHP_SESSION_NONE) {
         });
     });
 
-    // Close modal when clicking outside
+    
     window.addEventListener('click', function(event) {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(function(modal) {

@@ -12,7 +12,7 @@
     
     <link rel="stylesheet" href="css/student/sidebar.css">
     <style>
-        /* Additional CSS for the feedback page */
+        
         .container {
             display: flex;
             flex-direction: column;
@@ -460,7 +460,7 @@
             </section>
         </main>
 
-        <!-- New Feedback Modal -->
+        
         <div class="modal" id="feedbackModal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -507,7 +507,7 @@
             </div>
         </div>
 
-        <!-- Edit Feedback Modal -->
+        
         <div class="modal" id="editFeedbackModal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -552,47 +552,47 @@
     </div>
 
     <script>
-        // Open new feedback modal
+        
         function openFeedbackModal(tutorId, tutorName, sessionId) {
             document.getElementById('session_id').value = sessionId;
             document.getElementById('tutorName').textContent = tutorName;
             document.getElementById('feedbackModal').style.display = 'flex';
             
-            // Reset form
+           
             document.getElementById('feedbackForm').reset();
             document.getElementById('session_rating').value = 0;
             updateStarRating(0);
         }
         
-        // Open edit feedback modal
+        
         function openEditFeedbackModal(feedbackId, feedback, rating) {
             document.getElementById('edit_feedback_id').value = feedbackId;
             document.getElementById('edit_student_feedback').value = feedback;
             document.getElementById('edit_session_rating').value = rating;
             document.getElementById('editFeedbackModal').style.display = 'flex';
             
-            // Update star rating display
+            
             updateEditStarRating(rating);
         }
         
-        // Close modal
+        
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
         
-        // Set rating for new feedback
+        
         function setRating(rating) {
             document.getElementById('session_rating').value = rating;
             updateStarRating(rating);
         }
         
-        // Set rating for edit feedback
+        
         function setEditRating(rating) {
             document.getElementById('edit_session_rating').value = rating;
             updateEditStarRating(rating);
         }
         
-        // Update star rating display for new feedback
+        
         function updateStarRating(rating) {
             const stars = document.querySelectorAll('#feedbackForm .star-btn');
             stars.forEach((star, index) => {
@@ -606,7 +606,7 @@
             });
         }
         
-        // Update star rating display for edit feedback
+        
         function updateEditStarRating(rating) {
             const stars = document.querySelectorAll('#editFeedbackForm .star-btn');
             stars.forEach((star, index) => {
@@ -620,7 +620,7 @@
             });
         }
         
-        // Close modals when clicking outside
+        
         window.addEventListener('click', function(event) {
             const feedbackModal = document.getElementById('feedbackModal');
             const editFeedbackModal = document.getElementById('editFeedbackModal');

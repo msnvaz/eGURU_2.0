@@ -1,4 +1,7 @@
-/*report tutor*/
+* {
+    font-family: 'Poppins', sans-serif;
+  }
+
 .report-container {
     background: rgba(255, 255, 255, 0.2);
     max-width: 600px;
@@ -6,7 +9,7 @@
     
     padding: 30px;
     border-radius: 10px;
-    backdrop-filter: blur(10px);  /* Try increasing this if blur is weak */
+    backdrop-filter: blur(10px);  
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     margin-right: 260px;
     margin-top: 100px;
@@ -56,7 +59,7 @@ report-button {
     font-size: 16px;
     font-weight: bold;
     width:40%;
-    margin-left:155px;   /*submit button to the center*/
+    margin-left:155px;   
 }
 
 report-button:hover {
