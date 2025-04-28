@@ -127,13 +127,10 @@
 </div>
 
 <script>
-    // Get the current path from the URL
     const currentPath = window.location.pathname;
     
-    // Find all sidebar links
     const sidebarLinks = document.querySelectorAll('.sidebar a');
     
-    // Loop through each link and check if its data-path matches the current path
     sidebarLinks.forEach(link => {
         const linkPath = link.getAttribute('data-path');
         if (linkPath === currentPath) {

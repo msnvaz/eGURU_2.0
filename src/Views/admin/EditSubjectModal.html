@@ -43,7 +43,6 @@
             const modalImagePreview = document.getElementById('modal-image-preview');
             const deleteSubjectBtn = document.getElementById('deleteSubjectBtn');
 
-            // Open modal and populate fields
             editButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -55,7 +54,6 @@
                     modalSubjectId.value = subjectId;
                     modalSubjectName.value = subjectName;
                     
-                    // Update image preview if available
                     if (subjectImage && subjectImage !== '') {
                         modalImagePreview.innerHTML = `<img src="${subjectImage}" alt="Subject Icon" width="100">`;
                     } else {

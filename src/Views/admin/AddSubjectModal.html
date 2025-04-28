@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-    <!-- Modal for Adding Subject -->
+    
     <div id="addSubjectModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" id="add-modal-close-btn">&times;</span>
@@ -35,19 +35,16 @@
             const modalSubjectIcon = document.getElementById('add-modal-subject-icon');
             const modalImagePreview = document.getElementById('add-modal-image-preview');
 
-            // Close modal when clicking the close button
             closeModalBtn.onclick = function() {
                 modal.style.display = 'none';
             }
 
-            // Close modal when clicking outside the modal
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = 'none';
                 }
             }
 
-            // Image preview functionality
             modalSubjectIcon.addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 if (file) {
@@ -61,7 +58,6 @@
                 }
             });
 
-            // Open modal for adding subject
             if (addSubjectBtn) {
                 addSubjectBtn.addEventListener('click', function() {
                     // Reset form

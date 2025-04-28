@@ -38,7 +38,6 @@
                     }
                 }
                 $platformRevenue = $purchaseValue - ($cashoutValue * (1-$platformFee/100));
-                //echo $purchaseCount;
             ?>
         
         <form method="POST" class="search-form" style="font-size: 12px;">
@@ -162,12 +161,11 @@
             <tbody>
                 <?php if (!empty($records)) : ?>
                     <?php
-                    // Pagination setup
                     $perPage = 20; // 20 records per page
                     $total = count($records);
                     $pages = ceil($total / $perPage);
                     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                    $page = max(1, min($page, $pages)); // Ensure page is within valid range
+                    $page = max(1, min($page, $pages)); 
                     $offset = ($page - 1) * $perPage;
                     $paginatedRecords = array_slice($records, $offset, $perPage);
                     ?>
@@ -233,7 +231,6 @@
         <?php if (!empty($records) && $pages > 1): ?>
         <div class="pagination">
             <?php
-            // Previous button
             if ($page > 1): ?>
                 <a href="?page=<?= $page - 1 ?><?= isset($_GET['transaction_type']) ? '&transaction_type=' . urlencode($_GET['transaction_type']) : '' ?>">Previous</a>
             <?php else: ?>
@@ -241,7 +238,6 @@
             <?php endif; ?>
             
             <?php
-            // Page numbers
             $startPage = max(1, $page - 2);
             $endPage = min($pages, $page + 2);
             
@@ -279,7 +275,6 @@
     </div>
     
     <script>
-        // Toggle row expansion
         document.querySelectorAll('.expandable-row').forEach(row => {
             row.addEventListener('click', function() {
                 this.classList.toggle('expanded');
@@ -292,7 +287,6 @@
             });
         });
         
-        // Reset filters
         function resetFilters() {
             document.getElementById('transaction_type').value = '';
             document.getElementById('points_min').value = '';
@@ -303,7 +297,6 @@
             document.querySelector('form.search-form').submit();
         }
         
-        // Show transaction type specific filters
         document.getElementById('transaction_type').addEventListener('change', function() {
             const selectedType = this.value;
             if (selectedType === 'purchase') {
@@ -318,7 +311,6 @@
             }
         });
         
-        // Trigger change event on page load to set initial visibility
         document.addEventListener('DOMContentLoaded', function() {
             const event = new Event('change');
             document.getElementById('transaction_type').dispatchEvent(event);
@@ -329,7 +321,6 @@
             var originalContents = document.body.innerHTML;
             document.body.innerHTML = printContents;
             window.print();
-        //   document.body.innerHTML = originalContents;
             location.reload();
         }
     </script>

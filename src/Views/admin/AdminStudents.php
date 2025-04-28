@@ -211,11 +211,9 @@
     </div>
 
     <script>
-        // Preserve search parameters when changing pages
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('.search-form');
             form.addEventListener('submit', function() {
-                // Reset page to 1 when submitting a new search
                 const pageInput = document.createElement('input');
                 pageInput.type = 'hidden';
                 pageInput.name = 'page';

@@ -200,7 +200,6 @@
     </div>
 
     <script>
-        // Dropdown functionality
         document.querySelectorAll('.expandable-row').forEach(row => {
             row.addEventListener('click', function() {
                 this.classList.toggle('expanded');
@@ -215,7 +214,6 @@
             });
         });
 
-        //Add form validation
         document.querySelector('form').addEventListener('submit', function(e) {
             const startDate = document.getElementById('start_date').value;
             const endDate = document.getElementById('end_date').value;
@@ -226,7 +224,6 @@
             }
         });
         
-        // Preserve search parameters when changing pages
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('.search-form');
             form.addEventListener('submit', function() {

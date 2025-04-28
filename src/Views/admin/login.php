@@ -4,9 +4,7 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 require_once __DIR__ . '/../../Models/admin/AdminLoginModel.php';
 
-// Check if there is an error message in the session
 $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : '';
-// Clear the error message after displaying it
 unset($_SESSION['error_message']);
 ?>
 <!DOCTYPE html>

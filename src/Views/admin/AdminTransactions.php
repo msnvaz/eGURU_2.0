@@ -180,18 +180,15 @@
         //if the function is just given it gives a get request
         function confirmRefund() {
             if (currentPaymentId) {
-                // Create a form element
                 const form = document.createElement('form');
                 form.method = 'POST';
                 form.action = `/admin-refund/${currentPaymentId}`;
                 
-                // Append the form to the body and submit it
                 document.body.appendChild(form);
                 form.submit();
             }
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target === modal) {
                 closeModal();
