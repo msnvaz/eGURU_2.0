@@ -34,10 +34,12 @@ class TutorEventController {
 
         
         $this->sessionsmodel->updateCompletedSessionsAndPayments();
-    }
+        $this->sessionsmodel->cancelExpiredRequestedSessions();
 
-    $upcomingEvents = $this->sessionsmodel->getUpcomingEvents($tutorId);
-    $previousEvents = $this->sessionsmodel->getPreviousEvents($tutorId);
+        $upcomingEvents = $this->sessionsmodel->getUpcomingEvents($tutorId);
+        $previousEvents = $this->sessionsmodel->getPreviousEvents($tutorId);
+
+    }
 
     require_once __DIR__ . '/../../Views/tutor/events.php';
 }

@@ -170,24 +170,37 @@ class SessionsModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function cancelExpiredRequestedSessions()
+{
+    $now = date('Y-m-d H:i:s'); // current datetime
+
+    $query = "
+        UPDATE session
+        SET session_status = 'cancelled'
+        WHERE session_status = 'requested'
+          AND TIMESTAMP(scheduled_date, schedule_time) <= :now
+    ";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':now', $now);
+    $stmt->execute();
+}
+
+
     public function updateCompletedSessionsAndPayments()
 {
-    $now = date('Y-m-d H:i:s'); 
-    $today = date('Y-m-d'); 
+    $now = date('Y-m-d H:i:s'); // current datetime
 
-    
     $query = "
         SELECT s.*, t.tutor_level_id, tl.tutor_pay_per_hour
         FROM session s
         INNER JOIN tutor t ON s.tutor_id = t.tutor_id
         INNER JOIN tutor_level tl ON t.tutor_level_id = tl.tutor_level_id
         WHERE s.session_status = 'scheduled'
-          AND s.scheduled_date <= :today
-          AND s.schedule_time <= DATE_SUB(:now, INTERVAL 2 HOUR)
+          AND TIMESTAMP(s.scheduled_date, s.schedule_time) <= DATE_SUB(:now, INTERVAL 2 HOUR)
     ";
 
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':today', $today);
     $stmt->bindParam(':now', $now);
     $stmt->execute();
 
@@ -199,14 +212,24 @@ class SessionsModel {
         $tutorId = $session['tutor_id'];
         $payPerHour = $session['tutor_pay_per_hour'];
 
-        $paymentPointAmount = $payPerHour * 2; 
-        $paymentTime = date('Y-m-d H:i:s'); 
-        $paymentStatus = 'okay'; 
+        // ➡️ New part: get point_value from admin_settings
+        $pointQuery = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = 'point_value' LIMIT 1";
+        $stmtPoint = $this->conn->query($pointQuery);
+        $pointValue = $stmtPoint->fetchColumn();
+        
+        if (!$pointValue || $pointValue == 0) {
+            throw new Exception('Point value is not set properly in admin_settings.');
+        }
 
-        $this->conn->beginTransaction(); 
+        // ➡️ Convert cash pay_per_hour to points
+        $paymentPointAmount = ($payPerHour / $pointValue) * 2;
+
+        $paymentTime = date('Y-m-d H:i:s');
+        $paymentStatus = 'okay';
+
+        $this->conn->beginTransaction();
 
         try {
-            
             $updateSession = "
                 UPDATE session 
                 SET session_status = 'completed' 
@@ -216,7 +239,6 @@ class SessionsModel {
             $stmtUpdate->bindParam(':session_id', $sessionId, PDO::PARAM_INT);
             $stmtUpdate->execute();
 
-            
             $insertPayment = "
                 INSERT INTO session_payment 
                 (session_id, student_id, tutor_id, payment_point_amount, payment_status, payment_time)
@@ -232,7 +254,6 @@ class SessionsModel {
             $stmtInsert->bindParam(':payment_time', $paymentTime);
             $stmtInsert->execute();
 
-            
             $updateTutorPoints = "
                 UPDATE tutor 
                 SET tutor_points = tutor_points + :points 
@@ -243,7 +264,6 @@ class SessionsModel {
             $stmtTutorPoints->bindParam(':tutor_id', $tutorId, PDO::PARAM_INT);
             $stmtTutorPoints->execute();
 
-           
             $updateStudentPoints = "
                 UPDATE student 
                 SET student_points = student_points - :points 
@@ -254,13 +274,14 @@ class SessionsModel {
             $stmtStudentPoints->bindParam(':student_id', $studentId, PDO::PARAM_INT);
             $stmtStudentPoints->execute();
 
-            $this->conn->commit(); 
+            $this->conn->commit();
         } catch (Exception $e) {
-            $this->conn->rollBack(); 
+            $this->conn->rollBack();
             throw $e;
         }
     }
 }
+
 
     
     
