@@ -11,14 +11,9 @@ class TutorPaymentController {
         $this->model = new TutorDetailsModel();
     }
 
-    /**
-     * Displays the student login page with a list of students.
-     */
+    
     public function showPaymentPage() {
-        // Fetch all studentss from the database
-        //$ads = $this->model->getALLStudents();
-
-        // Pass data to the view
+        
         require_once __DIR__ . '/../../Views/tutor/payment.php';
     }
 

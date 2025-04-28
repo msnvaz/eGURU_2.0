@@ -15,9 +15,9 @@
             color: rgba(41, 50, 65,1);
         }
 
-        /* Modal Background */
+        
         .modal {
-            display: none; /* Hidden by default */
+            display: none; 
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -25,10 +25,10 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.59); /* dark background */
+            background-color: rgba(0, 0, 0, 0.59); 
         }
 
-        /* Modal Content Box */
+        
         .modal-content {
             border-top: 6px solid  #e03570;
             background-color: #fff;
@@ -42,7 +42,7 @@
             align-items: center;
         }
 
-        /* Close Button (X) */
+        
         .close {
             position: absolute;
             top: 12px;
@@ -57,7 +57,7 @@
             color: #000;
         }
 
-        /* Modal Buttons */
+        
         .modal-actions {
             display: flex;
             justify-content: space-between;
@@ -125,10 +125,10 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
     }
 </script>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
 <div id="feedbackList">
@@ -137,7 +137,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
     <?php foreach ($feedbacks as $feedback) : ?>
         <div class="feedback-item">
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 2%;">
-                <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image"  onerror="this.onerror=null; this.src='/images/tutor_uploads/tutor_profile_photos/default_tutor.png';" class="feedback-img" style="width: 40px; height: 40px; border-radius: 50%;">
+                <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image"  onerror="this.onerror=null; this.src='/images/tutor_uploads/tutor_profile_photos/default_tutor.png';" class="feedback-img" style="width: 60px; height: 60px; border-radius: 50%;">
                 <div>
                     <div>
                         <a style="text-decoration:none;" href="/tutor-student-profile/<?= $feedback['student_id'] ?>">

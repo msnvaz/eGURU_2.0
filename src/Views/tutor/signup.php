@@ -128,7 +128,7 @@
             <input type="text" name="nic" placeholder="NIC" required>
             <input type="tel" name="contact_number" placeholder="Contact Number" required>
             <br>
-            <!-- File Upload -->
+            
             <div class="file-upload-section">
                 <label for="qualification_file">Proof of Highest Qualification <br> (PDF or Image)</label>
                 <input type="file" id="qualification_file" name="highest-qualification" accept=".pdf, image/*">
@@ -196,7 +196,7 @@
     }
 </script>
 
-<!-- Registration Success Modal -->
+
 <div id="successModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);">
   <div style="background-color:#fff; margin:15% auto; padding:20px; border-radius:10px; width:80%; max-width:400px; text-align:center;">
     <h2>Registration Successful</h2>

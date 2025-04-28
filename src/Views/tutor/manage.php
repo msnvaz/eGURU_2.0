@@ -1,5 +1,5 @@
 <?php
-// Start the session to manage feedback messages
+
 session_start();
 
 $uploadDir = 'assets/';
@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $currentName = $uploadDir . basename($_POST['currentName']);
         $newFile = $_FILES['newFile'];
 
-        // Ensure the current file exists before replacing
+        
         if (file_exists($currentName)) {
-            // Replace the file by deleting the old one and saving the new one
+            
             unlink($currentName); // Delete the current file
             if (move_uploaded_file($newFile['tmp_name'], $currentName)) {
                 $_SESSION['message'] = 'File replaced successfully!';
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $_SESSION['message'] = 'Original file does not exist.';
         }
 
-        // Redirect back to the same interface
+        
         header("Location: update_init.php");
         exit;
     }
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $_SESSION['message'] = 'File does not exist.';
         }
 
-        // Redirect back to the same interface
+        
         header("Location: update_init.php");
         exit;
     }

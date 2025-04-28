@@ -11,11 +11,11 @@ class TutorRequestController {
 
     public function __construct() {
         $this->model = new TutorDetailsModel();
-        $this->sessionModel = new SessionsModel(); // ✅ corrected property name
+        $this->sessionModel = new SessionsModel(); 
     }
 
     public function showRequestPage() {
-        //session_start();
+        
     
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             header("Location: /tutor-login");
@@ -38,7 +38,7 @@ class TutorRequestController {
     }
 
     public function handleSessionRequest() {
-        //session_start();
+        
     
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['session_id'], $_POST['action'])) {
             $sessionId = intval($_POST['session_id']);
@@ -51,7 +51,7 @@ class TutorRequestController {
             }
         }
     
-        // Redirect back to the request page
+        
         header("Location: /tutor-request");
         exit;
     }

@@ -15,23 +15,23 @@
         }
 
         #entire {
-            width: 900px;
+            width: 1000px;
         }
 
-        /* Add styles for event highlighting in calendar */
+       
         .day.upcoming-event {
-            background-color: rgba(202, 41, 94, 0.2);
-            border-radius: 50%;
+            background-color: rgba(202, 41, 95, 0.30);
+            border-radius: 5px;
             cursor: pointer;
         }
 
         .day.previous-event {
-            background-color: rgba(26, 53, 128, 0.2);
-            border-radius: 50%;
+            background-color: rgba(26, 53, 128, 0.30);
+            border-radius: 5px;
             cursor: pointer;
         }
 
-        /* Add highlight style for event rows */
+      
         tr.highlight {
             background-color: #e1f5fe !important;
             animation: highlight-pulse 2s ease-in-out;
@@ -199,9 +199,9 @@
             background-color: #c82333;
         }
 
-        /* Modal Background */
+        
         .modal {
-            display: none; /* Hidden by default */
+            display: none; 
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -209,10 +209,10 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.59); /* dark background */
+            background-color: rgba(0, 0, 0, 0.59); 
         }
 
-        /* Modal Content Box */
+       
         .modal-content {
             border-top: 6px solid #e03570;
             background-color: #fff;
@@ -226,7 +226,7 @@
             align-items: center;
         }
 
-        /* Close Button (X) */
+      
         .close {
             position: absolute;
             top: 12px;
@@ -241,7 +241,7 @@
             color: #000;
         }
 
-        /* Modal Buttons */
+        
         .modal-actions {
             display: flex;
             justify-content: space-between;
@@ -279,10 +279,10 @@
 
 <?php $page="event"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
 <?php
@@ -393,7 +393,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                             <th>Student</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Action</th> <!-- Newly added -->
+                            <th>Action</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -417,7 +417,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                 </table>
             </div>
 
-            <!-- Cancel Confirmation Modal -->
+            
             <div id="cancelModal" class="modal">
                 <div class="modal-content">
                     <p>Are you sure you want to cancel this session?</p>
@@ -468,7 +468,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                     <tbody>
                         <?php foreach ($previousEvents as $event): ?>
                             <?php 
-                                // Check if the event date matches the selected date
+                                
                                 $selectedDate = isset($_GET['date']) ? $_GET['date'] : null;
                                 $isHighlighted = ($selectedDate === $event['scheduled_date']);
                             ?>
@@ -496,7 +496,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
     </div>
     
-    <!-- Session Details Modal -->
+    
     <div id="sessionModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); width:350px; z-index:1000;">
         <h2>Session Details</h2>
         <img id="modalPhoto" src="" alt="Student Photo" style="width:60px; height:60px; border-radius:50%; margin-bottom:10px;">

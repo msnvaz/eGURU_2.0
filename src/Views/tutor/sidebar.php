@@ -29,15 +29,15 @@
 <?php
 use App\Models\tutor\TutorInboxModel;
 
-// Start session if not already
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Create model object
+
 $tutorInboxModel = new TutorInboxModel();
 
-// Get tutor ID from session
+
 $tutorId = $_SESSION['tutor_id'] ?? null; // Adjust if you store it differently
 
 if ($tutorId) {
@@ -46,7 +46,7 @@ if ($tutorId) {
 ?>
 
 
-<!-- Sidebar -->
+
 <div class="sidebar" style="margin-top: 3%;">
             
             <ul>

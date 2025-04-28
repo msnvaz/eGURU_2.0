@@ -8,170 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>Advertisement Gallery</title>
     <style>
-        .ad.selected {
-            background-color: #CBF1F9;
-            color: black;
-            border: 2px solid #1e3a8a;
-        }
-
-        .chosen-ad-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .chosen-ad-popup-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            margin-top: 18%;
-            margin-left: 35%;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            width: 500px;
-        }
-
-        .del-popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .del-popup-content {
-            margin-top:-2%;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        #imagePreviewContainer img {
-            border-radius: 5px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .modal-button {
-            background-color: #ff4081;
-            color: white;
-            border: none;
-            margin-top:15px;
-            padding: 10px 18px;
-            width: 80px;
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .modal-button:hover {
-            background-color: #e03570;
-        }
-
-
-        .ad-description {
-            height:150px;
-        }
-
-        .upload-box{
-            width :auto;
-            padding: 20px;
-            background-color: #CBF1F9;
-            margin-top:10%;
-            border-radius: 2%;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.33);
-        }
-
-                /* Modal Background */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.59); /* dark background */
-        }
-
-        /* Modal Content Box */
-        .modal-content {
-            border-top: 6px solid #e03570;
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 12px;
-            width: 400px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            animation: fadeIn 0.3s ease-in-out;
-            align-items: center;
-        }
-
-        /* Close Button (X) */
-        .close {
-            position: absolute;
-            top: 12px;
-            right: 18px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #aaa;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: #000;
-        }
-
-        /* Modal Buttons */
-        .modal-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .confirm-button {
-            background-color: #ff4081;
-            color: white;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .confirm-button:hover {
-            background-color: #e03570;
-        }
-
-        .modal-cancel-button {
-            background-color: #ddd;
-            color: #333;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .modal-cancel-button:hover {
-            background-color: #bbb;
-        }
+        
 
 
 
@@ -182,10 +19,10 @@
 
 <?php $page="advertisement"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
 
 <?php
@@ -224,16 +61,16 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
             <div class="upload-box">
                 <h1>Upload Advertisement</h1>
                 <form class="ad-form" action="/tutor-upload-ad" method="POST" enctype="multipart/form-data">
-                    <!-- File Input -->
+                    
                     <label for="image">Select Image:</label>
                     <input type="file" name="image" id="image" accept="image/*" required onchange="previewAdImage(event)">
 
-                    <!-- Preview Box -->
+                    
                     <div id="imagePreviewContainer" style="display: none; margin-top: 10px;">
                         <p style="text-align: center;">Ad Preview</p>
                         <img id="adImagePreview" src="" alt="Ad Preview" style="max-width: 200px; border: 2px solid #ccc;">
 
-                        <!-- Remove Button -->
+                        
                         <div style="text-align: center; margin-top: 10px;">
                             <button type="button" id="removeAdPreviewBtn" style="background-color: crimson; color: white; border: none; padding: 5px 10px; cursor: pointer;">
                                 Remove
@@ -266,9 +103,9 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                 }
 
                 removeBtn.addEventListener('click', function () {
-                    imageInput.value = ''; // Clear file input
-                    preview.src = ''; // Clear image preview
-                    container.style.display = 'none'; // Hide the preview box
+                    imageInput.value = ''; 
+                    preview.src = '';
+                    container.style.display = 'none'; 
                 });
             </script>
 
@@ -280,7 +117,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
             <div class="gallery">
                 <?php
                     $selectedAdId = $_SESSION['selected_ad_id'] ?? null;
-                    $tutorId = $_SESSION['tutor_id']; // Assuming tutor ID is stored in session
+                    $tutorId = $_SESSION['tutor_id']; 
                 ?>
                 <?php foreach ($ads as $ad): ?>
                     <div class="ad <?= $selectedAdId == $ad['ad_id'] ? 'selected' : '' ?>">
@@ -316,7 +153,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
             </div>
         </div>
 
-            <!-- Popup for updating description -->
+            
             <div id="updatePopup" class="update-popup" style="display: none;">
                 <div class="update-popup-content">
                     <form class="update-form" id="updateForm" action="/tutor-update-ad" method="POST">
@@ -407,7 +244,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
             <script>
                 function openDeleteModal(event, adId) {
-                    event.preventDefault(); // stop form from submitting
+                    event.preventDefault();
                     document.getElementById('deleteAdId').value = adId;
                     document.getElementById('deleteModal').style.display = 'flex';
                 }

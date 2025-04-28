@@ -29,7 +29,7 @@ class TutorCashoutModel {
             
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            // Log error
+            
             error_log("Error retrieving tutor info: " . $e->getMessage());
             return false;
         }
@@ -79,7 +79,7 @@ class TutorCashoutModel {
             
             return $stmt->execute();
         } catch (\PDOException $e) {
-            // Log error
+            
             error_log("Error storing cashout: " . $e->getMessage());
             return false;
         }
@@ -102,7 +102,7 @@ class TutorCashoutModel {
             
             return $stmt->execute();
         } catch (\PDOException $e) {
-            // Log error
+            
             error_log("Error updating tutor points: " . $e->getMessage());
             return false;
         }
@@ -123,9 +123,9 @@ class TutorCashoutModel {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result ? (float)$result['admin_setting_value'] : 10.0; // Default to 10 if not found
         } catch (\PDOException $e) {
-            // Log error
+            
             error_log("Error retrieving point value: " . $e->getMessage());
-            return 10.0; // Default value
+            return 10.0; 
         }
     }
 
@@ -142,11 +142,11 @@ class TutorCashoutModel {
             $stmt->execute();
             
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result ? (float)$result['admin_setting_value'] : 5.0; // Default to 5% if not found
+            return $result ? (float)$result['admin_setting_value'] : 5.0; 
         } catch (\PDOException $e) {
-            // Log error
+            
             error_log("Error retrieving platform fee: " . $e->getMessage());
-            return 5.0; // Default value
+            return 5.0; 
         }
     }
 }

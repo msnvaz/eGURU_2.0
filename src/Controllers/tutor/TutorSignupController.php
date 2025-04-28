@@ -12,9 +12,7 @@ class TutorSignupController {
         $this->model = new TutorDetailsModel();
     }
 
-    /**
-     * Displays the tutor signup page.
-     */
+   
     public function showTutorSignupPage() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -26,9 +24,7 @@ class TutorSignupController {
         require_once __DIR__ . '/../../Views/tutor/signup.php';
     }
 
-    /**
-     * Handles tutor signup.
-     */
+    
     public function handleSignup()
 {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -47,23 +43,23 @@ class TutorSignupController {
         $registrationDate = date('Y-m-d H:i:s');
         $highest_qualification = null;
 
-        //  Check if tutor registration is enabled
+        
         $registrationStatus = $this->model->getAdminSettingValue('tutor_registration');
 
-        if ($registrationStatus !== '1') { // if '0' or anything else
+        if ($registrationStatus !== '1') { 
             $_SESSION['error'] = "Tutor Signup is Closed Temporarily. Try again later.";
             header("Location: /tutor-signup");
             exit;
         }
 
-        // Validate first name and last name (only letters allowed)
+        
         if (!preg_match("/^[a-zA-Z]+$/", $firstName) || !preg_match("/^[a-zA-Z]+$/", $lastName)) {
             $_SESSION['error'] = "First name and last name can only contain letters (A-Z or a-z).";
             header("Location: /tutor-signup");
             exit;
         }
 
-        // Validate age (must be over 18)
+        
         $birthDateTime = new DateTime($birth_date);
         $today = new DateTime();
         $age = $today->diff($birthDateTime)->y;
@@ -74,18 +70,18 @@ class TutorSignupController {
             exit;
         }
 
-        //  Check if email already exists
+        
         if ($this->model->checkEmailExists($email)) {
             $_SESSION['error'] = "An account with this email already exists. Please try logging in or use a different email.";
             header("Location: /tutor-signup");
             exit;
         }
 
-        //  Handle file upload
+        
         if (isset($_FILES['highest-qualification']) && $_FILES['highest-qualification']['error'] == 0) {
             $uploadDir = './uploads/tutor_qualification_proof/';
             if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true); // Create directory if not exists
+                mkdir($uploadDir, 0755, true); 
             }
             $fileName = basename($_FILES['highest-qualification']['name']);
             $uploadPath = $uploadDir . $fileName;
@@ -96,7 +92,7 @@ class TutorSignupController {
         }
 
         try {
-            //  Hash the password before storing
+            
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             $this->model->createTutor(

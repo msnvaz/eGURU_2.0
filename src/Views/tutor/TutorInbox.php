@@ -30,10 +30,10 @@
    
 <?php $page="inbox"; ?>
 
-<!-- Sidebar -->
+
 <?php include 'sidebar.php'; ?>
 
-<!-- Header -->
+
 <?php include '../src/Views/tutor/header.php'; ?>
     
     <div class="main">

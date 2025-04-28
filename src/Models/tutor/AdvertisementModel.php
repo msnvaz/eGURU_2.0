@@ -14,7 +14,7 @@ class AdvertisementModel {
     }
 
     public function getAllAdvertisements($tutorId) {
-        $status = 'set'; // define status before binding
+        $status = 'set'; 
         $query = "SELECT * FROM tutor_advertisement WHERE tutor_id = :tutorId AND ad_status = :status ORDER BY ad_created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':tutorId', $tutorId);

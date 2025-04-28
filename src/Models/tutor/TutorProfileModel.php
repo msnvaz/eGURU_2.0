@@ -17,26 +17,9 @@ class TutorProfileModel
 
     public function updateProfile($data) {
         try {
-            // Begin transaction
+            
             $this->conn->beginTransaction();
-    
-            // Handle profile photo upload if provided
-          /*  $profilePhotoPath = null;
-            if (isset($data['profile-image']) && $data['profile-image']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = __DIR__ . '/images/tutors/'; // Adjusted relative path
-                $fileName = basename($data['profile-image']['name']);
-                $targetFilePath = $uploadDir . $fileName;
-    
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0755, true);
-                }
-    
-                if (move_uploaded_file($data['profile-image']['tmp_name'], $targetFilePath)) {
-                    $profilePhotoPath = '/images/tutors/' . $fileName;
-                }
-            }*/
-    
-            // Update tutor_profile table
+        
             $sqlProfile = "UPDATE tutor_profile 
                            SET bio = :bio, 
                                education = :education, 
@@ -45,9 +28,6 @@ class TutorProfileModel
                                country = :country, 
                                city_town = :city_town";
     
-            /*if ($profilePhotoPath !== null) {
-                $sqlProfile .= ", tutor_profile_photo = :profile_photo";
-            }*/
     
             $sqlProfile .= " WHERE tutor_id = :tutor_id";
     
@@ -63,13 +43,11 @@ class TutorProfileModel
                 ':tutor_id' => $data['tutor_id']
             ];
     
-            /*if ($profilePhotoPath !== null) {
-                $paramsProfile[':profile_photo'] = $profilePhotoPath;
-            }*/
+            
     
             $stmtProfile->execute($paramsProfile);
     
-            // Update tutor table
+            
             $sqlTutor = "UPDATE tutor 
                          SET tutor_first_name = :tutor_first_name,
                              tutor_last_name = :tutor_last_name,
@@ -79,9 +57,7 @@ class TutorProfileModel
                              tutor_DOB = :tutor_DOB,
                              tutor_NIC = :tutor_NIC";
     
-            /*if ($profilePhotoPath !== null) {
-                $sqlTutor .= ", tutor_profile_photo = :tutor_profile_photo";
-            }*/
+            
     
             $sqlTutor .= " WHERE tutor_id = :tutor_id";
     
@@ -98,18 +74,16 @@ class TutorProfileModel
                 ':tutor_id' => $data['tutor_id']
             ];
     
-           /* if ($profilePhotoPath !== null) {
-                $paramsTutor[':tutor_profile_photo'] = $profilePhotoPath;
-            }*/
+           
     
             $stmtTutor->execute($paramsTutor);
     
-            // Commit transaction
+           
             $this->conn->commit();
             return true;
     
         } catch (\Exception $e) {
-            // Roll back transaction on error
+            
             $this->conn->rollBack();
             throw $e;
         }
@@ -119,12 +93,9 @@ class TutorProfileModel
     
     public function createProfile($data) {
         try {
-            // Begin transaction
+            
             $this->conn->beginTransaction();
     
-            // 1. update tutor table
-    
-                    // Update tutor table
                     $sqlTutor = "UPDATE tutor 
                     SET tutor_first_name = :tutor_first_name,
                         tutor_last_name = :tutor_last_name,
@@ -134,9 +105,7 @@ class TutorProfileModel
                         tutor_DOB = :tutor_DOB,
                         tutor_NIC = :tutor_NIC";
 
-                        /*if ($profilePhotoPath !== null) {
-                        $sqlTutor .= ", tutor_profile_photo = :tutor_profile_photo";
-                        }*/
+                       
 
                         $sqlTutor .= " WHERE tutor_id = :tutor_id";
 
@@ -153,15 +122,13 @@ class TutorProfileModel
                         ':tutor_id' => $data['tutor_id']
                         ];
 
-                        /* if ($profilePhotoPath !== null) {
-                        $paramsTutor[':tutor_profile_photo'] = $profilePhotoPath;
-                        }*/
+                        
 
                         $stmtTutor->execute($paramsTutor);
                 
             
     
-            // 2. Insert new record into tutor_profile table
+            
             $fields = [
                 'tutor_id', 'bio', 'education', 'specialization', 'experience', 'country', 'city_town'
             ];
@@ -173,7 +140,7 @@ class TutorProfileModel
             $params = array_intersect_key($data, array_flip($fields));
             $stmt->execute($params);
     
-            // Commit transaction
+            
             $this->conn->commit();
             return true;
     
@@ -262,10 +229,10 @@ class TutorProfileModel
     
 
     public function updateTutorSubjects($tutorId, $subjects) {
-        // Delete old
+        
         $this->conn->prepare("DELETE FROM tutor_subject WHERE tutor_id = ?")->execute([$tutorId]);
     
-        // Insert new
+        
         $stmt = $this->conn->prepare("INSERT INTO tutor_subject (tutor_id, subject_id) VALUES (?, ?)");
         foreach ($subjects as $subjectId) {
             $stmt->execute([$tutorId, $subjectId]);

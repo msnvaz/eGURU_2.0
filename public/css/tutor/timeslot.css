@@ -149,7 +149,7 @@ h3 {
     transform: translateY(0);
 }
 
-/* Modal styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -299,7 +299,7 @@ h3 {
     background-color: var(--success-hover);
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 992px) {
     .container {
         margin-left: 0;

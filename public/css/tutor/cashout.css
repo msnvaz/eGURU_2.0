@@ -194,7 +194,7 @@ input[type="number"] {
     border-bottom: 1px solid #e9ecef;
 }
 
-/* Responsive styles */
+
 @media (max-width: 768px) {
     .bodyform {
         padding: 1rem;
