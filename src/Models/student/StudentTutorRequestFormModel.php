@@ -3,7 +3,11 @@
 namespace App\Models\student;
 
 use App\Config\Database;
+use Exception;
+use PDOException;
 use PDO;
+
+$GLOBALS['env'] = require __DIR__ . '/../../Config/env.php';
 
 class StudentTutorRequestFormModel {
     private $conn;
@@ -121,8 +125,161 @@ class StudentTutorRequestFormModel {
         return $result;
     }
 
-    
-    
+
+    // Replace the existing getZoomAccessToken function with this improved version
+    private function getZoomAccessToken() {
+        try {
+            // Ensure the path is correct for your project structure
+            $envPath = __DIR__ . '/../../Config/env.php';
+            
+            if (!file_exists($envPath)) {
+                error_log("Environment file not found at: " . $envPath);
+                return null;
+            }
+            
+            $env = require $envPath;
+            
+            // Debug what credentials are available
+            error_log("Checking Zoom credentials - client_id exists: " . (isset($env['zoom_client_id']) ? 'yes' : 'no'));
+            error_log("Checking Zoom credentials - client_secret exists: " . (isset($env['zoom_client_secret']) ? 'yes' : 'no'));
+            error_log("Checking Zoom credentials - account_id exists: " . (isset($env['zoom_account_id']) ? 'yes' : 'no'));
+            
+            if (!isset($env['zoom_client_id']) || !isset($env['zoom_client_secret']) || !isset($env['zoom_account_id'])) {
+                error_log("Zoom credentials are missing in the environment configuration");
+                return null;
+            }
+            
+            $clientId = $env['zoom_client_id'];
+            $clientSecret = $env['zoom_client_secret'];
+            $accountId = $env['zoom_account_id'];
+            
+            // For server-to-server OAuth, we need to use the OAuth token endpoint
+            $url = 'https://zoom.us/oauth/token';
+            $credentials = base64_encode($clientId . ':' . $clientSecret);
+            
+            $postFields = http_build_query([
+                'grant_type' => 'account_credentials',
+                'account_id' => $accountId
+            ]);
+            
+            // Initialize cURL session
+            $ch = curl_init($url);
+            
+            // Set cURL options
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Basic ' . $credentials,
+                'Content-Type: application/x-www-form-urlencoded'
+            ]);
+            
+            // Enable verbose debugging
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+            $verbose = fopen('php://temp', 'w+');
+            curl_setopt($ch, CURLOPT_STDERR, $verbose);
+            
+            // Execute the request
+            $response = curl_exec($ch);
+            
+            // Check for cURL errors
+            if (curl_errno($ch)) {
+                $curlError = curl_error($ch);
+                error_log("cURL Error: " . $curlError);
+                
+                // Log verbose information for debugging
+                rewind($verbose);
+                $verboseLog = stream_get_contents($verbose);
+                error_log("Verbose cURL log: " . $verboseLog);
+                
+                curl_close($ch);
+                return null;
+            }
+            
+            // Get HTTP status code
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            
+            // Decode the response
+            $responseData = json_decode($response, true);
+            
+            if ($httpCode !== 200 || !isset($responseData['access_token'])) {
+                error_log("Failed to get Zoom access token. HTTP Code: " . $httpCode);
+                error_log("Response: " . $response);
+                return null;
+            }
+            
+            error_log("Successfully obtained Zoom access token");
+            return $responseData['access_token'];
+        } catch (Exception $e) {
+            error_log("Exception in getZoomAccessToken: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    // Update the createZoomMeeting function to properly use the class method
+    private function createZoomMeeting($scheduled_date, $schedule_time) {
+        try {
+            $accessToken = $this->getZoomAccessToken();  // Properly call the class method
+
+            if (!$accessToken) {
+                error_log("Failed to get Zoom access token, using placeholder meeting link");
+                return "https://zoom.us/meeting/placeholder";
+            }
+
+            // Format the date and time
+            $start_time = date('Y-m-d\TH:i:s\Z', strtotime("$scheduled_date $schedule_time"));
+
+            $data = [
+                'topic' => 'Tutor Session',
+                'type' => 2, // Scheduled meeting
+                'start_time' => $start_time,
+                'duration' => 120, // 2 hours
+                'timezone' => 'Asia/Colombo',
+                'agenda' => 'Tutoring session',
+                'settings' => [
+                    'host_video' => true,
+                    'participant_video' => true,
+                    'join_before_host' => false,
+                    'mute_upon_entry' => true,
+                    'approval_type' => 0,
+                ]
+            ];
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.zoom.us/v2/users/me/meetings');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Authorization: Bearer ' . $accessToken,
+                'Content-Type: application/json'
+            ]);
+
+            $response = curl_exec($ch);
+            
+            if (curl_errno($ch)) {
+                error_log("cURL error in createZoomMeeting: " . curl_error($ch));
+                curl_close($ch);
+                return "https://zoom.us/meeting/placeholder";
+            }
+            
+            curl_close($ch);
+
+            $responseData = json_decode($response, true);
+
+            if (isset($responseData['join_url'])) {
+                return $responseData['join_url']; // Zoom Meeting Link
+            } else {
+                error_log("Failed to create Zoom meeting: " . json_encode($responseData));
+                return "https://zoom.us/meeting/placeholder";
+            }
+        } catch (Exception $e) {
+            error_log("Exception in createZoomMeeting: " . $e->getMessage());
+            return "https://zoom.us/meeting/placeholder";
+        }
+    }
+  
     public function insertSession($student_id, $tutor_id, $scheduled_date, $schedule_time, $session_status, $subject_id) {
         try {
             
@@ -134,17 +291,28 @@ class StudentTutorRequestFormModel {
             if (strpos($schedule_time, ':') !== false && substr_count($schedule_time, ':') === 1) {
                 $schedule_time .= ':00';  
             }
+    
+            try {
+                // Try to create a Zoom meeting link
+                $zoom_link = $this->createZoomMeeting($scheduled_date, $schedule_time);
+                error_log("Created Zoom link: " . $zoom_link);
+            } catch (Exception $e) {
+                // Use a fallback if Zoom API fails
+                error_log("Error creating Zoom meeting: " . $e->getMessage());
+                $zoom_link = "https://zoom.us/meeting/placeholder";
+            }
             
             $query = "
-            INSERT INTO session (student_id, tutor_id, scheduled_date, schedule_time, session_status, subject_id)
-            VALUES (:student_id, :tutor_id, :scheduled_date, :schedule_time, :session_status, :subject_id)";
+            INSERT INTO session (student_id, tutor_id, scheduled_date, schedule_time, session_status, subject_id, meeting_link)
+            VALUES (:student_id, :tutor_id, :scheduled_date, :schedule_time, :session_status, :subject_id, :zoom_link)";
             $params = [
                 ':student_id' => $student_id,
                 ':tutor_id' => $tutor_id,
                 ':scheduled_date' => $scheduled_date,
                 ':schedule_time' => $schedule_time,
                 ':session_status' => $session_status,
-                ':subject_id' => $subject_id
+                ':subject_id' => $subject_id,
+                ':zoom_link' => $zoom_link
             ];
             
             
