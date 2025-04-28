@@ -68,51 +68,51 @@
             gap: 20px;
         }
 
-.material {
-    width: 200px;
-    min-height: 350px; 
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+        .material {
+            width: 200px;
+            min-height: 350px; 
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
 
-.material-description p {
-    margin: 5px 0 10px 0;
-    flex-grow: 1;
-}
+        .material-description p {
+            margin: 5px 0 10px 0;
+            flex-grow: 1;
+        }
 
-.button-box {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: auto;
-}
+        .button-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: auto;
+        }
 
-.ad-button {
-    background-color: #ff4081;
-    color: white;
-    border: none;
-    padding: 8px 0;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        .ad-button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-.ad-button:hover {
-    background-color: #e73370;
-}
-.upload-box{
-    width :auto;
-    padding: 20px;
-    background-color: #CBF1F9;
-    margin-top:12%;
-    border-radius: 5%;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.33);
-}
+        .ad-button:hover {
+            background-color: #e73370;
+        }
+        .upload-box{
+            width :auto;
+            padding: 20px;
+            background-color: #CBF1F9;
+            margin-top:12%;
+            border-radius: 5%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.33);
+        }
 
        
        .modal {
@@ -189,6 +189,65 @@
             background-color: #bbb;
         }
 
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: rgba(41, 50, 65,1); /* nice blue */
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: rgba(41, 50, 65, 0.84); 
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none ;
+        }
+
+        textarea:focus {
+            border-color: rgba(41, 50, 65,1); 
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
+        .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151; 
+    text-align: center;
+}
+
+.form-group select {
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #374151;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.form-group select:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    outline: none;
+}
+
+
+
 
 
 
@@ -243,28 +302,34 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
     <div class="upload-box">
         <h1>Upload Study Material</h1>
         <form class="ad-form" action="/tutor-upload-material" method="POST" enctype="multipart/form-data">
-            <label for="subject">Select Subject:</label>
-            <select name="subject_id" id="subject" required>
-                <option value="" style="text-align: center;">  Select Subject  </option>
-                <?php foreach ($subjects as $subject): ?>
-                    <option style="text-align: center;" value="<?= $subject['subject_id'] ?>"><?= $subject['subject_name'] ?></option>
-                <?php endforeach; ?>
-            </select>
+        <div class="form-group">
+    <label for="subject">Select Subject</label>
+    <select name="subject_id" id="subject" required>
+        <option value="">Select Subject</option>
+        <?php foreach ($subjects as $subject): ?>
+            <option value="<?= $subject['subject_id'] ?>"><?= $subject['subject_name'] ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
 
-            <label for="grade">Select Grade:</label>
-            <select name="grade" id="grade" required>
-                <?php for ($i = 6; $i <= 11; $i++): ?>
-                    <option style="text-align: center;" value="<?= $i ?>">Grade <?= $i ?></option>
-                <?php endfor; ?>
-            </select>
+<div class="form-group">
+    <label for="grade">Select Grade</label>
+    <select name="grade" id="grade" required>
+        <option value="">Select Grade</option>
+        <?php for ($i = 6; $i <= 11; $i++): ?>
+            <option value="<?= $i ?>">Grade <?= $i ?></option>
+        <?php endfor; ?>
+    </select>
+</div>
 
-            <label for="material">Upload File (PDF, DOCX, PPTX, Images):</label>
-            <input type="file" name="material" id="material" accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" required>
 
-            <!-- Preview area -->
+            <label for="material" class="custom-file-upload">Upload File 
+            <input type="file" name="material" id="material" accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" required></label>
+
+            
             <div id="filePreview" style="margin-top: 15px;"></div>
 
-            <!-- Remove button (initially hidden) -->
+            
             <button type="button" id="removePreviewBtn" style="display: none; margin-top: 10px;background-color: crimson; color: white; border: none; padding: 5px 10px; cursor: pointer;" >Remove File</button>
 
             <label for="description">Description:</label>
@@ -344,7 +409,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                  
                 </div>
                         
-                    <button class="ad-button" type="button" ><a href="/uploads/tutor_study_materials/<?= $mat['material_path'] ?>" target="_blank" style="text-decoration: none; color: white;">View File</a></button>
+                    <button class="ad-button" type="button" style="display:inline;background-color:rgba(41, 50, 65,1);"><a href="/uploads/tutor_study_materials/<?= $mat['material_path'] ?>" target="_blank" style="text-decoration: none; color: white;" >View File</a></button>
                 
                 
                 

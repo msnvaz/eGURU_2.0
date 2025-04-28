@@ -8,9 +8,32 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>Advertisement Gallery</title>
     <style>
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: rgba(41, 50, 65,1); /* nice blue */
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: rgba(41, 50, 65, 0.84); /* darker on hover */
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none !important; /* hide the ugly default file input */
+        }
+
         
-
-
+        textarea:focus {
+            border-color: rgba(41, 50, 65,1); /* highlight on focus */
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); /* soft glow */
+        }
 
     </style>
 </head>
@@ -62,8 +85,8 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                 <h1>Upload Advertisement</h1>
                 <form class="ad-form" action="/tutor-upload-ad" method="POST" enctype="multipart/form-data">
                     
-                    <label for="image">Select Image:</label>
-                    <input type="file" name="image" id="image" accept="image/*" required onchange="previewAdImage(event)">
+                    <label for="image"  class="custom-file-upload">Select Image
+                    <input type="file" name="image" id="image" accept="image/*" required onchange="previewAdImage(event)"></label>
 
                     
                     <div id="imagePreviewContainer" style="display: none; margin-top: 10px;">
@@ -72,13 +95,13 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
                         
                         <div style="text-align: center; margin-top: 10px;">
-                            <button type="button" id="removeAdPreviewBtn" style="background-color: crimson; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                            <button type="button" id="removeAdPreviewBtn" style="background-color: crimson; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius:5px;">
                                 Remove
                             </button>
                         </div>
                     </div>
 
-                    <label for="description">Description:</label>
+                    <label for="description"><b>Description:</b></label>
                     <textarea name="description" id="description" required></textarea>
                     <button class="ad-button" type="submit">Upload</button>
 
@@ -136,10 +159,10 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                             </form>
 
 
-                            <form id="chooseForm-<?= $ad['ad_id'] ?>" action="/tutor-select-ad" method="POST" style="display:inline;">
+                            <form id="chooseForm-<?= $ad['ad_id'] ?>" action="/tutor-select-ad" method="POST" >
                                 <input type="hidden" name="ad_id" value="<?= $ad['ad_id'] ?>">
                                 <div class="button-box">
-                                    <button class="ad-button" type="button"
+                                    <button class="ad-button" type="button" style="display:inline;background-color:rgba(41, 50, 65,1);"
                                         onclick="confirmSelectAd(<?= $ad['ad_id'] ?>, '<?= $selectedAdId == $ad['ad_id'] ? 'remove' : 'choose' ?>')">
                                         <?= $selectedAdId == $ad['ad_id'] ? 'Remove' : 'Choose' ?>
                                     </button>

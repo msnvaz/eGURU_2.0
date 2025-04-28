@@ -172,7 +172,7 @@ class SessionsModel {
 
     public function cancelExpiredRequestedSessions()
 {
-    $now = date('Y-m-d H:i:s'); // current datetime
+    $now = date('Y-m-d H:i:s'); 
 
     $query = "
         UPDATE session
@@ -189,7 +189,7 @@ class SessionsModel {
 
     public function updateCompletedSessionsAndPayments()
 {
-    $now = date('Y-m-d H:i:s'); // current datetime
+    $now = date('Y-m-d H:i:s'); 
 
     $query = "
         SELECT s.*, t.tutor_level_id, tl.tutor_pay_per_hour
@@ -212,7 +212,7 @@ class SessionsModel {
         $tutorId = $session['tutor_id'];
         $payPerHour = $session['tutor_pay_per_hour'];
 
-        // ➡️ New part: get point_value from admin_settings
+        
         $pointQuery = "SELECT admin_setting_value FROM admin_settings WHERE admin_setting_name = 'point_value' LIMIT 1";
         $stmtPoint = $this->conn->query($pointQuery);
         $pointValue = $stmtPoint->fetchColumn();
@@ -221,7 +221,7 @@ class SessionsModel {
             throw new Exception('Point value is not set properly in admin_settings.');
         }
 
-        // ➡️ Convert cash pay_per_hour to points
+        
         $paymentPointAmount = ($payPerHour / $pointValue) * 2;
 
         $paymentTime = date('Y-m-d H:i:s');
