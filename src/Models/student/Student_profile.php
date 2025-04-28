@@ -15,8 +15,8 @@ class Student_profile {
 
     public function student_signup($student_first_name, $student_last_name, $student_email, $student_password, $student_DOB, $student_phonenumber) {
         $hashedPassword = password_hash($student_password, PASSWORD_BCRYPT);
-        $student_points = 0; // Initial points for new signup
-        $student_registration_date = date('Y-m-d'); // Current date
+        $student_points = 0; 
+        $student_registration_date = date('Y-m-d'); 
     
         $query = $this->conn->prepare("
             INSERT INTO student (student_first_name, student_last_name, student_email, student_password, student_phonenumber, student_DOB, student_points, student_registration_date) 
@@ -41,7 +41,7 @@ class Student_profile {
         ];
     }
 
-    // Existing methods remain the same
+    
     public function check_email($student_email) {
         $query = $this->conn->prepare("SELECT * FROM student WHERE student_email = :student_email");
         $query->execute(['student_email' => $student_email]);
@@ -60,7 +60,7 @@ class Student_profile {
             }
     
             if (password_verify($student_password, $data['student_password'])) {
-                // Update student_log to 'online' and set student_last_login
+                
                 $updateQuery = $this->conn->prepare("
                     UPDATE student 
                     SET student_log = 'online', student_last_login = NOW() 
