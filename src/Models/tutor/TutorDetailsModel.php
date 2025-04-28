@@ -112,11 +112,11 @@ class TutorDetailsModel
             $query = "INSERT INTO tutor (
                         tutor_first_name, tutor_last_name, tutor_email, tutor_password,
                         tutor_DOB, tutor_NIC, tutor_contact_number, tutor_registration_date,
-                        tutor_qualification_proof, tutor_status, tutor_profile_photo
+                        tutor_qualification_proof, tutor_status, tutor_profile_photo,tutor_level_id
                       ) VALUES (
                         :tutor_first_name, :tutor_last_name, :tutor_email, :tutor_password,
                         :tutor_DOB, :tutor_NIC, :tutor_contact_number, :tutor_registration_date,
-                        :tutor_qualification_proof, :tutor_status, :tutor_profile_photo
+                        :tutor_qualification_proof, :tutor_status, :tutor_profile_photo,'G06'
                       )";
     
             $stmt = $this->conn->prepare($query);
