@@ -86,6 +86,7 @@ function renderReplies($parentId, $model, $level = 1) {
     </style>
 </head>
 <body>
+<section id="forum">
 <div class="forum-section">
     <div class="forum-container" id="comments-section">
 
@@ -113,6 +114,7 @@ function renderReplies($parentId, $model, $level = 1) {
     </div>
     <br><br>
 </div>
+</section>
 
 <script>
     function reply(id, name) {
