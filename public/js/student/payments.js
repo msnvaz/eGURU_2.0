@@ -22,7 +22,7 @@ function goToStep(step) {
     
     if (currentStep === 1 && step === 2) {
         if (selectedAmount < 500) {
-            alert('Please select a package or enter a valid amount (minimum ₹500)');
+            alert('Please select a package or enter a valid amount (minimum LKR.500)');
             return;
         }
     }
@@ -144,7 +144,7 @@ function reviewPayment() {
     document.getElementById('review-email').textContent = email;
     document.getElementById('review-method').textContent = selectedPaymentMethod.charAt(0).toUpperCase() + selectedPaymentMethod.slice(1) + ' (•••• ' + cardNumber.replace(/\s/g, '').slice(-4) + ')';
     document.getElementById('review-points').textContent = selectedPoints + ' points';
-    document.getElementById('review-amount').textContent = '₹' + selectedAmount.toLocaleString();
+    document.getElementById('review-amount').textContent = 'LKR' + selectedAmount.toLocaleString();
     
    
     goToStep(3);
@@ -153,7 +153,7 @@ function reviewPayment() {
 
 function showConfirmationModal() {
     document.getElementById('modal-points').textContent = selectedPoints;
-    document.getElementById('modal-amount').textContent = '₹' + selectedAmount.toLocaleString();
+    document.getElementById('modal-amount').textContent = 'LKR' + selectedAmount.toLocaleString();
     
     document.getElementById('confirmation-overlay').classList.add('active');
     document.getElementById('confirmation-modal').classList.add('active');
@@ -179,7 +179,7 @@ function processPayment() {
         
         document.getElementById('success-points').textContent = selectedPoints;
         document.getElementById('success-transaction-id').textContent = 'TXN' + Math.floor(Math.random() * 1000000000);
-        document.getElementById('success-amount').textContent = '₹' + selectedAmount.toLocaleString();
+        document.getElementById('success-amount').textContent = 'LKR' + selectedAmount.toLocaleString();
         
         
         document.getElementById('processing-overlay').classList.remove('active');

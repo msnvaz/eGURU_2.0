@@ -32,6 +32,9 @@ class TutorRequestController {
             $rejected_requests = $this->sessionModel->getRejectedSessionsByTutor($tutorId);
             $cancelled_requests = $this->sessionModel->getCancelledSessionsByTutor($tutorId);
 
+            $this->sessionModel->updateCompletedSessionsAndPayments();
+            $this->sessionModel->cancelExpiredRequestedSessions();
+
         }
     
         require_once __DIR__ . '/../../Views/tutor/request.php';
