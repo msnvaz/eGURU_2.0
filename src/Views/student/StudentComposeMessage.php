@@ -52,7 +52,7 @@
                         <option value="tutor">Tutor</option>
                     </select>
                     
-                    <input type="hidden" id="message_type" name="message_type" value="admin"> <!-- Add this hidden input -->
+                    <input type="hidden" id="message_type" name="message_type" value="admin"> 
 
                     <div id="tutor-select" style="display: none;">
                         <label for="tutor_id">Select Tutor:</label>
@@ -80,20 +80,19 @@
         </div>
     </div>
     <script>
-        // Update your existing script at the bottom of StudentComposeMessage.php
+        
 document.addEventListener('DOMContentLoaded', function() {
-    // Set initial state based on default selected value
+    
     const recipientType = document.getElementById('recipient_type');
     const tutorSelect = document.getElementById('tutor-select');
     const tutorField = document.getElementById('tutor_id');
     
-    // Set initial state
     if (recipientType.value === 'admin') {
         tutorSelect.style.display = 'none';
         tutorField.required = false;
     }
     
-    // Add your existing event listener
+    
     recipientType.addEventListener('change', function() {
         if (this.value === 'tutor') {
             tutorSelect.style.display = 'block';

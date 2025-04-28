@@ -1,10 +1,10 @@
 <?php
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$page = "viewprofile";
+$page = "profile";
 include __DIR__ . '/header.php';
 ?>
 <!DOCTYPE html>
@@ -23,9 +23,9 @@ include __DIR__ . '/header.php';
 
 <body>
 
-    <!-- header part here -->
+    
     <div class="container">
-        <!-- Sidebar -->
+        
         <?php include 'sidebar.php'; 
         $_SESSION['profile_picture'] = $profileData['student_profile_photo'] ?? 'profile1.jpg'; ?>
 

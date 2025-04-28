@@ -1,7 +1,7 @@
 <?php
 use App\Controllers\student\StudentDashboardController;
 
-// Start session if not already started
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -10,24 +10,24 @@ $page = "dashboard";
 include __DIR__ . '/header.php';
 
 
-// Ensure student is logged in
+
 if (!isset($_SESSION['student_id'])) {
     header("Location: /student-login");
     exit();
 }
 
-// Initialize controller
+
 $dashboardController = new StudentDashboardController();
 
-// Fetch tutor replies
+
 $tutorReplies = $dashboardController->getTutorReplies();
 
-// Fetch upcoming and previous events
+
 $upcomingEvents = $dashboardController->getUpcomingEvents();
 $previousEvents = $dashboardController->getPreviousEvents();
 
 
-// Fetch student details from session
+
 $student_name = isset($_SESSION['student_name']) ? $_SESSION['student_name'] : 'Student';
 $student_email = isset($_SESSION['student_email']) ? $_SESSION['student_email'] : 'Email';
 $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points'] : 0;
@@ -59,7 +59,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                     <p>Keep up the good work!</p>
                 </div>
                 <div class="user-info">
-                    <?php //var_dump($_SESSION['student_profile_photo']); ?>
+                    <?php  ?>
                 <img src="/images/student-uploads/profilePhotos/<?php echo $studentProfilePhoto; ?>" 
                     alt="Profile" class="user-avatar">
                     <div class="user-details">
@@ -68,7 +68,7 @@ $student_points = isset($_SESSION['student_points']) ? $_SESSION['student_points
                         </h2>
                         <p><?= isset($_SESSION['student_email']) ? htmlspecialchars($_SESSION['student_email']) : 'test@example.com' ?>
                         </p>
-                        <p class="points">Points: <?= htmlspecialchars($student_points) ?></p> <!-- Updated -->
+                        <p class="points">Points: <?= htmlspecialchars($student_points) ?></p> 
                         
 
                         <button class="find-tutor-btn">
