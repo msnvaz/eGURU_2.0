@@ -61,8 +61,8 @@
         <button type="submit">Login</button>
 
         <div class="register">
-            <span>New Student?</span> 
-            <a href="/student-signup">Create an Account</a>
+            <span>Don't have an account?</span> <br>
+            <a href="/student-signup">Create account</a>
         </div>
 
         <?php
