@@ -91,7 +91,7 @@ body {
 }
 
 .section-box h3 {
-    color: #003399;
+    color: rgba(41, 50, 65,1);
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 2px solid #e6e9ef;

@@ -32,8 +32,8 @@ $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'
     <link rel="stylesheet" href="css/tutor/sidebar.css">
     <style>
         :root {
-            --primary: #1e3a8a;;
-            --primary-dark: #1e3a8a;
+            --primary:rgba(41, 50, 65,1);
+            --primary-dark:rgba(41, 50, 65,1);
             --secondary: #7209b7;
             --success: #4CAF50;
             --danger: #f72585;
@@ -185,13 +185,13 @@ $transactionId = isset($_SESSION['transaction_id']) ? $_SESSION['transaction_id'
         }
         
         .btn-primary {
-            background: #1e3a8a;
+            background: rgba(41, 50, 65,1);
             color: white;
             border: none;
         }
         
         .btn-primary:hover {
-            background:rgb(23, 46, 109);
+            background:rgba(41, 50, 65,1);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
         }

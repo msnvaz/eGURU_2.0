@@ -42,7 +42,7 @@ body {
 }
 
 .viewprofile-header h1 {
-  color: #1e3a8a;
+  color: rgba(41, 50, 65,1);
   margin-bottom: 30px;
   margin-left: 20px;
 }

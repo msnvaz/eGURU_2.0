@@ -11,7 +11,7 @@
 
 #feedbackList h2 {
     text-align: center;
-    color: #333;
+    color: rgba(41, 50, 65,1);
     margin-bottom: 20px;
 }
 
@@ -29,13 +29,13 @@
 .feedback-item h3 {
     font-size: 1.2em;
     font-weight: bold;
-    color: #333;
+    color: rgba(41, 50, 65,1) !important;
 }
 
 /* Feedback Message */
 .feedback-item p {
     font-size: 1em;
-    color: #555;
+    color: #333;
     line-height: 1.5;
 }
 

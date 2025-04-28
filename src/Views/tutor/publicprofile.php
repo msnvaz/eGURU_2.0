@@ -34,7 +34,7 @@
     text-align: center;
     font-weight: bold;
     margin-right: 10px;
-    color: #1e3a8a;
+    color: rgba(41, 50, 65,1);
     
   }
   
@@ -68,7 +68,7 @@
     text-align: center;
     margin-left: 2%;
     font-size: 22px;
-    color: #1e3a8a;
+    color: rgba(41, 50, 65,1);
     font-weight: bold;
   }
 

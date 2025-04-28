@@ -12,7 +12,7 @@
             text-align: center;
             margin-left: 2%;
             font-size: 16px;
-            color: #000000;
+            color: rgba(41, 50, 65,1);
         }
 
         /* Modal Background */
@@ -137,11 +137,11 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
     <?php foreach ($feedbacks as $feedback) : ?>
         <div class="feedback-item">
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 2%;">
-                <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image" class="feedback-img" style="width: 40px; height: 40px; border-radius: 50%;">
+                <img src="/images/student-uploads/profilePhotos/<?= $feedback['student_profile_photo'] ?>" alt="User Image"  onerror="this.onerror=null; this.src='/images/tutor_uploads/tutor_profile_photos/default_tutor.png';" class="feedback-img" style="width: 40px; height: 40px; border-radius: 50%;">
                 <div>
                     <div>
-                        <a href="/tutor-student-profile/<?= $feedback['student_id'] ?>">
-                        <strong><?= htmlspecialchars($feedback['student_name']) ?></strong> - Session ID: <?= htmlspecialchars($feedback['session_id']) ?></a>
+                        <a style="text-decoration:none;" href="/tutor-student-profile/<?= $feedback['student_id'] ?>">
+                        <h3 style="text-decoration:none; color: rgba(41, 50, 65,1)!important;"><?= htmlspecialchars($feedback['student_name']) ?> - Session ID: <?= htmlspecialchars($feedback['session_id']) ?></a></h3>
                     </div>
                      
                 </div>
