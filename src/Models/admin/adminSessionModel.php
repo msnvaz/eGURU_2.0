@@ -17,7 +17,6 @@ class adminSessionModel {
         }
     }
 
-    // Fetch all sessions with detailed information
     public function getAllSessions($status = '') {
         try {
             $sql = "SELECT 
@@ -58,7 +57,6 @@ class adminSessionModel {
         }
     }
 
-    // Filter sessions based on date range and tutor/student selection
     public function filterSessions($startDate, $endDate, $tutorId, $studentId, $status = '') {
         try {
             $sql = "SELECT 
@@ -145,7 +143,7 @@ class adminSessionModel {
             ORDER BY s.session_id DESC";
             
             $stmt = $this->conn->prepare($sql);
-            $searchParam = "%$searchTerm%"; // Wrapping search term for LIKE query
+            $searchParam = "%$searchTerm%"; 
             
             $stmt->bindParam(':search', $searchParam);
             if ($status) $stmt->bindParam(':status', $status);
@@ -160,7 +158,6 @@ class adminSessionModel {
         }
     }
 
-    // Get all tutors for dropdown
     public function getAllTutors() {
         try {
             $sql = "SELECT tutor_id, 
@@ -178,7 +175,6 @@ class adminSessionModel {
         }
     }
 
-    // Get all students for dropdown
     public function getAllStudents() {
         try {
             $sql = "SELECT student_id, 

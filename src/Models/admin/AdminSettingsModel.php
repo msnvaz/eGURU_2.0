@@ -17,39 +17,10 @@ class adminSettingsModel {
         }
     }
 
-    // Fetch all sessions with detailed information
     public function getAdminSettings() {
         $settings = [];
         
         try {
-            // Get student registration setting
-            /*$sql = "SELECT * FROM admin_settings WHERE admin_setting_name = 'student_registration'";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            $studentRegistration = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($studentRegistration) {
-                $settings['student_registration'] = $studentRegistration;
-            }
-            
-            // Get tutor registration setting
-            $sql = "SELECT * FROM admin_settings WHERE admin_setting_name = 'tutor_registration'";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            $tutorRegistration = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($tutorRegistration) {
-                $settings['tutor_registration'] = $tutorRegistration;
-            }
-            
-            //get platfrom fee setting
-            $sql = "SELECT * FROM admin_settings WHERE admin_setting_name = 'platform_fee'";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            $platformFee = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($platformFee) {
-                $settings['platform_fee'] = $platformFee;
-            }
-            */
-            // Get all other settings
             $sql = "SELECT * FROM admin_settings";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
@@ -67,7 +38,6 @@ class adminSettingsModel {
         }
     }
 
-    // Update a specific admin setting
     public function updateAdminSetting($adminSettingName, $value) {
         try {
             $sql = "UPDATE admin_settings SET admin_setting_value = :value WHERE admin_setting_name = :adminSettingName";

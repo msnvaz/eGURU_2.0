@@ -20,7 +20,6 @@ class AdminLoginModel {
             $this->conn = $db->connect();
             
             if ($this->conn) {
-                // Set connection timeout to prevent premature disconnection
                 $this->conn->setAttribute(PDO::ATTR_TIMEOUT, 30);
                 return;
             }
@@ -34,31 +33,24 @@ class AdminLoginModel {
         throw new \RuntimeException("Failed to connect to database after $maxAttempts attempts");
     }
 
-    // Check if username and password are correct
     public function login($username, $password) {
         try {
-            // Check local session first
             if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
                 return ['status' => 'already_logged_in_locally'];
             }
             
-            // Hash the password with SHA1
             $hashedPassword = sha1($password);
                 
-            // Prepare the SQL statement to check credentials
             $sql = "SELECT admin_id, admin_login_status FROM admin WHERE username = :username AND password = :password";
             $stmt = $this->conn->prepare($sql);
             
-            // Bind parameters using named placeholders
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':password', $hashedPassword);
             $stmt->execute();
 
-            // Check if the user exists
             if ($stmt->rowCount() > 0) {
                 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                // Check if already logged in elsewhere
                 if ($admin['admin_login_status'] == 1) {
                     return ['status' => 'already_logged_in_elsewhere', 'admin_id' => $admin['admin_id']];
                 }
@@ -79,15 +71,12 @@ class AdminLoginModel {
         }
     }
     
-    // Update login status in the database
     public function updateLoginStatus($adminId, $status) {
         try {
-            // Make sure we have a valid connection
             if (!$this->conn) {
                 $this->connectWithRetry();
             }
             
-            // Log the update attempt
             error_log("Updating admin login status for ID: $adminId to " . ($status ? '1' : '0'));
             
             $sql = "UPDATE admin SET admin_login_status = :status WHERE admin_id = :admin_id";
@@ -99,13 +88,11 @@ class AdminLoginModel {
             
             $result = $stmt->execute();
             
-            // Check if any rows were actually updated
             $rowCount = $stmt->rowCount();
             error_log("Rows affected by login status update: $rowCount");
             
             if ($rowCount === 0) {
                 error_log("Warning: No rows affected when updating login status for admin_id: $adminId");
-                // Try to check if the admin record exists
                 $checkSql = "SELECT COUNT(*) as count FROM admin WHERE admin_id = :admin_id";
                 $checkStmt = $this->conn->prepare($checkSql);
                 $checkStmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
@@ -117,7 +104,6 @@ class AdminLoginModel {
             return $result;
         } catch (\PDOException $e) {
             error_log("Database error updating login status: " . $e->getMessage());
-            // Attempt to reconnect if connection was lost
             if (strpos($e->getMessage(), 'MySQL server has gone away') !== false) {
                 $this->connectWithRetry();
                 return $this->updateLoginStatus($adminId, $status); // Retry
@@ -126,12 +112,10 @@ class AdminLoginModel {
         }
     }
     
-    // Force logout previous session
     public function forceLogout($adminId) {
         return $this->updateLoginStatus($adminId, false);
     }
     
-    // Update password with SHA1 hashing
     public function updatePassword($adminId, $newPassword) {
         try {
             $hashedPassword = sha1($newPassword);

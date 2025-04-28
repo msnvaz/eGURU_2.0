@@ -70,7 +70,6 @@ class adminTutorModel {
 
     public function getTutorGrades() {
         try {
-            //join tutor_level table to get the tutor_level_name only distinct values for tutor levels
             $query = "SELECT DISTINCT tl.tutor_level_id, tl.tutor_level, tl.tutor_level_qualification, tl.tutor_pay_per_hour, tl.tutor_level_color 
                       FROM tutor_level tl
                       JOIN tutor t ON tl.tutor_level_id = t.tutor_level_id
@@ -280,14 +279,12 @@ class adminTutorModel {
         try {
             $this->conn->beginTransaction();
             
-            // First, get the request details
             $request = $this->getTutorUpgradeRequest($requestId);
             if (!$request) {
                 $this->conn->rollBack();
                 return false;
             }
             
-            // Update the level in the tutor table
             $levelToApply = $newLevel ?? $request['requested_level_id'];
             $tutorUpdateQuery = "UPDATE tutor SET tutor_level_id = :level_id WHERE tutor_id = :tutor_id";
             $tutorStmt = $this->conn->prepare($tutorUpdateQuery);
@@ -295,7 +292,6 @@ class adminTutorModel {
             $tutorStmt->bindValue(':tutor_id', $request['tutor_id'], PDO::PARAM_INT);
             $tutorStmt->execute();
             
-            // Update the request status
             $requestUpdateQuery = "UPDATE tutor_level_upgrade SET status = 'accepted', status_updated_date = CURDATE() WHERE request_id = :request_id";
             $requestStmt = $this->conn->prepare($requestUpdateQuery);
             $requestStmt->bindValue(':request_id', $requestId, PDO::PARAM_INT);
@@ -380,7 +376,6 @@ class adminTutorModel {
         }
     }
 
-    // Add these methods to the adminTutorModel class
 
     public function getAdvertisementById($adId) {
         $query = "SELECT * FROM tutor_advertisement WHERE ad_id = :ad_id";

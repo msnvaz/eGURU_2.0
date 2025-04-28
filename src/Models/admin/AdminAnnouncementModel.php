@@ -19,7 +19,6 @@ class AdminAnnouncementModel {
         }
     }
 
-    // Create a new announcement
     public function createAnnouncement($title, $announcement) {
         try {
             if (empty(trim($title)) || empty(trim($announcement))) {
@@ -39,7 +38,6 @@ class AdminAnnouncementModel {
         }
     }
 
-    // Get all active announcements
     public function getActiveAnnouncements($page = 1, $limit = 10) {
         try {
             $offset = ($page - 1) * $limit;
@@ -75,7 +73,6 @@ class AdminAnnouncementModel {
         }
     }
 
-    // Get a single announcement by ID
     public function getAnnouncementById($announce_id) {
         try {
             $sql = "SELECT * FROM announcement WHERE announce_id = :announce_id";
@@ -90,7 +87,6 @@ class AdminAnnouncementModel {
         }
     }
 
-    // Update an announcement
     public function updateAnnouncement($announce_id, $title, $announcement) {
         try {
             if (empty(trim($title)) || empty(trim($announcement))) {
@@ -121,7 +117,6 @@ class AdminAnnouncementModel {
         }
     }
     
-    // Soft delete an announcement (set status to inactive)
     public function softDeleteAnnouncement($announce_id) {
         try {
             $existing = $this->getAnnouncementById($announce_id);

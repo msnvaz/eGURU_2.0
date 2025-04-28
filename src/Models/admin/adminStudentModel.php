@@ -18,14 +18,12 @@ class adminStudentModel {
         }
     }
 
-    // Fetch all students with filtering options
     public function getAllStudents($status = 'set') {
         try {
-            // Default query to fetch students by status
             $query = "SELECT * FROM student WHERE student_status = :status";
             $params = [':status' => $status];
             
-            // Execute the query
+            
             $stmt = $this->conn->prepare($query);
             $stmt->execute($params);
             
@@ -36,13 +34,11 @@ class adminStudentModel {
         }
     }
 
-    // Search students by term and apply filters
     public function searchStudents($searchTerm = '', $grade = '', $registrationStartDate = '', $registrationEndDate = '', $status = 'set', $onlineStatus = '') {
         try {
             $query = "SELECT * FROM student WHERE student_status = :status";
             $params = [':status' => $status];
             
-            // Add search term filter
             if (!empty($searchTerm)) {
                 $query .= " AND (student_first_name LIKE :searchTerm 
                           OR student_last_name LIKE :searchTerm 
@@ -51,13 +47,11 @@ class adminStudentModel {
                 $params[':searchTerm'] = "%$searchTerm%";
             }
             
-            // Add grade filter
             if (!empty($grade)) {
                 $query .= " AND student_grade = :grade";
                 $params[':grade'] = $grade;
             }
             
-            // Add registration date range filter
             if (!empty($registrationStartDate)) {
                 $query .= " AND student_registration_date >= :startDate";
                 $params[':startDate'] = $registrationStartDate;
@@ -68,16 +62,13 @@ class adminStudentModel {
                 $params[':endDate'] = $registrationEndDate;
             }
             
-            // Add online status filter
             if (!empty($onlineStatus)) {
                 $query .= " AND student_log = :onlineStatus";
                 $params[':onlineStatus'] = $onlineStatus;
             }
             
-            // Order by id for consistency
             $query .= " ORDER BY student_id DESC";
             
-            // Execute the query
             $stmt = $this->conn->prepare($query);
             $stmt->execute($params);
             
@@ -88,7 +79,6 @@ class adminStudentModel {
         }
     }
 
-    // Get distinct student grades for the dropdown filter
     public function getStudentGrades() {
         try {
             $query = "SELECT DISTINCT student_grade FROM student 
@@ -103,8 +93,6 @@ class adminStudentModel {
             return [];
         }
     }
-
-    // The rest of your existing methods...
     
     public function getStudentProfile($studentId) {
         $query = "SELECT * FROM student WHERE student_id = :studentId";
@@ -115,7 +103,6 @@ class adminStudentModel {
         return $result;
     }
 
-    // Check if student_email already exists (excluding current student)
     public function emailExists($student_email, $studentId) {
         $query = "SELECT COUNT(*) FROM student WHERE student_email = :student_email AND student_id != :studentId";
         $stmt = $this->conn->prepare($query);
@@ -126,36 +113,28 @@ class adminStudentModel {
     }
 
     public function updateStudentProfile($studentId, $data, $file = null) {
-        // Ensure that the data array is not empty
         if (empty($data)) {
             error_log("No data provided for update");
             return false;
         }
 
-        // Initialize the query
         $query = "UPDATE student SET ";
         $params = [];
         
-        // Handle file upload for profile photo
         if ($file && isset($file['name']) && !empty($file['name']) && $file['error'] == 0) {
-            // Use the correct path to match where AdminStudentProfileEdit.php is looking
             $targetDir = "uploads/Student_Profiles/";
             
-            // Ensure directory exists
             if (!file_exists($targetDir)) {
                 mkdir($targetDir, 0777, true);
             }
             
-            // Generate a unique filename to avoid overwriting existing files
             $fileExtension = pathinfo($file["name"], PATHINFO_EXTENSION);
             $newFileName = uniqid() . '_' . time() . '.' . $fileExtension;
             $targetFilePath = $targetDir . $newFileName;
             
-            // Debug the file upload
             error_log("Attempting to move uploaded file from: " . $file["tmp_name"] . " to: " . $targetFilePath);
             
             if (move_uploaded_file($file["tmp_name"], $targetFilePath)) {
-                // Only store the filename in the database, not the full path
                 $data['student_profile_photo'] = $newFileName;
                 error_log("File uploaded successfully to: " . $targetFilePath);
             } else {
@@ -163,16 +142,13 @@ class adminStudentModel {
             }
         }
 
-        // Build the SET clause dynamically
         foreach ($data as $field => $value) {
             $query .= "$field = :$field, ";
             $params[":$field"] = $value;
         }
         
-        // Remove trailing comma and space
         $query = rtrim($query, ', ');
         
-        // Add WHERE clause
         $query .= " WHERE student_id = :student_id";
         $params[':student_id'] = $studentId;
         
@@ -191,8 +167,6 @@ class adminStudentModel {
         }
     }
 
-    //delete student profile
-    //update the status to unset
     public function deleteStudentProfile($studentId) {
         $query = "UPDATE student SET student_status = 'unset' WHERE student_id = :studentId";
         $stmt = $this->conn->prepare($query);
@@ -204,17 +178,14 @@ class adminStudentModel {
         return false;
     }
 
-    // Get all deleted students
     public function getDeletedStudents() {
         return $this->getAllStudents('unset');
     }
 
-    // Get all blocked students
     public function getBlockedStudents() {
         return $this->getAllStudents('blocked');
     }
 
-    // Restore student profile
     public function restoreStudentProfile($studentId) {
         $query = "UPDATE student SET student_status = 'set' WHERE student_id = :studentId";
         $stmt = $this->conn->prepare($query);
@@ -226,7 +197,6 @@ class adminStudentModel {
         return false;
     }
 
-    // Update student status (e.g., block, unblock)
     public function updateStudentStatus($studentId, $status) {
         $query = "UPDATE student SET student_status = :status WHERE student_id = :studentId";
         $stmt = $this->conn->prepare($query);
