@@ -507,6 +507,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
         </div>
 
         <br>
+        <p><strong>Session ID:</strong> <span id="modalSession"></span></p>
         <p><strong>Subject:</strong> <span id="modalSubject"></span></p>
         <p><strong>Grade:</strong> <span id="modalGrade"></span></p>
         <p><strong>Status:</strong> <span id="modalStatus"></span></p>
@@ -534,6 +535,7 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
         function showSessionModal(event) {
             document.getElementById('modalPhoto').src = "/images/student-uploads/profilePhotos/" + event.student_profile_photo;
+            document.getElementById('modalSession').innerText = event.session_id;
             document.getElementById('modalStudent').innerText = event.student_first_name + ' ' + event.student_last_name;
             document.getElementById('modalSubject').innerText = event.subject_name;
             document.getElementById('modalGrade').innerText = event.student_grade;
