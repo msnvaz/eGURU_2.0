@@ -196,12 +196,12 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                         <h3>First Name
                             <input type="text" name="tutor_first_name" 
                                 value="<?= isset($profileData['tutor_first_name']) ? htmlspecialchars($profileData['tutor_first_name']) : '' ?>" 
-                                placeholder="First Name"  />
+                                placeholder="First Name" readonly />
                             <br>
                             Last Name
                             <input type="text" name="tutor_last_name" 
                                 value="<?= isset($profileData['tutor_last_name']) ? htmlspecialchars($profileData['tutor_last_name']) : '' ?>" 
-                                placeholder="Last Name" />
+                                placeholder="Last Name" readonly />
                         </h3>
 
                     </div>
@@ -233,19 +233,19 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
                             <div class="section-box">
                                 <h3>Contact Information</h3>
                                 <input type="text" name="tutor_contact_number" placeholder="Enter phone number"
-                                    value="<?php echo $profileData['tutor_contact_number'] ?? ''; ?>">
+                                    value="<?php echo $profileData['tutor_contact_number'] ?? ''; ?>" readonly>
                                 <input type="email" name="tutor_email" placeholder="Enter email"
-                                    value="<?php echo $profileData['tutor_email'] ?? ''; ?>">
+                                    value="<?php echo $profileData['tutor_email'] ?? ''; ?>" readonly>
                             </div>
                             <div class="section-box">
                                 <h3>Date of Birth</h3>
                                 <input type="date" name="tutor_DOB" 
-                                    value="<?php echo $profileData['tutor_DOB'] ?? ''; ?>">
+                                    value="<?php echo $profileData['tutor_DOB'] ?? ''; ?>" readonly>
                             </div>
                             <div class="section-box">
                                 <h3>NIC No.</h3>
                                 <input type="text" name="tutor_NIC" 
-                                    value="<?php echo $profileData['tutor_NIC'] ?? ''; ?>">
+                                    value="<?php echo $profileData['tutor_NIC'] ?? ''; ?>" readonly>
                             </div>
                         </div>
 
