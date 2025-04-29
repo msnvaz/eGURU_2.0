@@ -227,9 +227,15 @@ $errorMessage = isset($_GET['error']) && !empty($_GET['error']) ? $_GET['error']
 
                     <button class="edit-button"><a style="text-decoration:none; color:white;"
                             href="/tutor-profile-edit"><?php echo $profileData ? "Edit profile" : "Create profile"; ?></a></button>
-                    <form action="/tutor-profile-delete" method="POST" style="display:inline;">
+                    <form action="/tutor-profile-delete" method="POST" style="display:inline;" onsubmit="return confirmDeleteProfile();">
                         <button type="submit" class="delete-button" >Delete Profile</button>
                     </form>
+
+                    <script>
+                        function confirmDeleteProfile() {
+                            return confirm('Are you sure you want to delete your profile? This action cannot be undone.');
+                        }
+                    </script>
 
                         <div id="rating">
                             <span class="rating-text">Overall Rating </span>

@@ -37,7 +37,7 @@ include __DIR__ . '/header.php';
                     <h1><?= isset($_SESSION['student_name']) ? htmlspecialchars($_SESSION['student_name']) : 'Student Name' ?></h1>
                     <button class="edit-button"><a style="text-decoration:none; color:white;"
                             href="/student-profile-edit"><?php echo $profileData ? "Edit profile" : "Create profile"; ?></a></button>
-                    <form action="/student-profile-delete" method="POST" style="display:inline;">
+                    <form action="/student-profile-delete" method="POST" style="display:inline;" onsubmit="return confirmDeleteProfile();">
                         <button type="submit" class="delete-button" >Delete Profile</button>
                     </form>
                 </div>
@@ -57,6 +57,11 @@ include __DIR__ . '/header.php';
 
         </div>
 
+        <script>
+            function confirmDeleteProfile() {
+                return confirm('Are you sure you want to delete your profile? This action cannot be undone.');
+                }
+        </script>
 
 </body>
 

@@ -63,8 +63,8 @@ let activeTab = 'pending';
                         <td>${request.session_id}</td> <!-- Display Request ID -->
                             <td>${request.tutor_name}</td>
                             <td>${request.subject}</td>
-                            <td>${request.scheduled_date ? new Date(request.scheduled_date).toLocaleDateString() : 'N/A'}</td>
-                            <td>${request.schedule_time ? request.schedule_time.slice(0, 5) : 'N/A'}</td>
+                            <td>${request.scheduled_date ? new Date(request.scheduled_date).toLocaleDateString() : 'Not Scheduled'}</td>
+                            <td>${request.schedule_time ? request.schedule_time.slice(0, 5) : 'Not Scheduled'}</td>
                             <td><span class="status-badge ${request.session_status}">${request.session_status}</span></td>
                             <td>${actionButton}</td>
                         `;
