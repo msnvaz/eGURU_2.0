@@ -74,8 +74,8 @@ class StudentFindtutorController
         $grades = $this->model->getGrades();
         $subjects = $this->model->getSubjects();
         $experiences = $this->model->getExperiences();
+        $StudentPoints = $this->model->getStudentPoints($student_id);
     
-        
         include '../src/Views/student/findtutor.php';
     }
 
