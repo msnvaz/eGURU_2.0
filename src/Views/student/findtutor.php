@@ -168,12 +168,26 @@ if (!isset($_SESSION['student_id'])) {
                                     <p><strong>Subjects:</strong> <?= htmlspecialchars($tutor['subjects']) ?></p>
                                     <p><strong>Grades:</strong> <?= htmlspecialchars($tutor['grades']) ?></p>
                                 </div>
-                                
-                                <a href="/student-request-tutor/<?= htmlspecialchars($tutor['tutor_id']) ?>" 
-                                class="request-button" 
-                                data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>">
-                                    See Available Time Slots
-                                </a>
+                                <p><?php //echo $StudentPoints;?></p>
+                                <?php if ($StudentPoints < 120) { ?>
+                                    <div class="tutor-details">
+                                    <p><strong>You need at least 120 points to book a tutor.</strong></p>
+                                    </div>
+                                    <a href="/student-findtutor" 
+                                    class="request-button" 
+                                    data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>">
+                                        See Available Time Slots
+                                    </a>
+                                <?php } else { ?>
+                                    <div class="tutor-details">
+                                    <p><strong>You have enough points to book a tutor.</strong></p>
+                                    </div>
+                                    <a href="/student-request-tutor/<?= htmlspecialchars($tutor['tutor_id']) ?>" 
+                                    class="request-button" 
+                                    data-tutor-id="<?= htmlspecialchars($tutor['tutor_id']) ?>">
+                                        See Available Time Slots
+                                    </a>
+                                <?php } ?>
                             </div>
                         <?php endforeach; ?>
                     </div>

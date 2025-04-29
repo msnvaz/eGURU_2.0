@@ -124,4 +124,13 @@ public function getRequestedSessions($studentId)
     $stmt->execute([$studentId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+public function getStudentPoints($studentId)
+{
+    $query = "SELECT student_points FROM student WHERE student_id = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute([$studentId]);
+    $StudentPoints = (int)$stmt->fetchColumn();
+    return $StudentPoints;
+}
 }
